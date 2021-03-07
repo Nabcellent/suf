@@ -1,0 +1,293 @@
+
+/*%%%%%%%%%%%%%%%%%%%%%  Small devices (landscape phones, less than 768px)  %%%%%%%%%%%%%%%%%%%%%*/
+@media (max-width: 768px) {
+
+}
+
+
+
+/*%%%%%%%%%%%%%%%%%%%%%  Medium devices (tablets, less than 992px)  %%%%%%%%%%%%%%%%%%%%%*/
+@media (max-width: 992px) {
+    #top_header .top_header {
+        z-index: var(--z-index-1)
+    }
+    nav .container ul.navbar-nav span {
+        padding-right: .5rem;
+    }
+
+    #mega_nav {
+        background-color: #fff;
+        z-index: var(--z-index-1);
+    }
+    #mega_nav .item_center {
+        order: 3;
+        flex: 0 0 100%;
+    }
+    #mega_nav .item_left {
+        flex: 0 0 25%;
+    }
+    #mega_nav .item_right {
+        flex: 0 0 75%;
+        align-items: center;
+    }
+
+    #mega_nav .v_center {
+        justify-content: space-between;
+    }
+    #mega_nav .menu {
+        position: fixed;
+        width: 320px;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, .9);
+        overflow: hidden;
+        transform: translate(-100%);
+        transition: all .3s ease;
+    }
+    #mega_nav .menu.active {
+        transform: translate(0%);
+        box-shadow: 0 0 15px #ccc;
+    }
+    #mega_nav .menu .menu_main {
+        height: 100vh;
+        overflow-x: auto;
+        overflow-y: auto!important;
+    }
+
+    #mega_nav .mobile_menu_head {
+        display: flex;
+        height: 40px;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        position: sticky;
+        background: darkred;
+        top: 0;
+        z-index: 2;
+    }
+    #mega_nav .mobile_menu_head .go_back {
+        width: 50px;
+        height: 50px;
+        border-right: 1px solid rgba(0, 0, 0, .1);
+        cursor: pointer;
+        text-align: center;
+        color: #ffffff;
+        font-size: 16px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    #mega_nav .mobile_menu_head.active .go_back {
+        display: flex;
+    }
+    #mega_nav .mobile_menu_head .current_menu_title {
+        font-size: 17px;
+        font-weight: 500;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+    #mega_nav .mobile_menu_head .mobile_menu_close {
+        width: 50px;
+        height: 50px;
+        border-left: 1px solid rgba(0, 0, 0, .1);
+        cursor: pointer;
+        text-align: center;
+        color: #ffffff;
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #mega_nav .mobile_menu_trigger {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+    #mega_nav .mobile_menu_trigger span {
+        position: relative;
+        display: block;
+        height: 2px;
+        background-color: #333333;
+        width: 24px;
+    }
+    #mega_nav .mobile_menu_trigger span:before,
+    #mega_nav .mobile_menu_trigger span:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        background-color: #333333;
+    }
+    #mega_nav .mobile_menu_trigger span:before {
+        top: -6px;
+    }
+    #mega_nav .mobile_menu_trigger span:after {
+        top: 6px;
+    }
+
+    #mega_nav .menu > ul > li {
+        line-height: 1;
+        margin: 0;
+        display: block;
+    }
+    #mega_nav .menu > ul > li > a {
+        height: 50px;
+        padding: 0 50px 0 15px;
+        display: block;
+        line-height: 50px;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        color: #ffffff;
+    }
+    #mega_nav .menu > ul > li > a span {
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        top: 0;
+        right: 0;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #mega_nav .menu > ul > li > a span svg {
+        transform: rotate(-90deg);
+        transition: all .3s ease;
+    }
+    #mega_nav .menu > ul > li > a:hover span svg {
+        transform: scale(1.3) rotate(-90deg) translateY(-.7rem);
+    }
+
+    #mega_nav .menu ul li .sub_menu > ul > li,
+    #mega_nav .menu ul li .sub_menu.mega_menu > .list_item > ul > li {
+        margin: 0;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu,
+    #mega_nav .menu > ul > li .sub_menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 60px 15px 15px;
+        box-shadow: none;
+        max-width: none;
+        min-width: auto;
+        display: none;
+        transform: translateX(0%);
+        overflow-y: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+    #mega_nav .menu > ul > li ::-webkit-scrollbar {
+        width: 0;
+        background: transparent; /* make scrollbar transparent */
+    }
+    #mega_nav .menu > ul > li .sub_menu.active {
+        z-index: 1;
+        display: block;
+    }
+
+    @keyframes slide_left {
+        0% {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+    }
+    @keyframes slide_right {
+        0% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(100%);
+        }
+    }
+
+    #mega_nav .menu > ul > li .sub_menu.mega_menu_column_4 > .list_item img {
+        margin-top: 0;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item.text-center .title {
+        margin-bottom: 1rem;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item .title {
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item ul li:last-child a {
+        margin-bottom: 1rem;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item ul li a {
+        font-size: 1rem;
+    }
+    #mega_nav .menu > ul > li .sub_menu.mega_menu_column_4 > .list_item {
+        flex: 0 0 100%;
+        padding: 0;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu > .list_item > ul > li a {
+        display: block;
+    }
+    #mega_nav .menu ul li .sub_menu.mega_menu > .list_item > ul > {
+        margin-bottom: 15px;
+    }
+
+    #mega_nav .menu_overlay {
+        position: fixed;
+        background-color: rgba(0, 0, 0, .5);
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        opacity: 0;
+        transition: all .3s ease;
+    }
+    #mega_nav .menu_overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+
+
+    /*=======+++++++=======  PRODUCTS  =======+++++++=======*/
+
+    #products .products_container {
+        padding: 0 3rem;
+    }
+    #products #product_section #results {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+/*%%%%%%%%%%%%%%%%%%%%%  Extra small devices (portrait phones, less than 576px)  %%%%%%%%%%%%%%%%%%%%%*/
+@media (max-width: 576px) {
+    /*=======+++++++=======  PRODUCTS  =======+++++++=======*/
+
+    #products .products_container {
+        padding: 0 1rem;
+    }
+    #products #product_section #results {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+
+/*%%%%%%%%%%%%%%%%%%%%%  Large devices (desktops, less than 1200px)  %%%%%%%%%%%%%%%%%%%%%*/
+@media (max-width: 1200px) {
+
+}
+
+/*Extra large devices (large desktops)
+No media query since the extra-large breakpoint has no upper bound on its width*/
