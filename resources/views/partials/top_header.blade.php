@@ -23,7 +23,7 @@ $user = Auth::user();
                     @if(Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                {{Str::substr($user -> first_name, 0, 1) . '. ' . $user -> last_name}}
+                                {{Str::substr(ucfirst($user -> first_name), 0, 1) . '. ' . ucfirst($user -> last_name)}}
                                 <i class="fas fa-user-circle"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -8,15 +8,16 @@
         <hr>
     </div>
     <div class="card-body">
-        <form id="edit_profile_form" class="anime_form" action="/profile" method="POST">
+        <form id="edit_profile_form" class="anime_form" action="/profile/update-user" method="POST">
+            @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="u_first_name">First name *</label>
-                    <input type="text" class="form-control" id="u_first_name" name="u_first_name" value="" required>
+                    <input type="text" class="form-control" name="first_name" value="{{ucfirst(Auth::user() -> first_name)}}" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="u_last_name">Last name *</label>
-                    <input type="text" class="form-control" id="u_last_name" name="u_last_name" value="" required>
+                    <input type="text" class="form-control" name="last_name" value="{{ucfirst(Auth::user() -> last_name)}}" required>
                 </div>
             </div>
             <div class="form-row">
@@ -26,16 +27,23 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-envelope"></i></span>
                         </div>
-                        <input type="email" class="form-control" id="u_email" name="u_email" value="" readonly>
+                        <input type="email" class="form-control" name="email" value="{{Auth::user() -> email}}" readonly>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label for="u_gender">Gender</label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"></span>
-                        </div>
-                        <input type="text" class="form-control" id="u_gender" name="u_gender" value="" readonly>
+                        @if(Auth::user() -> gender === 'M')
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class='bx bx-male-sign'></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="gender" value="Male" readonly>
+                            @elseif(Auth::user() -> gender ==='F')
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class='bx bx-female-sign'></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="gender" value="Female" readonly>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -46,11 +54,12 @@
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="number" class="form-control" id="u_phone_number" name="u_phone_number" pattern="([0 | 1 | 7]+).*" value="" required>
+                    <input type="number" class="form-control" name="phone" pattern="([0 | 1 | 7]+).*"
+                           value="{{\App\Models\Address::firstWhere('user_id', Auth::id()) -> phone}}" aria-label required>
                 </div>
             </div>
             <div class="form-group text-right">
-                <button type="submit" name="customer_crud" value="update_profile" class="morphic_btn morphic_btn_primary">
+                <button type="submit" class="morphic_btn morphic_btn_primary">
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
                 <img id="update_profile_gif" class="d-none loader_gif" src="/images/loaders/Infinity-1s-197px.gif" alt="loader.gif">

@@ -1,10 +1,10 @@
 @extends('/layouts.master')
 @section('title', 'Home')
-@include('/partials/top_header')
 @section('content')
-    @include('partials/header_carousel')
-    @include('partials/top_nav')
-    @include('partials/social_icons')
+    @include('partials.top_header')
+    @include('partials.header_carousel')
+    @include('partials.top_nav')
+    @include('partials.social_icons')
 
     <div id="index">
         <div class="container-fluid p-0">

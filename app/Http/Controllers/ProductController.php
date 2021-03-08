@@ -40,6 +40,7 @@ class ProductController extends Controller
 
         $cart = [
             'cart' => Cart::join('products', 'cart.product_id', '=', 'products.id')
+                ->where('cart.user_id', '=', Auth::id())
                 -> get(),
             'total' => Cart::select(DB::raw('sum(cart.quantity * cart.unit_price) AS total'))
                 -> get(),
@@ -48,11 +49,10 @@ class ProductController extends Controller
         ];
 
         return view('cart', compact('cart'));
-
-        return redirect('/sign-in');
     }
 
-    public function addToCart(Request $req) {
+    public function addToCart(Request $req): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
         if(!Auth::check()) {
             return redirect('/sign-in');
         }

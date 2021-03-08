@@ -21,8 +21,8 @@
                         <div class="card-header">
                             <h4>Sign In</h4>
                             @if($errors->any())
-                                <div class="alert alert-danger p-2 m-0" role="alert">
-                                    <p class="m-0">{{$errors->first()}}</p>
+                                <div class="alert alert-danger py-1 px-2 mb-1" role="alert">
+                                    <ul class="m-0"><li>{{$errors->first()}}</li></ul>
                                 </div>
                             @endif
                             <hr class="bg-info m-0">

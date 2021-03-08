@@ -79,7 +79,7 @@
                                                             <label>
                                                                 <input type="number" class="text-center bg-secondary" value="{{$item -> quantity}}">
                                                             </label>
-                                                            <img class="loader" src="images/gif_loaders/load.gif" alt="loader.gif">
+                                                            <img class="loader" src="images/loaders/load.gif" alt="loader.gif">
                                                         </td>
                                                         <td>KES {{$item -> unit_price}}/-</td>
                                                         <td>{{$item -> size}}</td>

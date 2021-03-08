@@ -1,8 +1,8 @@
 @extends('/layouts.master')
 @section('title', 'Contact')
 @section('content')
-    @include('partials/top_header')
-    @include('partials/top_nav')
+    @include('partials.top_header')
+    @include('partials.top_nav')
 <div id="contact_us">
 
 <!--    Start Content Area    -->

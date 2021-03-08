@@ -58,6 +58,8 @@ Route::get('/policies', [PolicyController::class, 'index']);
 
 Route::post('/sign-in', [UserController::class, 'authenticate']);
 
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'create']);
+
+Route::post('/profile/update-user', [UserController::class, 'update']);
 
 Route::post('/cart', [ProductController::class, 'addToCart']);

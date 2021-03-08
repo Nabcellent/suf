@@ -1,8 +1,8 @@
 @extends('/layouts.master')
 @section('title', 'Products')
 @section('content')
-    @include('partials/top_header')
-    @include('partials/top_nav')
+    @include('partials.top_header')
+    @include('partials.top_nav')
 
 <!--    End Sticky Header    -->
 
@@ -32,16 +32,16 @@
 
                 <!--    Start SideBar Categories    -->
 
-                <div class="col-md-2">
+                <div class="col-md-3">
 
-                    @include('partials/products/sidebar')
+                    @include('partials.products.sidebar')
 
                 </div>
                 <!--    End SideBar Categories    -->
 
                 <!--    Start Product Section    -->
 
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <div class="row">
                         <div class="col">
                             <div class='box bg-light p-3 mb-2 rounded'>
@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="text-center">
-                        <img src="img/gif_loaders/Infinity-1s-197px.gif" alt="" id="loader" width="197" style="display:none;">
+                        <img src="images/loaders/Infinity-1s-197px.gif" alt="" id="loader" width="197" style="display:none;">
                     </div>
 
                     <div id="product_section" class="row mb-2">

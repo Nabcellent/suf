@@ -21,9 +21,8 @@ class HomeController extends Controller
                 'latestLadies' => Product::where('cat_id', 2) ->orderByDesc('id') -> take(10) -> get(),
                 'top' => Product::orderByDesc('id') -> take(10) -> get(),
                 'subCategories' => DB::table('products')
-                    -> join('sub_categories', 'products.subcat_id', '=', 'sub_categories.subcat_id')
-                    -> join('categories', 'products.cat_id', '=', 'categories.cat_id')
-                    -> select('subcat_title', 'cat_title') -> orderBy('subcat_title', 'ASC')
+                    -> join('categories', 'products.subcat_id', '=', 'categories.id')
+                    -> select('categories.title',) -> orderBy('categories.title', 'ASC')
                     -> distinct() -> get()
             ],
         ];

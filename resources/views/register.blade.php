@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/">Su-F</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Register</li>
                         </ul>
                     </nav>
@@ -38,8 +38,19 @@
                         <div class="row">
                             <div class="col">
                                 <div class="box_header mt-2">
-                                    <h4>Register new account</h4>
+                                    <h4>Register</h4>
                                 </div>
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger py-1 mb-1">
+                                        <ul class="m-0">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <hr class="bg-dark mt-0 mb-1">
                             </div>
                         </div>
@@ -54,25 +65,28 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>First name *</label>
-                                            <input type="text" class="form-control" name="first_name" placeholder="First name" aria-label required>
+                                            <input type="text" class="form-control" name="first_name" placeholder="First name"
+                                                   value="{{ old('first_name') }}" aria-label required>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Last name *</label>
-                                            <input type="text" class="form-control" name="last_name" placeholder="Last name" aria-label required>
+                                            <input type="text" class="form-control" name="last_name" placeholder="Last name"
+                                                   value="{{ old('last_name') }}" aria-label required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Email address *</label>
-                                        <input type="email" class="form-control" name="email" placeholder="example@gmail.com" aria-label required>
+                                        <input type="email" class="form-control" name="email" placeholder="example@gmail.com"
+                                               value="{{ old('email') }}" aria-label required>
                                     </div>
                                     <div class="form-group">
                                         <label>Gender</label><br>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="male" name="gender" class="custom-control-input" value="M">
+                                            <input type="radio" id="male" name="gender" class="custom-control-input" value="M" required>
                                             <label class="custom-control-label" for="male">Male</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="female" name="gender" class="custom-control-input" value="F">
+                                            <input type="radio" id="female" name="gender" class="custom-control-input" value="F" required>
                                             <label class="custom-control-label" for="female">Female</label>
                                         </div>
                                     </div>
@@ -82,18 +96,20 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">+254</span>
                                             </div>
-                                            <input type="number" class="form-control" name="phone" aria-label
+                                            <input type="number" class="form-control" name="phone" aria-label value="{{ old('phone') }}"
                                                    placeholder="712345678" pattern="((^0[17]+)|(^[17]+)).*" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label>Create password *</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Create password" aria-label required>
+                                            <input type="password" class="form-control" name="password" placeholder="Create password"
+                                                   aria-label required>
                                         </div>
                                         <div class="form-group col">
                                             <label>Confirm password *</label>
-                                            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm password" aria-label required>
+                                            <input type="password" class="form-control" name="password_confirmation"
+                                                   placeholder="Confirm password" aria-label required>
                                         </div>
                                     </div>
                                     <div class="form-group text-right">

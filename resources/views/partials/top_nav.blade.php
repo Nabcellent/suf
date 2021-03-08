@@ -5,13 +5,14 @@ use Illuminate\Support\Facades\DB;
 $topNavInfo = [
     'latestProducts' => DB::table('products') -> orderByDesc('id') -> take(10) -> get(),
     'subCategories' => DB::table('products')
-        -> join('sub_categories', 'products.subcat_id', '=', 'sub_categories.subcat_id')
-        -> join('categories', 'products.cat_id', '=', 'categories.cat_id')
-        -> select('subcat_title', 'cat_title') -> orderBy('subcat_title', 'ASC')
-        -> distinct() -> get()
+        -> join('categories', 'products.subcat_id', '=', 'categories.id')
+        -> select('categories.title') -> orderBy('categories.title', 'ASC')
+        -> distinct() -> get(),
+    'cartCount' => DB::table('cart') -> where('user_id', Auth::id()) -> count()
 ];
 
 ?>
+
 </header>
 
 <header id="mega_nav" class="sticky-top header">
@@ -133,13 +134,19 @@ $topNavInfo = [
                 <div class="icons ml-2">
                     <button class="icon_button">
                         <i class="fas fa-hand-sparkles"></i>
-                        <span class="icon_count">3</span>
+                        <span class="icon_count">~</span>
                     </button>
                 </div>
                 <div class="icons ml-2">
                     <a href="/cart" class="icon_button">
                         <i class="fab fa-opencart"></i>
-                        <span class="icon_count">7</span>
+
+                        @if(Auth::check())
+                            <span class="icon_count">
+                                {{$topNavInfo['cartCount']}}
+                            </span>
+                        @endif
+
                     </a>
                 </div>
                 <div class="cart_total">

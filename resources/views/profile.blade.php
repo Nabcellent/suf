@@ -53,7 +53,7 @@
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="/sign_out" class="stretched-link">
+                                        <a href="/sign-out" class="stretched-link">
                                             <i class="fas fa-sign-out-alt"></i>
                                             <span>Sign Out</span>
                                         </a>
@@ -69,11 +69,11 @@
                     <div class="col-md-9 px-1 profile_pages">
 
                         @if(Request() -> page === 'edit')
-                            @include('partials/profile/edit')
+                            @include('partials.profile.edit')
                         @elseif(Request() -> page === 'my-orders')
-                            @include('partials/profile/myorders')
+                            @include('partials.profile.myorders')
                         @elseif(Request() -> page === 'confirm-payment')
-                            @include('partials/profile/confirm_payment')
+                            @include('partials.profile.confirm_payment')
                         @endif
 
                     </div>
