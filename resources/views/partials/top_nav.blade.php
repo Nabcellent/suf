@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 $topNavInfo = [
     'latestProducts' => DB::table('products') -> orderByDesc('id') -> take(10) -> get(),
     'subCategories' => DB::table('products')
-        -> join('categories', 'products.subcat_id', '=', 'categories.id')
+        -> join('categories', 'products.category_id', '=', 'categories.sub_category_id')
         -> select('categories.title') -> orderBy('categories.title', 'ASC')
         -> distinct() -> get(),
     'cartCount' => DB::table('cart') -> where('user_id', Auth::id()) -> count()
@@ -38,14 +38,14 @@ $topNavInfo = [
                             <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
                             <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
-                                @for($i = 0; $i < 4; $i++)
+                                {{--@for($i = 0; $i < 4; $i++)
                                     <div class="list_item text-center">
                                         <a href="">
-                                            <img src="/images/products/{{$topNavInfo['latestProducts'][$i] -> pro_image_one}}" alt="new Product">
+                                            <img src="/images/products/{{$topNavInfo['latestProducts'][$i] -> pro_image_one}}" alt="new ProductSeeder">
                                             <h4 class="title">{{$topNavInfo['latestProducts'][$i] -> pro_title}}</h4>
                                         </a>
                                     </div>
-                                @endfor
+                                @endfor--}}
 
                             </div>
                         </li>

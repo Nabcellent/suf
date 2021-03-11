@@ -17,11 +17,11 @@ class HomeController extends Controller
             'slider' => Slider::all(),
             'adBoxes' => AdBox::all(),
             'products' => [
-                'latestGents' => Product::where('cat_id', 1) ->orderByDesc('id') -> take(10) -> get(),
-                'latestLadies' => Product::where('cat_id', 2) ->orderByDesc('id') -> take(10) -> get(),
+                'latestGents' => Product::where('category_id', 1) ->orderByDesc('id') -> take(10) -> get(),
+                'latestLadies' => Product::where('category_id', 2) ->orderByDesc('id') -> take(10) -> get(),
                 'top' => Product::orderByDesc('id') -> take(10) -> get(),
                 'subCategories' => DB::table('products')
-                    -> join('categories', 'products.subcat_id', '=', 'categories.id')
+                    -> join('categories', 'products.category_id', '=', 'categories.sub_category_id')
                     -> select('categories.title',) -> orderBy('categories.title', 'ASC')
                     -> distinct() -> get()
             ],

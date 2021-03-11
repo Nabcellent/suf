@@ -26,7 +26,7 @@
             </div>
             <div class="row my-2 justify-content-center">
 
-                <!--    Start Product Detail    -->
+                <!--    Start ProductSeeder Detail    -->
 
                 <div class="col-md-12">
                     <div id="main_product" class="row">
@@ -129,7 +129,7 @@
                         </div>
                     </div>
 
-                    <!--    Start Product Description    -->
+                    <!--    Start ProductSeeder Description    -->
 
                     <div class="row my-3">
                         <div class="col-md-12">
@@ -143,10 +143,10 @@
                             </div>
                         </div>
                     </div>
-                    <!--    End Product Description    -->
+                    <!--    End ProductSeeder Description    -->
 
                 </div>
-                <!--    End Product Detail    -->
+                <!--    End ProductSeeder Detail    -->
 
             </div>
 
@@ -164,7 +164,7 @@
                     <div class="row mb-2">
                         <div id="results" class="col column">
 
-                            <!--    Start Single Product    -->
+                            <!--    Start Single ProductSeeder    -->
                             @foreach($details['products'] -> take(5) as $item)
                                 <div class="card">
                                     <a href="/details/{{$item -> id}}"><img src='/images/products/{{$item -> pro_image_one}}' alt=''></a>
@@ -195,7 +195,7 @@
                                     </a>
                                 </div>
                         @endforeach
-                        <!--    End Single Product    -->
+                        <!--    End Single ProductSeeder    -->
 
                         </div>
                     </div>

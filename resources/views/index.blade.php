@@ -34,7 +34,7 @@
             </div>
             {{--    End Box Section    --}}
 
-            {{--    Start Product Preview    --}}
+            {{--    Start ProductSeeder Preview    --}}
 
             <div class="products">
 
@@ -60,7 +60,7 @@
                                             <div class="swiper-slide">
                                                 <div class="card">
                                                     <a href='/details/{{$item -> id}}'>
-                                                        <img src='images/products/{{$item['pro_image_one']}}' alt=''>
+                                                        <img src='images/products/{{$item['pro_image_one']}}' alt="Product image">
                                                     </a>
                                                     <div class="supplier">
                                                         <a href="#">Man title</a>
@@ -215,7 +215,7 @@
 
                 </div>
             </div>
-            {{--    End Product Preview    --}}
+            {{--    End ProductSeeder Preview    --}}
 
             {{--    Start Rotating Image    --}}
 

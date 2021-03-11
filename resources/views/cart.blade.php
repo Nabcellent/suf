@@ -174,7 +174,7 @@
                             <div class="row mb-2">
                                 <div id="results" class="col column">
 
-                                    <!--    Start Single Product    -->
+                                    <!--    Start Single ProductSeeder    -->
                                     @foreach($cart['products'] -> take(5) as $item)
                                         <div class="card">
                                             <a href="/details/{{$item -> id}}"><img src='/images/products/{{$item -> pro_image_one}}' alt=''></a>
@@ -205,7 +205,7 @@
                                             </a>
                                         </div>
                                 @endforeach
-                                <!--    End Single Product    -->
+                                <!--    End Single ProductSeeder    -->
 
                                 </div>
                             </div>

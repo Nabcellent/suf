@@ -885,7 +885,7 @@ nav .nav-link:hover {
     padding: 0;
 }
 
-/*+++++++*+++++++*+++++++  Product Label  +++++++*/
+/*+++++++*+++++++*+++++++  ProductSeeder Label  +++++++*/
 #products_like .product_label,
 #products .product_label {
     position: absolute;
@@ -939,7 +939,7 @@ nav .nav-link:hover {
     font-size: var(--font-size-tiny);
 }
 
-/*+++++++*+++++++*+++++++  Product Label  +++++++*/
+/*+++++++*+++++++*+++++++  ProductSeeder Label  +++++++*/
 #details .product_label {
     position: absolute;
     top: 0;

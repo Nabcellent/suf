@@ -39,7 +39,7 @@
                 </div>
                 <!--    End SideBar Categories    -->
 
-                <!--    Start Product Section    -->
+                <!--    Start ProductSeeder Section    -->
 
                 <div class="col-md-9">
                     <div class="row">
@@ -62,7 +62,7 @@
                     <div id="product_section" class="row mb-2">
                         <div id="results" class="col column">
 
-                        <!--    Start Single Product    -->
+                        <!--    Start Single ProductSeeder    -->
                             @foreach($products -> take(20) as $item)
                                 <div class="card">
                                     <a href="/details/{{$item -> id}}"><img src='images/products/{{$item -> pro_image_one}}' alt=''></a>
@@ -90,7 +90,7 @@
                                     </a>
                                 </div>
                             @endforeach
-                            <!--    End Single Product    -->
+                            <!--    End Single ProductSeeder    -->
 
                         </div>
 
@@ -115,7 +115,7 @@
 
                     </div>
                 </div>
-                <!--    End Product Section    -->
+                <!--    End ProductSeeder Section    -->
 
             </div>
         </div>

@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\DB;
 
 $footerInfo = [
     'trendingCategories' => DB::table('products')
-        -> join('sub_categories', 'products.subcat_id', '=', 'sub_categories.subcat_id')
-        -> select('subcat_title', DB::raw('count(subcat_title) as total'))
-        -> groupBy('products.subcat_id')
-        -> orderBy('total', 'DESC')
         -> get()
 ];
 
@@ -26,7 +22,7 @@ $footerInfo = [
                 <div class="dropdown-divider"></div>
 
                 @foreach($footerInfo['trendingCategories'] -> take(5) as $item)
-                    <p><a href="#">{{$item -> subcat_title}}</a></p>
+                    <p><a href="#">{{$item}}</a></p>
                 @endforeach
 
                 <!--    End Products    -->
@@ -54,7 +50,7 @@ $footerInfo = [
                 <p><a href="../contact.php">Contact Us</a></p>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
-                <!--    Start User Section    -->
+                <!--    Start UserSeeder Section    -->
 
                 <h3>User Section</h3>
                 <p>
@@ -72,7 +68,7 @@ $footerInfo = [
                     <br><a href="/policies">Terms & Conditions</a>
 
                 </p>
-                <!--    End User Section    -->
+                <!--    End UserSeeder Section    -->
             </div>
             <div class="col-lg-6 col-md-6">
                 <!--    Start Get News Section    -->
