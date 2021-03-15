@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->bigInteger('seller_id')->unsigned();
-            $table->foreign('seller_id')->references('user_id')->on('sellers');
+            $table->foreign('seller_id')->references('user_id')->on('sellers')->onDelete('cascade');
             $table->string('title');
             $table->string('main_image');
             $table->string('keywords')->nullable();

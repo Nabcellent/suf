@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             [
                 "first_name" => "Michael",
                 "last_name" => "Nabangi",
-                "gender" => "M",
+                "gender" => "Male",
                 "user_type" => "Customer",
                 "email" => "michael.nabangi@strathmore.edu",
                 "password" => Hash::make("mike"),
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             ],[
                 "first_name" => "Michael",
                 "last_name" => "Nabangi",
-                "gender" => "M",
+                "gender" => "Male",
                 "user_type" => "Seller",
                 "email" => "miguelnabz@gmail.com",
                 "password" => Hash::make("mike"),

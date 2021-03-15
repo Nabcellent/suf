@@ -18,7 +18,7 @@ class VariationSeeder extends Seeder
      */
     public function run(): void
     {
-        $arr = array("Colors" => ["Red", "Blue", "White"], "Sizes" => ["S", "M", "XL"]);
+        $arr = array("Sizes" => ["S", "M", "XL"]);
         $jsonArr = json_encode($arr, JSON_THROW_ON_ERROR);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');

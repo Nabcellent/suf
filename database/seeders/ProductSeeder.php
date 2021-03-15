@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
                 "category_id" => 3,
                 "seller_id" => 2,
                 "title" => 'Sense Tv',
-                "main_image" => "ni352x.jpg",
+                "main_image" => "boys-Puffer-Coat-With-Detachable-Hood-1.jpg",
                 "keywords" => "Some words",
                 "description" => "Smart TV 50",
                 "label" => "new",
