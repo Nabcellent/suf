@@ -24,6 +24,7 @@ class ProductSeeder extends Seeder
             [
                 "category_id" => 3,
                 "seller_id" => 2,
+                "brand_id" => 1,
                 "title" => 'Sense Tv',
                 "main_image" => "boys-Puffer-Coat-With-Detachable-Hood-1.jpg",
                 "keywords" => "Some words",
@@ -36,6 +37,7 @@ class ProductSeeder extends Seeder
             ], [
                 "category_id" => 4,
                 "seller_id" => 2,
+                "brand_id" => 2,
                 "title" => 'Samsung mobile',
                 "main_image" => "women-diamond-heart-ring-3.jpg",
                 "keywords" => "Some words",
@@ -48,6 +50,7 @@ class ProductSeeder extends Seeder
             ], [
                 "category_id" => 5,
                 "seller_id" => 2,
+                "brand_id" => 3,
                 "title" => 'Oppo Mobile',
                 "main_image" => "photo_2021-01-04_14-26-25.jpg",
                 "keywords" => "Some words",

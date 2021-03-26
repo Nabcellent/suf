@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateSellersTable extends Migration
@@ -11,7 +12,7 @@ class CreateSellersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
@@ -28,8 +29,10 @@ class CreateSellersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('sellers');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

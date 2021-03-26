@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_id')->constrained();
             $table->bigInteger('seller_id')->unsigned();
             $table->foreign('seller_id')->references('user_id')->on('sellers')->onDelete('cascade');
+            $table->foreignId('brand_id')->default(0);
             $table->string('title');
             $table->string('main_image');
             $table->string('keywords')->nullable();
@@ -25,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->string('label', 10)->nullable();
             $table->float('base_price');
             $table->float('sale_price')->default(0);
+            $table->float('discount')->default(0);
             $table->timestamps();
         });
     }
