@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Sign In')
 @section('content')
-    @include('/partials/top_header')
 
 <div class="login">
 

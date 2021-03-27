@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 $topNavInfo = [
     'latestProducts' => DB::table('products') -> orderByDesc('id') -> take(10) -> get(),
     'subCategories' => DB::table('products')
-        -> join('categories', 'products.category_id', '=', 'categories.sub_category_id')
+        -> join('categories', 'products.category_id', '=', 'categories.id')
         -> select('categories.title') -> orderBy('categories.title', 'ASC')
         -> distinct() -> get(),
     'cartCount' => DB::table('cart') -> where('user_id', Auth::id()) -> count()
@@ -60,7 +60,7 @@ $topNavInfo = [
                                     <ul>
 
                                         @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> cat_title === 'ladies')
+                                            @if($item -> title === 'Ladies')
                                             <li>
                                                 <a href="">
                                                     {{$item -> subcat_title}}
@@ -79,7 +79,7 @@ $topNavInfo = [
                                     <ul>
 
                                         @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> cat_title === 'gents')
+                                            @if($item -> title === 'Gents')
                                                 <li>
                                                     <a href="">
                                                         {{$item -> subcat_title}}
@@ -98,7 +98,7 @@ $topNavInfo = [
                                     <ul>
 
                                         @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> cat_title === 'exclusive')
+                                            @if($item -> title === 'Exclusive')
                                                 <li>
                                                     <a href="">
                                                         {{$item -> subcat_title}}

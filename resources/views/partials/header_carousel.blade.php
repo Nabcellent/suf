@@ -9,9 +9,9 @@
 
                     @foreach($homeInfo["slider"] as $key => $item)
                         @if($loop -> first)
-                            <li data-target="#{{$item['slide_url']}}" data-slide-to="{{$key}}" class="active"></li>
+                            <li data-target="#{{$item['url']}}" data-slide-to="{{$key}}" class="active"></li>
                         @else
-                            <li data-target="#{{$item['slide_url']}}" data-slide-to="{{$key}}"></li>
+                            <li data-target="#{{$item['url']}}" data-slide-to="{{$key}}"></li>
                         @endif
                     @endforeach
 
@@ -21,8 +21,8 @@
                     @foreach($homeInfo["slider"] as $item)
                         @if($loop -> first)
                             <div class='carousel-item active'>
-                                <a href='{{$item['slide_url']}}'>
-                                    <img src='/images/slides/{{$item["slide_image"]}}' class='d-block w-100' alt='{{$item['slide_image']}}'>
+                                <a href='{{$item['url']}}'>
+                                    <img src='/images/slides/{{$item["image"]}}' class='d-block w-100' alt='{{$item['image']}}'>
                                 </a>
                                 <div class='carousel-caption d-none d-md-block'>
                                     <span>New Inspiration 2021</span>
@@ -33,8 +33,8 @@
                             </div>
                         @else
                             <div class='carousel-item'>
-                                <a href='{{$item['slide_url']}}'>
-                                    <img src='/images/slides/{{$item["slide_image"]}}' class='d-block w-100' alt=''>
+                                <a href='{{$item['url']}}'>
+                                    <img src='/images/slides/{{$item["image"]}}' class='d-block w-100' alt=''>
                                 </a>
                                 <div class='carousel-caption d-none d-md-block'>
                                     <span>New Inspiration 2021</span>

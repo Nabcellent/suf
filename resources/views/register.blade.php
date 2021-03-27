@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Register')
 @section('content')
-    @include('/partials/top_header')
 
 <div id="register">
 

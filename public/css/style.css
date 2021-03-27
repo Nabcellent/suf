@@ -99,11 +99,11 @@ nav .nav-link:hover {
 
 #header_carousel .header_carousel {
     padding: 0 20rem;
-    height: 30vh;
+    height: 40vh;
 }
 #header_carousel .header_carousel img {
     width: 100%;
-    height: 30vh;
+    height: 40vh;
     object-fit: cover;
 }
 

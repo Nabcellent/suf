@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Home')
 @section('content')
-    @include('/partials/top_header')
     @include('/partials/top_nav')
 
 <div id="details">

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use App\Models\AdBox;
 use App\Models\Product;
 use App\Models\Slider;
-use App\Models\AdBox;
+use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class IndexController extends Controller
 {
     //
     function index() {
@@ -18,10 +16,11 @@ class HomeController extends Controller
             'adBoxes' => AdBox::all(),
             'products' => [
                 'latestGents' => Product::where('category_id', 1) ->orderByDesc('id') -> take(10) -> get(),
-                'latestLadies' => Product::where('category_id', 2) ->orderByDesc('id') -> take(10) -> get(),
+                'latestLadies' => Product::join('categories', '',),
+                //'latestLadies' => Product::where('category_id', 2) ->orderByDesc('id') -> take(10) -> get(),
                 'top' => Product::orderByDesc('id') -> take(10) -> get(),
                 'subCategories' => DB::table('products')
-                    -> join('categories', 'products.category_id', '=', 'categories.sub_category_id')
+                    -> join('categories', 'products.category_id', '=', 'categories.id')
                     -> select('categories.title',) -> orderBy('categories.title', 'ASC')
                     -> distinct() -> get()
             ],

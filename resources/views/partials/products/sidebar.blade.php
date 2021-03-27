@@ -4,19 +4,21 @@ use Illuminate\Support\Facades\DB;
 
 $sidebarInfo = [
     'subCategories' => DB::table('products')
-        -> select('sub_categories.*') -> distinct()
-        -> join('sub_categories', function($join) {
-            $join -> on('products.subcat_id', '=', 'sub_categories.subcat_id');
-    }) -> get(),
-    'manufacturers' => DB::table('products')
-        -> select('manufacturers.*') -> distinct()
-        -> join('manufacturers', function($join) {
-            $join -> on('products.man_id', '=', 'manufacturers.man_id');
-    }) -> get(),
-    'categories' => DB::table('products')
         -> select('categories.*') -> distinct()
         -> join('categories', function($join) {
-            $join -> on('products.cat_id', '=', 'categories.cat_id');
+            $join -> on('products.category_id', '=', 'categories.id');
+    }) -> get(),
+    'sellers' => DB::table('products')
+        -> select('sellers.*') -> distinct()
+        -> join('sellers', function($join) {
+            $join -> on('products.seller_id', '=', 'sellers.user_id');
+    }) -> get(),
+    'categories' => DB::table('products')
+        -> select('cat.title') -> distinct()
+        -> join('categories as subCat', function($join) {
+            $join -> on('products.category_id', '=', 'subCat.id');
+    }) -> join('categories as cat', function($join) {
+            $join -> on('subCat.category_id', '=', 'cat.id');
     }) -> get()
 ];
 
@@ -53,7 +55,7 @@ $sidebarInfo = [
                                         <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
                                         <span></span>
                                         <i class="indicator"></i>
-                                        {{$item -> subcat_title}}
+                                        {{$item -> title}}
                                     </label>
                                 </div>
                             </li>
@@ -85,14 +87,14 @@ $sidebarInfo = [
                     <div class="col-12 list_menu">
                         <ul id="suf_manufacturer">
 
-                            @foreach($sidebarInfo['manufacturers'] as $item)
+                            @foreach($sidebarInfo['sellers'] as $item)
                                 <li class='list-group-item'>
                                     <div class="form-check">
                                         <label class='form-check-label check_label'>
                                             <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
                                             <span></span>
                                             <i class="indicator"></i>
-                                            {{$item -> man_name}}
+                                            {{$item -> username}}
                                         </label>
                                     </div>
                                 </li>
@@ -124,7 +126,7 @@ $sidebarInfo = [
                                             <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
                                             <span></span>
                                             <i class="indicator"></i>
-                                            {{$item -> cat_title}}
+                                            {{$item -> title}}
                                         </label>
                                     </div>
                                 </li>

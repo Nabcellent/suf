@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 use App\Models\Product;
 use App\Models\Cart;
@@ -13,15 +15,15 @@ use App\Models\Cart;
 class ProductController extends Controller
 {
     //
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function index(): Application|Factory|View
     {
-        $products = Product::join('manufacturers', 'products.man_id', '=', 'manufacturers.man_id')
+        $products = Product::join('sellers', 'products.seller_id', '=', 'sellers.user_id')
             -> get();
 
         return View('products', compact('products'));
     }
 
-    public function productDetails($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function productDetails($id): Application
     {
         $details = [
             'details' => Product::find($id),
@@ -32,7 +34,7 @@ class ProductController extends Controller
         return view('details', compact('details'));
     }
 
-    public function cart(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function cart(): View|Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         if(!Auth::check()) {
             return redirect('/sign-in');

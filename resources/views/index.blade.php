@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Home')
 @section('content')
-    @include('partials.top_header')
     @include('partials.header_carousel')
     @include('partials.top_nav')
     @include('partials.social_icons')
@@ -20,10 +19,10 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="">
-                                    <img class="card-img" src="images/box_section/{{$item['box_image']}}" alt="Image">
+                                    <img class="card-img" src="images/box_section/{{$item['image']}}" alt="Image">
                                     <div class="card-img-overlay text-left">
-                                        <h2 class="card-title">{{$item['box_title']}}</h2>
-                                        <p class="card-text">{{$item['box_desc']}}</p>
+                                        <h2 class="card-title">{{$item['title']}}</h2>
+                                        <p class="card-text">{{$item['description']}}</p>
                                     </div>
                                 </a>
                             </div>
@@ -38,7 +37,7 @@
 
             <div class="products">
 
-                <!--    Start Latest Products    -->
+                <!--    Start LATEST PRODUCTS    -->
 
                 <div id="content" class="container-fluid latest_products product_container">
                     <div class="section_title">
@@ -60,22 +59,22 @@
                                             <div class="swiper-slide">
                                                 <div class="card">
                                                     <a href='/details/{{$item -> id}}'>
-                                                        <img src='images/products/{{$item['pro_image_one']}}' alt="Product image">
+                                                        <img src='images/products/{{$item['main_image']}}' alt="Product image">
                                                     </a>
                                                     <div class="supplier">
                                                         <a href="#">Man title</a>
                                                     </div>
                                                     <div class="card-body">
                                                         <h6 class="card-title">
-                                                            <a href=''>{{$item['pro_title']}}</a>
+                                                            <a href=''>{{$item['title']}}</a>
                                                         </h6>
                                                         <div class="row">
                                                             <div class="col prices">
-                                                                @if($item['pro_sale_price'] === 0)
-                                                                <p>{{$item['pro_price']}}/=</p>
+                                                                @if($item['sale_price'] === 0)
+                                                                <p>{{$item['base_price']}}/=</p>
                                                                 @else
-                                                                <p>{{$item['pro_sale_price']}}/=</p><br>
-                                                                <del class="text-secondary">{{$item['pro_price']}}/=</del>
+                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                                <del class="text-secondary">{{$item['base_price']}}/=</del>
                                                                 @endif
                                                             </div>
                                                             <div class="col button">
@@ -86,8 +85,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <a href="#" class="product_label {{$item['pro_label']}}">
-                                                    <span class="label">{{$item['pro_label']}}</span>
+                                                <a href="#" class="product_label {{$item['label']}}">
+                                                    <span class="label">{{$item['label']}}</span>
                                                 </a>
                                             </div>
                                 @endforeach
@@ -99,7 +98,7 @@
                     </div>
                     <!--    End Swiper 1    -->
 
-                    <!--    Start Swiper 2    -->
+                    <!--    Start Swiper 2 - GENTS    -->
 
                     <div class="row py-2">
                         <div class="col">
@@ -112,22 +111,22 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href=''>
-                                                    <img src='images/products/{{$item['pro_image_one']}}' alt=''>
+                                                    <img src='images/products/{{$item['main_image']}}' alt=''>
                                                 </a>
                                                 <div class="supplier">
                                                     <a href="#">Man title</a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title">
-                                                        <a href=''>{{$item['pro_title']}}</a>
+                                                        <a href=''>{{$item['title']}}</a>
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if($item['pro_sale_price'] === 0)
-                                                                <p>{{$item['pro_price']}}/=</p>
+                                                            @if($item['sale_price'] === 0)
+                                                                <p>{{$item['base_price']}}/=</p>
                                                                 @else
-                                                                <p>{{$item['pro_sale_price']}}/=</p><br>
-                                                                <del class="text-secondary">{{$item['pro_price']}}/=</del>
+                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                                <del class="text-secondary">{{$item['base_price']}}/=</del>
                                                                 @endif
                                                         </div>
                                                         <div class="col button">
@@ -138,8 +137,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="#" class="product_label {{$item['pro_label']}}">
-                                                <span class="label">{{$item['pro_label']}}</span>
+                                            <a href="#" class="product_label {{$item['label']}}">
+                                                <span class="label">{{$item['label']}}</span>
                                             </a>
                                         </div>
                                 @endforeach
@@ -173,22 +172,22 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href=''>
-                                                    <img src='images/products/{{$item['pro_image_one']}}' alt=''>
+                                                    <img src='images/products/{{$item['main_image']}}' alt=''>
                                                 </a>
                                                 <div class="supplier">
                                                     <a href="#">Man title</a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title">
-                                                        <a href=''>{{$item['pro_title']}}</a>
+                                                        <a href=''>{{$item['title']}}</a>
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if($item['pro_sale_price'] === 0)
-                                                                <p>{{$item['pro_price']}}/=</p>
+                                                            @if($item['sale_price'] === 0)
+                                                                <p>{{$item['base_price']}}/=</p>
                                                                 @else
-                                                                <p>{{$item['pro_sale_price']}}/=</p><br>
-                                                                <del class="text-secondary">{{$item['pro_price']}}/=</del>
+                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                                <del class="text-secondary">{{$item['base_price']}}/=</del>
                                                                 @endif
                                                         </div>
                                                         <div class="col button">
@@ -199,8 +198,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="#" class="product_label {{$item['pro_label']}}">
-                                                <span class="label">{{$item['pro_label']}}</span>
+                                            <a href="#" class="product_label {{$item['label']}}">
+                                                <span class="label">{{$item['label']}}</span>
                                             </a>
                                         </div>
                                 @endforeach

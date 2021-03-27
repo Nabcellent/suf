@@ -24,6 +24,7 @@ class SellerSeeder extends Seeder
             [
                 "user_id" => 2,
                 "id_number" => 12345,
+                "username" => "lobengz",
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ]

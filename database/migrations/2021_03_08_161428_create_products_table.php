@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->float('base_price');
             $table->float('sale_price')->default(0);
             $table->float('discount')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

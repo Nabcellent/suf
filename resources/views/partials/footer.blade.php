@@ -18,11 +18,10 @@ $footerInfo = [
                 <!--    Start Products    -->
 
                 <h3>Trending Categories</h3>
-
                 <div class="dropdown-divider"></div>
 
                 @foreach($footerInfo['trendingCategories'] -> take(5) as $item)
-                    <p><a href="#">{{$item}}</a></p>
+                    <p><a href="#">{{$item -> title}}</a></p>
                 @endforeach
 
                 <!--    End Products    -->
@@ -32,9 +31,9 @@ $footerInfo = [
                 <!--    Start Important Links    -->
 
                 <h3>Important links</h3>
-                <p><a href="/cart">Shopping Cart</a></p>
-                <p><a href="/products">Our Products</a></p>
-                <p><a href="/profile/edit">My Account</a></p>
+                <p><a href="{{url('cart')}}">Shopping Cart</a></p>
+                <p><a href="{{url('products')}}">Our Products</a></p>
+                <p><a href="{{url('profile/edit')}}">My Account</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="#">Strathmore University Website</a></p>
                 <p><a href="#">e-learning System</a></p>
@@ -47,7 +46,7 @@ $footerInfo = [
                 <p>Email Address - <a href="#">email@gmail.com</a></p>
                 <p>Name - <a href="#"></a>Some Name</p>
                 <div class="dropdown-divider"></div>
-                <p><a href="../contact.php">Contact Us</a></p>
+                <p><a href="{{url('contact')}}">Contact Us</a></p>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <!--    Start UserSeeder Section    -->
@@ -65,7 +64,7 @@ $footerInfo = [
                         echo "<a href='../customer_register.php'>Register account</a>";
                     }
                     ?>
-                    <br><a href="/policies">Terms & Conditions</a>
+                    <br><a href="{{url('policies')}}">Terms & Conditions</a>
 
                 </p>
                 <!--    End UserSeeder Section    -->

@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Suf - @yield('title')</title>
-    <link rel="shortcut icon" href="images/general/main_logo.jpg">
+    <link rel="shortcut icon" href="{{url('images/general/main_logo.jpg')}}">
 
     {{--    BOOTSTRAP CSS    --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -15,17 +15,17 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     {{--    FONTAWESOME CSS    --}}
-    <link rel="stylesheet" href="/css/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="{{url('css/font-awesome/css/all.min.css')}}">
 
     {{--    BOXICONS CSS    --}}
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     {{--    MY CSS    --}}
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="{{url('css/style.css')}}">
+    <link rel="stylesheet" href="{{url('css/responsive.css')}}">
 </head>
 <body>
-
+@include('partials.top_header')
 
 @yield('content')
 
@@ -42,6 +42,7 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 {{--    MY JS    --}}
-<script src="/js/main.js"></script>
+<script src="{{url('js/main.js')}}"></script>
+<script src="{{url('js/swiper.js')}}"></script>
 </body>
 </html>

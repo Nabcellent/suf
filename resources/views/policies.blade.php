@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Policies')
 @section('content')
-    @include('/partials/top_header')
     @include('/partials/top_nav')
 
 <?php
