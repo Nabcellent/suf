@@ -61,5 +61,28 @@ $(() => {
     $('.delete_brand').on('click', function() {
         let brandId = $(this).attr('data-id');
         $('#delete_brand_modal #brand_id').val(brandId);
+    });
+
+
+
+    /**
+     * ON ACTION FETCH FROM SERVER  */
+
+    $('#section').on('change', async function() {
+        const sectionId = $(this).val();
+        const response = await fetch('/products/section-category/' + sectionId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await response.json();
+
+        let options = '<option selected hidden value="">Select *</option>';
+        $(data).each(function() {
+            options += `<option value="${$(this)[0].id}">${$(this)[0].title}</option>`;
+        });
+
+        $('#sub_category_modal #category').html(options);
     })
 })

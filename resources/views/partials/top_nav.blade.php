@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
+$sections = Category::sections();
 
 $topNavInfo = [
     'latestProducts' => DB::table('products') -> orderByDesc('id') -> take(10) -> get(),
@@ -51,8 +53,30 @@ $topNavInfo = [
                         </li>
                         <li class="menu_item_has_children">
                             <a href="/products" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
-                            <div class="sub_menu mega_menu mega_menu_column_4">
-                                <div class="list_item">
+                            <ul class="sub_menu mega_menu mega_menu_column_4">
+
+
+                                @foreach($sections as $section)
+                                    @if(count($section['categories']) > 0)
+                                        <li class="list_item">
+                                            <h4 class="title">
+                                                <a href="">{{$section['title']}}' Fashion</a>
+                                            </h4>
+                                            <div class="mt-0 dropdown-divider"></div>
+                                            <ul>
+                                                @foreach($section['categories'] as $category)
+                                                    <li><a href="">{{$category['title']}}</a></li>
+                                                    @foreach($category['sub_categories'] as $subCategory)
+                                                        <li class="ml-2"><a href="">- {{$subCategory['title']}}</a></li>
+                                                    @endforeach
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+
+                                {{--<li class="list_item">
                                     <h4 class="title">
                                         <a href="">Ladies' Fashion</a>
                                     </h4>
@@ -70,8 +94,8 @@ $topNavInfo = [
                                         @endforeach
 
                                     </ul>
-                                </div>
-                                <div class="list_item">
+                                </li>
+                                <li class="list_item">
                                     <h4 class="title">
                                         <a href="">Men's Fashion</a>
                                     </h4>
@@ -89,8 +113,8 @@ $topNavInfo = [
                                         @endforeach
 
                                     </ul>
-                                </div>
-                                <div class="list_item">
+                                </li>
+                                <li class="list_item">
                                     <h4 class="title">
                                         <a href="">Exclusive Fashion</a>
                                     </h4>
@@ -101,19 +125,19 @@ $topNavInfo = [
                                             @if($item -> title === 'Exclusive')
                                                 <li>
                                                     <a href="">
-                                                        {{$item -> subcat_title}}
+                                                        {{$item -> title}}
                                                     </a>
                                                 </li>
                                             @endif
                                         @endforeach
 
                                     </ul>
-                                </div>
-                                <div class="list_item">
+                                </li>--}}
+                                <li class="list_item">
                                     <img src="/images/general/meganav/174-1744463_beard-men-in-suit.jpg" alt="shop">
                                     <h4 class="title"><a href="/products" class="d-block d-lg-none lead nav_link">All Products</a></h4>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
                         </li>
                         <li><a href="/about" class="nav_link">About</a></li>
                         <li><a href="/contact-us" class="nav_link">Contact Us</a></li>

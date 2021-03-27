@@ -1,6 +1,6 @@
 const UserController = require('./UserController');
 const AdminController = require('./AdminController');
-const {ProductController, AddonController} = require('./Product');
+const {ProductController, AddonController, CategoryController} = require('./Product');
 
 const JQueryController = require('./JQueryController');
 
@@ -9,5 +9,6 @@ module.exports = {
     UserController,
     ProductController,
     JQueryController,
-    AddonController
+    AddonController,
+    CategoryController
 }

@@ -1,28 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\DB;
-
-$sidebarInfo = [
-    'subCategories' => DB::table('products')
-        -> select('categories.*') -> distinct()
-        -> join('categories', function($join) {
-            $join -> on('products.category_id', '=', 'categories.id');
-    }) -> get(),
-    'sellers' => DB::table('products')
-        -> select('sellers.*') -> distinct()
-        -> join('sellers', function($join) {
-            $join -> on('products.seller_id', '=', 'sellers.user_id');
-    }) -> get(),
-    'categories' => DB::table('products')
-        -> select('cat.title') -> distinct()
-        -> join('categories as subCat', function($join) {
-            $join -> on('products.category_id', '=', 'subCat.id');
-    }) -> join('categories as cat', function($join) {
-            $join -> on('subCat.category_id', '=', 'cat.id');
-    }) -> get()
-];
-
-?>
 
 <div class="row">
     <div class="col p-md-0">

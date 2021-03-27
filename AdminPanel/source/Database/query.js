@@ -1,9 +1,7 @@
-const bcrypt = require('bcryptjs');
 const link = require('../Config/database');
 const sql = require('sql-concat');
 
 let instance = null;
-let date = new Date();
 
 /******************
  *************************************************  CREATE IN DB  *************************************************
@@ -171,10 +169,10 @@ const selectQryBuilder = (params) => {
     if(typeof params.orWhere !== 'undefined' && params.orWhere !== null) {
         if(params.orWhere.length > 1) {
             params.orWhere.forEach(orWhere => {
-                qry = qry.orWhere(`${orWhere[0]} ${orWhere[1]} '${orWhere[2]}'`)
+                qry = qry.orWhere(`${orWhere[0]} ${orWhere[1]} ${orWhere[2]}`)
             });
         } else {
-            qry = qry.orWhere(`${params.orWhere[0][0]} ${params.orWhere[0][1]} '${params.orWhere[0][2]}'`);
+            qry = qry.orWhere(`${params.orWhere[0][0]} ${params.orWhere[0][1]} ${params.orWhere[0][2]}`);
         }
     }
 

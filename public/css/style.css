@@ -300,6 +300,10 @@ nav .nav-link:hover {
 #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item {
     flex: 0 0 25%;
     padding: 0 15px;
+    margin: 0;
+}
+#mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item > ul {
+    padding-left: 1rem;
 }
 #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item .title {
     line-height: 1;

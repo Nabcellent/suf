@@ -2,8 +2,12 @@
 @section('title', 'Products')
 @section('content')
     @include('partials.top_nav')
+    <?php
 
-<!--    End Sticky Header    -->
+    use App\Models\Category;
+    $test = Category::sections();
+    //echo "<pre>"; print_r($test); die;
+    ?>
 
 <!--    Start Sticky Header Jumbotron    -->
 

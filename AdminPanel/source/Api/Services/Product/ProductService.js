@@ -21,49 +21,6 @@ module.exports = {
     /*********
      * CREATE
      * ********/
-    createCategory: async(title, categoryId) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                if(typeof categoryId === 'undefined') {
-                    const qry = "INSERT INTO categories(title, created_at, updated_at) VALUES (?, ?, ?)";
-
-                    link.query(qry, [title, date, date], (err, result) => {
-                        if (err) {
-                            reject(new Error(err.message));
-                        } else {
-                            resolve(result.affectedRows);
-                        }
-                    });
-                } else {
-                    const qry = "INSERT INTO categories(title, category_id, created_at, updated_at) VALUES (?, ?, ?, ?)";
-
-                    if(typeof categoryId === "object" && categoryId.length > 1) {
-                        categoryId.forEach((id) => {
-                            link.query(qry, [title, id, date, date], (err, result) => {
-                                if (err) {
-                                    reject(new Error(err.message));
-                                } else {
-                                    resolve(result.affectedRows);
-                                }
-                            });
-                        });
-                    } else {
-                        link.query(qry, [title, categoryId, date, date], (err, result) => {
-                            if (err) {
-                                reject(new Error(err.message));
-                            } else {
-                                resolve(result.affectedRows);
-                            }
-                        });
-                    }
-                }
-            });
-        } catch(error) {
-            console.log(error);
-        }
-        return name;
-    },
-
     createProduct: async(title, seller_id, brand_id, category_id, label, base_price, sale_price, discount, main_image, keywords, description) => {
         try {
             const values = {
@@ -200,7 +157,7 @@ module.exports = {
             ]
 
             return await new Promise((resolve, reject) => {
-                const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?, 
+                const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?,
                     keywords = ?, description = ?, label = ?, base_price = ?, sale_price = ?, brand_id = ?, updated_at = ?
                     WHERE id = ?`;
 
@@ -249,38 +206,6 @@ module.exports = {
         }
     },
 
-    updateCategory: async(id, title) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                link.query("UPDATE categories SET title = ? WHERE id = ?", [title, id], (err, results) => {
-                    if(err) {
-                        reject(new Error(err.message));
-                    } else {
-                        resolve(results.changedRows);
-                    }
-                });
-            })
-        } catch(error) {
-            console.log(error);
-        }
-    },
-
-    updateCategoryStatus: async(id, status) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                const qry = `UPDATE categories SET status = ? WHERE id = ?`;
-
-                link.query(qry, [status, id], (error, result) => {
-                    if(error)
-                        reject(new Error(error.message));
-                    resolve(result.changedRows);
-                })
-            })
-        } catch(error) {
-            console.log(error);
-        }
-    },
-
 
     /*********
      * DELETE
@@ -314,22 +239,6 @@ module.exports = {
             });
         } catch (error) {
             console.log(error)
-        }
-    },
-
-    deleteSubCategory: async(id) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                link.query("DELETE FROM categories WHERE id = ?", id, (error, result) => {
-                    if(error) {
-                        reject(new Error(error.message));
-                    } else {
-                        resolve(result.affectedRows);
-                    }
-                });
-            })
-        } catch(error) {
-            console.log(error);
         }
     }
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {ProductController, AddonController, JQueryController} = require("../Controllers");
+const {ProductController, AddonController, JQueryController, CategoryController} = require("../Controllers");
 const {ProductValidation, VariationValidation, BrandValidation} = require("../Validations");
 
 router
@@ -44,12 +44,16 @@ router
 
 router
     .route('/categories')
-    .get(ProductController.readCategories)
-    .post(ProductController.createCategory)
-    .put(ProductValidation.update(), ProductController.updateCategory)
-    .delete(ProductController.deleteCategory);
+    .get(CategoryController.readCategories)
+    .post(CategoryController.createCategory)
+    .put(ProductValidation.update(), CategoryController.updateCategory)
+    .delete(CategoryController.deleteCategory);
 
-router.put('/categories/status', ProductController.updateCategoryStatus)
+router.put('/categories/status', CategoryController.updateCategoryStatus);
+
+router.post('/sub-category', CategoryController.createSubCategory);
+
+
 
 router
     .route('/attributes')
@@ -72,5 +76,7 @@ router.put('/addons/status', AddonController.updateBrandStatus)
 /**
  * JQUERY ROUTES    */
 router.get('/details/attributeValues/:name', JQueryController.getAttributeValueById);
+
+router.get('/section-category/:id', JQueryController.getCategoryBySection)
 
 module.exports = router;

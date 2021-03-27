@@ -229,45 +229,6 @@ const readProductDetails = async(req, res) => {
     });
 }
 
-const updateCategory = async(req, res) => {
-    const {category_id, title} = req.body;
-
-    try {
-        ProductServices.updateCategory(category_id, title)
-            .then(data => {
-                if(data === 1) {
-                    alert(req, 'success','Success', 'Category updated');
-                } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
-                }
-                res.redirect('back');
-            });
-    } catch(error) {
-        console.log(error);
-    }
-};
-const updateCategoryStatus = async(req, res) => {
-    const {status, sub_category_id} = req.body;
-    let newStatus = (status === 'Active') ? 0 : 1;
-
-    try {
-        ProductServices.updateCategoryStatus(sub_category_id, newStatus)
-            .then((data) => {
-                if(data === 1) {
-                    alert(req, 'success', '', 'Status Updated!');
-                    return res.json({status: newStatus});
-                } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
-                    return res.json({errors: {message: 'Internal error. Contact Admin'}});
-                }
-            }).catch(error => console.log(error));
-    } catch(error) {
-        console.log(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
-        res.redirect('back');
-    }
-}
-
 module.exports = {
     createProduct,
     readProducts,
@@ -479,88 +440,6 @@ module.exports = {
             res.render('products/attributes', {Title: 'Attributes', layout: './layouts/nav', attributes: data});
         } catch(error) {
             console.log(error);
-        }
-    },
-
-
-
-    createCategory: async(req, res) => {
-        const errors = validationResult(req);
-
-        if(!errors.isEmpty()) {
-            const error = errors.array()[0];
-            alert(req, 'info', 'Something is missing!', error.msg);
-            return res.redirect('back');
-        }
-
-        const {title, categories} = req.body;
-
-        try {
-            ProductServices.createCategory(title, categories)
-                .then(data => {
-                    if(data === 1) {
-                        alert(req, 'success', 'Success!', 'Category Created.')
-                    } else {
-                        alert(req,'danger', 'Error!', 'Unable to add.')
-                    }
-                    res.redirect('back');
-                }).catch(err => console.log(err));
-        } catch (error) {
-            console.log(error);
-            res.status(502).send("something wrong!");
-        }
-    },
-
-    readCategories: async(req, res) => {
-        const getCategories = async () => {
-            const data = {
-                categories: [],
-                subCategories: [],
-            };
-
-            (await dbRead.getReadInstance().getFromDb({
-                table: 'categories',
-                where: [['category_id', 'IS', 'NULL']]
-            })).forEach((row) => {data.categories.push(row)});
-            (await dbRead.getReadInstance().getFromDb({
-                table: 'categories AS subCat',
-                columns: 'subCat.id AS id, subCat.title, subCat.status, subCat.updated_at, cat.title AS catTitle',
-                join: [['categories AS cat', 'subCat.category_id = cat.id']],
-                where: [['subCat.category_id', 'IS NOT', 'NULL']],
-                orderBy: ['updated_at DESC']
-            })).forEach((row) => {data.subCategories.push(row)});
-
-            return data;
-        }
-
-        try {
-            const data = await getCategories();
-
-            res.render('products/categories', {Title: 'Categories', layout: './layouts/nav', categoryInfo: data});
-        } catch(error) {
-            console.log(error);
-        }
-    },
-
-    updateCategory,
-    updateCategoryStatus,
-
-    deleteCategory: async(req, res) => {
-        const {sub_category_id} = req.body;
-
-        try {
-            ProductServices.deleteSubCategory(sub_category_id)
-                .then(data => {
-                    if(data === 1) {
-                        alert(req, "info", '', 'Sub-Category deleted.');
-                    } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
-                    }
-                    res.redirect('back');
-                });
-        } catch(error) {
-            console.log(error);
-            alert(req, "info", '', 'Sub-Category deleted.');
         }
     },
 }

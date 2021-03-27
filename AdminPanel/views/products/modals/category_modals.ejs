@@ -1,8 +1,8 @@
 
 <!--#################################################    MODALS    #################################################-->
 
-<!--&&&===    CREATE CATEGORIES    ===&&&-->
-<div class="modal fade" id="add_category" aria-hidden="true">
+<!--&&&===    CREATE SECTION    ===&&&-->
+<div class="modal fade" id="add_section" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/products/categories" method="POST">
@@ -29,13 +29,13 @@
 
 
 
-<!--&&&===    SUB-CATEGORIES    ===&&&-->
-<div class="modal fade" id="sub_category_modal" aria-hidden="true">
+<!--&&&===    CATEGORIES    ===&&&-->
+<div class="modal fade" id="category_modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/products/categories" method="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Sub-Category</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -46,8 +46,8 @@
                         <input type="text" class="form-control" id="title" name="title" aria-label required>
                     </div>
                     <div id="cat_group" class="form-group">
-                        <label>Select Categories</label>
-                        <% categoryInfo.categories.forEach((row) => { %>
+                        <label>Select Sections</label>
+                        <% categoryInfo.sections.forEach((row) => { %>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" name="categories" value="<%= row.id %>" id="<%= row.id %>">
                                 <label class="custom-control-label" for="<%= row.id %>"><%= row.title %></label>
@@ -57,6 +57,52 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="category_id" name="category_id">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Insert</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!--&&&===    SUB-CATEGORIES    ===&&&-->
+<div class="modal fade" id="sub_category_modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/products/sub-category" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Sub-Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="section">Section</label>
+                            <select name="section_id" id="section" class="form-control">
+                                <option selected hidden value="">Select *</option>
+                                <% categoryInfo.sections.forEach((row) => { %>
+                                    <option value="<%= row.id %>"><%= row.title %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="category">Category</label>
+                            <select name="category_id" id="category" class="form-control">
+                                <option selected hidden value="">Select *</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" id="title" name="title" aria-label required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="sub_category_id" name="sub_category_id">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Insert</button>
                 </div>

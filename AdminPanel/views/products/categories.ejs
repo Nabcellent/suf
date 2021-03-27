@@ -7,8 +7,8 @@
                 <div class="col">
                     <div class="card crud_table shadow mb-4">
                         <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Categories</h6>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#add_category">Add Category</button>
+                            <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Sections</h6>
+                            <button class="btn btn-info" data-toggle="modal" data-target="#add_section">Add Section</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -22,7 +22,7 @@
                                     </thead>
                                     <tbody>
 
-                                    <% categoryInfo.categories.forEach((row, i) => { %>
+                                    <% categoryInfo.sections.forEach((row, i) => { %>
                                         <tr>
                                             <td><%= i + 1 %></td>
                                             <td><%= row.title %></td>
@@ -45,8 +45,11 @@
                 <div class="col">
                     <div class="card crud_table shadow mb-4">
                         <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Sub-Categories</h6>
-                            <button id="add_sub_category" class="btn btn-info" data-toggle="modal" data-target="#sub_category_modal">Add Sub-Category</button>
+                            <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Categories</h6>
+                            <div>
+                                <button id="add_category" class="btn btn-info" data-toggle="modal" data-target="#category_modal">Add Category</button>
+                                <button id="add_sub_category" class="btn btn-info" data-toggle="modal" data-target="#sub_category_modal">Add Sub-Category</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -54,18 +57,22 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Category</th>
+                                        <th scope="col">Section</th>
                                         <th scope="col">Sub Category</th>
+                                        <th scope="col">Category</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    <% categoryInfo.subCategories.forEach((row) => { %>
+                                    <% categoryInfo.categories.forEach((row) => {
+                                        let catTitle = (row.catTitle == null) ? 'Parent' : row.catTitle;
+                                    %>
                                         <tr>
                                             <td></td>
-                                            <td><%= row.catTitle %></td>
                                             <td><%= row.title %></td>
+                                            <td><%= row.sectionTitle %></td>
+                                            <td><%= catTitle %></td>
                                             <td class="action">
                                                 <% if(row.status === 1) { %>
                                                     <a class="update_sub_category_status" data-id="<%= row.id %>" title="Update Status"

@@ -19,6 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->string('title');
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->bigInteger('sub_category_id')->unsigned()->nullable();
+            $table->foreign('sub_category_id')->references('id')->on('categories');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

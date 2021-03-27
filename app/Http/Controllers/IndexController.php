@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\AdBox;
 use App\Models\Product;
 use App\Models\Slider;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
     //
-    function index() {
+    function index(): Factory|View|Application
+    {
+        $pageTitle = "Index";
         $homeInfo = [
             'slider' => Slider::all(),
             'adBoxes' => AdBox::all(),
@@ -26,6 +31,6 @@ class IndexController extends Controller
             ],
         ];
 
-        return View('index', compact('homeInfo'));
+        return View('index', compact('homeInfo', 'pageTitle'));
     }
 }
