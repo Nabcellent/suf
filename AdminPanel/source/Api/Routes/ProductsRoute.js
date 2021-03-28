@@ -47,7 +47,7 @@ router
     .get(CategoryController.readCategories)
     .post(CategoryController.createCategory)
     .put(ProductValidation.update(), CategoryController.updateCategory)
-    .delete(CategoryController.deleteCategory);
+router.delete('/categories/:id', CategoryController.deleteCategory);
 
 router.put('/categories/status', CategoryController.updateCategoryStatus);
 

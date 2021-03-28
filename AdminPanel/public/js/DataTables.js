@@ -25,7 +25,7 @@ const productDataTable = $('#products_table').DataTable({
         orderable: false,
         targets: 9
     }],
-    createdRow: function(row, data, index) {
+    createdRow: function(row, data) {
         if(data[5].replace(/[$,]/g, '') * 1 > 1000) {
             $('td', row).eq(5).addClass('text-success');
         } else if(data[5].replace(/[$,]/g, '') * 1 < 1000) {
@@ -132,10 +132,9 @@ orderDataTable.on( 'order.dt search.dt', function () {
 
 /*_____________________  SUB_CATEGORIES  _____________________*/
 
-const subCatDataTable = $('#sub_cat_table').DataTable({
+const categoriesTable = $('#sub_cat_table').DataTable({
     scrollY:        '30vh',
     scrollCollapse: true,
-    paging:         false,
     language: {
         info: 'Total Sub-Categories: _MAX_',
         infoFiltered:   "(filtered _TOTAL_)",
@@ -149,11 +148,11 @@ const subCatDataTable = $('#sub_cat_table').DataTable({
     }, {
         searchable: false,
         orderable: false,
-        targets: 3
+        targets: 4
     }],
 });
-subCatDataTable.on( 'order.dt search.dt', function () {
-    subCatDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+categoriesTable.on( 'order.dt search.dt', function () {
+    categoriesTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
         cell["innerHTML"] = i+1;
     } );
 }).draw();

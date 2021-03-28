@@ -34,6 +34,7 @@ const readCategories = async(req, res) => {
         return {
             sections: await dbRead.getReadInstance().getFromDb({
                 table: 'categories',
+                columns: 'id, title, status',
                 where: [
                     ['category_id', 'IS', 'NULL'],
                     ['sub_category_id', 'IS', 'NULL']
@@ -67,7 +68,7 @@ const updateCategory = async(req, res) => {
     } catch(error) {
         console.log(error);
     }
-};
+}
 const updateCategoryStatus = async(req, res) => {
     const {status, sub_category_id} = req.body;
     let newStatus = (status === 'Active') ? 0 : 1;
@@ -76,31 +77,23 @@ const updateCategoryStatus = async(req, res) => {
         CategoryService.updateCategoryStatus(sub_category_id, newStatus)
             .then((data) => {
                 if(data === 1) {
-                    alert(req, 'success', '', 'Status Updated!');
                     return res.json({status: newStatus});
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
                     return res.json({errors: {message: 'Internal error. Contact Admin'}});
                 }
             }).catch(error => console.log(error));
     } catch(error) {
         console.log(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }
 }
 const deleteCategory = async(req, res) => {
-    const {sub_category_id} = req.body;
+    const {id} = req.params;
 
     try {
-        CategoryService.deleteSubCategory(sub_category_id)
+        CategoryService.deleteCategory(id)
             .then(data => {
-                if(data === 1) {
-                    alert(req, "info", '', 'Category deleted.');
-                } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
-                }
-                res.redirect('back');
+                res.json(data);
             });
     } catch(error) {
         console.log(error);

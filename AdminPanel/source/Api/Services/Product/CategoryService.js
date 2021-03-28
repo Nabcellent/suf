@@ -120,7 +120,7 @@ const updateCategoryStatus = async(id, status) => {
     }
 }
 
-const deleteSubCategory = async(id) => {
+const deleteCategory = async(id) => {
     try {
         return await new Promise((resolve, reject) => {
             link.query("DELETE FROM categories WHERE id = ?", id, (error, result) => {
@@ -148,5 +148,5 @@ module.exports = {
     updateCategory,
     updateCategoryStatus,
 
-    deleteSubCategory
+    deleteCategory
 }

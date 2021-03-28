@@ -4,15 +4,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 $sections = Category::sections();
 
-$topNavInfo = [
-    'latestProducts' => DB::table('products') -> orderByDesc('id') -> take(10) -> get(),
-    'subCategories' => DB::table('products')
-        -> join('categories', 'products.category_id', '=', 'categories.id')
-        -> select('categories.title') -> orderBy('categories.title', 'ASC')
-        -> distinct() -> get(),
-    'cartCount' => DB::table('cart') -> where('user_id', Auth::id()) -> count()
-];
-
 ?>
 
 </header>
@@ -75,64 +66,6 @@ $topNavInfo = [
                                     @endif
                                 @endforeach
 
-
-                                {{--<li class="list_item">
-                                    <h4 class="title">
-                                        <a href="">Ladies' Fashion</a>
-                                    </h4>
-                                    <div class="mt-0 dropdown-divider"></div>
-                                    <ul>
-
-                                        @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> title === 'Ladies')
-                                            <li>
-                                                <a href="">
-                                                    {{$item -> subcat_title}}
-                                                </a>
-                                            </li>
-                                            @endif
-                                        @endforeach
-
-                                    </ul>
-                                </li>
-                                <li class="list_item">
-                                    <h4 class="title">
-                                        <a href="">Men's Fashion</a>
-                                    </h4>
-                                    <div class="mt-0 dropdown-divider"></div>
-                                    <ul>
-
-                                        @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> title === 'Gents')
-                                                <li>
-                                                    <a href="">
-                                                        {{$item -> subcat_title}}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-
-                                    </ul>
-                                </li>
-                                <li class="list_item">
-                                    <h4 class="title">
-                                        <a href="">Exclusive Fashion</a>
-                                    </h4>
-                                    <div class="mt-0 dropdown-divider"></div>
-                                    <ul>
-
-                                        @foreach($topNavInfo['subCategories'] as $item)
-                                            @if($item -> title === 'Exclusive')
-                                                <li>
-                                                    <a href="">
-                                                        {{$item -> title}}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-
-                                    </ul>
-                                </li>--}}
                                 <li class="list_item">
                                     <img src="/images/general/meganav/174-1744463_beard-men-in-suit.jpg" alt="shop">
                                     <h4 class="title"><a href="/products" class="d-block d-lg-none lead nav_link">All Products</a></h4>

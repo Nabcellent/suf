@@ -628,10 +628,10 @@ nav .nav-link:hover {
 
 /*=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======*/
 /*+++++++*+++++++*+++++++  Burger  +++++++*/
-#content .card.sidebar_menu {
+#sidebar_menu .card.main {
     box-shadow: 0 1px .3rem rgba(0, 0, 0, .2);
 }
-#content .sidebar_menu .burger_toggle {
+#sidebar_menu .burger_toggle {
     position: relative;
     display: flex;
     justify-content: center;
@@ -641,7 +641,7 @@ nav .nav-link:hover {
     cursor: pointer;
     transition: all .5s ease-in-out;
 }
-#content .sidebar_menu .burger_toggle .burger {
+#sidebar_menu .burger_toggle .burger {
     width: 1rem;
     height: .1rem;
     background: darkred;
@@ -649,8 +649,8 @@ nav .nav-link:hover {
     box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
     transition: all .5s ease-in-out;
 }
-#content .sidebar_menu .burger_toggle .burger::before,
-#content .sidebar_menu .burger_toggle .burger::after {
+#sidebar_menu .burger_toggle .burger::before,
+#sidebar_menu .burger_toggle .burger::after {
     content: '';
     position: absolute;
     width: 1rem;
@@ -660,10 +660,10 @@ nav .nav-link:hover {
     box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
     transition: all .5s ease-in-out;
 }
-#content .sidebar_menu .burger_toggle .burger::before {
+#sidebar_menu .burger_toggle .burger::before {
     transform: translateY(-.4rem);
 }
-#content .sidebar_menu .burger_toggle .burger::after {
+#sidebar_menu .burger_toggle .burger::after {
     transform: translateY(.4rem);
 }
 
@@ -673,41 +673,41 @@ nav .nav-link:hover {
     background: transparent!important;
     box-shadow: none!important;
 }
-#content .sidebar_menu .burger_toggle.open_burger .burger::before {
+#sidebar_menu .burger_toggle.open_burger .burger::before {
     transform: rotate(45deg) translate(35px, -35px);
 }
-#content .sidebar_menu .burger_toggle.open_burger .burger::after {
+#sidebar_menu .burger_toggle.open_burger .burger::after {
     transform: rotate(-45deg) translate(35px, 35px);
 }
 
 /*+++++++*+++++++*+++++++  Header  +++++++*/
-.card.sidebar_menu {
+#sidebar_menu {
     background: transparent;
 }
-.card.sidebar_menu .card-header {
+#sidebar_menu .card-header {
     padding: .3rem 1rem 0 1rem;
     background: transparent;
     border-top: .1rem solid darkred;
     border-bottom: 0;
 }
-.card.sidebar_menu .card-header h4 {
+#sidebar_menu .card-header h4 {
     font-size: 1.3rem;
     margin: 0;
 }
-.card.sidebar_menu .category_menu {
+#sidebar_menu .category_menu {
     padding: 0 .5rem;
     margin-bottom: 0;
 }
 
 /*+++++++*+++++++*+++++++  Search  +++++++*/
-.card.sidebar_menu .search_box {
+#sidebar_menu .search_box {
     position: relative;
     width: 100%;
     padding: 0 0 .4rem 0;
     border-radius: 40px;
     float: right;
 }
-.card.sidebar_menu .search_text {
+#sidebar_menu .search_text {
     width: 0;
     float: right;
     height: 1.7rem;
@@ -716,10 +716,10 @@ nav .nav-link:hover {
     border-radius: 40px;
     transition: all .5s ease;
 }
-.card.sidebar_menu .search_box:hover > .search_text {
+#sidebar_menu .search_box:hover > .search_text {
     width: 100%;
 }
-.card.sidebar_menu .search_btn {
+#sidebar_menu .search_btn {
     position: absolute;
     display: flex;
     align-items: center;
@@ -733,45 +733,45 @@ nav .nav-link:hover {
     border-radius: 50%;
     transition: all .3s ease;
 }
-.card.sidebar_menu .search_btn svg {
+#sidebar_menu .search_btn svg {
     font-size: .8rem;
 }
 
-.card.sidebar_menu .category_menu .collapse_category{
+#sidebar_menu .category_menu .collapse_category{
     padding-top: 0;
 }
-.card.sidebar_menu .category_menu .list_menu {
+#sidebar_menu .category_menu .list_menu {
     max-height: 15rem;
     overflow: auto!important;
     margin-bottom: .5rem;
     padding: 0 .4rem;
 }
-.card.sidebar_menu .category_menu .list_menu ul {
+#sidebar_menu .category_menu .list_menu ul {
     padding-left: 0;
 }
-.card.sidebar_menu .category_menu .list_menu ul li {
+#sidebar_menu .category_menu .list_menu ul li {
     padding: 0;
     border: none;
     background: transparent;
 }
-.card.sidebar_menu .category_menu ul li .form-check {
+#sidebar_menu .category_menu ul li .form-check {
     padding: 0;
 }
-.card.sidebar_menu .category_menu ul li .check_label {
+#sidebar_menu .category_menu ul li .check_label {
     position: relative;
     display: flex;
     align-items: center;
     margin: 0;
     cursor: pointer;
 }
-.card.sidebar_menu .category_menu ul li .check_label input {
+#sidebar_menu .category_menu ul li .check_label input {
     appearance: none;
     display: none;
 }
-.card.sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator {
+#sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator {
     left: 1rem;
 }
-.card.sidebar_menu .category_menu ul li .check_label span {
+#sidebar_menu .category_menu ul li .check_label span {
     margin-right: .5rem;
     position: relative;
     display: block;
@@ -783,7 +783,7 @@ nav .nav-link:hover {
     inset 0 2px 2px rgba(0, 0, 0, .2),
     inset 0 -1px 1px rgba(0, 0, 0, .2);
 }
-.card.sidebar_menu .category_menu ul li .check_label .indicator {
+#sidebar_menu .category_menu ul li .check_label .indicator {
     position: absolute;
     left: 0;
     width: 1rem;
@@ -795,7 +795,7 @@ nav .nav-link:hover {
     transition: .5s;
     transform: scale(.9);
 }
-.card.sidebar_menu .category_menu ul li .check_label .indicator:before {
+#sidebar_menu .category_menu ul li .check_label .indicator:before {
     content: '';
     position: absolute;
     top: 50%;
@@ -814,7 +814,7 @@ nav .nav-link:hover {
     0 0 30px #ff0000,
     0 0 40px #ff0000;
 }
-.card.sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator::before {
+#sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator::before {
     background: #00ff00;
     border-radius: 50%;
     box-shadow: 0 0 2px #00ff00,
@@ -825,7 +825,7 @@ nav .nav-link:hover {
     0 0 30px #00ff00,
     0 0 40px #00ff00;
 }
-.card.sidebar_menu .category_menu ul li .check_label:hover {
+#sidebar_menu .category_menu ul li .check_label:hover {
     color: #A43423;
 }
 

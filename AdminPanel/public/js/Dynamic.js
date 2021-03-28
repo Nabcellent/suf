@@ -14,15 +14,11 @@ $(() => {
         $('#sub_category_modal button[type="submit"]').html("Update");
         $('#sub_category_modal .modal-title').html("Update Sub-Category");
         $('#cat_group').hide();
+        $('#sub_category_modal #section').val(2);
         $('#sub_category_modal #category_id').val($(this).attr('data-id'));
         $('#sub_category_modal #title').val($(this).attr('data-title'));
         $('#sub_category_modal form').attr('action', '/products/categories?_method=PUT')
-    })
-
-    /*_______  Set Sub-Category To Delete  _______*/
-    $('#sub_cat_table .delete_sub_category').on('click', function() {
-        $('#delete_sub_category #sub_category_id').val($(this).attr('data-id'));
-    })
+    });
 
     /*_______  Set Image To Delete  _______*/
     $('.delete_image').on('click', function() {
@@ -84,5 +80,106 @@ $(() => {
         });
 
         $('#sub_category_modal #category').html(options);
-    })
+    });
+});
+
+
+
+/**
+ * UPDATE STATUSES*/
+
+$(document).on('click','.update_product_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            product_id: $(this).attr('data-id')
+        },
+        method: 'PUT',
+        url: '/products/status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+});
+
+$(document).on('click','.update_image_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            image_id: $(this).attr('data-id')
+        },
+        method: 'PUT',
+        url: '/products/details/images',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+});
+
+$(document).on('click','.update_brand_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            brand_id: $(this).attr('data-id')
+        },
+        method: 'PUT',
+        url: '/products/addons/status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+});
+
+$(document).on('click','.update_category_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            sub_category_id: $(this).attr('data-id')
+        },
+        method: 'PUT',
+        url: '/products/categories/status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
 })

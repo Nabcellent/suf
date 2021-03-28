@@ -17,6 +17,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Title</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
@@ -26,6 +27,15 @@
                                         <tr>
                                             <td><%= i + 1 %></td>
                                             <td><%= row.title %></td>
+                                            <td style="font-size: 14pt">
+                                                <% if(row.status === 1) { %>
+                                                    <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                <% } else { %>
+                                                    <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                <% } %>
+                                            </td>
                                             <td class="action">
                                                 <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
                                                 <a href="#" class="ml-3" title="Remove"><i class="fas fa-trash text-danger"></i></a>
@@ -65,20 +75,24 @@
                                     </thead>
                                     <tbody>
 
-                                    <% categoryInfo.categories.forEach((row) => {
-                                        let catTitle = (row.catTitle == null) ? 'Parent' : row.catTitle;
-                                    %>
+                                    <% categoryInfo.categories.forEach((row) => { %>
                                         <tr>
                                             <td></td>
                                             <td><%= row.title %></td>
                                             <td><%= row.sectionTitle %></td>
-                                            <td><%= catTitle %></td>
+                                            <td>
+                                                <% if(row.catTitle == null) { %>
+                                                    <p class="text-primary font-weight-bold">Parent</p>
+                                                <% } else { %>
+                                                    <%= row.catTitle %>
+                                                <% } %>
+                                            </td>
                                             <td class="action">
                                                 <% if(row.status === 1) { %>
-                                                    <a class="update_sub_category_status" data-id="<%= row.id %>" title="Update Status"
+                                                    <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                 <% } else { %>
-                                                    <a class="update_sub_category_status" data-id="<%= row.id %>" title="Update Status"
+                                                    <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 <% } %>
                                                 <a href="#" class="ml-3 update_sub_category" title="Modify" data-toggle="modal" data-target="#sub_category_modal"
@@ -86,7 +100,7 @@
                                                     <i class="fas fa-pen text-dark"></i>
                                                 </a>
                                                 <a href="#" class="ml-3 delete_sub_category" data-id="<%= row.id %>"
-                                                   data-toggle="modal" data-target="#delete_sub_category" title="Remove">
+                                                   data-toggle="modal" data-target="#delete_su_category" title="Remove">
                                                     <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             </td>
