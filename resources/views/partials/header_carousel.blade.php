@@ -7,22 +7,22 @@
             <div class="carousel slide header_carousel" data-ride="carousel" data-interval="2000">
                 <ol class="carousel-indicators">
 
-                    @foreach($homeInfo["slider"] as $key => $item)
+                    @foreach($banners as $key => $item)
                         @if($loop -> first)
-                            <li data-target="#{{$item['url']}}" data-slide-to="{{$key}}" class="active"></li>
+                            <li data-target="#{{$item['link']}}" data-slide-to="{{$key}}" class="active"></li>
                         @else
-                            <li data-target="#{{$item['url']}}" data-slide-to="{{$key}}"></li>
+                            <li data-target="#{{$item['link']}}" data-slide-to="{{$key}}"></li>
                         @endif
                     @endforeach
 
                 </ol>
                 <div class="carousel-inner">
 
-                    @foreach($homeInfo["slider"] as $item)
+                    @foreach($banners as $item)
                         @if($loop -> first)
                             <div class='carousel-item active'>
-                                <a href='{{$item['url']}}'>
-                                    <img src='/images/slides/{{$item["image"]}}' class='d-block w-100' alt='{{$item['image']}}'>
+                                <a href='{{$item['link']}}'>
+                                    <img src="{{asset('images/banners/' . $item["image"])}}" class='d-block w-100' alt='{{$item['image']}}'>
                                 </a>
                                 <div class='carousel-caption d-none d-md-block'>
                                     <span>New Inspiration 2021</span>
@@ -34,7 +34,7 @@
                         @else
                             <div class='carousel-item'>
                                 <a href='{{$item['url']}}'>
-                                    <img src='/images/slides/{{$item["image"]}}' class='d-block w-100' alt=''>
+                                    <img src="{{asset('images/banners/' . $item["image"])}}" class='d-block w-100' alt=''>
                                 </a>
                                 <div class='carousel-caption d-none d-md-block'>
                                     <span>New Inspiration 2021</span>

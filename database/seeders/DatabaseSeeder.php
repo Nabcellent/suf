@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             VariationOptionSeeder::class,
             ProductImageSeeder::class,
             BrandSeeder::class,
-            SliderSeeder::class,
             AdBoxSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

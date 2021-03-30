@@ -15,18 +15,18 @@
                         <% sliderInfo.adBoxes.forEach((row) => { %>
                         <div class="col-xl-4 col-md-6 card border-0 box shadow-sm">
                             <div class="card-header">
-                                <i class="fas fa-box fa-2x text-gray-300"></i> Box <%= row.box_number %>: <%= row.box_title %>
+                                <i class="fas fa-box fa-2x text-gray-300"></i> Box <%= row.number %>: <%= row.title %>
                                 <div class="action">
                                     <a href="#"><i class="fas fa-pen"></i></a>
                                     <a href="#"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="box_url"><%= row.box_url %></div>
+                                <div class="box_url"><%= row.url %></div>
                                 <div class="box_img">
-                                    <img src="images/box_section/<%= row.box_image %>" alt="<%= row.box_image %>">
+                                    <img src="/images/box_section/<%= row.image %>" alt="<%= row.image %>">
                                 </div>
-                                <div class="box_desc"><%= row.box_desc %></div>
+                                <div class="box_desc"><%= row.desc %></div>
                             </div>
                         </div>
                         <% }) %>

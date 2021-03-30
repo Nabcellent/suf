@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page"><i class="fas fa-cog"></i> Admin Panel</li>
-                    <li class="breadcrumb-item active" aria-current="page"> Sliders</li>
+                    <li class="breadcrumb-item active" aria-current="page"> Banners</li>
                 </ul>
             </nav>
         </div>
@@ -19,7 +19,7 @@
         <div class="col-xl-11 col-lg-12">
             <div class="card crud_box shadow">
                 <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-slideshare"></i> SU-F Slides</h6>
+                    <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-slideshare"></i> SU-F Banners</h6>
                     <button type="button" id="btn_add_slide" data-toggle="modal" data-target="#crud_modal" class="btn btn-outline-info">
                         Add Slide
                     </button>
@@ -29,9 +29,9 @@
 
                         <% sliderInfo.slides.forEach((row) => { %>
                         <div class="col-xl-3 col-md-6 align-self-center card-body border-info shadow slider_box">
-                            <div class="slider_title">Slide <%= row.slide_number %></div>
+                            <div class="slider_title"><%= row.title %></div>
                             <div class="slider_img">
-                                <img src="images/slides/<%= row.slide_image %>" alt="">
+                                <img src="/images/banners/<%= row.image %>" alt="<%= row.alt %>">
                             </div>
                             <div class="slider_action">
                                 <a href="#"><i class="fas fa-pen"></i></a>

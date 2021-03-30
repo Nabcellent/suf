@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row">
 
-                    @foreach($homeInfo['adBoxes'] as $item)
+                    @foreach($adBoxes as $item)
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="">

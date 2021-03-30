@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdBox;
+use App\Models\Banner;
 use App\Models\Product;
-use App\Models\Slider;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
     //
     public function index(): Factory|View|Application
     {
+        $pageTitle = "Index";
         //  Get Featured Products
         $featuredProductsCount = Product::where('is_featured', 'Yes')->where('products.status', 1)->count();
         $featuredProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
@@ -37,13 +37,12 @@ class IndexController extends Controller
         //  Get Top Products
         $topProducts = Product::where('status', 1)->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
 
-        $homeInfo = [
-            'slider' => Slider::all(),
-            'adBoxes' => AdBox::all()
-        ];
+        //  Get banners & Ad boxes
+        $banners = Banner::all();
+        $adBoxes = AdBox::all();
 
         return View('index')
-            ->with(compact('homeInfo', 'featuredProducts', 'featuredProductsCount'))
+            ->with(compact('pageTitle','banners', 'adBoxes', 'featuredProducts', 'featuredProductsCount'))
             ->with(compact('newGentsProducts', 'newLadiesProducts', 'topProducts'));
     }
 }

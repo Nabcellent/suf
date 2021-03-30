@@ -56,34 +56,6 @@ router.get('/messages', checkAuth, (req, res) => {
     res.render('pages/messages', {Title: 'Products', layout: './layouts/nav'});
 });
 
-router.get('/sliders', checkAuth, async (req, res) => {
-    const getSliderData = async () => {
-        const data = {
-            slides: [],
-            adBoxes: []
-        };
-
-        (await dbRead.getReadInstance().getFromDb({
-            table: 'sliders',
-            order: ['slide_number ASC']
-        })).forEach((row) => {data.slides.push(row)});
-        (await dbRead.getReadInstance().getFromDb({
-            table: 'ad_boxes',
-            order: ['box_number ASC']
-        })).forEach((row) => {data.adBoxes.push(row)});
-
-        return data;
-    }
-
-    try {
-        const data = await getSliderData();
-
-        res.render('pages/sliders', {Title: 'Products', layout: './layouts/nav', sliderInfo: data});
-    } catch(error) {
-        console.log(error);
-    }
-});
-
 router.get('/policies', checkAuth, async (req, res) => {
     const getPolicyData = async () => {
         const data = {
