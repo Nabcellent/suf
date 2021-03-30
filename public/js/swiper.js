@@ -1,8 +1,7 @@
 $(() => {
     /*****************************  SWIPER  *****************************/
 
-    const $productSwiper = $('.product_swiper');
-    const swiper = new Swiper($productSwiper, {
+    const swiper = new Swiper('.product_swiper', {
         slidesPerView: 'auto',
         spaceBetween: 10,
         loop: true,
@@ -17,16 +16,23 @@ $(() => {
             clickable: true,
         },
         breakpoints: {
+            576: {
+                loop: false,
+                loopFillGroupWithBlank: false,
+                slidesPerView: 2,
+                spaceBetween: 5
+            },
             640: {
                 slidesPerView: 2,
                 spaceBetween: 20,
             },
-            1024: {
-                slidesPerView: 'auto',
-                spaceBetween: 10,
-            },
+            768: {
+                spaceBetween: 13,
+            }
         }
     });
+
+
     let galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
         slidesPerView: 3,

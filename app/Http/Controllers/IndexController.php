@@ -13,24 +13,37 @@ use Illuminate\Support\Facades\DB;
 class IndexController extends Controller
 {
     //
-    function index(): Factory|View|Application
+    public function index(): Factory|View|Application
     {
-        $pageTitle = "Index";
+        //  Get Featured Products
+        $featuredProductsCount = Product::where('is_featured', 'Yes')->where('products.status', 1)->count();
+        $featuredProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
+            ->where('is_featured', 'Yes')->where('status', 1)->get()->toArray();
+
+        //  Get Latest Products
+        $newGentsProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
+            ->select('products.*', 'sellers.*')
+            ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
+            ->join('categories AS section', 'cat.section_id', '=', 'section.id')
+            ->where(['section.title' => 'Gents', 'products.status' => 1])
+            ->orderByDesc('products.id')->limit(10)->get()->toArray();
+        $newLadiesProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
+            ->select('products.*', 'sellers.*')
+            ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
+            ->join('categories AS section', 'cat.section_id', '=', 'section.id')
+            ->where(['section.title' => 'Ladies', 'products.status' => 1])
+            ->orderByDesc('products.id')->limit(12)->get()->toArray();
+
+        //  Get Top Products
+        $topProducts = Product::where('status', 1)->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
+
         $homeInfo = [
             'slider' => Slider::all(),
-            'adBoxes' => AdBox::all(),
-            'products' => [
-                'latestGents' => Product::where('category_id', 1) ->orderByDesc('id') -> take(10) -> get(),
-                'latestLadies' => Product::join('categories', '',),
-                //'latestLadies' => Product::where('category_id', 2) ->orderByDesc('id') -> take(10) -> get(),
-                'top' => Product::orderByDesc('id') -> take(10) -> get(),
-                'subCategories' => DB::table('products')
-                    -> join('categories', 'products.category_id', '=', 'categories.id')
-                    -> select('categories.title',) -> orderBy('categories.title', 'ASC')
-                    -> distinct() -> get()
-            ],
+            'adBoxes' => AdBox::all()
         ];
 
-        return View('index', compact('homeInfo', 'pageTitle'));
+        return View('index')
+            ->with(compact('homeInfo', 'featuredProducts', 'featuredProductsCount'))
+            ->with(compact('newGentsProducts', 'newLadiesProducts', 'topProducts'));
     }
 }

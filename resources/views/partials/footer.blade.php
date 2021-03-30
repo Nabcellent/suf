@@ -1,14 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\DB;
-
-$footerInfo = [
-    'trendingCategories' => DB::table('products')
-        -> get()
-];
-
-?>
-
 <!--    Start Footer    -->
 
 <footer class="main_footer">

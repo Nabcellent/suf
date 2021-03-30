@@ -1,11 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\DB;
-use App\Models\Category;
-$sections = Category::sections();
-
-?>
-
 </header>
 
 <header id="mega_nav" class="sticky-top header">

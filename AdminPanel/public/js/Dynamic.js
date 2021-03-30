@@ -4,20 +4,46 @@ $(() => {
     $('.delete_product').on('click', function() {
         $('#delete_product_modal #product_id').val($(this).attr('data-id'));
         $('#delete_product_modal #image_name').val($(this).attr('data-image'));
-    })
+    });
+
+
+    /*_______  Set Category To Update  _______*/
+    $(document).on('click', '#add_category', function() {
+        const $form = $('#category_modal form');
+
+        $('#cat_radio_group').css('display', 'none');
+        $('#cat_check_group').show();
+
+        $form[0].reset();
+        $form.attr('action', '/products/categories');
+
+        $('#cat_radio_group input').removeAttr('required');
+        $('#category_modal .modal-title').html("Add Category");
+        $('#category_modal button[type="submit"]').html("Insert");
+    });
+    $(document).on('click', '#categories_table .update_category', function() {
+        $('#cat_check_group').css('display', 'none');
+        $('#cat_radio_group').show();
+        $('#cat_check_group input').removeAttr('required');
+
+        $('#category_modal #category_id').val($(this).attr('data-id'));
+        $('#category_modal #cat_title').val($(this).attr('data-title'));
+        $('#category_modal form').attr('action', '/products/category?_method=PUT');
+        $('#category_modal .modal-title').html("Update Category");
+        $('#category_modal button[type="submit"]').html("Update");
+    });
+
 
     /*_______  Set Sub-Category To Update  _______*/
-    $('#add_sub_category').on('click', () => {
-        $('#cat_group').show();
-    })
-    $('#sub_cat_table .update_sub_category').on('click', function() {
-        $('#sub_category_modal button[type="submit"]').html("Update");
-        $('#sub_category_modal .modal-title').html("Update Sub-Category");
-        $('#cat_group').hide();
-        $('#sub_category_modal #section').val(2);
-        $('#sub_category_modal #category_id').val($(this).attr('data-id'));
+    $(document).on('click', '#sub_categories_table .update_sub_category', function() {
+        $('#cat_check_group').css('display', 'none');
+        $('#cat_radio_group').show();
+
+        $('#sub_category_modal #sub_category_id').val($(this).attr('data-id'));
         $('#sub_category_modal #title').val($(this).attr('data-title'));
-        $('#sub_category_modal form').attr('action', '/products/categories?_method=PUT')
+        $('#sub_category_modal form').attr('action', '/products/sub-category?_method=PUT');
+        $('#sub_category_modal .modal-title').html("Update Sub-Category");
+        $('#sub_category_modal button[type="submit"]').html("Update");
     });
 
     /*_______  Set Image To Delete  _______*/
@@ -66,7 +92,7 @@ $(() => {
 
     $('#section').on('change', async function() {
         const sectionId = $(this).val();
-        const response = await fetch('/products/section-category/' + sectionId, {
+        const response = await fetch('/products/get-categories/' + sectionId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,6 +106,24 @@ $(() => {
         });
 
         $('#sub_category_modal #category').html(options);
+    });
+
+    $('#categories').on('change', async function() {
+        const sectionId = $(this).val();
+        const response = await fetch('/products/get-sub-category/' + sectionId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await response.json();
+
+        let options = '<option selected hidden value="">Select a sub-category *</option>';
+        $(data).each(function() {
+            options += `<option value="${$(this)[0].id}">${$(this)[0].title}</option>`;
+        });
+
+        $('#add_product #sub_categories').html(options);
     });
 });
 
@@ -164,7 +208,7 @@ $(document).on('click','.update_category_status', function() {
     $.ajax({
         data: {
             status: $(this).children('i').attr('status'),
-            sub_category_id: $(this).attr('data-id')
+            category_id: $(this).attr('data-id')
         },
         method: 'PUT',
         url: '/products/categories/status',

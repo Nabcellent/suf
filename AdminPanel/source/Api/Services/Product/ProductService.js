@@ -21,13 +21,17 @@ module.exports = {
     /*********
      * CREATE
      * ********/
-    createProduct: async(title, seller_id, brand_id, category_id, label, base_price, sale_price, discount, main_image, keywords, description) => {
+    createProduct: async(title, seller_id, brand_id, category_id, label, base_price, sale_price, discount,
+                         main_image, keywords, description, is_featured) => {
         try {
+            sale_price = sale_price.trim() === "" ? 0 : sale_price;
+            discount = discount.trim() === "" ? 0 : discount;
+            is_featured = (is_featured === 'on') ? "Yes" : "No";
             const values = {
                 category_id,        seller_id,
-                brand_id,           title,           main_image,
+                brand_id,           title,          main_image,
                 sale_price,         discount,
-                keywords,           description,
+                keywords,           description,    is_featured,
                 label,              base_price,
                 created_at:date,    updated_at:date
             }
@@ -147,18 +151,23 @@ module.exports = {
     /*********
      * UPDATE
      * ********/
-    updateProduct: async(id, category_id, seller_id, title, keywords, description, label, base_price, sale_price, brand_id) => {
+    updateProduct: async(id, category_id, seller_id, title, keywords, description, is_featured, label, base_price,
+                         sale_price, discount, brand_id) => {
         try {
+            sale_price = sale_price.trim() === "" ? 0 : sale_price;
+            discount = discount.trim() === "" ? 0 : discount;
+            is_featured = (is_featured === 'on') ? "Yes" : "No";
             const VALUES = [
                 category_id,    seller_id,      title,
-                keywords,       description,    label,
-                base_price,     sale_price,     brand_id,
-                date,           id
+                keywords,       description,    is_featured,
+                label,          base_price,     sale_price,
+                discount,       brand_id,       date,
+                id
             ]
 
             return await new Promise((resolve, reject) => {
-                const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?,
-                    keywords = ?, description = ?, label = ?, base_price = ?, sale_price = ?, brand_id = ?, updated_at = ?
+                const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?, keywords = ?, description = ?,
+                    is_featured = ?, label = ?, base_price = ?, sale_price = ?, discount = ?, brand_id = ?, updated_at = ?
                     WHERE id = ?`;
 
                 link.query(qry, VALUES, (err, result) => {

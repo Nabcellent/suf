@@ -41,6 +41,14 @@
                                                 <td class="py-0" colspan="2"><%= details.product[0].label %></td>
                                             </tr>
                                             <tr>
+                                                <th class="py-0" scope="row">Featured</th>
+                                                <td class="py-0" colspan="2"><%= details.product[0].is_featured %></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="py-0" scope="row">Discount</th>
+                                                <td class="py-0" colspan="2" style="color: white"><%= details.product[0].discount %>%</td>
+                                            </tr>
+                                            <tr>
                                                 <th class="py-0" scope="row">Base Price</th>
                                                 <td class="py-0 font-weight-bolder text-warning" colspan="2">
                                                     <%= parseFloat(details.product[0].base_price).toFixed(2) %>/=

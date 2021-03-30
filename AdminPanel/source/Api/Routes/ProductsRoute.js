@@ -46,8 +46,10 @@ router
     .route('/categories')
     .get(CategoryController.readCategories)
     .post(CategoryController.createCategory)
-    .put(ProductValidation.update(), CategoryController.updateCategory)
 router.delete('/categories/:id', CategoryController.deleteCategory);
+
+router.put('/category', CategoryController.updateCategory);
+router.put('/sub-category', CategoryController.updateSubCategory);
 
 router.put('/categories/status', CategoryController.updateCategoryStatus);
 
@@ -77,6 +79,8 @@ router.put('/addons/status', AddonController.updateBrandStatus)
  * JQUERY ROUTES    */
 router.get('/details/attributeValues/:name', JQueryController.getAttributeValueById);
 
-router.get('/section-category/:id', JQueryController.getCategoryBySection)
+router.get('/get-categories/:id', JQueryController.getCategoryBySection);
+
+router.get('/get-sub-category/:id', JQueryController.getSubCategoryByCategory);
 
 module.exports = router;

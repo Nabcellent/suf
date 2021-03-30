@@ -37,9 +37,82 @@
 
             <div class="products">
 
-                <!--    Start LATEST PRODUCTS    -->
+                <!--    Start FEATURED PRODUCTS    -->
 
                 <div id="content" class="container-fluid latest_products product_container">
+                    <div class="section_title">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col d-flex justify-content-between">
+                                    <h3 class="mb-0">Featured Products</h3>
+                                    <p class="m-0 lead">{{$featuredProductsCount}} Featured products</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--    Start Swiper 1    -->
+
+                    <div class="row py-2">
+                        <div class="col-3">
+                            <div class="card-body h-100 d-flex justify-content-center align-items-center">
+                                <h4>Some SU AD</h4>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="swiper-container featured_products_swiper product_swiper">
+                                <div class="swiper-wrapper">
+
+                                    <!--    Start Slide    -->
+
+                                    @foreach($featuredProducts as $item)
+                                        <div class="swiper-slide">
+                                            <div class="card">
+                                                <a href='/details/{{$item['id']}}'>
+                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
+                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @else
+                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                    @endif
+                                                </a>
+                                                <div class="supplier">
+                                                    <a href="#">{{$item['username']}}</a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h6 class="card-title">
+                                                        <a href=''>{{$item['title']}}</a>
+                                                    </h6>
+                                                    <div class="row">
+                                                        <div class="col prices">
+                                                            @if(strtolower($item['label']) === "new")
+                                                            <p>{{$item['base_price']}}/=</p>
+                                                            @else
+                                                            <p>{{$item['sale_price']}}/=</p><br>
+                                                            <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                            @endif
+                                                        </div>
+                                                        <div class="col button">
+                                                            <a href='' class='btn btn-block btn-outline-primary add'>
+                                                                <i class='fas fa-cart-plus'></i> Add
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="product_label {{strtolower($item['label'])}}">
+                                                <span class="label">{{$item['label']}}</span>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                    <!--    End Slide    -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--    End Swiper 1    -->
+
                     <div class="section_title">
                         <div class="container">
                             <h3 class="mb-0">Latest Products</h3>
@@ -55,40 +128,45 @@
 
                                     <!--    Start Slide    -->
 
-                                    @foreach($homeInfo['products']['latestLadies'] as $item)
-                                            <div class="swiper-slide">
-                                                <div class="card">
-                                                    <a href='/details/{{$item -> id}}'>
-                                                        <img src='images/products/{{$item['main_image']}}' alt="Product image">
-                                                    </a>
-                                                    <div class="supplier">
-                                                        <a href="#">Man title</a>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">
-                                                            <a href=''>{{$item['title']}}</a>
-                                                        </h6>
-                                                        <div class="row">
-                                                            <div class="col prices">
-                                                                @if($item['sale_price'] === 0)
+                                    @foreach($newLadiesProducts as $item)
+                                        <div class="swiper-slide">
+                                            <div class="card">
+                                                <a href='/details/{{$item['id']}}'>
+                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
+                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @else
+                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                    @endif
+                                                </a>
+                                                <div class="supplier">
+                                                    <a href="#">{{$item['username']}}</a>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h6 class="card-title">
+                                                        <a href=''>{{$item['title']}}</a>
+                                                    </h6>
+                                                    <div class="row">
+                                                        <div class="col prices">
+                                                            @if(strtolower($item['label']) === "new")
                                                                 <p>{{$item['base_price']}}/=</p>
-                                                                @else
+                                                            @else
                                                                 <p>{{$item['sale_price']}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
-                                                                @endif
-                                                            </div>
-                                                            <div class="col button">
-                                                                <a href='' class='btn btn-block btn-outline-primary add'>
-                                                                    <i class='fas fa-cart-plus'></i> Add
-                                                                </a>
-                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                        <div class="col button">
+                                                            <a href='' class='btn btn-block btn-outline-primary add'>
+                                                                <i class='fas fa-cart-plus'></i> Add
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <a href="#" class="product_label {{$item['label']}}">
-                                                    <span class="label">{{$item['label']}}</span>
-                                                </a>
                                             </div>
+                                            <a href="#" class="product_label {{strtolower($item['label'])}}">
+                                                <span class="label">{{$item['label']}}</span>
+                                            </a>
+                                        </div>
                                 @endforeach
                                     <!--    End Slide    -->
 
@@ -107,14 +185,19 @@
 
                                     <!--    Start Slide    -->
 
-                                    @foreach($homeInfo['products']['latestGents'] as $item)
+                                    @foreach($newGentsProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
-                                                <a href=''>
-                                                    <img src='images/products/{{$item['main_image']}}' alt=''>
+                                                <a href='/details/{{$item['id']}}'>
+                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
+                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @else
+                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                    @endif
                                                 </a>
                                                 <div class="supplier">
-                                                    <a href="#">Man title</a>
+                                                    <a href="#">{{$item['username']}}</a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title">
@@ -122,12 +205,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if($item['sale_price'] === 0)
+                                                            @if(strtolower($item['label']) === "new")
                                                                 <p>{{$item['base_price']}}/=</p>
-                                                                @else
+                                                            @else
                                                                 <p>{{$item['sale_price']}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
-                                                                @endif
+                                                            @endif
                                                         </div>
                                                         <div class="col button">
                                                             <a href='' class='btn btn-block btn-outline-primary add'>
@@ -137,13 +220,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="#" class="product_label {{$item['label']}}">
+                                            <a href="#" class="product_label {{strtolower($item['label'])}}">
                                                 <span class="label">{{$item['label']}}</span>
                                             </a>
                                         </div>
-                                @endforeach
+                                    @endforeach
                                     <!--    End Slide    -->
-
                                 </div>
                             </div>
                         </div>
@@ -168,7 +250,7 @@
 
                                     <!--    Start Slide    -->
 
-                                    @foreach($homeInfo['products']['top'] as $item)
+                                    @foreach($topProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href=''>
@@ -222,7 +304,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
-                            <img src="images/general/main_logo.jpg" alt="logo" class="img-responsive">
+                            <img src="{{asset('images/general/main_logo.jpg')}}" alt="logo" class="img-responsive">
                         </div>
                     </div>
                 </div>

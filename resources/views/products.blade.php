@@ -2,12 +2,6 @@
 @section('title', 'Products')
 @section('content')
     @include('partials.top_nav')
-    <?php
-
-    use App\Models\Category;
-    $test = Category::sections();
-    //echo "<pre>"; print_r($test); die;
-    ?>
 
 <!--    Start Sticky Header Jumbotron    -->
 
@@ -59,7 +53,7 @@
                     </div>
 
                     <div class="text-center">
-                        <img src="images/loaders/Infinity-1s-197px.gif" alt="" id="loader" width="197" style="display:none;">
+                        <img src="{{asset('images/loaders/Infinity-1s-197px.gif')}}" alt="" id="loader" width="197" style="display:none;">
                     </div>
 
                     <div id="product_section" class="row mb-2">

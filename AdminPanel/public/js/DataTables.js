@@ -132,14 +132,14 @@ orderDataTable.on( 'order.dt search.dt', function () {
 
 /*_____________________  SUB_CATEGORIES  _____________________*/
 
-const categoriesTable = $('#sub_cat_table').DataTable({
+const categoriesTable = $('#categories_table').DataTable({
     scrollY:        '30vh',
     scrollCollapse: true,
     language: {
-        info: 'Total Sub-Categories: _MAX_',
+        info: 'Total Categories: _MAX_',
         infoFiltered:   "(filtered _TOTAL_)",
         search: "_INPUT_",
-        searchPlaceholder: "Search Sub-Category"
+        searchPlaceholder: "Search category"
     },
     columnDefs: [{
         searchable: false,
@@ -148,11 +148,36 @@ const categoriesTable = $('#sub_cat_table').DataTable({
     }, {
         searchable: false,
         orderable: false,
-        targets: 4
+        targets: 3
     }],
 });
 categoriesTable.on( 'order.dt search.dt', function () {
     categoriesTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell["innerHTML"] = i+1;
+    } );
+}).draw();
+
+const subCategoriesTable = $('#sub_categories_table').DataTable({
+    scrollY:        '30vh',
+    scrollCollapse: true,
+    language: {
+        info: 'Total Categories: _MAX_',
+        infoFiltered:   "(filtered _TOTAL_)",
+        search: "_INPUT_",
+        searchPlaceholder: "Search sub-category"
+    },
+    columnDefs: [{
+        searchable: false,
+        orderable: false,
+        targets: 0
+    }, {
+        searchable: false,
+        orderable: false,
+        targets: 3
+    }],
+});
+subCategoriesTable.on( 'order.dt search.dt', function () {
+    subCategoriesTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
         cell["innerHTML"] = i+1;
     } );
 }).draw();

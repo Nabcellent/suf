@@ -4,6 +4,7 @@ const {dbRead} = require("../../../Database/query");
 const {validationResult} = require("express-validator");
 const {alert, validationHelper} = require('../../Helpers');
 const fs = require("fs")
+const {join} = require("path");
 
 
 /**-----------------------------------------------()     FUNCTIONS    ()-----------------------------------------------*/
@@ -25,18 +26,20 @@ const createProduct = async(req, res) => {
     let {name} = main_image;
     name = Math.floor((Math.random() * 1199999) + 1) + name;
 
-    await main_image.mv('public/images/products/' + name, (error) => {
+    const pathToProductImages = join(__dirname, '../../../../../public/images/products/');
+    await main_image.mv(pathToProductImages + name, (error) => {
         if(error) {
             return res.send(error);
         }
     })
 
     const {
-        title, seller, brand_id, category, label, base_price, sale_price, discount, keywords, description,
+        title, seller, brand_id, sub_category, label, base_price, sale_price, discount, keywords, description, featured
     } = req.body;
 
     try {
-        await ProductServices.createProduct(title, seller, brand_id, category, label, base_price, sale_price, discount, name, keywords, description)
+        await ProductServices.createProduct(title, seller, brand_id, sub_category, label, base_price,
+            sale_price, discount, name, keywords, description, featured)
             .then(data => {
                 if(data === 1) {
                     alert(req, 'success', 'Success!', 'Product Created');
@@ -48,10 +51,7 @@ const createProduct = async(req, res) => {
             }).catch(error => console.error(error));
     } catch(error) {
         console.error(error);
-        return res.render('products/add_product', {
-            Title: 'Add Product',
-            layout: './layouts/nav',
-        });
+        return res.redirect('back');
     }
 }
 const readProducts = async(req, res) => {
@@ -79,14 +79,17 @@ const readProducts = async(req, res) => {
 const updateProduct = async(req, res) => {
     if(!await validationHelper.validate(req, res)) {
         const {
-            title, label, seller, category, keywords, base_price, sale_price, brand_id, description, product_id
+            title, label, seller, category, keywords, base_price, sale_price, discount, brand_id, description, featured, product_id
         } = req.body;
 
         try {
-            ProductServices.updateProduct(product_id, category, seller, title, keywords, description, label, base_price, sale_price, brand_id)
+            ProductServices.updateProduct(product_id, category, seller, title, keywords, description, featured, label,
+                base_price, sale_price, discount, brand_id)
                 .then((data) => {
                     if(data === 1) {
                         alert(req, 'success', '', 'Product Updated!');
+                    } else if(data === 0) {
+                        alert(req, 'info', '', 'Nothing to Update.');
                     } else {
                         alert(req, 'danger', 'Error!', 'Something went wrong!');
                     }
@@ -121,44 +124,46 @@ const updateProductStatus = async(req, res) => {
     }
 }
 const deleteProduct = async(req, res) => {
-        const {product_id, image_name} = req.body;
-        const imagePath = 'public/images/products/' + image_name;
+    const {product_id, image_name} = req.body;
+    const imagePath = join(__dirname, '../../../../../public/images/products/' + image_name);
 
-        try {
-            ProductServices.deleteProduct(product_id)
-                .then(data => {
-                    if(data === 1) {
-                        fs.unlink(imagePath, function(err) {
-                            if (err) {
-                                throw err
-                            } else {
-                                alert(req, 'success', '', 'Product Deleted!');
-                            }
-                            res.redirect('back');
-                        })
-                    } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
-                        console.log(data);
+    try {
+        ProductServices.deleteProduct(product_id)
+            .then(data => {
+                if(data === 1) {
+                    fs.unlink(imagePath, function(err) {
+                        if (err) {
+                            throw err
+                        } else {
+                            alert(req, 'success', '', 'Product Deleted!');
+                        }
                         res.redirect('back');
-                    }
-                }).catch(error => console.log(error));
-        } catch(error) {
-            console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
-            res.redirect('back');
-        }
+                    })
+                } else {
+                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    console.log(data);
+                    res.redirect('back');
+                }
+            }).catch(error => console.log(error));
+    } catch(error) {
+        console.log(error);
+        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        res.redirect('back');
     }
+}
 const readProductCreate = async(req, res) => {
     const data = async () => {
         return {
+            sections: await dbRead.getReadInstance().getFromDb({
+                table: 'categories',
+                columns: 'id, title',
+                where: [['section_id', 'IS', 'NULL'],['category_id', 'IS', 'NULL']]
+            }),
             categories: await dbRead.getReadInstance().getFromDb({
                 table: 'categories',
-                where: [['category_id', 'IS', 'NULL']]
-            }),
-            subCategories: await dbRead.getReadInstance().getFromDb({
-                table: 'categories',
+                columns: 'id, title, section_id',
                 where: [
-                    ['category_id', 'IS NOT', 'NULL'],
+                    ['section_id', 'IS NOT', 'NULL'],['category_id', 'IS', 'NULL'],
                     ['status', '=', 1]
                 ]
             }),
@@ -190,7 +195,7 @@ const readProductDetails = async(req, res) => {
         product: await dbRead.getReadInstance().getFromDb({
             table: 'products',
             columns: 'products.id, products.title as product_title, main_image, keywords, ' +
-                'label, base_price, sale_price, products.created_at, products.updated_at, description, ' +
+                'label, base_price, sale_price, discount, products.created_at, products.updated_at, description, is_featured, ' +
                 'categories.id AS category_id, categories.title AS category_title, users.id as user_id, first_name, last_name, ' +
                 'brands.id AS brand_id, brands.name AS brand',
             join: [

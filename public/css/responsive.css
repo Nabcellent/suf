@@ -1,13 +1,13 @@
 
-/*%%%%%%%%%%%%%%%%%%%%%  Small devices (landscape phones, less than 768px)  %%%%%%%%%%%%%%%%%%%%%*/
-@media (max-width: 768px) {
-
-}
-
-
-
 /*%%%%%%%%%%%%%%%%%%%%%  Medium devices (tablets, less than 992px)  %%%%%%%%%%%%%%%%%%%%%*/
 @media (max-width: 992px) {
+    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+
+    #index .product_container {
+        padding: 0 7rem;
+    }
+
+
     #top_header .top_header {
         z-index: var(--z-index-1)
     }
@@ -270,8 +270,28 @@
     }
 }
 
+
+
+/*%%%%%%%%%%%%%%%%%%%%%  Small devices (landscape phones, less than 768px)  %%%%%%%%%%%%%%%%%%%%%*/
+@media (max-width: 768px) {
+    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+
+    #index .product_container {
+        padding: 0 2rem;
+    }
+}
+
+
+
 /*%%%%%%%%%%%%%%%%%%%%%  Extra small devices (portrait phones, less than 576px)  %%%%%%%%%%%%%%%%%%%%%*/
 @media (max-width: 576px) {
+    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+
+    #index .product_container {
+        padding: 0 .5rem;
+    }
+
+
     /*=======+++++++=======  PRODUCTS  =======+++++++=======*/
 
     #products .products_container {

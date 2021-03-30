@@ -16,6 +16,12 @@ $(() => {
                 error.insertAfter(element.parent('.input-group'));
             } else if(element.hasClass('anime_input')) {
                 error.insertAfter(element.closest('label'));
+            } else if(element.hasClass('crud_form')) {
+                error.insertAfter(element);
+            } else if(element.prop('type') === 'checkbox') {
+                error.insertAfter(element.closest('.form-group'));
+            } else {
+                error.insertAfter(element);
             }
         }
     });
@@ -47,7 +53,7 @@ $(() => {
                 equalTo: '#password'
             }
         },
-        submitHandler: function(form) {
+        submitHandler(form) {
             let data = $(form).serialize();
 
             $.ajax({
@@ -55,14 +61,42 @@ $(() => {
                 method: 'POST',
                 url: '/auth/register',
                 success: (response) => {
-                    if(response.errors) {
+                    if (response.errors) {
                         $('#reg_form .err_message').html(response.errors[0].msg);
-                    } else if(response.success) {
+                    } else if (response.success) {
                         $('#reg_form .err_message').html('');
                         location.href = '/auth/sign-in';
                     }
                 }
             });
+        }
+    });
+
+    /**
+     * *********************************************************    ADD PRODUCT
+     */
+
+    $('#frm_add_product').validate({
+        rules: {
+            title: 'required',
+            brand_id: 'required',
+            seller: 'required',
+            category: 'required',
+            sub_category: 'required',
+            base_price: 'required',
+            main_image: 'required',
+        }
+    });
+
+    /**
+     * *********************************************************    ADD CATEGORY
+     */
+
+    $('#frm_add_category').validate({
+        rules: {
+            title: 'required',
+            sections: 'required',
+            section: 'required',
         }
     });
 });

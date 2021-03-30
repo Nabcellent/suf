@@ -17,6 +17,8 @@ router.use('/payments', /*checkAuth,*/ ordersRoute);
 router.use('/', usersRoute);
 router.use(generalRoute);
 
+
+
 const TestController = require('../../../Test/Test');
 
 router.route('/test')

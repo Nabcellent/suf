@@ -25,8 +25,9 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('label', 10)->nullable();
             $table->float('base_price');
-            $table->float('sale_price')->default(0);
-            $table->float('discount')->default(0);
+            $table->float('sale_price')->nullable()->default(0);
+            $table->float('discount')->nullable()->default(0);
+            $table->enum('is_featured', ['Yes', 'No']);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

@@ -1,6 +1,6 @@
 
 /*_______  Set Sub-Category To Delete with SweetAlert  _______*/
-$(document).on('click','#sub_cat_table .delete_sub_category', function() {
+$(document).on('click','.delete_sub_category', function() {
     const id = $(this).attr('data-id');
 
     Swal.fire({
@@ -23,7 +23,7 @@ $(document).on('click','#sub_cat_table .delete_sub_category', function() {
                             'Your file has been deleted.',
                             'success'
                         ).then(() => {
-                            window.location = window.location;
+                            location.reload();
                         })
                     }
                 }

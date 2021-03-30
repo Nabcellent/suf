@@ -17,10 +17,10 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->bigInteger('section_id')->unsigned()->nullable();
+            $table->foreign('section_id')->references('id')->on('categories')->onDelete('cascade');
             $table->bigInteger('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->bigInteger('sub_category_id')->unsigned()->nullable();
-            $table->foreign('sub_category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

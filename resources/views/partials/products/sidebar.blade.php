@@ -1,11 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\DB;
-use App\Models\Category;
-$sections = Category::sections();
-$categories = Category::sections();
-
-?>
 
 <div id="sidebar_menu">
     <div class="row">

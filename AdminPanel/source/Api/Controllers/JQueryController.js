@@ -1,4 +1,3 @@
-const json = require("body-parser");
 const {dbRead} = require("../../Database/query");
 
 
@@ -17,6 +16,7 @@ const getAttributeValueById = async (req, res) => {
         console.log(error);
     }
 }
+
 const getCategoryBySection = async(req, res) => {
     const {id} = req.params;
 
@@ -24,8 +24,24 @@ const getCategoryBySection = async(req, res) => {
         table: 'categories',
         columns: 'id, title',
         where: [
+            ['section_id', '=', id],
+            ['category_id', 'IS', 'NULL'],
+            ['status', '=', 1]
+        ]
+    });
+
+    res.json(data);
+}
+
+const getSubCategoryByCategory = async(req, res) => {
+    const {id} = req.params;
+
+    const data = await dbRead.getReadInstance().getFromDb({
+        table: 'categories',
+        columns: 'id, title',
+        where: [
             ['category_id', '=', id],
-            ['sub_category_id', 'IS', 'NULL']
+            ['status', '=', 1]
         ]
     });
 
@@ -34,7 +50,8 @@ const getCategoryBySection = async(req, res) => {
 
 module.exports = {
     getAttributeValueById,
-    getCategoryBySection
+    getCategoryBySection,
+    getSubCategoryByCategory
 }
 /**********
  * JQUERY CONTROLLER

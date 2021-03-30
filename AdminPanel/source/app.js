@@ -1,13 +1,15 @@
 const express = require('express');
+app = express();
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const createError = require('http-errors');
 const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
-const app = express();
 const path = require('path');
-const dotenv = require('dotenv').config();
+const expressLayout = require('express-ejs-layouts');
+require('dotenv').config();
+
 
 app.use(cors());
 app.use(express.urlencoded({extended: false})); //==    Parse URL-encoded bodies (as sent by HTML forms)
@@ -26,7 +28,6 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
 
 //==    Set Templating Engine
-const expressLayout = require('express-ejs-layouts');
 app.use(expressLayout);
 app.set('layout', './layouts/navless');
 app.set('views', './views');
@@ -70,7 +71,7 @@ app.use(function(req, res, next) {
 
 
 //==    Error handler
-app.use(function(error, req, res, next) {
+app.use(function(error, req, res) {
     // set locals, only providing error in development
     res.locals.message = error.message;
     res.locals.error = req.app.get('env') === 'development' ? error : {};
@@ -80,4 +81,5 @@ app.use(function(error, req, res, next) {
     res.render('error', {Title:'Error', error});
 });
 
-app.listen(process.env.PORT, () => console.log('Server Running'))
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server Running on Port: ${PORT}`))

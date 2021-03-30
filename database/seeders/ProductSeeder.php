@@ -22,10 +22,10 @@ class ProductSeeder extends Seeder
 
         Product::insert([
             [
-                "category_id" => 3,
+                "category_id" => 9,
                 "seller_id" => 2,
                 "brand_id" => 1,
-                "title" => 'Sense Tv',
+                "title" => 'Puffer Coat',
                 "main_image" => "boys-Puffer-Coat-With-Detachable-Hood-1.jpg",
                 "keywords" => "Some words",
                 "description" => "Smart TV 50",
@@ -35,10 +35,10 @@ class ProductSeeder extends Seeder
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ], [
-                "category_id" => 4,
+                "category_id" => 10,
                 "seller_id" => 2,
                 "brand_id" => 2,
-                "title" => 'Samsung mobile',
+                "title" => 'Diamond Ring',
                 "main_image" => "women-diamond-heart-ring-3.jpg",
                 "keywords" => "Some words",
                 "description" => "Smart phone with 4GB RAM and 128GB ROM",
@@ -48,11 +48,11 @@ class ProductSeeder extends Seeder
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ], [
-                "category_id" => 5,
+                "category_id" => 11,
                 "seller_id" => 2,
                 "brand_id" => 3,
-                "title" => 'Oppo Mobile',
-                "main_image" => "photo_2021-01-04_14-26-25.jpg",
+                "title" => 'Adidas Loafers',
+                "main_image" => "Man-Adidas-Suarez-Slop-On-1.jpg",
                 "keywords" => "Some words",
                 "description" => "Smart phone with 8GB RAM and 256GB ROM",
                 "label" => "new",

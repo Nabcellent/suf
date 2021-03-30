@@ -1,10 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\Auth;
-
-$user = Auth::user();
-
-?>
 
 <header id="top_header" class="navigation-sticky">
 
