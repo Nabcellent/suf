@@ -22,26 +22,31 @@ class BannerSeeder extends Seeder
                 "link" => "#",
                 "title" => "Banner 1",
                 'alt' => 'Sport shoes',
+                'description' => 'Best offer you gon get'
             ],[
                 "image" => "banner-2.jpg",
                 "link" => "#",
                 "title" => "Banner 2",
                 'alt' => 'Sport shoes',
+                'description' => 'Best offer you gon get'
             ],[
                 "image" => "banner-3.jpg",
                 "link" => "#",
                 "title" => "Banner 3",
                 'alt' => 'Sport shoes',
+                'description' => 'Best offer you gon get'
             ],[
                 "image" => "banner-4.jpg",
                 "link" => "#",
                 "title" => "Banner 4",
                 'alt' => 'Sport shoes',
+                'description' => 'Best offer you gon get'
             ],[
                 "image" => "banner-5.jpg",
                 "link" => "#",
                 "title" => "Banner 5",
                 'alt' => 'Sport shoes',
+                'description' => 'Best offer you gon get'
             ],
         ]);
     }

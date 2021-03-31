@@ -1,7 +1,7 @@
 const UserController = require('./UserController');
 const AdminController = require('./AdminController');
 const {ProductController, AddonController, CategoryController} = require('./Product');
-const {BannerController} = require('./PageContent');
+const {BannerController, AdController} = require('./PageContent');
 
 const JQueryController = require('./JQueryController');
 
@@ -13,5 +13,6 @@ module.exports = {
     AddonController,
     CategoryController,
 
-    BannerController
+    BannerController,
+    AdController
 }

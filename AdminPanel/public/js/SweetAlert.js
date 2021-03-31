@@ -31,3 +31,39 @@ $(document).on('click','.delete_sub_category', function() {
         }
     });
 });
+
+
+/*_______  Set Banner To Delete  _______*/
+$(document).on('click','.delete_banner', function() {
+    const id = $(this).attr('data-id');
+    const image = $(this).attr('data-image');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                data: {id, image},
+                url: '/content/banners',
+                type: 'DELETE',
+                success: function (result) {
+                    if(result === 1) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Banner has been deleted.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        })
+                    }
+                }
+            });
+        }
+    });
+});

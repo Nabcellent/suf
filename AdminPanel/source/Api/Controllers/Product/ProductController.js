@@ -3,7 +3,7 @@ const moment = require('moment');
 const {dbRead} = require("../../../Database/query");
 const {validationResult} = require("express-validator");
 const {alert, validationHelper} = require('../../Helpers');
-const fs = require("fs")
+const fs = require("fs");
 const {join} = require("path");
 
 
@@ -151,6 +151,7 @@ const deleteProduct = async(req, res) => {
         res.redirect('back');
     }
 }
+
 const readProductCreate = async(req, res) => {
     const data = async () => {
         return {

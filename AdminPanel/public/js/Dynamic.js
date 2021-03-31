@@ -227,3 +227,27 @@ $(document).on('click','.update_category_status', function() {
         }
     });
 })
+
+$(document).on('click','.update_banner_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            banner_id: $(this).attr('data-id')
+        },
+        method: 'PUT',
+        url: '/content/banner-status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+})
