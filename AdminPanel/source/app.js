@@ -64,22 +64,24 @@ const apiRoutes = require('./Api/Routes');
 app.use(apiRoutes);
 
 
-//==    Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError.NotFound());
+//  Error Handling
+app.use(async (req, res, next) => {
+    next(createError(404, 'This route does not exist.'));
+});
+
+app.use((err, req, res, next) => {
+    res.status = err.status || 500;
+
+    res.render('error', {
+        Title: 'Error',
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
 });
 
 
-//==    Error handler
-app.use(function(error, req, res) {
-    // set locals, only providing error in development
-    res.locals.message = error.message;
-    res.locals.error = req.app.get('env') === 'development' ? error : {};
-
-    // render the error page
-    res.status(error.status || 500);
-    res.render('error', {Title:'Error', error});
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server Running on Port: ${PORT}`))

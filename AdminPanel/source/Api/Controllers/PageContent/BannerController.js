@@ -3,8 +3,9 @@ const {dbRead} = require("../../../Database/query");
 const {alert} = require('../../Helpers');
 const {join} = require("path");
 const fs = require("fs")
+const createError = require('http-errors');
 
-const readBanners = async(req, res) => {
+const readBanners = async(req, res, next) => {
     const getBannerData = async () => {
         return {
             banners: await dbRead.getReadInstance().getFromDb({
@@ -16,9 +17,12 @@ const readBanners = async(req, res) => {
     try {
         const data = await getBannerData();
 
-        res.render('page-content/banners', {Title: 'Products', layout: './layouts/nav', sliderInfo: data});
+        if(typeof data.banners == 'undefined') throw createError(404, 'Unable to retrieve banners');
+
+        res.render('page-content/banners', {Title: 'Products', layout: './layouts/nav', bannerInfo: data});
     } catch(error) {
         console.log(error);
+        next(error);
     }
 }
 const deleteBanner = async(req, res) => {
