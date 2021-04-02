@@ -63,3 +63,7 @@ Route::post('/register', [UserController::class, 'create']);
 Route::post('/profile/update-user', [UserController::class, 'update']);
 
 Route::post('/cart', [ProductController::class, 'addToCart']);
+
+
+//  Listing Routes
+Route::get('/products/{url}', [ProductController::class, 'listing']);

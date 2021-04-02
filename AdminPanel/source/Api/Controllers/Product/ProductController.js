@@ -17,41 +17,40 @@ const createProduct = async(req, res) => {
         alert(req, 'info', 'Something is missing!', error.msg);
 
         return res.redirect('back');
-    }
-
-    if (!req.files || Object.keys(req.files).length === 0) {
+    } else if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
-    }
-    const {main_image} = req.files;
-    let {name} = main_image;
-    name = Math.floor((Math.random() * 1199999) + 1) + name;
+    } else {
+        const {main_image} = req.files;
+        let {name} = main_image;
+        name = Math.floor((Math.random() * 1199999) + 1) + name;
 
-    const pathToProductImages = join(__dirname, '../../../../../public/images/products/');
-    await main_image.mv(pathToProductImages + name, (error) => {
-        if(error) {
-            return res.send(error);
+        const pathToProductImages = join(__dirname, '../../../../../public/images/products/');
+        await main_image.mv(pathToProductImages + name, (error) => {
+            if(error) {
+                return res.send(error);
+            }
+        });
+
+        const {
+            title, seller, brand_id, sub_category, label, base_price, sale_price, discount, keywords, description, featured
+        } = req.body;
+
+        try {
+            await ProductServices.createProduct(title, seller, brand_id, sub_category, label, base_price,
+                sale_price, discount, name, keywords, description, featured)
+                .then(data => {
+                    if(data === 1) {
+                        alert(req, 'success', 'Success!', 'Product Created');
+                        res.redirect('/products');
+                    } else {
+                        alert(req, 'danger', 'Error', 'Unable to add');
+                        res.redirect('back');
+                    }
+                }).catch(error => console.error(error));
+        } catch(error) {
+            console.error(error);
+            return res.redirect('back');
         }
-    })
-
-    const {
-        title, seller, brand_id, sub_category, label, base_price, sale_price, discount, keywords, description, featured
-    } = req.body;
-
-    try {
-        await ProductServices.createProduct(title, seller, brand_id, sub_category, label, base_price,
-            sale_price, discount, name, keywords, description, featured)
-            .then(data => {
-                if(data === 1) {
-                    alert(req, 'success', 'Success!', 'Product Created');
-                    res.redirect('/products');
-                } else {
-                    alert(req, 'danger', 'Error', 'Unable to add');
-                    res.redirect('back');
-                }
-            }).catch(error => console.error(error));
-    } catch(error) {
-        console.error(error);
-        return res.redirect('back');
     }
 }
 const readProducts = async(req, res) => {
@@ -62,7 +61,7 @@ const readProducts = async(req, res) => {
                 columns: 'products.id, title, main_image, seller_id, base_price, sale_price, label, ' +
                     'products.status, users.first_name, users.last_name',
                 join: [['users', 'products.seller_id = users.id']],
-                orderBy: ['products.created_at DESC']
+                orderBy: ['products.id DESC']
             }),
             moment: moment
         };
@@ -110,15 +109,12 @@ const updateProductStatus = async(req, res) => {
         ProductServices.updateProductStatus(product_id, newStatus)
             .then((data) => {
                 if(data === 1) {
-                    alert(req, 'success', '', 'Status Updated!');
                     return res.json({status: newStatus});
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
                     return res.json({errors: {message: 'Internal error. Contact Admin'}});
                 }
             }).catch(error => console.log(error));
     } catch(error) {
-        console.log(error);
         alert(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }

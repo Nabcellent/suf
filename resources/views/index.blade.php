@@ -1,7 +1,6 @@
 @extends('/layouts.master')
 @section('title', 'Home')
 @section('content')
-    {{--@include('partials.header_carousel')--}}
     @include('partials.top_nav')
     @include('partials.social_icons')
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -11,7 +12,6 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\Cart;
 
@@ -91,5 +91,16 @@ class ProductController extends Controller
         $cart -> save();
 
         return back();
+    }
+
+    public function listing($url): void
+    {
+        $categoryCount = Category::where('url', $url)->count();
+
+        if($categoryCount > 0) {
+            echo "Category exists"; die;
+        }
+
+        abort(404);
     }
 }

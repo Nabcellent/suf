@@ -7,7 +7,7 @@ $(() => {
     });
 
 
-    /*_______  Set Category To Update  _______*/
+    /*_______  Set Category To Create/Update  _______*/
     $(document).on('click', '#add_category', function() {
         const $form = $('#category_modal form');
 
@@ -83,6 +83,24 @@ $(() => {
     $('.delete_brand').on('click', function() {
         let brandId = $(this).attr('data-id');
         $('#delete_brand_modal #brand_id').val(brandId);
+    });
+
+    /*__________________________________________  Set Banner To Create/Update  _____________________*/
+    let $bannerSubmit = $('#add_banner_modal button[type="submit"]');
+    let $bannerForm = $('#add_banner_modal form');
+
+    $(document).on('click', '#btn_add_banner', () => {
+        $bannerForm.attr('action', '/content/banners');
+    });
+    $(document).on('click', '#banners .update_banner', function() {
+        $('#update_banner_modal #banner_id').val($(this).attr('data-id'));
+        $('#update_banner_modal #current_image').val($(this).attr('data-image'));
+        $('#update_banner_modal input[name="title"]').val($(this).attr('data-title'));
+        $('#update_banner_modal input[name="link"]').val($(this).attr('data-link'));
+        $('#update_banner_modal input[name="alt"]').val($(this).attr('data-alt'));
+        $('#update_banner_modal input[name="description"]').val($(this).attr('data-description'));
+
+        $('#update_banner_modal img').attr('src', '/images/banners/' + $(this).attr('data-image'));
     });
 
 

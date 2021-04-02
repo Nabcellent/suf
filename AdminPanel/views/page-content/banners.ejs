@@ -1,3 +1,4 @@
+<%- include('../partials/alert') %>
 
 <div id="banners" class="container-fluid p-0">
 
@@ -20,8 +21,8 @@
             <div class="card crud_box shadow">
                 <div class="card-header d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-slideshare"></i> SU-F Banners</h6>
-                    <button type="button" id="btn_add_slide" data-toggle="modal" data-target="#add_banner_modal" class="btn btn-outline-info">
-                        Add Slide
+                    <button type="button" id="btn_add_banner" data-toggle="modal" data-target="#add_banner_modal" class="btn btn-outline-info">
+                        Add Banner
                     </button>
                 </div>
                 <div class="card-body">
@@ -43,13 +44,26 @@
                                 <img src="/images/banners/<%= row.image %>" alt="<%= row.alt %>">
                             </div>
                             <div class="slider_action">
-                                <a href="#" title="Modify"><i class="fas fa-pen"></i></a>
+                                <a href="#" class="update_banner" data-toggle="modal" data-target="#update_banner_modal" title="Modify"
+                                   data-id="<%= row.id %>"
+                                   data-title="<%= row.title %>"
+                                   data-image="<%= row.image %>"
+                                   data-link="<%= row.link %>"
+                                   data-alt="<%= row.alt %>"
+                                   data-description="<%= row.description %>">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                                 <a href="#" class="delete_banner" title="Remove" data-id="<%= row.id %>" data-image="<%= row.image %>">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
-                            <div class="slider_url"><a href="<%= row.link %>" target="_blank"><%= row.link %></a></div>
-                            <div class="slider_desc"><p><%= row.description %></p></div>
+                            <div class="details">
+                                <strong>Link -</strong> <a href="<%= row.link %>" target="_blank"><%= row.link %></a>
+                                <div>
+                                    <strong>Description:</strong>
+                                    <p><%= row.description %></p>
+                                </div>
+                            </div>
                         </div>
                         <% }) %>
 

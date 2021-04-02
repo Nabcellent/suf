@@ -28,7 +28,7 @@
 @include('partials.top_header')
 
 @if(isset($pageTitle) && $pageTitle === "Index")
-    @include('partials.header_carousel')
+    @include('partials.home_banners')
 @endif
 @yield('content')
 

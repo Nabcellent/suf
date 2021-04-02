@@ -646,7 +646,6 @@ textarea.crud_form {
     height: 7rem;
     padding: .5rem .7rem;
 }
-
 label.crud_form.file,
 label.crud_form.file::after {
     padding: .3rem 1rem;
@@ -673,7 +672,7 @@ label.crud_form.file::after {
     justify-content: space-between;
 }
 .card.crud_box .slider_box .box_url {grid-area: url;}
-.card.crud_box .slider_box .slider_url {grid-area: url;}
+.card.crud_box .slider_box .details {grid-area: url;}
 .card.crud_box .slider_box .box_img,
 .card.crud_box .slider_box .slider_img {
     grid-area: image;

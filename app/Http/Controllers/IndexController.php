@@ -38,7 +38,7 @@ class IndexController extends Controller
         $topProducts = Product::where('status', 1)->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
 
         //  Get banners & Ad boxes
-        $banners = Banner::all();
+        $banners = Banner::getBanners();
         $adBoxes = AdBox::all();
 
         return View('index')

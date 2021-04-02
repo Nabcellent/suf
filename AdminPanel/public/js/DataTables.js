@@ -4,8 +4,6 @@
 const productDataTable = $('#products_table').DataTable({
     scrollY:        '50vh',
     scrollCollapse: true,
-    paging:         false,
-    order: [[ 4, 'desc' ]],
     language: {
         info: 'Number of products: _MAX_',
         infoFiltered:   "(filtered _TOTAL_ products)",
