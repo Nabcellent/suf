@@ -23,14 +23,14 @@
                             <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
                             <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
-                                {{--@for($i = 0; $i < 4; $i++)
+                                @foreach($latestFour as $four)
                                     <div class="list_item text-center">
-                                        <a href="">
-                                            <img src="/images/products/{{$topNavInfo['latestProducts'][$i] -> pro_image_one}}" alt="new ProductSeeder">
-                                            <h4 class="title">{{$topNavInfo['latestProducts'][$i] -> pro_title}}</h4>
+                                        <a href="/details/{{$four['id']}}">
+                                            <img src="/images/products/{{$four['main_image']}}" alt="new ProductSeeder">
+                                            <h4 class="title">{{$four['title']}}</h4>
                                         </a>
                                     </div>
-                                @endfor--}}
+                                @endforeach
 
                             </div>
                         </li>
@@ -48,9 +48,9 @@
                                             <div class="mt-0 dropdown-divider"></div>
                                             <ul>
                                                 @foreach($section['categories'] as $category)
-                                                    <li><a href="">{{$category['title']}}</a></li>
+                                                    <li><a href="{{$category['id']}}">{{$category['title']}}</a></li>
                                                     @foreach($category['sub_categories'] as $subCategory)
-                                                        <li class="ml-2"><a href="">- {{$subCategory['title']}}</a></li>
+                                                        <li class="ml-2"><a href="{{$subCategory['id']}}">- {{$subCategory['title']}}</a></li>
                                                     @endforeach
                                                 @endforeach
                                             </ul>

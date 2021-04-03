@@ -15,11 +15,24 @@
 
             <div class="row">
                 <div class="col">
-                    <nav aria-label="breadcrumb">
+                    <nav class="d-flex justify-content-between" aria-label="breadcrumb">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Shop</li>
                         </ul>
+                        <div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="per_page">Per page</label>
+                                </div>
+                                <select class="custom-select" id="per_page">
+                                    <option selected value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </div>
@@ -29,7 +42,7 @@
 
                 <!--    Start SideBar Categories    -->
 
-                <div class="col-md-3">
+                <div class="col-md-3 pl-0">
 
                     @include('partials.products.sidebar')
 
@@ -38,7 +51,7 @@
 
                 <!--    Start ProductSeeder Section    -->
 
-                <div class="col-md-9">
+                <div class="col-md-9 p-0">
                     <div class="row">
                         <div class="col">
                             <div class='box bg-light p-3 mb-2 rounded'>
@@ -57,58 +70,8 @@
                     </div>
 
                     <div id="product_section" class="row mb-2">
-                        <div id="results" class="col column">
 
-                        <!--    Start Single ProductSeeder    -->
-                            @foreach($products -> take(20) as $item)
-                                <div class="card">
-                                    <a href="/details/{{$item -> id}}"><img src='images/products/{{$item -> pro_image_one}}' alt=''></a>
-                                    <div class="supplier"><a href="#">{{$item -> man_name}}</a></div>
-                                    <div class="card-body">
-                                        <h6 class="card-title"><a href=''>{{$item -> pro_title}}</a></h6>
-                                        <div class="row">
-                                            <div class="col prices">
-                                                @if($item['pro_sale_price'] === 0)
-                                                    <p>{{$item['pro_price']}}/=</p>
-                                                @else
-                                                    <p>{{$item['pro_sale_price']}}/=</p><br>
-                                                    <del class="text-secondary">{{$item['pro_price']}}/=</del>
-                                                @endif
-                                            </div>
-                                            <div class="col button">
-                                                <a href='' class='btn btn-block btn-outline-primary add'>
-                                                    <i class='fas fa-cart-plus'></i> +
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="#" class="product_label {{$item['pro_label']}} ">
-                                        <span class="label">{{$item['pro_label']}}</span>
-                                    </a>
-                                </div>
-                            @endforeach
-                            <!--    End Single ProductSeeder    -->
-
-                        </div>
-
-                        <!--    Start Pagination    -->
-
-                        <div class="col-md-12">
-                            <div class="d-flex justify-content-center">
-                                <ul class="pagination">
-                                    <li class="page-item"><button class="page-link" value="1">First Page</button></li>
-
-                                    @for($i = 1; $i < ceil(count($products) / 20); $i++)
-                                    <li class='page-item' style='cursor:pointer;'>
-                                        <button class='page-link' value=''>{{$i}}</button>
-                                    </li>
-                                    @endfor
-
-                                    <li class="page-item"><button class="page-link" value="">Last Page</button></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!--    End Pagination    -->
+                        @include('partials.products.products_data')
 
                     </div>
                 </div>

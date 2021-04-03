@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController;
@@ -18,9 +19,9 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-/**
- * *************    ************    ************    ************    GET REQUESTS
-*/
+//Product Routes
+Route::get('/products/get-products', [AjaxController::class, 'getProducts']);
+Route::get('/products/{categoryId?}', [ProductController::class, 'index']);
 
 Route::get('/', [IndexController::class, 'index']);
 
@@ -33,8 +34,6 @@ Route::get('/sign-out', [UserController::class, 'signOut']);
 Route::get('/register', function() {
     return view('register');
 });
-
-Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/contact-us', function() {
     return view('contact_us');
@@ -66,4 +65,4 @@ Route::post('/cart', [ProductController::class, 'addToCart']);
 
 
 //  Listing Routes
-Route::get('/products/{url}', [ProductController::class, 'listing']);
+//Route::get('/products/{url}', [ProductController::class, 'listing']);

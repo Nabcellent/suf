@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Seller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,33 +18,31 @@ use App\Models\Cart;
 
 class ProductController extends Controller
 {
-    //
-    public function index(): Application|Factory|View
+    public function index($categoryId = null): Application|Factory|View
     {
-        $sidebarInfo = [
-            'subCategories' => DB::table('products')
-                -> select('categories.*') -> distinct()
-                -> join('categories', function($join) {
-                    $join -> on('products.category_id', '=', 'categories.id');
-                }) -> get(),
-            'sellers' => DB::table('products')
-                -> select('sellers.*') -> distinct()
-                -> join('sellers', function($join) {
-                    $join -> on('products.seller_id', '=', 'sellers.user_id');
-                }) -> get(),
-            'categories' => DB::table('products')
-                -> select('cat.title') -> distinct()
-                -> join('categories as subCat', function($join) {
-                    $join -> on('products.category_id', '=', 'subCat.id');
-                }) -> join('categories as cat', function($join) {
-                    $join -> on('subCat.category_id', '=', 'cat.id');
-                }) -> get()
-        ];
+        $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
-        $products = Product::join('sellers', 'products.seller_id', '=', 'sellers.user_id')
-            -> get();
+        if($categoryCount > 0) {
+            $categoryDetails = Category::categoryDetails($categoryId);
+            echo "<pre>"; print_r($categoryDetails); die;
+        }
 
-        return View('products', compact('products', 'sidebarInfo'));
+
+        abort(404);
+
+        $productsPerPage = 10;
+        $productCount = Product::products()->where('products.status', 1)->count();
+        $productsQuery = Product::products()->where('products.status', 1);
+        if($categoryId !== null) {
+            $productsQuery->where('products.category_id', $categoryId);
+        }
+        $products = $productsQuery->orderByDesc('products.id')->paginate(10);
+
+        $sellers = Seller::sellers()->get()->toArray();
+
+        return View('products')
+            ->with(compact('products', 'sellers'))
+            ->with(compact('productCount', 'productsPerPage'));
     }
 
     public function productDetails($id): Application
@@ -91,16 +90,5 @@ class ProductController extends Controller
         $cart -> save();
 
         return back();
-    }
-
-    public function listing($url): void
-    {
-        $categoryCount = Category::where('url', $url)->count();
-
-        if($categoryCount > 0) {
-            echo "Category exists"; die;
-        }
-
-        abort(404);
     }
 }

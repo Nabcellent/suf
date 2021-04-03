@@ -1,140 +1,84 @@
 
-<div id="sidebar_menu">
-    <div class="row">
-        <div class="col p-md-0">
-            <div class="card main mb-2">
-                <div class="card-header d-flex bd-highlight">
-                    <div class="w-100 bd-highlight"><h4>Categories</h4></div>
-                    <div class="flex-shrink-1 bd-highlight">
-                        <div class="text-secondary burger_toggle open_burger">
-                            <div class="burger"></div>
-                        </div>
+<div id="categories_sidebar">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between">
+            <h4 class="m-0">FILTERS</h4><i class="fas fa-filter"></i>
+        </li>
+        @foreach($sections as $section)
+            @if(count($section['categories']) > 0)
+                <li class="list-group-item">
+                    <span class="row">
+                        <span class="col">
+                            <a href="#" class="btn-block" data-toggle="collapse" data-target="#collapse{{$section['id']}}">
+                                {{strtoupper($section['title'])}}
+                            </a>
+                        </span>
+                        <span class="col-auto mr-2 bg-dark search_icon" data-toggle="collapse" data-target="#search_box{{$loop->iteration}}">
+                            <i class="bx bx-search"></i>
+                        </span>
+                    </span>
+                    <div id="search_box{{$loop->iteration}}" class="collapse search_box">
+                        <input type="text" class="search_text" placeholder="Search Category" aria-label
+                               data-filters="#suf_products" data-action="filter">
                     </div>
-                </div>
-
-                <div class="card-body category_menu">
-                    <div class="collapse_category">
-                        <div class="col-12 mx-auto search_box">
-                            <label for="suf_table_filter"></label>
-                            <input type="text" class=" search_text" placeholder="Search Category" id="suf_table_filter"
-                                   data-filters="#suf_products" data-action="filter">
-                            <a href="#" class="search_btn"><i class="fas fa-search"></i></a>
-                        </div>
-
-                        <div class="col-12 list_menu">
-                            <ul id="suf_products">
-
-                                @foreach($sections as $section)
-                                    @if(count($section['categories']) > 0)
-                                        <li class='list-group-item'>
-                                            <div class="dropdown-divider mb-0"></div>
-                                            <strong>{{strtoupper($section['title'])}}</strong>
-                                            @foreach($section['categories'] as $category)
-                                            <ul>
-                                                <li>
-                                                    <div class="form-check">
-                                                        <label class='form-check-label check_label'>
-                                                            <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
-                                                            <span></span>
-                                                            <i class="indicator"></i>
-                                                            <strong>{{$category['title']}}</strong>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                @foreach($category['sub_categories'] as $subCategory)
-                                                <li>
-                                                    <div class="form-check">
-                                                        <label class='form-check-label check_label'>
-                                                            <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
-                                                            <span></span>
-                                                            <i class="indicator"></i>
-                                                            {{$subCategory['title']}}
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-                                            @endforeach
-                                        </li>
+                    <ul id="collapse{{$section['id']}}" class="list-group list-group-flush show">
+                        @foreach($section['categories'] as $category)
+                            <li class="list-group-item py-1">
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check list">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input product_check" id="category" value="{{$category['id']}}">
+                                            <span></span>
+                                            <i class="indicator"></i>
+                                            <strong>{{$category['title']}}</strong>
+                                        </label>
+                                    </div>
+                                    @if(count($category['sub_categories']) > 0)
+                                        <span class="px-2 rounded-pill" data-toggle="collapse" data-target="#sub_collapse{{$category['id']}}" style="background-color: #900; color: #cbd5e0">
+                                            <i class="bx bx-arrow-to-bottom bx-fade-down-hover" style="cursor: pointer;"></i>
+                                        </span>
                                     @endif
-                                @endforeach
+                                </div>
+                                <ul id="sub_collapse{{$category['id']}}" class="list-group list-group-flush collapse">
+                                    @foreach($category['sub_categories'] as $subCategory)
+                                        <li class="list-group-item py-0">
+                                            <div class="form-check sub_list">
+                                                <label class="form-check-label">
+                                                    <input type='checkbox' class='form-check-input product_check' id="sub_category" value="{{$subCategory['id']}}">
+                                                    <span></span>
+                                                    <i class="indicator"></i>
+                                                    {{$subCategory['title']}}
+                                                </label>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endif
+        @endforeach
 
-                            </ul>
+
+        <li class="list-group-item">
+            <a href="#" class="btn-block" data-toggle="collapse" data-target="#seller_collapse">SELLERS</a>
+            <ul id="seller_collapse" class="list-group list-group-flush show">
+                @foreach($sellers as $item)
+                    <li class="list-group-item py-1">
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check list">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input product_check" id="seller" value="{{$item['user_id']}}">
+                                    <span></span>
+                                    <i class="indicator"></i>
+                                    <strong>{{$item['username']}}</strong>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="card-header d-flex bd-highlight">
-                    <div class="w-100 bd-highlight"><h4>Manufacturers</h4></div>
-                    <div class="flex-shrink-1 bd-highlight">
-                        <div class="text-secondary burger_toggle open_burger">
-                            <div class="burger"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body category_menu">
-                    <div class="collapse_category">
-                        <div class="col-12 mx-auto search_box">
-                            <label for="suf_table_filter"></label>
-                            <input type="text" class=" search_text" placeholder="Search Manufacturer" id="suf_table_filter"
-                                   data-filters="#suf_manufacturer" data-action="filter">
-                            <a href="#" class="search_btn"><i class="fas fa-search"></i></a>
-                        </div>
-
-                        <div class="col-12 list_menu">
-                            <ul id="suf_manufacturer">
-
-                                @foreach($sidebarInfo['sellers'] as $item)
-                                    <li class='list-group-item'>
-                                        <div class="form-check">
-                                            <label class='form-check-label check_label'>
-                                                <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
-                                                <span></span>
-                                                <i class="indicator"></i>
-                                                {{$item -> username}}
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-header d-flex bd-highlight">
-                    <div class="w-100 bd-highlight"><h4>Category</h4></div>
-                    <div class="flex-shrink-1 bd-highlight">
-                        <div class="text-secondary burger_toggle open_burger">
-                            <div class="burger"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body category_menu">
-                    <div class="collapse_category">
-                        <div class="col-12 list_menu">
-                            <ul id="suf_categories">
-
-                                @foreach($sections as $section)
-                                    <li class='list-group-item'>
-                                        <div class="form-check">
-                                            <label class='form-check-label check_label'>
-                                                <input type='checkbox' class='form-check-input product_check' id='product_cat' value=''>
-                                                <span></span>
-                                                <i class="indicator"></i>
-                                                {{$section['title']}}
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </li>
+                @endforeach
+            </ul>
+        </li>
+    </ul>
 </div>

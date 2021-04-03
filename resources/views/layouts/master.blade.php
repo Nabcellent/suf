@@ -47,5 +47,7 @@
 {{--    MY JS    --}}
 <script src="{{url('js/main.js')}}"></script>
 <script src="{{url('js/swiper.js')}}"></script>
+<script src="{{url('js/search.js')}}"></script>
+<script src="{{url('js/fetch.js')}}"></script>
 </body>
 </html>

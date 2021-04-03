@@ -625,167 +625,27 @@ nav .nav-link:hover {
 
 
 /*=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======*/
-/*+++++++*+++++++*+++++++  Burger  +++++++*/
-#sidebar_menu .card.main {
-    box-shadow: 0 1px .3rem rgba(0, 0, 0, .2);
-}
-#sidebar_menu .burger_toggle {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.7rem;
-    height: 2rem;
-    cursor: pointer;
-    transition: all .5s ease-in-out;
-}
-#sidebar_menu .burger_toggle .burger {
-    width: 1rem;
-    height: .1rem;
-    background: darkred;
-    border-radius: .7rem;
-    box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
-    transition: all .5s ease-in-out;
-}
-#sidebar_menu .burger_toggle .burger::before,
-#sidebar_menu .burger_toggle .burger::after {
-    content: '';
-    position: absolute;
-    width: 1rem;
-    height: .1rem;
-    background: darkred;
-    border-radius: .7rem;
-    box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
-    transition: all .5s ease-in-out;
-}
-#sidebar_menu .burger_toggle .burger::before {
-    transform: translateY(-.4rem);
-}
-#sidebar_menu .burger_toggle .burger::after {
-    transform: translateY(.4rem);
-}
-
-/*+++++++*+++++++*+++++++  Burger Animation  +++++++*/
-.burger_toggle.open_burger .burger {
-    transform: translateX(-3rem);
-    background: transparent!important;
-    box-shadow: none!important;
-}
-#sidebar_menu .burger_toggle.open_burger .burger::before {
-    transform: rotate(45deg) translate(35px, -35px);
-}
-#sidebar_menu .burger_toggle.open_burger .burger::after {
-    transform: rotate(-45deg) translate(35px, 35px);
-}
-
-/*+++++++*+++++++*+++++++  Header  +++++++*/
-#sidebar_menu {
-    background: transparent;
-}
-#sidebar_menu .card-header {
-    padding: .3rem 1rem 0 1rem;
-    background: transparent;
-    border-top: .1rem solid darkred;
-    border-bottom: 0;
-}
-#sidebar_menu .card-header h4 {
-    font-size: 1.3rem;
-    margin: 0;
-}
-#sidebar_menu .category_menu {
-    padding: 0 .5rem;
-    margin-bottom: 0;
-}
-
-/*+++++++*+++++++*+++++++  Search  +++++++*/
-#sidebar_menu .search_box {
-    position: relative;
-    width: 100%;
-    padding: 0 0 .4rem 0;
-    border-radius: 40px;
-    float: right;
-}
-#sidebar_menu .search_text {
-    width: 0;
-    float: right;
-    height: 1.7rem;
-    padding: 0 .8rem;
-    border: 1px solid rgba(0, 0, 0, .6);
-    border-radius: 40px;
-    transition: all .5s ease;
-}
-#sidebar_menu .search_box:hover > .search_text {
-    width: 100%;
-}
-#sidebar_menu .search_btn {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 0;
-    right: 0;
-    width: 1.7rem;
-    height: 1.7rem;
-    color: #ff0000;
-    background: #2f3640;
-    border-radius: 50%;
-    transition: all .3s ease;
-}
-#sidebar_menu .search_btn svg {
-    font-size: .8rem;
-}
-
-#sidebar_menu .category_menu .collapse_category{
-    padding-top: 0;
-}
-#sidebar_menu .category_menu .list_menu {
-    max-height: 15rem;
-    overflow: auto!important;
-    margin-bottom: .5rem;
-    padding: 0 .4rem;
-}
-#sidebar_menu .category_menu .list_menu ul {
+#categories_sidebar .form-check.sub_list,
+#categories_sidebar .form-check.list {
     padding-left: 0;
 }
-#sidebar_menu .category_menu .list_menu ul li {
-    padding: 0;
-    border: none;
-    background: transparent;
-}
-#sidebar_menu .category_menu ul li .form-check {
-    padding: 0;
-}
-#sidebar_menu .category_menu ul li .check_label {
+#categories_sidebar .form-check.sub_list label,
+#categories_sidebar .form-check.list label {
     position: relative;
     display: flex;
     align-items: center;
     margin: 0;
     cursor: pointer;
 }
-#sidebar_menu .category_menu ul li .check_label input {
+#categories_sidebar .form-check.sub_list label input,
+#categories_sidebar .form-check.list label input {
     appearance: none;
     display: none;
 }
-#sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator {
-    left: 1rem;
-}
-#sidebar_menu .category_menu ul li .check_label span {
-    margin-right: .5rem;
-    position: relative;
-    display: block;
-    width: 2rem;
-    height: 1rem;
-    background:#222;
-    border-radius: 40px;
-    box-shadow: inset 0 2px 15px rgba(0, 0, 0, .2),
-    inset 0 2px 2px rgba(0, 0, 0, .2),
-    inset 0 -1px 1px rgba(0, 0, 0, .2);
-}
-#sidebar_menu .category_menu ul li .check_label .indicator {
+#categories_sidebar .form-check.sub_list label .indicator,
+#categories_sidebar .form-check.list label .indicator {
     position: absolute;
     left: 0;
-    width: 1rem;
-    height: 1rem;
     background: linear-gradient(to bottom, #444, #222);
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .5),
@@ -793,26 +653,42 @@ nav .nav-link:hover {
     transition: .5s;
     transform: scale(.9);
 }
-#sidebar_menu .category_menu ul li .check_label .indicator:before {
+#categories_sidebar .form-check.list label .indicator {
+    width: 1rem;
+    height: 1rem;
+}
+#categories_sidebar .form-check.sub_list label .indicator {
+    width: .7rem;
+    height: .7rem;
+}
+#categories_sidebar .form-check.sub_list label .indicator:before,
+#categories_sidebar .form-check.list label .indicator:before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 5px;
-    height: 5px;
     background: #ff0000;
     border-radius: 50%;
     transition: .5s;
     box-shadow: 0 0 2px #ff0000,
-    0 0 5px #ff0000,
-    0 0 10px #ff0000,
-    0 0 15px #ff0000,
-    0 0 25px #ff0000,
-    0 0 30px #ff0000,
-    0 0 40px #ff0000;
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff0000,
+                0 0 25px #ff0000,
+                0 0 30px #ff0000,
+                0 0 40px #ff0000;
 }
-#sidebar_menu .category_menu ul li .check_label input:checked ~ .indicator::before {
+#categories_sidebar .form-check.list label .indicator:before {
+    width: 5px;
+    height: 5px;
+}
+#categories_sidebar .form-check.sub_list label .indicator:before {
+    width: 3px;
+    height: 3px;
+}
+#categories_sidebar .form-check.sub_list label input:checked ~ .indicator::before,
+#categories_sidebar .form-check.list label input:checked ~ .indicator::before {
     background: #00ff00;
     border-radius: 50%;
     box-shadow: 0 0 2px #00ff00,
@@ -823,13 +699,70 @@ nav .nav-link:hover {
     0 0 30px #00ff00,
     0 0 40px #00ff00;
 }
-#sidebar_menu .category_menu ul li .check_label:hover {
-    color: #A43423;
+#categories_sidebar .form-check.list label input:checked ~ .indicator {
+    left: 1rem;
+}
+#categories_sidebar .form-check.sub_list label:hover,
+#categories_sidebar .form-check.list label:hover {
+    color: var(--dark-gold);
+}
+#categories_sidebar .form-check.sub_list label span,
+#categories_sidebar .form-check.list label span {
+    margin-right: .5rem;
+    position: relative;
+    display: block;
+    background:#222;
+    border-radius: 40px;
+    box-shadow: inset 0 2px 15px rgba(0, 0, 0, .2),
+    inset 0 2px 2px rgba(0, 0, 0, .2),
+    inset 0 -1px 1px rgba(0, 0, 0, .2);
+}
+#categories_sidebar .form-check.list label span {
+    width: 2rem;
+    height: 1rem;
+}
+#categories_sidebar .form-check.sub_list label span {
+    width: .7rem;
+    height: .7rem;
+}
+
+/*+++++++*+++++++*+++++++  Search  +++++++*/
+#categories_sidebar .search_box {
+    width: 100%;
+    padding: 0 0 .4rem 0;
+    border-radius: 40px;
+}
+#categories_sidebar .search_text {
+    margin-top: .3rem;
+    width: 100%;
+    height: 1.7rem;
+    padding: 0 .8rem;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 40px;
+}
+#categories_sidebar .search_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    color: var(--body-color);
+    background: #2f3640;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#categories_sidebar .search_icon i {
+    font-size: 1rem;
 }
 
 
 
+
 /*=======+++++++=======+++++++=======  PRODUCTS  =======+++++++=======+++++++=======*/
+nav ul.pagination {
+    display: flex;
+    justify-content: center;
+}
 
 #products .products_container {
     padding: 0 15rem;
