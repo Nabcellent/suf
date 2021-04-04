@@ -27,24 +27,28 @@ const getProducts = (url, changeHeading = false) => {
     let category = getFilterText('category');
     let subCategory = getFilterText('sub_category');
     let seller = getFilterText('seller');
-    let section = getFilterText('section');
+    let brand = getFilterText('brand');
+
+    let categoryId = location.href.split('/products/')[1];
+    console.log(categoryId);
 
     $.ajax({
         data: {
+            categoryId: categoryId,
             perPage:perPage,
             category:category,
             subCategory:subCategory,
             seller:seller,
-            section:section,
+            brand:brand,
         },
         type: 'GET',
         url: url,
         success: function(response) {
             $('#product_section').html(response);
             $('#loader').hide();
-            if(changeHeading) {
+            /*if(changeHeading) {
                 $('#textChange').text('Filtered Products');
-            }
+            }*/
         }
     })
 }

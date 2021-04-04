@@ -27,6 +27,10 @@ $(() => {
         $('#cat_check_group input').removeAttr('required');
 
         $('#category_modal #category_id').val($(this).attr('data-id'));
+        $('#category_modal textarea[name="description"]').val($(this).attr('data-desc'));
+        let sectionId = $(this).attr('data-section');
+        $('#category_modal input[value="'+ sectionId +'"]').prop('checked', true);
+
         $('#category_modal #cat_title').val($(this).attr('data-title'));
         $('#category_modal form').attr('action', '/products/category?_method=PUT');
         $('#category_modal .modal-title').html("Update Category");
@@ -40,6 +44,9 @@ $(() => {
         $('#cat_radio_group').show();
 
         $('#sub_category_modal #sub_category_id').val($(this).attr('data-id'));
+        $('#sub_category_modal textarea[name="description"]').val($(this).attr('data-desc'));
+        $('#sub_category_modal #section').val($(this).attr('data-section'));
+
         $('#sub_category_modal #title').val($(this).attr('data-title'));
         $('#sub_category_modal form').attr('action', '/products/sub-category?_method=PUT');
         $('#sub_category_modal .modal-title').html("Update Sub-Category");

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    /**
+     * RELATIONSHIP FUNCTIONS
+    */
     public function product(): HasMany {
         return $this->hasMany(Product::class);
     }
@@ -27,9 +30,14 @@ class Category extends Model
 
 
 
+    /**
+     * STATIC FUNCTIONS
+    */
+
     public static function sections(): mixed {
         $getCategories = self::where(['section_id' => null, 'category_id' => null])
             ->with('categories')->where('status', 1)->get();
+
         try {
             $getCategories = json_decode(json_encode($getCategories, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
@@ -40,19 +48,32 @@ class Category extends Model
 
     public static function categoryDetails($url): array
     {
-        $categoryDetails = self::select('id', 'title')->with(['subCategories' => function($query) {
-            $query->select('categories.category_id', 'categories.id', 'categories.section_id');
+        $catDetails = self::select('id', 'title', 'category_id', 'description')->with(['subCategories' => function($query) {
+            $query->select('categories.category_id', 'categories.id', 'title', 'description')
+                ->where('status', 1);
         }])->where('id', $url)->first()->toArray();
 
-        $catIds = array();
-        $catIds[] = $categoryDetails['id'];
+        if(empty($catDetails['category_id'])) {
+            //  Show main Category in breadcrumbs
+            $breadcrumbs = '<li class="breadcrumb-item active" aria-current="page">
+            <a href="' . url('/products/' . $catDetails['id']) . '">' . $catDetails['title'] . '</a></li>';
+        } else {
+            //  Show main Category and Sub-category in Breadcrumb
+            $mainCategory = self::select('id', 'title')->where('id', $catDetails['category_id'])->first()->toArray();
+            $breadcrumbs = '<li class="breadcrumb-item" aria-current="page">
+            <a href="' . url('/products/' . $mainCategory['id']) . '">' . $mainCategory['title'] . '</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+            <a href="' . url('/products/' . $catDetails['id']) . '">' . $catDetails['title'] . '</a></li>';
+        }
 
-        foreach($categoryDetails['sub_categories'] as $subCat) {
+        $catIds = array();
+        $catIds[] = $catDetails['id'];
+
+        foreach($catDetails['sub_categories'] as $subCat) {
             $catIds[] = $subCat['id'];
         }
 
-        return array('catIds' => $catIds, 'categoryDetails' => $categoryDetails);
-        //dd($catId); die;
+        return array('catIds' => $catIds, 'catDetails' => $catDetails, 'breadcrumbs' => $breadcrumbs);
     }
 
     use HasFactory;

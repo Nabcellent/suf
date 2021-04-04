@@ -1,3 +1,4 @@
+const createError = require("http-errors");
 const {CategoryService} = require("../../Services");
 const {validationResult} = require("express-validator");
 const {dbRead} = require("../../../Database/query");
@@ -12,10 +13,10 @@ const createCategory = async(req, res) => {
         return res.redirect('back');
     }
 
-    const {title, sections} = req.body;
+    const {title, sections, description} = req.body;
 
     try {
-        CategoryService.createCategory(title, sections)
+        CategoryService.createCategory(title, sections, description)
             .then(data => {
                 if(data === 1) {
                     alert(req, 'success', 'Success!', 'Category Created.')
@@ -42,14 +43,15 @@ const readCategories = async(req, res) => {
             }),
             categories: await dbRead.getReadInstance().getFromDb({
                 table: 'categories',
-                columns: 'categories.id, categories.title, categories.status, section.title AS sectionTitle',
+                columns: 'categories.id, categories.title, categories.description, categories.status, ' +
+                    'section.title AS sectionTitle, section.id AS section_id',
                 join: [['categories AS section', 'section.id = categories.section_id']],
                 where: [['categories.section_id', 'IS NOT', 'NULL'], ['categories.category_id', 'IS', 'NULL']],
                 orderBy: ['categories.updated_at DESC']
             }),
             subCategories: await dbRead.getReadInstance().getFromDb({
                 table: 'categories',
-                columns: 'categories.id, categories.title, categories.status, cat.title AS catTitle, ' +
+                columns: 'categories.id, categories.title, categories.description, categories.status, cat.title AS catTitle, ' +
                     'section.id AS sectionId, section.title AS sectionTitle',
                 join: [
                     ['categories AS cat', 'categories.category_id = cat.id'],
@@ -68,21 +70,23 @@ const readCategories = async(req, res) => {
         console.log(error);
     }
 }
-const updateCategory = async(req, res) => {
-    const {category_id, title, section} = req.body;
+const updateCategory = async(req, res, next) => {
+    const {category_id, title, section, description} = req.body;
 
     try {
-        CategoryService.updateCategory(category_id, title, section)
-            .then(data => {
-                if(data === 1) {
-                    alert(req, 'success','Success', 'Category updated');
+        CategoryService.updateCategory(category_id, title, section, description)
+            .then(response => {
+                if(response instanceof Error) {
+                    throw createError(404, response);
+                } else if(response === 1) {
+                    alert(req, 'success', 'Success!', 'Category updated.');
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    throw createError(404, 'Something went wrong');
                 }
                 res.redirect('back');
             });
     } catch(error) {
-        console.log(error);
+        next(error);
     }
 }
 const deleteCategory = async(req, res) => {
@@ -99,42 +103,43 @@ const deleteCategory = async(req, res) => {
     }
 }
 
-const createSubCategory = async(req, res) => {
-    const {section, category, title} = req.body;
+const createSubCategory = async(req, res, next) => {
+    const {section, category, title, description} = req.body;
 
     try {
-        CategoryService.createSubCategory(title, section, category)
-            .then(data => {
-                if(data === 1) {
-                    alert(req, 'success', 'Success', 'Sub-Category created.');
+        CategoryService.createSubCategory(title, section, category, description)
+            .then(response => {
+                if(response instanceof Error) {
+                    throw createError(404, response);
+                } else if(response === 1) {
+                    alert(req, 'success', 'Success!', 'Sub-Category created.');
                 } else {
-                    alert(req, 'danger', 'Oops!', 'Unable to add Sub-Category');
+                    throw createError(404, 'Something went wrong');
                 }
                 res.redirect('back');
-            }).catch(err => {
-            console.log(err.message);
-            alert(req, 'danger', 'Error!', 'Something went wrong during Insertion!');
-        });
+            }).catch(err => next(err));
     } catch(error) {
-        console.log(error);
+        next(error);
         alert(req, 'danger', 'Error!', 'Something went wrong!');
     }
 }
-const updateSubCategory = async(req, res) => {
-    const {sub_category_id, category, title, section} = req.body;
+const updateSubCategory = async(req, res, next) => {
+    const {sub_category_id, category, title, section, description} = req.body;
 
     try {
-        CategoryService.updateSubCategory(sub_category_id, title, section, category)
-            .then(data => {
-                if(data === 1) {
-                    alert(req, 'success','Success', 'Category updated');
+        CategoryService.updateSubCategory(sub_category_id, title, section, category, description)
+            .then(response => {
+                if(response instanceof Error) {
+                    throw createError(404, response);
+                } else if(response === 1) {
+                    alert(req, 'success', 'Success!', 'Category updated.');
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    throw createError(404, 'Something went wrong');
                 }
                 res.redirect('back');
             });
     } catch(error) {
-        console.log(error);
+        next(error);
     }
 }
 

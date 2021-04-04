@@ -89,7 +89,10 @@
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 <% } %>
                                                 <a href="#" class="ml-3 update_category" title="Modify" data-toggle="modal" data-target="#category_modal"
-                                                   data-id="<%= row.id %>" data-title="<%= row.title %>">
+                                                   data-id="<%= row.id %>"
+                                                   data-title="<%= row.title %>"
+                                                   data-section="<%= row.section_id %>"
+                                                   data-desc="<%= row.description %>">
                                                     <i class="fas fa-pen text-dark"></i>
                                                 </a>
                                                 <a href="#" class="ml-3 delete_sub_category" data-id="<%= row.id %>"
@@ -144,7 +147,10 @@
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 <% } %>
                                                 <a href="#" class="ml-3 update_sub_category" title="Modify" data-toggle="modal" data-target="#sub_category_modal"
-                                                   data-id="<%= row.id %>" data-title="<%= row.title %>">
+                                                   data-id="<%= row.id %>"
+                                                   data-title="<%= row.title %>"
+                                                   data-section="<%= row.sectionId %>"
+                                                   data-desc="<%= row.description %>">
                                                     <i class="fas fa-pen text-dark"></i>
                                                 </a>
                                                 <a href="#" class="ml-3 delete_sub_category" data-id="<%= row.id %>"

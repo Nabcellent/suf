@@ -80,5 +80,38 @@
                 @endforeach
             </ul>
         </li>
+
+        <li class="list-group-item">
+            <span class="row">
+                        <span class="col">
+                            <a href="#" class="btn-block" data-toggle="collapse" data-target="#collapse{{$section['id']}}">
+                                BRANDS
+                            </a>
+                        </span>
+                        <span class="col-auto mr-2 bg-dark search_icon" data-toggle="collapse" data-target="#search_box">
+                            <i class="bx bx-search"></i>
+                        </span>
+                    </span>
+            <div id="search_box" class="collapse search_box">
+                <input type="text" class="search_text" placeholder="Search Category" aria-label
+                       data-filters="#suf_products" data-action="filter">
+            </div>
+            <ul id="brands_collapse" class="list-group list-group-flush show">
+                @foreach($brands as $item)
+                    <li class="list-group-item py-1">
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check list">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input product_check" id="brand" value="{{$item['id']}}">
+                                    <span></span>
+                                    <i class="indicator"></i>
+                                    <strong>{{$item['name']}}</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </li>
     </ul>
 </div>

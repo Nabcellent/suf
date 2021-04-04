@@ -13,9 +13,13 @@
                         <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                     <?php endif; ?>
                 </a>
-                <div class="supplier"><a href="#"><?php echo e($item['username']); ?></a></div>
+                <div class="supplier"><a href="#"><?php echo e($item['seller']['username']); ?></a></div>
                 <div class="card-body">
                     <h6 class="card-title"><a href=""><?php echo e($item['title']); ?></a></h6>
+                    <div class="d-flex justify-content-center">
+                        <hr class="col-7 m-0">
+                    </div>
+                    <p class="m-0 text-center text-secondary"><?php echo e($item['brand']['name']); ?></p>
                     <div class="row">
                         <div class="col prices">
                             <?php if(strtolower($item['label']) === "new"): ?>

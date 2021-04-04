@@ -1,14 +1,21 @@
 const link = require("../../../Config/database");
+
+const knex = require('knex');
+const config = require('../../../../knexfile');
+const db = knex(config.development);
+
 const date = new Date();
 
 
-const createCategory = async(title, categoryId) => {
+const createCategory = async(title, categoryId, description) => {
     try {
+        description = description.toString();
+        console.log(description);
         return await new Promise((resolve, reject) => {
             if(typeof categoryId === 'undefined') {
-                const qry = "INSERT INTO categories(title, created_at, updated_at) VALUES (?, ?, ?)";
+                const qry = "INSERT INTO categories(title, description, created_at, updated_at) VALUES (?, ?, ?, ?)";
 
-                link.query(qry, [title, date, date], (err, result) => {
+                link.query(qry, [title, description, date, date], (err, result) => {
                     if (err) {
                         reject(new Error(err.message));
                     } else {
@@ -16,11 +23,11 @@ const createCategory = async(title, categoryId) => {
                     }
                 });
             } else {
-                const qry = "INSERT INTO categories(title, section_id, created_at, updated_at) VALUES (?, ?, ?, ?)";
+                const qry = "INSERT INTO categories(title, description, section_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 
                 if(typeof categoryId === "object" && categoryId.length > 1) {
                     categoryId.forEach((id) => {
-                        link.query(qry, [title, id, date, date], (err, result) => {
+                        link.query(qry, [title, description, id, date, date], (err, result) => {
                             if (err) {
                                 reject(new Error(err.message));
                             } else {
@@ -29,7 +36,7 @@ const createCategory = async(title, categoryId) => {
                         });
                     });
                 } else {
-                    link.query(qry, [title, categoryId, date, date], (err, result) => {
+                    link.query(qry, [title, description, categoryId, date, date], (err, result) => {
                         if (err) {
                             reject(new Error(err.message));
                         } else {
@@ -44,57 +51,47 @@ const createCategory = async(title, categoryId) => {
     }
     return name;
 }
-const createSubCategory = async(title, section_id, category_id) => {
-    try{
+const createSubCategory = async(title, section_id, category_id, description) => {
+    try {
         const VALUES = {
-            title, section_id, category_id,
+            title, section_id, category_id, description,
             created_at: date, updated_at:date
         };
         return await new Promise((resolve, reject) => {
-            const sql = `INSERT INTO categories SET ?`;
-            link.query(sql, VALUES, (err, result) => {
-                if(err) {
-                    reject(new Error(err.message));
-                } else{
-                    resolve(result.affectedRows);
-                }
-            });
+            db('categories').insert(VALUES)
+                .then(rows => {
+                    resolve(rows.length);
+                }).catch(error => reject(error));
         });
-    } catch(error) {
-        console.log(error);
+    } catch (error) {
+        return error;
     }
 }
 
-const updateCategory = async(id, title, section_id) => {
+const updateCategory = async(id, title, section_id, description) => {
     try {
         return await new Promise((resolve, reject) => {
-            const sql = "UPDATE categories SET title = ?, section_id = ? WHERE id = ?";
-            link.query(sql, [title, section_id, id], (err, results) => {
-                if(err) {
-                    reject(new Error(err.message));
-                } else {
-                    resolve(results.changedRows);
-                }
-            });
-        })
-    } catch(error) {
-        console.log(error);
+            db('categories').where({id}).update({title, section_id, description})
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => reject(error));
+        });
+    } catch (error) {
+        return error;
     }
 }
-const updateSubCategory = async(id, title, section_id, category_id) => {
+const updateSubCategory = async(id, title, section_id, category_id, description) => {
     try {
         return await new Promise((resolve, reject) => {
-            const sql = "UPDATE categories SET title = ?, section_id = ?, category_id = ? WHERE id = ?";
-            link.query(sql, [title, section_id, category_id, id], (err, results) => {
-                if(err) {
-                    reject(new Error(err.message));
-                } else {
-                    resolve(results.changedRows);
-                }
-            });
-        })
-    } catch(error) {
-        console.log(error);
+            db('categories').where({id}).update({title, section_id, category_id, description})
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => reject(error));
+        });
+    } catch (error) {
+        return error;
     }
 }
 const updateCategoryStatus = async(id, status) => {

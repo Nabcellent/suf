@@ -35,7 +35,7 @@
                             </div>
                         </li>
                         <li class="menu_item_has_children">
-                            <a href="/products" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
+                            <a href="{{url('/products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
                             <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
@@ -43,14 +43,14 @@
                                     @if(count($section['categories']) > 0)
                                         <li class="list_item">
                                             <h4 class="title">
-                                                <a href="">{{$section['title']}}' Fashion</a>
+                                                <a href="{{url('/products/' . $section['id'])}}">{{$section['title']}}' Fashion</a>
                                             </h4>
                                             <div class="mt-0 dropdown-divider"></div>
                                             <ul>
                                                 @foreach($section['categories'] as $category)
-                                                    <li><a href="{{$category['id']}}">{{$category['title']}}</a></li>
+                                                    <li><a href="{{url('/products/' . $category['id'])}}">{{$category['title']}}</a></li>
                                                     @foreach($category['sub_categories'] as $subCategory)
-                                                        <li class="ml-2"><a href="{{$subCategory['id']}}">- {{$subCategory['title']}}</a></li>
+                                                        <li class="ml-2"><a href="{{url('/products/' . $subCategory['id'])}}">- {{$subCategory['title']}}</a></li>
                                                     @endforeach
                                                 @endforeach
                                             </ul>
@@ -59,8 +59,8 @@
                                 @endforeach
 
                                 <li class="list_item">
-                                    <img src="/images/general/meganav/174-1744463_beard-men-in-suit.jpg" alt="shop">
-                                    <h4 class="title"><a href="/products" class="d-block d-lg-none lead nav_link">All Products</a></h4>
+                                    <img src="{{asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
+                                    <h4 class="title"><a href="{{url('/products')}}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
                                 </li>
                             </ul>
                         </li>

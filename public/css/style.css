@@ -518,8 +518,8 @@ nav .nav-link:hover {
 #products_like .button .add,
 #products .card-body .button .add,
 #index .card-body .button .add {
-    padding-top: .3rem;
-    padding-bottom: .3rem;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
     border-right: none;
     border-left: none;
     border-top-right-radius: 40px;
@@ -737,7 +737,7 @@ nav .nav-link:hover {
     width: 100%;
     height: 1.7rem;
     padding: 0 .8rem;
-    border: 1px solid rgba(0, 0, 0, .6);
+    border: 1px solid var(--dark-gold);
     border-radius: 40px;
 }
 #categories_sidebar .search_icon {
@@ -793,7 +793,7 @@ nav ul.pagination {
 #products_like .card img,
 #products .card img {
     width: 100%;
-    height: 17rem;
+    height: 15rem;
     object-fit: cover;
     transition: all .3s ease;
 }
@@ -806,12 +806,15 @@ nav ul.pagination {
 #products_like .card-body,
 #products #product_section .card-body {
     padding: .3rem .5rem .5rem;
-    height: 5.5rem;
+    height: 6.5rem;
     background-color: rgba(241, 241, 241, 1);
 }
 #products .card-body h6 {
     margin: 0;
     height: 2.3rem;
+}
+#products .card-body h6 a {
+    color: var(--dark-blue);
 }
 #products .card-body .row {
     padding: 0 1rem;

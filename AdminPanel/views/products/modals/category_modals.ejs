@@ -45,6 +45,10 @@
                         <label>Title</label>
                         <input type="text" class="form-control" id="cat_title" name="title" aria-label required>
                     </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="3" class="form-control" name="description" aria-label></textarea>
+                    </div>
                     <div id="cat_check_group" class="form-group">
                         <label>Select Sections</label>
                         <% categoryInfo.sections.forEach((row) => { %>
@@ -108,6 +112,10 @@
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" class="form-control" id="title" name="title" aria-label required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="3" class="form-control" name="description" aria-label></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

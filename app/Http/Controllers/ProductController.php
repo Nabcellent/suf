@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Seller;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,28 +23,30 @@ class ProductController extends Controller
     {
         $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
-        if($categoryCount > 0) {
-            $categoryDetails = Category::categoryDetails($categoryId);
-            echo "<pre>"; print_r($categoryDetails); die;
-        }
-
-
-        abort(404);
-
-        $productsPerPage = 10;
         $productCount = Product::products()->where('products.status', 1)->count();
         $productsQuery = Product::products()->where('products.status', 1);
-        if($categoryId !== null) {
-            $productsQuery->where('products.category_id', $categoryId);
+
+        $catDetails = null;
+        if($categoryId !== null && $categoryCount > 0) {
+            $catDetails = Category::categoryDetails($categoryId);
+            $productsQuery->whereIn('products.category_id', $catDetails['catIds']);
         }
+
         $products = $productsQuery->orderByDesc('products.id')->paginate(10);
 
         $sellers = Seller::sellers()->get()->toArray();
+        $brands = Brand::brands()->get()->toArray();
 
+        //echo "<pre>"; print_r($catDetails); die;
         return View('products')
-            ->with(compact('products', 'sellers'))
-            ->with(compact('productCount', 'productsPerPage'));
+            ->with(compact('products', 'sellers', 'brands', 'catDetails'))
+            ->with(compact('productCount'));
     }
+
+
+
+
+
 
     public function productDetails($id): Application
     {

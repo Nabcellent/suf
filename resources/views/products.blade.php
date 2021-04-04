@@ -17,8 +17,9 @@
                 <div class="col">
                     <nav class="d-flex justify-content-between" aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                            <?php if(!empty($catDetails['breadcrumbs'])) echo $catDetails['breadcrumbs'] ?>
                         </ul>
                         <div>
                             <div class="input-group mb-3">
@@ -54,12 +55,24 @@
                 <div class="col-md-9 p-0">
                     <div class="row">
                         <div class="col">
-                            <div class='box bg-light p-3 mb-2 rounded'>
-                                <h1 id="textChange">All Products</h1>
+                            <div class="box bg-light p-3 mb-2 rounded">
+                                <div class="d-flex justify-content-between">
+                                    <h2 id="textChange">
+                                        @if(!empty($catDetails['catDetails']['title']))
+                                            {{$catDetails['catDetails']['title']}}
+                                        @else
+                                            All Products
+                                        @endif
+                                    </h2>
+                                    <p class="m-0 text-muted">Available products: {{count($products)}}</p>
+                                </div>
+                                <hr class="mt-0">
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consequatur cupiditate
-                                    dolores ducimus eos fugit, harum inventore laboriosam maxime minima nesciunt nihil
-                                    nulla praesentium quibusdam quos recusandae repudiandae tenetur veritatis?
+                                    @if(!empty($catDetails['catDetails']['description']))
+                                        {{$catDetails['catDetails']['description']}}
+                                    @else
+                                        We are pleased to serve you with these products.
+                                    @endif
                                 </p>
                             </div>
                         </div>
