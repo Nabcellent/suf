@@ -34,9 +34,25 @@ class AjaxController extends Controller
                 $query->whereIn('products.brand_id', $data['brand']);
             }
 
-            $products = $query->orderByDesc('products.id')->paginate($data['perPage']);
+            if(isset($_GET['sort']) && !empty($_GET['sort'])) {
+                if($_GET['sort'] === "newest") {
+                    $query->orderByDesc('products.id');
+                } elseif($_GET['sort'] === "oldest") {
+                    $query->orderBy('products.id');
+                } elseif($_GET['sort'] === "title_asc") {
+                    $query->orderBy('products.title');
+                } elseif($_GET['sort'] === "title_desc") {
+                    $query->orderByDesc('products.title');
+                } elseif($_GET['sort'] === "price_asc") {
+                    $query->orderBy('products.base_price');
+                } elseif($_GET['sort'] === "price_desc") {
+                    $query->orderByDesc('products.base_price');
+                }
+            }
 
-            //echo "<pre>"; print_r($products); die;
+            $products = $query->paginate($data['perPage']);
+
+            //echo "<pre>"; print_r($_GET['sort']); die;
             return view('partials.products.products_data', compact('products'))->render();
         }
     }

@@ -68,9 +68,13 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href='/details/{{$item['id']}}'>
-                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
-                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
-                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @if(isset($item['main_image']))
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @else
+                                                        <?php $image_path = ''; ?>
+                                                    @endif
+                                                    @if(!empty($item['main_image']) && file_exists($image_path))
+                                                        <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
                                                         <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
@@ -131,9 +135,13 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href='/details/{{$item['id']}}'>
-                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
-                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
-                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @if(isset($item['main_image']))
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @else
+                                                        <?php $image_path = ''; ?>
+                                                    @endif
+                                                    @if(!empty($item['main_image']) && file_exists($image_path))
+                                                        <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
                                                         <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
@@ -188,9 +196,13 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href='/details/{{$item['id']}}'>
-                                                    <?php $product_image_path = 'images/products/' . $item['main_image']; ?>
-                                                    @if(!empty($item['main_image']) && file_exists($product_image_path))
-                                                        <img src="{{asset($product_image_path)}}" alt="Product image">
+                                                    @if(isset($item['main_image']))
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                    @else
+                                                        <?php $image_path = ''; ?>
+                                                    @endif
+                                                    @if(!empty($item['main_image']) && file_exists($image_path))
+                                                        <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
                                                         <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
@@ -264,12 +276,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if($item['sale_price'] === 0)
+                                                            @if(strtolower($item['label']) === "new")
                                                                 <p>{{$item['base_price']}}/=</p>
-                                                                @else
+                                                            @else
                                                                 <p>{{$item['sale_price']}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
-                                                                @endif
+                                                            @endif
                                                         </div>
                                                         <div class="col button">
                                                             <a href='' class='btn btn-block btn-outline-primary add'>

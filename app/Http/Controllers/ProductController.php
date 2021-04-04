@@ -24,15 +24,15 @@ class ProductController extends Controller
         $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
         $productCount = Product::products()->where('products.status', 1)->count();
-        $productsQuery = Product::products()->where('products.status', 1);
+        $products = Product::products()->where('products.status', 1);
 
         $catDetails = null;
         if($categoryId !== null && $categoryCount > 0) {
             $catDetails = Category::categoryDetails($categoryId);
-            $productsQuery->whereIn('products.category_id', $catDetails['catIds']);
+            $products->whereIn('products.category_id', $catDetails['catIds']);
         }
 
-        $products = $productsQuery->orderByDesc('products.id')->paginate(10);
+        $products = $products->paginate(10);
 
         $sellers = Seller::sellers()->get()->toArray();
         $brands = Brand::brands()->get()->toArray();

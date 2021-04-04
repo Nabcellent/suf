@@ -6,7 +6,11 @@
         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="card">
                 <a href="/details/<?php echo e($item['id']); ?>">
-                    <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                    <?php if(isset($item['main_image'])): ?>
+                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                    <?php else: ?>
+                        <?php $image_path = ''; ?>
+                    <?php endif; ?>
                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                     <?php else: ?>
@@ -46,7 +50,8 @@
     </div>
     <div class="row justify-content-center">
         <div class="col text-center">
-            <?php echo e($products->links()); ?>
+            
+            <?php echo e($products->appends(['sort' => 'title_desc'])->links()); ?>
 
         </div>
     </div>

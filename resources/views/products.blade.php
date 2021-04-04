@@ -52,28 +52,44 @@
 
                 <!--    Start ProductSeeder Section    -->
 
-                <div class="col-md-9 p-0">
+                <div class="col-md-9 pr-0">
                     <div class="row">
-                        <div class="col">
-                            <div class="box bg-light p-3 mb-2 rounded">
-                                <div class="d-flex justify-content-between">
-                                    <h2 id="textChange">
-                                        @if(!empty($catDetails['catDetails']['title']))
-                                            {{$catDetails['catDetails']['title']}}
-                                        @else
-                                            All Products
-                                        @endif
-                                    </h2>
-                                    <p class="m-0 text-muted">Available products: {{count($products)}}</p>
-                                </div>
-                                <hr class="mt-0">
-                                <p>
+                        <div class="col bg-light p-3 mb-2 rounded">
+                            <div class="d-flex justify-content-between">
+                                <h2 id="textChange">
+                                    @if(!empty($catDetails['catDetails']['title']))
+                                        {{$catDetails['catDetails']['title']}}
+                                    @else
+                                        All Products
+                                    @endif
+                                </h2>
+                                <p class="m-0 text-muted">Available products: {{count($products)}}</p>
+                            </div>
+                            <hr class="mt-0">
+                            <div class="row d-flex justify-content-between">
+                                <p class="col">
                                     @if(!empty($catDetails['catDetails']['description']))
                                         {{$catDetails['catDetails']['description']}}
                                     @else
                                         We are pleased to serve you with these products.
                                     @endif
                                 </p>
+                                <div class="col-auto">
+                                    <form id="sort_products_form" class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="sort_by">Sort By</label>
+                                        </div>
+                                        <select class="custom-select" name="sort" id="sort_by">
+                                            <option selected hidden value="">Select</option>
+                                            <option value="newest">Newest Products</option>
+                                            <option value="oldest">Oldest Products</option>
+                                            <option value="title_asc">Title Ascending</option>
+                                            <option value="title_desc">Title Descending</option>
+                                            <option value="price_asc">Price Ascending</option>
+                                            <option value="price_desc">Price Descending</option>
+                                        </select>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

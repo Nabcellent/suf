@@ -777,6 +777,7 @@ nav ul.pagination {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: .5rem;
     box-sizing: border-box;
+    padding: 0;
 }
 #details .card,
 #products .card {

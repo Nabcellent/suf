@@ -83,15 +83,15 @@
 
         <li class="list-group-item">
             <span class="row">
-                        <span class="col">
-                            <a href="#" class="btn-block" data-toggle="collapse" data-target="#collapse{{$section['id']}}">
-                                BRANDS
-                            </a>
-                        </span>
-                        <span class="col-auto mr-2 bg-dark search_icon" data-toggle="collapse" data-target="#search_box">
-                            <i class="bx bx-search"></i>
-                        </span>
-                    </span>
+                <span class="col">
+                    <a href="#" class="btn-block" data-toggle="collapse" data-target="#brands_collapse">
+                        BRANDS
+                    </a>
+                </span>
+                <span class="col-auto mr-2 bg-dark search_icon" data-toggle="collapse" data-target="#search_box">
+                    <i class="bx bx-search"></i>
+                </span>
+            </span>
             <div id="search_box" class="collapse search_box">
                 <input type="text" class="search_text" placeholder="Search Category" aria-label
                        data-filters="#suf_products" data-action="filter">

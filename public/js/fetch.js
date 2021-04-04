@@ -5,6 +5,12 @@ $(() => {
         let ajaxUrl = '/products/get-products?page=' + page;
         getProducts(ajaxUrl);
     });
+
+
+    $(document).on('change', '#products #sort_by', function() {
+        let ajaxUrl = '/products/get-products?page=1';
+        getProducts(ajaxUrl);
+    });
 });
 
 /**==============================================================================  Filter Categories   */
@@ -14,14 +20,15 @@ $(document).on('click','.product_check',function() {
 });
 
 /**=======================================================================  Change Products Per Page   */
+
 $(document).on('change', '#products nav #per_page',() => {
     getProducts('/products/get-products', );
-})
+});
 
 
 const getProducts = (url, changeHeading = false) => {
     $('#loader').show();
-
+    let sort = $('#products #sort_by').val();
     let perPage = parseInt($('#products nav #per_page').val());
 
     let category = getFilterText('category');
@@ -30,10 +37,10 @@ const getProducts = (url, changeHeading = false) => {
     let brand = getFilterText('brand');
 
     let categoryId = location.href.split('/products/')[1];
-    console.log(categoryId);
 
     $.ajax({
         data: {
+            sort:sort,
             categoryId: categoryId,
             perPage:perPage,
             category:category,
