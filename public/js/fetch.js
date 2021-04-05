@@ -2,13 +2,13 @@ $(() => {
     $(document).on('click', '.pagination a', function (event) {
         event.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
-        let ajaxUrl = '/products/get-products?page=' + page;
+        let ajaxUrl = '/products?page=' + page;
         getProducts(ajaxUrl);
     });
 
 
     $(document).on('change', '#products #sort_by', function() {
-        let ajaxUrl = '/products/get-products?page=1';
+        let ajaxUrl = '/products?page=1';
         getProducts(ajaxUrl);
     });
 });
@@ -16,13 +16,13 @@ $(() => {
 /**==============================================================================  Filter Categories   */
 
 $(document).on('click','.product_check',function() {
-    getProducts('/products/get-products', true);
+    getProducts('/products', true);
 });
 
 /**=======================================================================  Change Products Per Page   */
 
 $(document).on('change', '#products nav #per_page',() => {
-    getProducts('/products/get-products', );
+    getProducts('/products', );
 });
 
 

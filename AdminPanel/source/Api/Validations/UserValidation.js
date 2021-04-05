@@ -12,6 +12,13 @@ module.exports = {
                 .isAlpha().withMessage('Last name can only contain letters'),
             check('password')
                 .isLength({ min: 1 }).withMessage('Password min length is 3'),
+            check('confirmPassword')
+                .custom(async (confirmPassword, {req}) => {
+                    const password = req.body.password;
+                    if(password !== confirmPassword){
+                        throw new Error('Passwords must be same!')
+                    }
+                }),
             check('email').custom(async (value) => {
                 if(!await dbCheck.getCheckInstance().checkEmail('users', 'email', value))
                     return true;
@@ -23,7 +30,7 @@ module.exports = {
                 throw new Error('Phone number is in use!');
             }),
             check('gender').custom((value) => {
-                if (value === "M" || value === "F")
+                if (value.toLowerCase() === "m" || value.toLowerCase() === "f")
                     return true;
                 throw new Error('Invalid Gender');
             })

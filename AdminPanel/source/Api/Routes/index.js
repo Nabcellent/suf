@@ -5,18 +5,18 @@ const productsRoute = require('./ProductsRoute');
 const pageContentRoutes = require('./PageContentRoutes');
 const ordersRoute = require('./OrdersRoute');
 const usersRoute = require('./UsersRoute');
-const adminRoute = require('./AdminRoute');
+const adminRoutes = require('./AdminRoutes');
 const authRoute = require('./AuthRoute');
 
-router.use('/user', /*checkAuth,*/ usersRoute);
-router.use('/admin', /*checkAuth,*/ adminRoute);
 router.use('/auth', /*checkAuth,*/ authRoute);
+router.use('/users', /*checkAuth,*/ usersRoute);
+router.use('/admins', /*checkAuth,*/ adminRoutes);
 router.use('/products', /*checkAuth,*/ productsRoute);
 router.use('/orders', /*checkAuth,*/ ordersRoute);
 router.use('/payments', /*checkAuth,*/ ordersRoute);
 router.use('/content', /*checkAuth,*/ pageContentRoutes);
 
-router.use('/', usersRoute);
+
 router.use(generalRoute);
 
 

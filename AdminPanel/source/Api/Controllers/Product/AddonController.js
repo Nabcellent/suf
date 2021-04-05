@@ -2,7 +2,7 @@ const moment = require('moment');
 const AddonService = require("../../Services/Product/AddonService");
 const {validationResult} = require("express-validator");
 const {dbRead} = require("../../../Database/query");
-const {alert} = require('../../Helpers');
+const {alertUser} = require('../../Helpers');
 
 module.exports = {
     readAddons: async (req, res) => {
@@ -37,7 +37,7 @@ module.exports = {
 
         if(!errors.isEmpty()) {
             const error = errors.array()[0];
-            alert(req, 'info', 'Something is missing!', error.msg);
+            alertUser(req, 'info', 'Something is missing!', error.msg);
             return res.redirect('back');
         }
 
@@ -54,9 +54,9 @@ module.exports = {
             result
                 .then(data => {
                     if(data === 1) {
-                        alert(req, 'success', 'Success!', 'Action Completed.')
+                        alertUser(req, 'success', 'Success!', 'Action Completed.')
                     } else {
-                        alert(req,'danger', 'Error!', 'Unable to complete action.')
+                        alertUser(req,'danger', 'Error!', 'Unable to complete action.')
                     }
                     res.redirect('back');
                 }).catch(err => console.log(err));
@@ -71,15 +71,15 @@ module.exports = {
             AddonService.deleteBrand(req.body.brand_id)
                 .then(data => {
                     if(data === 1) {
-                        alert(req, 'success', '', 'Brand deleted');
+                        alertUser(req, 'success', '', 'Brand deleted');
                     } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
+                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                     }
                     res.redirect('back');
                 }).catch(error => console.log(error));
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
             res.redirect('back');
         }
     },
@@ -92,16 +92,16 @@ module.exports = {
             AddonService.updateBrandStatus(brand_id, newStatus)
                 .then((data) => {
                     if(data === 1) {
-                        alert(req, 'success', '', 'Status Updated!');
+                        alertUser(req, 'success', '', 'Status Updated!');
                         return res.json({status: newStatus});
                     } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
+                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                         return res.json({errors: {message: 'Internal error. Contact Admin'}});
                     }
                 }).catch(error => console.log(error));
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
             res.redirect('back');
         }
     },

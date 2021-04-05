@@ -20,7 +20,6 @@ use App\Http\Controllers\PolicyController;
 */
 
 //Product Routes
-Route::get('/products/get-products', [AjaxController::class, 'getProducts']);
 Route::get('/products/{categoryId?}', [ProductController::class, 'index']);
 
 Route::get('/', [IndexController::class, 'index']);

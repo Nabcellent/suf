@@ -68,6 +68,35 @@ sellerDataTable.on( 'order.dt search.dt', function () {
 }).draw();
 
 
+/*_____________________  ADMINISTRATORS  _____________________*/
+
+const adminsDataTable = $('#admins_table').DataTable({
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    order: [[ 2, 'asc' ]],
+    language: {
+        info: 'Number of administrators: _MAX_',
+        infoFiltered:   "(filtered _TOTAL_ admins)",
+        search: "_INPUT_",
+        searchPlaceholder: "Search admin"
+    },
+    columnDefs: [{
+        searchable: false,
+        orderable: false,
+        targets: 0
+    }, {
+        searchable: false,
+        orderable: false,
+        targets: 6
+    }],
+});
+adminsDataTable.on( 'order.dt search.dt', function () {
+    adminsDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell["innerHTML"] = i+1;
+    } );
+}).draw();
+
+
 /*_____________________  CUSTOMERS  _____________________*/
 
 const customerDataTable = $('#customers_table').DataTable({

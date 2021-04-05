@@ -2,7 +2,7 @@ const ProductServices = require('../../Services/Product/ProductService');
 const moment = require('moment');
 const {dbRead} = require("../../../Database/query");
 const {validationResult} = require("express-validator");
-const {alert, validationHelper} = require('../../Helpers');
+const {alertUser, validationHelper} = require('../../Helpers');
 const fs = require("fs");
 const {join} = require("path");
 
@@ -14,7 +14,7 @@ const createProduct = async(req, res) => {
 
     if(!errors.isEmpty()) {
         const error = errors.array()[0];
-        alert(req, 'info', 'Something is missing!', error.msg);
+        alertUser(req, 'info', 'Something is missing!', error.msg);
 
         return res.redirect('back');
     } else if (!req.files || Object.keys(req.files).length === 0) {
@@ -40,10 +40,10 @@ const createProduct = async(req, res) => {
                 sale_price, discount, name, keywords, description, featured)
                 .then(data => {
                     if(data === 1) {
-                        alert(req, 'success', 'Success!', 'Product Created');
+                        alertUser(req, 'success', 'Success!', 'Product Created');
                         res.redirect('/products');
                     } else {
-                        alert(req, 'danger', 'Error', 'Unable to add');
+                        alertUser(req, 'danger', 'Error', 'Unable to add');
                         res.redirect('back');
                     }
                 }).catch(error => console.error(error));
@@ -86,17 +86,17 @@ const updateProduct = async(req, res) => {
                 base_price, sale_price, discount, brand_id)
                 .then((data) => {
                     if(data === 1) {
-                        alert(req, 'success', '', 'Product Updated!');
+                        alertUser(req, 'success', '', 'Product Updated!');
                     } else if(data === 0) {
-                        alert(req, 'info', '', 'Nothing to Update.');
+                        alertUser(req, 'info', '', 'Nothing to Update.');
                     } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
+                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                     }
                     res.redirect('back');
                 }).catch(error => console.log(error));
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
             res.redirect('back');
         }
     }
@@ -115,7 +115,7 @@ const updateProductStatus = async(req, res) => {
                 }
             }).catch(error => console.log(error));
     } catch(error) {
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }
 }
@@ -131,19 +131,19 @@ const deleteProduct = async(req, res) => {
                         if (err) {
                             throw err
                         } else {
-                            alert(req, 'success', '', 'Product Deleted!');
+                            alertUser(req, 'success', '', 'Product Deleted!');
                         }
                         res.redirect('back');
                     })
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                     console.log(data);
                     res.redirect('back');
                 }
             }).catch(error => console.log(error));
     } catch(error) {
         console.log(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }
 }
@@ -247,7 +247,7 @@ module.exports = {
 
         if(!errors.isEmpty()) {
             const error = errors.array()[0];
-            alert(req, 'info', 'Something is missing!', error.msg);
+            alertUser(req, 'info', 'Something is missing!', error.msg);
 
             return res.redirect('back');
         }
@@ -261,18 +261,18 @@ module.exports = {
                 .then((data) => {
                     if(data.affectedRows === 1) {
                         ProductServices.createVariationOptions(data.insertId, variation_values);
-                        alert(req, 'success', 'success!', 'Variation added.');
+                        alertUser(req, 'success', 'success!', 'Variation added.');
                     } else {
-                        alert(req, 'danger', 'Error!', 'Unable to add variation');
+                        alertUser(req, 'danger', 'Error!', 'Unable to add variation');
                     }
 
                     res.redirect('back');
                 }).catch((error) => {
                     console.log(error);
-                    alert(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+                    alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
             });
         } catch (error) {
-            alert(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
             console.log(error);
         }
     },
@@ -284,18 +284,18 @@ module.exports = {
             ProductServices.updateVariationPrice(variation_id, extra_price)
                 .then((data) => {
                     if(data === 1) {
-                        alert(req, 'success', 'success!', 'Price Set.');
+                        alertUser(req, 'success', 'success!', 'Price Set.');
                     } else {
-                        alert(req, 'danger', 'Error!', 'Unable to set price');
+                        alertUser(req, 'danger', 'Error!', 'Unable to set price');
                     }
 
                     res.redirect('back');
                 }).catch((error) => {
                     console.log(error);
-                    alert(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+                    alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
             });
         } catch (error) {
-            alert(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
             console.log(error);
         }
     },
@@ -338,14 +338,14 @@ module.exports = {
             }
 
             if(await insertImages()) {
-                alert(req, 'success', 'Success!', 'Image(s) uploaded.');
+                alertUser(req, 'success', 'Success!', 'Image(s) uploaded.');
             } else {
-                alert(req, 'danger', 'Error!', 'Unable to upload image(s).');
+                alertUser(req, 'danger', 'Error!', 'Unable to upload image(s).');
             }
             res.redirect('back');
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong');
         }
     },
 
@@ -358,16 +358,16 @@ module.exports = {
             ProductServices.updateImageStatus(image_id, newStatus)
                 .then((data) => {
                     if(data === 1) {
-                        alert(req, 'success', '', 'Status Updated!');
+                        alertUser(req, 'success', '', 'Status Updated!');
                         return res.json({status: newStatus});
                     } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
+                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                         return res.json({errors: {message: 'Internal error. Contact Admin'}});
                     }
                 }).catch(error => console.log(error));
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
             res.redirect('back');
         }
     },
@@ -384,18 +384,18 @@ module.exports = {
                             if (err) {
                                 throw err
                             } else {
-                                alert(req, 'success', '', 'Image Deleted!');
+                                alertUser(req, 'success', '', 'Image Deleted!');
                             }
                             res.redirect('back');
                         })
                     } else {
-                        alert(req, 'danger', 'Error!', 'Something went wrong!');
+                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                         res.redirect('back');
                     }
                 }).catch(error => console.log(error));
         } catch(error) {
             console.log(error);
-            alert(req, 'danger', 'Error!', 'Something went wrong!');
+            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
             res.redirect('back');
         }
     },
@@ -407,7 +407,7 @@ module.exports = {
 
         if(!errors.isEmpty()) {
             const error = errors.array()[0];
-            alert(req, 'info', 'Something is amiss!', error.msg);
+            alertUser(req, 'info', 'Something is amiss!', error.msg);
 
             return res.redirect('back');
         }
@@ -420,15 +420,15 @@ module.exports = {
             result
                 .then(data => {
                     if(data === 1) {
-                        alert(req, 'success', 'Success!', 'Attribute created.');
+                        alertUser(req, 'success', 'Success!', 'Attribute created.');
                         res.redirect('back');
                     } else {
-                        alert(req, 'danger', 'Error!', 'Unable to add.')
+                        alertUser(req, 'danger', 'Error!', 'Unable to add.')
                         console.log(data);
                     }
                 }).catch(err => console.log(err));
         } catch (error) {
-            alert(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
             console.error(error);
         }
     },

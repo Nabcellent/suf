@@ -1,18 +1,17 @@
-
-const {BannerService} = require("../../Services");
-const {dbRead} = require("../../../Database/query");
-const {alert} = require('../../Helpers');
-const {join} = require("path");
 const fs = require("fs")
+const {dbRead} = require("../../../Database/query");
+const {alertUser} = require('../../Helpers');
+const {join} = require("path");
 const createError = require('http-errors');
 const {validationResult} = require("express-validator");
+const {BannerService} = require("../../Services");
 
 const createBanner = async (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
         const error = errors.array()[0];
-        alert(req, 'info', 'Something is missing!', error.msg);
+        alertUser(req, 'info', 'Something is missing!', error.msg);
 
         return res.redirect('back');
     } else if (!req.files || Object.keys(req.files).length === 0) {
@@ -37,7 +36,7 @@ const createBanner = async (req, res, next) => {
                     if(response instanceof Error) {
                         throw createError(404, response);
                     } else if(response === 1) {
-                        alert(req, 'success', 'Success!', 'Banner Created.');
+                        alertUser(req, 'success', 'Success!', 'Banner Created.');
                     } else {
                         throw createError(404, 'Something went wrong');
                     }
@@ -73,7 +72,7 @@ const updateBanner = async(req, res, next) => {
 
     if(!errors.isEmpty()) {
         const error = errors.array()[0];
-        alert(req, 'info', 'Something is missing!', error.msg);
+        alertUser(req, 'info', 'Something is missing!', error.msg);
 
         return res.redirect('back');
     } else {
@@ -85,7 +84,7 @@ const updateBanner = async(req, res, next) => {
                     if(response instanceof Error) {
                         throw createError(404, response);
                     } else if(response === 1) {
-                        alert(req, 'success', 'Success!', 'Banner Info Updated.');
+                        alertUser(req, 'success', 'Success!', 'Banner Info Updated.');
                     } else {
                         throw createError(404, 'Something went wrong');
                     }
@@ -109,19 +108,19 @@ const deleteBanner = async(req, res) => {
                             if (err) {
                                 throw err.message;
                             } else {
-                                alert(req, 'success', '', 'Banner Deleted!');
+                                alertUser(req, 'success', '', 'Banner Deleted!');
                                 res.json(data);
                             }
                         });
                     }
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                     res.json(data);
                 }
             }).catch(error => console.log(error));
     } catch(error) {
         console.log(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }
 }
@@ -158,7 +157,7 @@ const updateBannerImage = async(req, res, next) => {
                     if(response instanceof Error) {
                         throw createError(404, response);
                     } else if(response === 1) {
-                        alert(req, 'success', 'Success! : ', 'Banner Updated!');
+                        alertUser(req, 'success', 'Success! : ', 'Banner Updated!');
                     } else {
                         throw createError(404, 'Something went wrong');
                     }
@@ -178,16 +177,16 @@ const updateBannerStatus = async(req, res) => {
         BannerService.updateBannerStatus(banner_id, newStatus)
             .then((data) => {
                 if(data === 1) {
-                    alert(req, 'success', '', 'Status Updated!');
+                    alertUser(req, 'success', '', 'Status Updated!');
                     return res.json({status: newStatus});
                 } else {
-                    alert(req, 'danger', 'Error!', 'Something went wrong!');
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
                     return res.json({errors: {message: 'Internal error. Contact Admin'}});
                 }
             }).catch(error => console.log(error));
     } catch(error) {
         console.log(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
         res.redirect('back');
     }
 }

@@ -2,14 +2,14 @@ const createError = require("http-errors");
 const {CategoryService} = require("../../Services");
 const {validationResult} = require("express-validator");
 const {dbRead} = require("../../../Database/query");
-const {alert} = require('../../Helpers');
+const {alertUser} = require('../../Helpers');
 
 const createCategory = async(req, res) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
         const error = errors.array()[0];
-        alert(req, 'info', 'Something is missing!', error.msg);
+        alertUser(req, 'info', 'Something is missing!', error.msg);
         return res.redirect('back');
     }
 
@@ -19,9 +19,9 @@ const createCategory = async(req, res) => {
         CategoryService.createCategory(title, sections, description)
             .then(data => {
                 if(data === 1) {
-                    alert(req, 'success', 'Success!', 'Category Created.')
+                    alertUser(req, 'success', 'Success!', 'Category Created.')
                 } else {
-                    alert(req,'danger', 'Error!', 'Unable to add.')
+                    alertUser(req,'danger', 'Error!', 'Unable to add.')
                 }
                 res.redirect('back');
             }).catch(err => console.log(err));
@@ -79,7 +79,7 @@ const updateCategory = async(req, res, next) => {
                 if(response instanceof Error) {
                     throw createError(404, response);
                 } else if(response === 1) {
-                    alert(req, 'success', 'Success!', 'Category updated.');
+                    alertUser(req, 'success', 'Success!', 'Category updated.');
                 } else {
                     throw createError(404, 'Something went wrong');
                 }
@@ -99,7 +99,7 @@ const deleteCategory = async(req, res) => {
             });
     } catch(error) {
         console.log(error);
-        alert(req, "info", '', 'Sub-Category deleted.');
+        alertUser(req, "info", '', 'Sub-Category deleted.');
     }
 }
 
@@ -112,7 +112,7 @@ const createSubCategory = async(req, res, next) => {
                 if(response instanceof Error) {
                     throw createError(404, response);
                 } else if(response === 1) {
-                    alert(req, 'success', 'Success!', 'Sub-Category created.');
+                    alertUser(req, 'success', 'Success!', 'Sub-Category created.');
                 } else {
                     throw createError(404, 'Something went wrong');
                 }
@@ -120,7 +120,7 @@ const createSubCategory = async(req, res, next) => {
             }).catch(err => next(err));
     } catch(error) {
         next(error);
-        alert(req, 'danger', 'Error!', 'Something went wrong!');
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
     }
 }
 const updateSubCategory = async(req, res, next) => {
@@ -132,7 +132,7 @@ const updateSubCategory = async(req, res, next) => {
                 if(response instanceof Error) {
                     throw createError(404, response);
                 } else if(response === 1) {
-                    alert(req, 'success', 'Success!', 'Category updated.');
+                    alertUser(req, 'success', 'Success!', 'Category updated.');
                 } else {
                     throw createError(404, 'Something went wrong');
                 }
