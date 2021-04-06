@@ -1,12 +1,12 @@
-<%- include('../../partials/alert.ejs') %>
+<%- include('../partials/alert.ejs') %>
 
 <div class="container-fluid p-0">
     <div class="row">
-        <div class="col-9">
+        <div class="col-10">
             <div class="card crud_table shadow mb-4">
                 <div class="card-header d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Administrators</h6>
-                    <a href="admins/create" class="btn btn-outline-info">Add Admin</a>
+                    <a href="users/create/admin" class="btn btn-outline-info">Add Admin</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -14,10 +14,13 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Image</th>
                                 <th>First name</th>
                                 <th>Last name</th>
                                 <th>email</th>
                                 <th>gender</th>
+                                <th>Phone</th>
+                                <th>ID</th>
                                 <th>Date Created</th>
                                 <th>Action</th>
                             </tr>
@@ -28,10 +31,17 @@
                             <% admins.forEach(row => { %>
                                 <tr>
                                     <td></td>
+                                    <% if(imageExists('admin', row.image)) {%>
+                                        <td><img src="/images/users/admin/<%= row.image %>" alt="profile" class="img-fluid"></td>
+                                    <% } else { %>
+                                        <td><img src="/images/general/NO-IMAGE.png" alt="profile" class="img-fluid"></td>
+                                    <% } %>
                                     <td><%= row.first_name %></td>
                                     <td><%= row.last_name %></td>
                                     <td><%= row.email %></td>
                                     <td><%= row.gender %></td>
+                                    <td><%= row.phone %></td>
+                                    <td><%= row.national_id %></td>
                                     <td><%= moment(row.date).format('DD/MM/YYYY') %></td>
                                     <td class="action">
                                         <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>

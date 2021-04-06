@@ -1,6 +1,6 @@
-<%- include('../../partials/alert.ejs') %>
+<%- include('../partials/alert.ejs') %>
 
-<div id="add_admin" class="container-fluid p-0">
+<div id="add_user" class="container-fluid p-0">
 
     <!--    Start Insert Card    -->
     <div class="row">
@@ -8,9 +8,9 @@
             <div class="row">
                 <div class="col-lg-9 col-md-12">
                     <div class="card shadow">
-                        <form id="frm_add_admin" action="/users" method="POST" enctype="multipart/form-data">
+                        <form id="frm_add_user" action="/users" method="POST" enctype="multipart/form-data">
                             <div class="card-header d-flex justify-content-between">
-                                <h4 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Add Admin</h4>
+                                <h4 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Add <%= userType %></h4>
                                 <div class="dropdown no-arrow">
                                     <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <input type="hidden"  name="user_type" value="Admin">
+                                <input type="hidden"  name="user_type" value="<%= userType %>">
                                 <button type="submit" class="btn btn-outline-primary">
                                     <i class="fas fa-plus-circle"></i> Insert Product
                                 </button>
@@ -121,8 +121,14 @@
             <div class="card crud_table shadow mb-4">
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <a href="/products" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            All Products<span class="badge badge-primary badge-pill">14</span>
+                        <a href="/admins" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            All Admins<span class="badge badge-primary badge-pill">14</span>
+                        </a>
+                        <a href="/sellers" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            All Sellers<span class="badge badge-primary badge-pill">14</span>
+                        </a>
+                        <a href="/customers" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            All Customers<span class="badge badge-primary badge-pill">14</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             Orders<span class="badge badge-primary badge-pill">7</span>

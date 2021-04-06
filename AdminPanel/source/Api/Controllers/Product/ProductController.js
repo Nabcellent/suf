@@ -192,7 +192,7 @@ const readProductDetails = async(req, res) => {
         product: await dbRead.getReadInstance().getFromDb({
             table: 'products',
             columns: 'products.id, products.title as product_title, main_image, keywords, ' +
-                'label, base_price, sale_price, discount, products.created_at, products.updated_at, description, is_featured, ' +
+                'label, base_price, sale_price, discount, products.created_at, products.updated_at, products.description, is_featured, ' +
                 'categories.id AS category_id, categories.title AS category_title, users.id as user_id, first_name, last_name, ' +
                 'brands.id AS brand_id, brands.name AS brand',
             join: [
@@ -226,9 +226,44 @@ const readProductDetails = async(req, res) => {
     }
 
     res.render('products/details', {
-        Title: 'some product',      layout: './layouts/nav',
+        Title: results.product[0].product_title,      layout: './layouts/nav',
         details: results,           moment: moment,
     });
+}
+
+const createVariation = async(req, res) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+        const error = errors.array()[0];
+        alertUser(req, 'info', 'Something is missing!', error.msg);
+
+        return res.redirect('back');
+    }
+
+    const productId = parseInt(req.params.id, 10);
+    const {attribute, variation_values} = req.body;
+    const variationsJson = JSON.stringify({[attribute]: variation_values});
+
+    try {
+        ProductServices.createVariation(productId, variationsJson)
+            .then((data) => {
+                if(data.affectedRows === 1) {
+                    ProductServices.createVariationOptions(data.insertId, variation_values);
+                    alertUser(req, 'success', 'success!', 'Variation added.');
+                } else {
+                    alertUser(req, 'danger', 'Error!', 'Unable to add variation');
+                }
+
+                res.redirect('back');
+            }).catch((error) => {
+            console.log(error);
+            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+        });
+    } catch (error) {
+        alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+        console.log(error);
+    }
 }
 
 module.exports = {
@@ -240,42 +275,7 @@ module.exports = {
     readProductCreate,
     readProductDetails,
 
-
-
-    createVariation: async(req, res) => {
-        const errors = validationResult(req);
-
-        if(!errors.isEmpty()) {
-            const error = errors.array()[0];
-            alertUser(req, 'info', 'Something is missing!', error.msg);
-
-            return res.redirect('back');
-        }
-
-        const productId = parseInt(req.params.id, 10);
-        const {attribute, variation_values} = req.body;
-        const variationsJson = JSON.stringify({[attribute]: variation_values});
-
-        try {
-            ProductServices.createVariation(productId, variationsJson)
-                .then((data) => {
-                    if(data.affectedRows === 1) {
-                        ProductServices.createVariationOptions(data.insertId, variation_values);
-                        alertUser(req, 'success', 'success!', 'Variation added.');
-                    } else {
-                        alertUser(req, 'danger', 'Error!', 'Unable to add variation');
-                    }
-
-                    res.redirect('back');
-                }).catch((error) => {
-                    console.log(error);
-                    alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
-            });
-        } catch (error) {
-            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
-            console.log(error);
-        }
-    },
+    createVariation,
 
     updateVariationPrice: async(req, res) => {
         const {extra_price, variation_id} = req.body;

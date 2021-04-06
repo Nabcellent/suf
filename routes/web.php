@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AjaxController;
@@ -19,10 +20,22 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-//Product Routes
-Route::get('/products/{categoryId?}', [ProductController::class, 'index']);
+//  Home Page Routes
+Route::get('/', [IndexController::class, 'index'])->name('home');
 
-Route::get('/', [IndexController::class, 'index']);
+//  Product Routes
+Route::get('/products', [ProductController::class, 'index']);
+//  Get category Url
+$carUrls = Category::select('id')->where('status', 1)->get()->pluck('id')->toArray();
+foreach($carUrls as $url) {
+    Route::get('/products/' . $url, [ProductController::class, 'index']);
+}
+
+//  Product Details Route
+//Route::get('/Product/{id}', )
+
+
+
 
 Route::get('/sign-in', function() {
     return view('login');
@@ -32,10 +45,6 @@ Route::get('/sign-out', [UserController::class, 'signOut']);
 
 Route::get('/register', function() {
     return view('register');
-});
-
-Route::get('/contact-us', function() {
-    return view('contact_us');
 });
 
 Route::get('/profile/{page}', function() {

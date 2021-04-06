@@ -43,8 +43,7 @@ productDataTable.on( 'order.dt search.dt', function () {
 const sellerDataTable = $('#sellers_table').DataTable({
     scrollY:        '50vh',
     scrollCollapse: true,
-    paging:         false,
-    order: [[ 2, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     language: {
         info: 'Number of sellers: _MAX_',
         infoFiltered:   "(filtered _TOTAL_ sellers)",
@@ -73,7 +72,7 @@ sellerDataTable.on( 'order.dt search.dt', function () {
 const adminsDataTable = $('#admins_table').DataTable({
     scrollY:        '50vh',
     scrollCollapse: true,
-    order: [[ 2, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     language: {
         info: 'Number of administrators: _MAX_',
         infoFiltered:   "(filtered _TOTAL_ admins)",

@@ -119,7 +119,7 @@ module.exports = {
                 return true;
             } else {
                 insert(variationId, variants)
-                    .then(r => console.log(r))
+                    .then()
                     .catch(error => {return console.log(error)});
             }
         } catch(error) {

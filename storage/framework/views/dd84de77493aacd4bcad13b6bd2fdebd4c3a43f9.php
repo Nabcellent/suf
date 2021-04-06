@@ -5,7 +5,7 @@
         <!--    Start Single ProductSeeder    -->
         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="card">
-                <a href="/details/<?php echo e($item['id']); ?>">
+                <a href="/product/<?php echo e($item['id']); ?>">
                     <?php if(isset($item['main_image'])): ?>
                         <?php $image_path = 'images/products/' . $item['main_image']; ?>
                     <?php else: ?>

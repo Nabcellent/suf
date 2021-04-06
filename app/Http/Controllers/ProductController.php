@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Product;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Route;
 
 class ProductController extends Controller
 {
-    public function index(Request $req, $categoryId = null): View|Factory|string|Application
+    public function index(Request $req): View|Factory|string|Application
     {
         if($req->ajax()) {
             $data = $req->all();
@@ -66,6 +67,8 @@ class ProductController extends Controller
             return view('partials.products.products_data', compact('products'));
         }
 
+        $categoryId = Route::getFacadeRoot()->current()->uri();
+        $categoryId = substr($categoryId, 9);
         $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
         $productCount = Product::products()->where('products.status', 1)->count();

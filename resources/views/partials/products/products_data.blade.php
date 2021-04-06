@@ -5,7 +5,7 @@
         <!--    Start Single ProductSeeder    -->
         @foreach($products as $item)
             <div class="card">
-                <a href="/details/{{$item['id']}}">
+                <a href="/product/{{$item['id']}}">
                     @if(isset($item['main_image']))
                         <?php $image_path = 'images/products/' . $item['main_image']; ?>
                     @else

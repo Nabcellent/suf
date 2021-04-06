@@ -28,7 +28,7 @@ module.exports = {
     createSeller: async(userId, IdNumber) => {
         try {
             return await new Promise((resolve, reject) => {
-                const qry = "INSERT INTO sellers(user_id, id_number, created_at, updated_at) VALUES (?, ?, ?, ?)";
+                const qry = "INSERT INTO sellers(user_id, national_id, created_at, updated_at) VALUES (?, ?, ?, ?)";
 
                 link.query(qry, [userId, IdNumber, date, date], (err, result) => {
                     if(err)

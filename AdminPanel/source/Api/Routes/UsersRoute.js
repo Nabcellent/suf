@@ -1,6 +1,5 @@
 const {Router} = require('express');
 const router = Router();
-const {checkAuth} = require("../Middleware/checkAuthentication");
 const {UserValidation} = require("../Validations");
 const {UserController} = require("../Controllers");
 
@@ -14,14 +13,15 @@ const {UserController} = require("../Controllers");
 //router.delete('/:id');    //  Deletes a user
 //router.patch('/:id');     //  Updates a user
 
+
 router.route('/')
     .post(UserValidation.create(), UserController.createUser);
+
+router.get('/create/:userType', UserController.getCreateUser);
+
 router.route('/:id')
     .get(UserController.readProfile);
 
-
-router.route('/seller')
-    .get(UserController.readSeller);
 
 router.route('/customer')
     .get(UserController.readCustomer);
