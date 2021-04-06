@@ -36,7 +36,8 @@ Theme Versions      :   1.1
 
 html, body {
     height: 100%;
-    font-family: 'Itim', cursive;
+    /*font-family: 'Itim', cursive;*/
+    font-family: 'Varela Round', cursive;
     background: var(--body-color);
     overflow-x: hidden;
 }
@@ -855,28 +856,6 @@ nav ul.pagination {
 
 /*=======+++++++=======+++++++=======  DETAILS  =======+++++++=======+++++++=======*/
 
-#details #main_product {
-    min-height: 25rem;
-    max-height: 20rem;
-}
-#details .details_box .prices {
-    display: flex;
-    align-items: center;
-    position: relative;
-    color: var(--dark-red);
-    font-size: 1rem;
-    font-weight: 400;
-    margin: 0;
-}
-#details .details_box .prices input {
-    background-color: transparent;
-    border: none;
-}
-#details .details_box del {
-    position: absolute;
-    bottom: .3rem;
-    font-size: var(--font-size-tiny);
-}
 
 /*+++++++*+++++++*+++++++  ProductSeeder Label  +++++++*/
 #details .product_label {

@@ -32,7 +32,7 @@ foreach($carUrls as $url) {
 }
 
 //  Product Details Route
-//Route::get('/Product/{id}', )
+Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
 
 
 

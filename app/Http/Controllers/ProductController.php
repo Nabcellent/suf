@@ -96,11 +96,11 @@ class ProductController extends Controller
 
 
 
-    public function productDetails($id): Application
+    public function details($id, $title): Factory|View|Application
     {
         $details = [
             'details' => Product::find($id),
-            'products' => Product::join('manufacturers', 'products.man_id', '=', 'manufacturers.man_id')
+            'products' => Product::join('sellers', 'products.seller_id', '=', 'sellers.user_id')
                 -> get() -> shuffle()
         ];
 

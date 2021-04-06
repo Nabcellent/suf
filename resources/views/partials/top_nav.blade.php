@@ -25,7 +25,7 @@
 
                                 @foreach($latestFour as $four)
                                     <div class="list_item text-center">
-                                        <a href="/details/{{$four['id']}}">
+                                        <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
                                             <img src="/images/products/{{$four['main_image']}}" alt="new ProductSeeder">
                                             <h4 class="title">{{$four['title']}}</h4>
                                         </a>

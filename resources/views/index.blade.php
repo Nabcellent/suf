@@ -67,7 +67,7 @@
                                     @foreach($featuredProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
-                                                <a href='/details/{{$item['id']}}'>
+                                                <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
                                                         <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
@@ -134,7 +134,7 @@
                                     @foreach($newLadiesProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
-                                                <a href='/details/{{$item['id']}}'>
+                                                <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
                                                         <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
@@ -195,7 +195,7 @@
                                     @foreach($newGentsProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
-                                                <a href='/details/{{$item['id']}}'>
+                                                <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
                                                         <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
@@ -264,7 +264,7 @@
                                     @foreach($topProducts as $item)
                                         <div class="swiper-slide">
                                             <div class="card">
-                                                <a href=''>
+                                                <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     <img src='images/products/{{$item['main_image']}}' alt=''>
                                                 </a>
                                                 <div class="supplier">

@@ -1,5 +1,5 @@
 $(() => {
-    /*****************************  SWIPER  *****************************/
+    /*****************************  INDEX SWIPERS  *****************************/
 
     const swiper = new Swiper('.product_swiper', {
         slidesPerView: 'auto',
@@ -32,6 +32,9 @@ $(() => {
         }
     });
 
+
+
+    /*****************************  DETAILS SWIPER  *****************************/
 
     let galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
