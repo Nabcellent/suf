@@ -12,12 +12,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Product;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -96,10 +98,11 @@ class ProductController extends Controller
     {
         $details = Product::with('category', 'brand', 'seller', 'variations', 'images')->find($id)->toArray();
         $totalStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-            ->where('product_id', $id)->sum('stock');
+            ->where(['product_id' => $id, 'variations.status' => 1, 'variations_options.status' => 1])->sum('stock');
+        $related = Product::with('brand')->where('category_id', $details['category']['id'])
+            ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get()->toArray();
 
-        //dd($details);
-        return view('details')->with(compact('details', 'totalStock'));
+        return view('details')->with(compact('details', 'totalStock', 'related'));
     }
 
     public function getProductPrice(Request $req): void
@@ -107,7 +110,7 @@ class ProductController extends Controller
         if($req->ajax()) {
             $data = $req->all();
 
-            $basePrice = Product::find($data['productId'])->value('base_price');
+            $basePrice = Product::where('id', (int)$data['productId'])->value('base_price');
             $extraPrice = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
                 ->whereIn('variant', $data['variations'])
                 ->where('product_id', $data['productId'])->sum('extra_price');
@@ -117,6 +120,39 @@ class ProductController extends Controller
         }
     }
 
+    public function addToCart(Request $req): Redirector|RedirectResponse|Application
+    {
+        if($req->isMethod('POST')) {
+            $data = $req->all();
+            $details = array();
+
+            foreach($data as $key => $value) {
+                if(str::startsWith($key, 'variant')) {
+                    $variant = Str::of(substr($key, 7))->singular()->jsonSerialize();
+                    $details = Arr::add($details, $variant, $value);
+                }
+            }
+
+            if(count($details) > 0) {
+                dd(json_encode($details));
+            } else {
+                echo "<pre>"; print_r($data); die;
+            }
+        }
+        /*if(!Auth::check()) {
+            return redirect('/sign-in');
+        }
+
+        $cart = new Cart;
+        $cart -> product_id = $req -> product_id;
+        $cart -> user_id = Auth::id();
+        $cart -> quantity = $req -> quantity;
+        $cart -> size = $req -> size;
+        $cart -> unit_price = substr($req -> price, 0, -2);
+        $cart -> save();*/
+
+        return back();
+    }
 
 
 
@@ -139,22 +175,5 @@ class ProductController extends Controller
         ];
 
         return view('cart', compact('cart'));
-    }
-
-    public function addToCart(Request $req): Redirector|RedirectResponse|Application
-    {
-        if(!Auth::check()) {
-            return redirect('/sign-in');
-        }
-
-        $cart = new Cart;
-        $cart -> product_id = $req -> product_id;
-        $cart -> user_id = Auth::id();
-        $cart -> quantity = $req -> quantity;
-        $cart -> size = $req -> size;
-        $cart -> unit_price = substr($req -> price, 0, -2);
-        $cart -> save();
-
-        return back();
     }
 }

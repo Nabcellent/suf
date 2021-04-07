@@ -216,13 +216,14 @@ const readProductDetails = async(req, res) => {
         }),
         variations: (await dbRead.getReadInstance().getFromDb({
             table: 'variations',
-            columns: 'id, variation',
+            columns: 'id, variation, status',
             where: [['product_id', '=', productId]]
         })),
         varOptions: await dbRead.getReadInstance().getFromDb({
             table: 'variations_options',
-            columns: 'variations_options.id as varOptId, variation, variant, stock, extra_price, image',
-            join: [['variations', 'variations_options.variation_id = variations.id']]
+            columns: 'variations_options.id as varOptId, variation, variant, stock, extra_price, image, variations_options.status',
+            join: [['variations', 'variations_options.variation_id = variations.id']],
+            where: [['product_id', '=', productId]]
         })
     }
 
@@ -323,6 +324,42 @@ const updateVariationStock = async(req, res, next) => {
         next(err);
     }
 }
+const updateVariationStatus = async(req, res) => {
+    const {status, id} = req.body;
+    let newStatus = (status === 'Active') ? 0 : 1;
+
+    try {
+        ProductServices.updateStatus('variations', id, newStatus)
+            .then(data => {
+                if(data === 1) {
+                    return res.json({status: newStatus});
+                } else {
+                    return res.json({errors: {message: 'Internal error. Contact Admin'}});
+                }
+            }).catch(error => console.log(error));
+    } catch(error) {
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+        res.redirect('back');
+    }
+}
+const updateVariationOptionStatus = async(req, res) => {
+    const {status, id} = req.body;
+    let newStatus = (status === 'Active') ? 0 : 1;
+
+    try {
+        ProductServices.updateStatus('variations_options', id, newStatus)
+            .then(data => {
+                if(data === 1) {
+                    return res.json({status: newStatus});
+                } else {
+                    return res.json({errors: {message: 'Internal error. Contact Admin'}});
+                }
+            }).catch(error => console.log(error));
+    } catch(error) {
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+        res.redirect('back');
+    }
+}
 
 module.exports = {
     createProduct,
@@ -337,6 +374,8 @@ module.exports = {
     deleteVariation,
     updateVariationPrice,
     updateVariationStock,
+    updateVariationStatus,
+    updateVariationOptionStatus,
 
     createImage: async(req, res) => {
         if (!req.files || Object.keys(req.files).length === 0) {

@@ -975,6 +975,10 @@ nav ul.pagination {
 
 
 /*=======+++++++=======+++++++=======  PRODUCTS YOU MAY LIKE  =======+++++++=======+++++++=======*/
+#products_like .card:hover {
+    box-shadow: .1rem .2rem .7rem rgb(10, 30, 50);
+    border: 1px solid darkred;
+}
 #products_like .like_title {
     margin-bottom: 1rem;
     padding: .3rem;

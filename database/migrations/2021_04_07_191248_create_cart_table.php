@@ -11,15 +11,15 @@ class CreateCartTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('cart', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade')->onDelete('cascade');
-            $table->integer('quantity');
-            $table->string('size', 20);
-            $table->double('unit_price');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('session_id');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->json('details')->nullable();
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }
@@ -29,7 +29,7 @@ class CreateCartTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('cart');
     }

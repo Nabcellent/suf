@@ -15,7 +15,7 @@ class VariationsOptionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         VariationsOption::truncate();
@@ -23,7 +23,7 @@ class VariationsOptionSeeder extends Seeder
         VariationsOption::insert([
             [
                 "variation_id" => 1,
-                "variant" => "s",
+                "variant" => "S",
                 "stock" => "12",
                 "extra_price" => 0,
             ],[

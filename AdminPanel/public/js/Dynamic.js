@@ -187,6 +187,54 @@ $(document).on('click','.update_product_status', function() {
     });
 });
 
+$(document).on('click','.update_variation_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            id: $(this).attr('data-id')
+        },
+        method: 'PATCH',
+        url: '/products/details/variation/status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+});
+
+$(document).on('click','.update_variation_option_status', function() {
+    $.ajax({
+        data: {
+            status: $(this).children('i').attr('status'),
+            id: $(this).attr('data-id')
+        },
+        method: 'PATCH',
+        url: '/products/details/variation-option/status',
+        success: (response) => {
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    $(this).html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    $(this).html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+});
+
 $(document).on('click','.update_image_status', function() {
     $.ajax({
         data: {

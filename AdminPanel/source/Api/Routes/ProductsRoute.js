@@ -38,6 +38,9 @@ router.post('/details/variation/create/:id', VariationValidation.create(), Produ
 router.put('/details/variation/set-price', ProductController.updateVariationPrice);
 router.patch('/details/variation/set-stock', ProductController.updateVariationStock);
 
+router.patch('/details/variation/status', ProductController.updateVariationStatus);
+router.patch('/details/variation-option/status', ProductController.updateVariationOptionStatus);
+
 router
     .route('/details/images')
     .post(ProductController.createImage)

@@ -48,6 +48,19 @@ const updateVariationStock = async(id, stock) => {
         return error;
     }
 }
+const updateStatus = async(title, id, status) => {
+    try {
+        return await new Promise((resolve, reject) => {
+            db(title).where({id: id}).update({status})
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => reject(error));
+        });
+    } catch (error) {
+        return error;
+    }
+}
 
 const deleteVariation = async(id) => {
     try {
@@ -245,6 +258,7 @@ module.exports = {
             console.log(error);
         }
     },
+    updateStatus,
 
 
     /*********

@@ -36,6 +36,9 @@ Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
 //  Get Variation price
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
 
+//  Add to Cart Route
+Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
+
 
 
 

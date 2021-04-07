@@ -11,7 +11,7 @@ class CreateVariationsOptionsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('variations_options', function (Blueprint $table) {
             $table->id();
@@ -19,6 +19,7 @@ class CreateVariationsOptionsTable extends Migration
             $table->string('variant');
             $table->integer('stock')->default(1);
             $table->string('image')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->float('extra_price')->default(0);
         });
     }
