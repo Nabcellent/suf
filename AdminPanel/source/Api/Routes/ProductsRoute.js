@@ -30,9 +30,13 @@ router
     .route('/details/all/:id')
     .get(ProductController.readProductDetails);
 
+router.route('/details/variation/:id')
+    .delete(ProductController.deleteVariation)
+
 router.post('/details/variation/create/:id', VariationValidation.create(), ProductController.createVariation);
 
 router.put('/details/variation/set-price', ProductController.updateVariationPrice);
+router.patch('/details/variation/set-stock', ProductController.updateVariationStock);
 
 router
     .route('/details/images')

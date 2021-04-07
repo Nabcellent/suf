@@ -1,3 +1,4 @@
+const createError = require("http-errors");
 const ProductServices = require('../../Services/Product/ProductService');
 const moment = require('moment');
 const {dbRead} = require("../../../Database/query");
@@ -205,8 +206,8 @@ const readProductDetails = async(req, res) => {
         }),
         images: await dbRead.getReadInstance().getFromDb({
             table: "products",
-            columns: 'product_images.id, image, products.status',
-            join: [['product_images', 'products.id = product_images.product_id']],
+            columns: 'products_images.id, image, products.status',
+            join: [['products_images', 'products.id = products_images.product_id']],
             where: [['products.id', '=', productId]]
         }),
         attributes: await dbRead.getReadInstance().getFromDb({
@@ -215,13 +216,13 @@ const readProductDetails = async(req, res) => {
         }),
         variations: (await dbRead.getReadInstance().getFromDb({
             table: 'variations',
-            columns: 'variation',
+            columns: 'id, variation',
             where: [['product_id', '=', productId]]
         })),
         varOptions: await dbRead.getReadInstance().getFromDb({
-            table: 'variation_options',
-            columns: 'variation_options.id as varOptId, variation, variant, extra_price, image',
-            join: [['variations', 'variation_options.variation_id = variations.id']]
+            table: 'variations_options',
+            columns: 'variations_options.id as varOptId, variation, variant, stock, extra_price, image',
+            join: [['variations', 'variations_options.variation_id = variations.id']]
         })
     }
 
@@ -249,7 +250,7 @@ const createVariation = async(req, res) => {
         ProductServices.createVariation(productId, variationsJson)
             .then((data) => {
                 if(data.affectedRows === 1) {
-                    ProductServices.createVariationOptions(data.insertId, variation_values);
+                    ProductServices.createVariationsOption(data.insertId, variation_values);
                     alertUser(req, 'success', 'success!', 'Variation added.');
                 } else {
                     alertUser(req, 'danger', 'Error!', 'Unable to add variation');
@@ -265,6 +266,63 @@ const createVariation = async(req, res) => {
         console.log(error);
     }
 }
+const deleteVariation = async(req, res) => {
+    try {
+        let {id} = req.params;
+        id = parseInt(id, 10);
+        ProductServices.deleteVariation(id)
+            .then(response => {
+                if(response === 1) {
+                    res.json(response);
+                } else {
+                    console.log(response.message);
+                }
+            }).catch(err => res.json(err));
+    } catch(err) {
+        res.json(err);
+    }
+}
+const updateVariationPrice = async(req, res) => {
+    const {extra_price, variation_id} = req.body;
+
+    try {
+        ProductServices.updateVariationPrice(variation_id, extra_price)
+            .then((data) => {
+                if(data === 1) {
+                    alertUser(req, 'success', 'success!', 'Price Set.');
+                } else {
+                    alertUser(req, 'danger', 'Error!', 'Unable to set price');
+                }
+
+                res.redirect('back');
+            }).catch((error) => {
+            console.log(error);
+            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+        });
+    } catch (error) {
+        alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
+        console.log(error);
+    }
+}
+const updateVariationStock = async(req, res, next) => {
+    const {stock, variation_id} = req.body;
+
+    try {
+        ProductServices.updateVariationStock(variation_id, stock)
+            .then(response => {
+                if(response === 1) {
+                    alertUser(req, 'success', 'success!', 'Stock Set.');
+                    res.redirect('back');
+                } else if(response instanceof Error) {
+                    throw createError(404, response);
+                } else {
+                    throw createError(404, "Something went wrong!");
+                }
+            }).catch(err => next(err));
+    } catch (err) {
+        next(err);
+    }
+}
 
 module.exports = {
     createProduct,
@@ -276,29 +334,9 @@ module.exports = {
     readProductDetails,
 
     createVariation,
-
-    updateVariationPrice: async(req, res) => {
-        const {extra_price, variation_id} = req.body;
-
-        try {
-            ProductServices.updateVariationPrice(variation_id, extra_price)
-                .then((data) => {
-                    if(data === 1) {
-                        alertUser(req, 'success', 'success!', 'Price Set.');
-                    } else {
-                        alertUser(req, 'danger', 'Error!', 'Unable to set price');
-                    }
-
-                    res.redirect('back');
-                }).catch((error) => {
-                    console.log(error);
-                    alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
-            });
-        } catch (error) {
-            alertUser(req, 'danger', 'Error!', 'Something went Wrong. Contact Admin');
-            console.log(error);
-        }
-    },
+    deleteVariation,
+    updateVariationPrice,
+    updateVariationStock,
 
     createImage: async(req, res) => {
         if (!req.files || Object.keys(req.files).length === 0) {

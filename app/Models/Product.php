@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Product extends Model
 {
@@ -18,7 +19,7 @@ class Product extends Model
         return self::with('brand', 'seller');
     }
 
-    public function categories(): BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -34,12 +35,12 @@ class Product extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(productImage::class);
+        return $this->hasMany(productsImage::class);
     }
 
     public function variations(): hasMany
     {
-        return $this->hasMany(Variation::class);
+        return $this->hasMany(Variation::class)->with('variationOptions');
     }
 
     use HasFactory;

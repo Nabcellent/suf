@@ -36,6 +36,7 @@ $(() => {
 
     /*****************************  DETAILS SWIPER  *****************************/
 
+    const $swiperSlide = $('.swiper-slide');
     let galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
         slidesPerView: 3,
@@ -50,7 +51,7 @@ $(() => {
         loopedSlides: 3, //looped slides should be the same
         grabCursor: true,
         autoplay: {
-            delay: 7000,
+            delay: 2000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -65,4 +66,28 @@ $(() => {
             swiper: galleryThumbs,
         },
     });
+
+    $swiperSlide.on('mouseover', function() {
+        galleryTop.autoplay.stop();
+    });
+
+    $swiperSlide.on('mouseout', function() {
+        galleryTop.autoplay.start();
+    });
+
+    let $galleryTopImage = $('.gallery-top .swiper-slide');
+    $galleryTopImage.on('mousemove', function(event) {
+        let width = $(this).width();
+        let height = $(this).height();
+        let mouseX = event.offsetX;
+        let mouseY = event.offsetY;
+
+        let bgPosX = mouseX / width * 100;
+        let bgPosY = mouseY / height * 100;
+
+        $(this).css('background-position', `${bgPosX}% ${bgPosY}%`);
+    });
+    $galleryTopImage.on('mouseleave', function () {
+        $(this).css('background-position', `center`);
+    })
 })

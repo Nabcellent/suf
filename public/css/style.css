@@ -890,7 +890,12 @@ nav ul.pagination {
 #details .swiper-slide {
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
 }
+#details .gallery-top .swiper-slide:hover {
+    background-size: 175%;
+}
+
 #details .gallery-top {
     height: 80%;
     width: 100%;

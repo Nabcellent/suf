@@ -1,5 +1,9 @@
+const knex = require('knex');
+const config = require('../../../../knexfile');
+const db = knex(config.development)
 const link = require("../../../Config/database");
 const date = new Date();
+
 
 const updateProductStatus = async(id, status) => {
     try {
@@ -16,6 +20,49 @@ const updateProductStatus = async(id, status) => {
         console.log(error);
     }
 }
+const updateVariationPrice = async(id, Price) => {
+    try {
+        return await new Promise((resolve, reject) => {
+            const qry = `UPDATE variations_options SET extra_price = ? WHERE id = ?`;
+
+            link.query(qry, [Price, id], (error, result) => {
+                if(error)
+                    reject(new Error(error.message));
+                resolve(result.changedRows);
+            })
+        })
+    } catch(error) {
+        console.log(error);
+    }
+}
+const updateVariationStock = async(id, stock) => {
+    try {
+        return await new Promise((resolve, reject) => {
+            db('variations_options').where({id}).update({stock})
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(error => reject(error));
+        });
+    } catch(error) {
+        return error;
+    }
+}
+
+const deleteVariation = async(id) => {
+    try {
+        return await new Promise((resolve, reject) => {
+            db('variations').where({id}).del()
+                .then(result => {
+                    resolve(result);
+                }).catch(err => reject(err));
+        });
+    } catch(err) {
+        return err;
+    }
+}
+
+
 
 module.exports = {
     /*********
@@ -93,14 +140,14 @@ module.exports = {
         }
     },
 
-    createVariationOptions: (variationId, variants) => {
+    createVariationsOption: (variationId, variants) => {
         try {
             const insert = async (variation_id, variant) => {
                 const VALUES = {
                     variation_id, variant
                 }
                 return await new Promise((resolve, reject) => {
-                    const qry = `INSERT INTO variation_options SET ?`;
+                    const qry = `INSERT INTO variations_options SET ?`;
 
                     link.query(qry, VALUES, (error, result) => {
                         if (error)
@@ -132,7 +179,7 @@ module.exports = {
             const VALUES = {product_id, image, created_at:date, updated_at:date};
 
             return await new Promise((resolve, reject) => {
-                const qry = `INSERT INTO product_images SET ?`;
+                const qry = `INSERT INTO products_images SET ?`;
 
                 link.query(qry, VALUES, (error, result) => {
                     if (error) {
@@ -180,29 +227,13 @@ module.exports = {
             console.log(error);
         }
     },
-
     updateProductStatus,
-
-    updateVariationPrice: async(id, Price) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                const qry = `UPDATE variation_options SET extra_price = ? WHERE id = ?`;
-
-                link.query(qry, [Price, id], (error, result) => {
-                    if(error)
-                        reject(new Error(error.message));
-                    resolve(result.changedRows);
-                })
-            })
-        } catch(error) {
-            console.log(error);
-        }
-    },
-
+    updateVariationPrice,
+    updateVariationStock,
     updateImageStatus: async(id, status) => {
         try {
             return await new Promise((resolve, reject) => {
-                const qry = `UPDATE product_images SET status = ? WHERE id = ?`;
+                const qry = `UPDATE products_images SET status = ? WHERE id = ?`;
 
                 link.query(qry, [status, id], (error, result) => {
                     if(error)
@@ -238,7 +269,7 @@ module.exports = {
     deleteImage: async (id) => {
         try {
             return await new Promise((resolve, reject) => {
-                link.query('DELETE FROM `product_images` WHERE `id` = ?', [id], (err, result) => {
+                link.query('DELETE FROM `products_images` WHERE `id` = ?', [id], (err, result) => {
                     if(err) {
                         reject(new Error(err.message));
                     } else{
@@ -249,5 +280,7 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+    deleteVariation,
 }

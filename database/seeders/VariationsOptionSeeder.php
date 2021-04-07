@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\VariationOption;
+use App\Models\VariationsOption;
 
-class VariationOptionSeeder extends Seeder
+class VariationsOptionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,20 +18,23 @@ class VariationOptionSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        VariationOption::truncate();
+        VariationsOption::truncate();
 
-        VariationOption::insert([
+        VariationsOption::insert([
             [
                 "variation_id" => 1,
                 "variant" => "s",
+                "stock" => "12",
                 "extra_price" => 0,
             ],[
                 "variation_id" => 1,
                 "variant" => "M",
+                "stock" => "7",
                 "extra_price" => 7.5,
             ],[
                 "variation_id" => 1,
                 "variant" => "XL",
+                "stock" => "3",
                 "extra_price" => 17.5,
             ]
         ]);

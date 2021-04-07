@@ -33,6 +33,8 @@ foreach($carUrls as $url) {
 
 //  Product Details Route
 Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
+//  Get Variation price
+Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
 
 
 

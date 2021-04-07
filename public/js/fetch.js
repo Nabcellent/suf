@@ -1,4 +1,13 @@
 $(() => {
+    /**==============================================================================  AJAX CSRF TOKEN   */
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+
+
     $(document).on('click', '.pagination a', function (event) {
         event.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
@@ -11,19 +20,48 @@ $(() => {
         let ajaxUrl = '/products?page=1';
         getProducts(ajaxUrl);
     });
+
+    /**==============================================================================  Filter Categories   */
+
+    $(document).on('click','.product_check',function() {
+        getProducts('/products', true);
+    });
+
+    /**=======================================================================  Change Products Per Page   */
+
+    $(document).on('change', '#products nav #per_page',() => {
+        getProducts('/products', );
+    });
+
+
+
+    /**=======================================================================  Change Price Per Variation   */
+    $(document).on('click', '#details input[name^="variant"]', function() {
+        let variations = [];
+        const productId = $(this).attr('data-id');
+
+        $('#details input[name^="variant"]:checked').each(function() {
+            variations.push($(this).val());
+        });
+
+        $.ajax({
+            data: {
+                variations,
+                productId
+            },
+            type:'POST',
+            url:'/get-product-price',
+            success: (response) => {
+                console.log(response);
+                $('#details .variation_price').html(response);
+            },
+            error: () => {
+                alert("Error");
+            }
+        });
+    })
 });
 
-/**==============================================================================  Filter Categories   */
-
-$(document).on('click','.product_check',function() {
-    getProducts('/products', true);
-});
-
-/**=======================================================================  Change Products Per Page   */
-
-$(document).on('change', '#products nav #per_page',() => {
-    getProducts('/products', );
-});
 
 
 const getProducts = (url, changeHeading = false) => {

@@ -17,7 +17,8 @@
                     <ul class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{url('/products')}}">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{$details['details'] -> title}}</li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/products/{{$details['category']['id']}}">{{$details['category']['title']}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$details['title']}}</li>
                     </ul>
                 </nav>
             </div>
@@ -27,22 +28,26 @@
         <!--    Start Product Show Case    -->
 
         <div class="row my-2 justify-content-center">
-            <div class="col p-2 card" style="min-height: 30rem;">
+            <div class="col p-3 card" style="min-height: 30rem;">
                 <div class="row" style="height: 100%;">
                     {{--    Images    --}}
                     <div class="col-6">
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-1.jpg")}}')"></div>
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-2.jpg")}}')"></div>
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-3.jpg")}}')"></div>
+                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
+
+                                @foreach($details['images'] as $image)
+                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-1.jpg")}}')"></div>
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-2.jpg")}}')"></div>
-                                <div class="swiper-slide" style="background-image:url('{{asset("/images/products/jacket-3.jpg")}}')"></div>
+                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
+
+                                @foreach($details['images'] as $image)
+                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -51,15 +56,15 @@
                     <div class="col-6">
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
-                                <h3>Classy Jacket</h3>
-                                <p class="small">Seller</p>
+                                <h3>{{$details['title']}}</h3>
+                                <p class="small">{{$details['seller']['username']}}</p>
                             </div>
-                            <h6>--> Brand</h6>
+                            <h6>--> {{$details['brand']['name']}}</h6>
                         </div>
                         <hr>
                         <div class="card-body py-1">
                             <div class="row justify-content-end">
-                                <div class="col"><p class="small m-0">40 in stock</p></div>
+                                <div class="col"><p class="small m-0">{{$totalStock}} in stock</p></div>
                                 <div class="col-6">
                                     <select name="quantity" id="quantity" class="form-control" aria-label>
                                         <option selected hidden value="">select quantity</option>
@@ -69,49 +74,39 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h5>Variations</h5>
-                                    <hr class="bg-warning m-0">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Sizes
-                                            <div class="form-group m-0">
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline1" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline1">S</label>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline2">M</label>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline2">L</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">Colors
-                                            <div class="form-group m-0">
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline1" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline1">Red</label>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline2">Blue</label>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="customRadioInline2" name="customRadioInline" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadioInline2">White</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                            <div class="row" style="min-height: 10rem">
+                                <div class="col variations">
+                                    @if(count($details['variations']) > 0)
+                                        <h5>Variations</h5>
+                                        <hr class="bg-warning m-0">
+                                        <ul class="list-group list-group-flush">
+
+                                            @foreach($details['variations'] as  $variation)
+                                                <?php $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)) ?>
+                                                <li class="list-group-item">{{$variationName}}
+                                                    <div class="form-group m-0">
+                                                        @foreach($variation['variation_options'] as $option)
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="option{{$option['id']}}" name="variant{{$variationName}}"
+                                                                       class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}">
+                                                                <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
+                                                                    {{$option['variant']}}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col">
-                                    <p>KSH 300/=</p>
+                                    <p class="font-weight-bold">
+                                        KSH <span class="variation_price">{{$details['base_price']}}</span>/=
+                                    </p>
                                 </div>
                                 <div class="col text-right">
                                     <button class="btn btn-success">Add To Cart <i class="bx bxs-cart-add"></i></button>
@@ -120,7 +115,7 @@
                         </div>
                         <div class="card-footer">
                             <h4>Description</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A amet animi architecto doloribus eaque earum esse impedit magni officiis perferendis praesentium quae quaerat, quis repellendus tempora vel veniam voluptate. Necessitatibus?</p>
+                            <p>{{$details['description']}}</p>
                         </div>
                     </div>
                 </div>
@@ -148,26 +143,32 @@
                 </div>
                 <table class="table table-dark table-hover">
                     <thead>
-                    <tr>
-                        <th scope="col" colspan="2">Details</th>
-                    </tr>
+                    <tr><th scope="col" colspan="2">Details</th></tr>
                     </thead>
                     <tbody>
                     <tr>
                         <th scope="row">Brand</th>
-                        <td>Gap Premium</td>
+                        <td>{{$details['brand']['name']}}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">Colors</th>
-                        <td>Red, Blue, White</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Materials</th>
-                        <td>Cotton, Silk, Wool</td>
-                    </tr>
+                    @if(count($details['variations']) > 0)
+                        @foreach($details['variations'] as  $variation)
+                            <?php
+                            $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR));
+                            $variationOption = json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)[$variationName];
+                            ?>
+                            <tr>
+                                <th scope="row">{{$variationName}}</th>
+                                @if(is_array($variationOption))
+                                <td>{{implode(', ', $variationOption)}}</td>
+                                @else
+                                    <td>{{$variationOption}}</td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @endif
                     <tr>
                         <th scope="row">Seller</th>
-                        <td>Larry</td>
+                        <td>{{$details['seller']['username']}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -188,22 +189,33 @@
                             <div id="results" class="col column">
 
                                 <!--    Start Single ProductSeeder    -->
-                                @foreach($details['products'] -> take(5) as $item)
+                                {{--@foreach($details as $item)
                                     <div class="card">
-                                        <a href="/details/{{$item -> id}}"><img src='/images/products/{{$item -> pro_image_one}}' alt=''></a>
+                                        <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
+                                            @if(isset($item['main_image']))
+                                                <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                            @else
+                                                <?php $image_path = ''; ?>
+                                            @endif
+                                            @if(!empty($item['main_image']) && file_exists($image_path))
+                                                <img src="{{asset($image_path)}}" alt="Product image">
+                                            @else
+                                                <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                            @endif
+                                        </a>
                                         <div class="card-body">
                                             <div class="row product_title">
                                                 <div class="col">
-                                                    <h6 class="card-title text-nowrap"><a href=''>{{$item -> pro_title}}</a></h6>
+                                                    <h6 class="card-title text-nowrap"><a href=''>{{$item['title']}}</a></h6>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-auto prices">
-                                                    @if($item -> pro_sale_price === 0)
-                                                        <p>{{$item -> pro_price}}/=</p>
+                                                    @if(strtolower($item['label']) === "new")
+                                                        <p>{{$item['base_price']}}/=</p>
                                                     @else
-                                                        <p>{{$item -> pro_price}}/=</p>
-                                                        <del class="text-secondary">{{$item -> pro_sale_price}}/=</del>
+                                                        <p>{{$item['sale_price']}}/=</p><br>
+                                                        <del class="text-secondary">{{$item['base_price']}}/=</del>
                                                     @endif
                                                 </div>
                                                 <div class="col-7 button">
@@ -213,11 +225,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="#" class="product_label {{$item -> pro_label}} ">
-                                            <span class="label">{{$item -> pro_label}}</span>
+                                        <a href="#" class="product_label {{strtolower($item['label'])}} ">
+                                            <span class="label">{{$item['label']}}</span>
                                         </a>
                                     </div>
-                            @endforeach
+                            @endforeach--}}
                             <!--    End Single ProductSeeder    -->
 
                             </div>

@@ -1,6 +1,6 @@
 const knex = require('knex');
 const config = require('../../../knexfile');
-const db = knex(config.development)
+const db = knex(config.development);
 const bcrypt = require('bcryptjs');
 let created_at  = new Date();
 let updated_at = new Date();

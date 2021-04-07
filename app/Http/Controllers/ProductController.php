@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Seller;
+use App\Models\Variation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -91,21 +92,35 @@ class ProductController extends Controller
             ->with(compact('productCount'));
     }
 
-
-
-
-
-
-    public function details($id, $title): Factory|View|Application
+    public function details($id): Factory|View|Application
     {
-        $details = [
-            'details' => Product::find($id),
-            'products' => Product::join('sellers', 'products.seller_id', '=', 'sellers.user_id')
-                -> get() -> shuffle()
-        ];
+        $details = Product::with('category', 'brand', 'seller', 'variations', 'images')->find($id)->toArray();
+        $totalStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
+            ->where('product_id', $id)->sum('stock');
 
-        return view('details', compact('details'));
+        //dd($details);
+        return view('details')->with(compact('details', 'totalStock'));
     }
+
+    public function getProductPrice(Request $req): void
+    {
+        if($req->ajax()) {
+            $data = $req->all();
+
+            $basePrice = Product::find($data['productId'])->value('base_price');
+            $extraPrice = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
+                ->whereIn('variant', $data['variations'])
+                ->where('product_id', $data['productId'])->sum('extra_price');
+
+            $newPrice = $basePrice + $extraPrice;
+            echo $newPrice;
+        }
+    }
+
+
+
+
+
 
     public function cart(): View|Factory|Redirector|RedirectResponse|Application
     {

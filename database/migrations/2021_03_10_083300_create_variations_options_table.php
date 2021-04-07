@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVariationOptionsTable extends Migration
+class CreateVariationsOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateVariationOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('variation_options', function (Blueprint $table) {
+        Schema::create('variations_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('variation_id')->constrained()->onDelete('cascade');
             $table->string('variant');
+            $table->integer('stock')->default(1);
             $table->string('image')->nullable();
             $table->float('extra_price')->default(0);
         });
