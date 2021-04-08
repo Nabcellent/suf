@@ -43,7 +43,7 @@
                                     @if(count($section['categories']) > 0)
                                         <li class="list_item">
                                             <h4 class="title">
-                                                <a href="{{url('/products/' . $section['id'])}}">{{$section['title']}}' Fashion</a>
+                                                <a href="{{url('#')}}">{{$section['title']}}' Fashion</a>
                                             </h4>
                                             <div class="mt-0 dropdown-divider"></div>
                                             <ul>

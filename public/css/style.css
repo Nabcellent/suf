@@ -47,6 +47,12 @@ body {
 a {
     text-decoration: none!important;
 }
+#global_alert {
+    position: absolute;
+    top: 7rem;
+    right: 1rem;
+    z-index: var(--z-index-4);
+}
 
 
 

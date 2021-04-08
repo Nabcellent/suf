@@ -28,6 +28,7 @@ $(() => {
 
         $('#category_modal #category_id').val($(this).attr('data-id'));
         $('#category_modal textarea[name="description"]').val($(this).attr('data-desc'));
+        $('#category_modal input[name="discount"]').val($(this).attr('data-discount'));
         let sectionId = $(this).attr('data-section');
         $('#category_modal input[value="'+ sectionId +'"]').prop('checked', true);
 

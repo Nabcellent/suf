@@ -40,7 +40,31 @@ class Product extends Model
 
     public function variations(): hasMany
     {
-        return $this->hasMany(Variation::class)->with('variationOptions');
+        return $this->hasMany(Variation::class)->with(['variationOptions' => function($query) {
+            $query->where('status', 1)->where('stock', '>', 0);
+        }]);
+    }
+
+
+    /**
+     * STATIC FUNCTIONS
+     * @param $productId
+     * @return int
+     */
+    public static function getDiscountPrice($productId): int
+    {
+        $proDetails = self::select('base_price', 'discount', 'category_id')->where('id', $productId)->first()->toArray();
+        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
+
+        if($proDetails['discount'] > 0) {
+            $discountPrice = $proDetails['base_price'] - ($proDetails['base_price'] * $proDetails['discount'] / 100);
+        } else if($catDetails['discount'] > 0) {
+            $discountPrice = $proDetails['base_price'] - ($proDetails['base_price'] * $catDetails['discount'] / 100);
+        } else {
+            $discountPrice = 0;
+        }
+
+        return $discountPrice;
     }
 
     use HasFactory;

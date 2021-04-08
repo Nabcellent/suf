@@ -1,4 +1,19 @@
 $(() => {
+    /*****************************  Alert Message  *****************************/
+    const alert = $('#global_alert');
+    const timeOut = () => {
+        setTimeout(() => {
+            alert.addClass('hide');
+            alert.removeClass('show');
+        }, 7000);
+    }
+
+    if(alert.length !== 0 && alert.hasClass('show')) {
+        timeOut();
+    }
+
+
+
     /*****************************  Header Jumbo SideNav  *****************************/
 
     const menu = $('#mega_nav .menu');

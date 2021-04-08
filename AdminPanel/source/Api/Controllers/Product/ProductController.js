@@ -7,10 +7,11 @@ const {alertUser, validationHelper} = require('../../Helpers');
 const fs = require("fs");
 const {join} = require("path");
 
+const pathToProductImages = join(__dirname, '../../../../../public/images/products/');
 
 /**-----------------------------------------------()     FUNCTIONS    ()-----------------------------------------------*/
 
-const createProduct = async(req, res) => {
+const createProduct = async(req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
@@ -33,24 +34,23 @@ const createProduct = async(req, res) => {
         });
 
         const {
-            title, seller, brand_id, sub_category, label, base_price, sale_price, discount, keywords, description, featured
+            title, seller, brand_id, sub_category, label, base_price, discount, keywords, description, featured
         } = req.body;
 
         try {
-            await ProductServices.createProduct(title, seller, brand_id, sub_category, label, base_price,
-                sale_price, discount, name, keywords, description, featured)
-                .then(data => {
-                    if(data === 1) {
+            await ProductServices.createProduct(title, seller, brand_id, sub_category, label, base_price, discount, name, keywords, description, featured)
+                .then(response => {
+                    if(response instanceof Error) {
+                        throw createError(404, response);
+                    } else if(response === 1) {
                         alertUser(req, 'success', 'Success!', 'Product Created');
                         res.redirect('/products');
                     } else {
-                        alertUser(req, 'danger', 'Error', 'Unable to add');
-                        res.redirect('back');
+                        throw createError(404, 'Something went wrong');
                     }
-                }).catch(error => console.error(error));
+                }).catch(error => next(error));
         } catch(error) {
-            console.error(error);
-            return res.redirect('back');
+            next(error);
         }
     }
 }
@@ -59,7 +59,7 @@ const readProducts = async(req, res) => {
         return {
             products: await dbRead.getReadInstance().getFromDb({
                 table: 'products',
-                columns: 'products.id, title, main_image, seller_id, base_price, sale_price, label, ' +
+                columns: 'products.id, title, main_image, seller_id, base_price, discount, label, ' +
                     'products.status, users.first_name, users.last_name',
                 join: [['users', 'products.seller_id = users.id']],
                 orderBy: ['products.id DESC']
@@ -79,12 +79,12 @@ const readProducts = async(req, res) => {
 const updateProduct = async(req, res) => {
     if(!await validationHelper.validate(req, res)) {
         const {
-            title, label, seller, category, keywords, base_price, sale_price, discount, brand_id, description, featured, product_id
+            title, label, seller, category, keywords, base_price, discount, brand_id, description, featured, product_id
         } = req.body;
 
         try {
             ProductServices.updateProduct(product_id, category, seller, title, keywords, description, featured, label,
-                base_price, sale_price, discount, brand_id)
+                base_price, discount, brand_id)
                 .then((data) => {
                     if(data === 1) {
                         alertUser(req, 'success', '', 'Product Updated!');
@@ -193,7 +193,7 @@ const readProductDetails = async(req, res) => {
         product: await dbRead.getReadInstance().getFromDb({
             table: 'products',
             columns: 'products.id, products.title as product_title, main_image, keywords, ' +
-                'label, base_price, sale_price, discount, products.created_at, products.updated_at, products.description, is_featured, ' +
+                'label, base_price, products.discount, products.created_at, products.updated_at, products.description, is_featured, ' +
                 'categories.id AS category_id, categories.title AS category_title, users.id as user_id, first_name, last_name, ' +
                 'brands.id AS brand_id, brands.name AS brand',
             join: [
@@ -361,6 +361,83 @@ const updateVariationOptionStatus = async(req, res) => {
     }
 }
 
+const createImage = async(req, res, next) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    const {product_id} = req.body;
+
+    let images = req.files['images[]'];
+    images = (Array.isArray(images)) ? images : [images];
+
+    try {
+        const insertImages = async () => {
+            const pathToProductImages = join(__dirname, '../../../../../public/images/products/');
+            for (let image of images) {
+                let {name} = image;
+                name = Math.floor((Math.random() * 1199999) + 1) + name;
+
+                await image.mv(pathToProductImages + name, (error) => {
+                    if(error) {
+                        next(error);
+                        return res.send(error);
+                    }
+                });
+
+                ProductServices.createImage(product_id, name)
+                    .then(data => {
+                        if(data !== 1) {
+                            return data;
+                        }
+                    }).catch(error => {
+                    console.log(error)
+                    return error.message;
+                });
+            }
+
+            return true;
+        }
+
+        if(await insertImages()) {
+            alertUser(req, 'success', 'Success!', 'Image(s) uploaded.');
+        } else {
+            alertUser(req, 'danger', 'Error!', 'Unable to upload image(s).');
+        }
+        res.redirect('back');
+    } catch(error) {
+        console.log(error);
+        alertUser(req, 'danger', 'Error!', 'Something went wrong');
+    }
+}
+const deleteImage = async(req, res, next) => {
+    const {image_id, image_name} = req.body;
+    const imagePath = pathToProductImages + image_name;
+
+    try {
+        ProductServices.deleteImage(image_id)
+            .then(data => {
+                if(data === 1) {
+                    fs.unlink(imagePath, function(err) {
+                        if (err) {
+                            throw err
+                        } else {
+                            alertUser(req, 'success', '', 'Image Deleted!');
+                        }
+                        res.redirect('back');
+                    })
+                } else {
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+                    res.redirect('back');
+                }
+            }).catch(error => next(error));
+    } catch(error) {
+        console.log(error);
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+        res.redirect('back');
+    }
+}
+
 module.exports = {
     createProduct,
     readProducts,
@@ -377,55 +454,7 @@ module.exports = {
     updateVariationStatus,
     updateVariationOptionStatus,
 
-    createImage: async(req, res) => {
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
-
-        const {product_id} = req.body;
-
-        let images = req.files['images[]'];
-        images = (Array.isArray(images)) ? images : [images];
-
-        try {
-            const insertImages = async () => {
-                for (let image of images) {
-                    let {name} = image;
-
-                    name = Math.floor((Math.random() * 1199999) + 1) + name;
-
-                    await image.mv('public/images/products/' + name, error => {
-                        if(error) {
-                            return res.send(error);
-                        }
-                    });
-
-                    ProductServices.createImage(product_id, name)
-                        .then(data => {
-                            if(data !== 1) {
-                                return data;
-                            }
-                        }).catch(error => {
-                        console.log(error)
-                        return error.message;
-                    });
-                }
-
-                return true;
-            }
-
-            if(await insertImages()) {
-                alertUser(req, 'success', 'Success!', 'Image(s) uploaded.');
-            } else {
-                alertUser(req, 'danger', 'Error!', 'Unable to upload image(s).');
-            }
-            res.redirect('back');
-        } catch(error) {
-            console.log(error);
-            alertUser(req, 'danger', 'Error!', 'Something went wrong');
-        }
-    },
-
+    createImage,
     updateImageStatus: async(req, res) => {
         const {status, image_id} = req.body;
 
@@ -448,34 +477,7 @@ module.exports = {
             res.redirect('back');
         }
     },
-
-    deleteImage: async(req, res) => {
-        const {image_id, image_name} = req.body;
-        const imagePath = 'public/images/products/' + image_name;
-
-        try {
-            ProductServices.deleteImage(image_id)
-                .then(data => {
-                    if(data === 1) {
-                        fs.unlink(imagePath, function(err) {
-                            if (err) {
-                                throw err
-                            } else {
-                                alertUser(req, 'success', '', 'Image Deleted!');
-                            }
-                            res.redirect('back');
-                        })
-                    } else {
-                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
-                        res.redirect('back');
-                    }
-                }).catch(error => console.log(error));
-        } catch(error) {
-            console.log(error);
-            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
-            res.redirect('back');
-        }
-    },
+    deleteImage,
 
 
 

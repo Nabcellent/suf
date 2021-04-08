@@ -3,6 +3,26 @@
 @section('content')
     @include('/partials/top_nav')
 
+    <?php
+    use App\Models\Cart;use JetBrains\PhpStorm\Pure;
+    function mapped_implode($glue, $array, $symbol = '='): string
+    {
+        return implode($glue, array_map(
+                static function($k, $v) use($symbol) {
+                    return $k . $symbol . $v;
+                },
+                array_keys($array),
+                array_values($array)
+            )
+        );
+    }
+
+    #[Pure] function currencyFormat($number): string
+    {
+        return number_format((float)$number, 2, '.', ',');
+    }
+    ?>
+
 <div id="cart">
 <!--    Start Content Area    -->
 
@@ -16,7 +36,7 @@
                     <nav aria-label="breadcrumb">
                         <ul class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            <li class="breadcrumb-item active" aria-current="page">My Cart</li>
                         </ul>
                     </nav>
                 </div>
@@ -34,7 +54,7 @@
                         <div class="col-md-12">
                             <div class="box bg-light py-2 px-3 rounded shadow cart_table">
 
-                                @if($cart['cart'] -> isEmpty())
+                                @if(count($cart) === 0)
                                     <div class='p-5'>
                                         <div class='d-flex align-items-center justify-content-center empty_cart'>
                                             <h1 class='display-1'><i class='fab fa-opencart'></i></h1>
@@ -43,11 +63,11 @@
                                             <h3>Empty Cart</h3>
                                         </div>
                                         <div class='d-flex align-items-center justify-content-center empty_cart'>
-                                            <a href="/products" class='btn btn-warning'>Go Shopping <i class='fas fa-running'></i></a>
+                                            <a href="{{url('/products')}}" class='btn btn-warning'>Go Shopping <i class='fas fa-running'></i></a>
                                         </div>
                                     </div>
                                 @else
-                                    <form action="cart.php" method="POST">
+                                    <form action="{{url('/cart')}}" method="POST">
 
                                         <!--    Start Cart Table    -->
 
@@ -59,43 +79,72 @@
                                                 <thead class="thead-dark">
                                                 <tr class="header">
                                                     <th scope="col">#</th>
-                                                    <th scope="col" colspan="2">Product</th>
+                                                    <th scope="col" colspan="2">Product Description</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Unit Price</th>
-                                                    <th scope="col">Size</th>
+                                                    <th scope="col">Discount</th>
                                                     <th scope="col" colspan="2">Sub-Total</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
 
-                                                @foreach($cart['cart'] as $item)
+                                                <?php $totalPrice = 0; ?>
+                                                @foreach($cart as $item)
                                                     <tr>
                                                         <th scope="row">{{$loop -> iteration}}</th>
-                                                        <input type="hidden" class="product_id" value="">
-                                                        <td><img src="/images/products/{{$item -> pro_image_one}}" alt="Product Image"></td>
-                                                        <td><a href="/details">{{$item -> pro_title}}</a></td>
-                                                        <td class="item_qty">
-                                                            <label>
-                                                                <input type="number" class="text-center bg-secondary" value="{{$item -> quantity}}">
-                                                            </label>
-                                                            <img class="loader" src="images/loaders/load.gif" alt="loader.gif">
+                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
+                                                        <td>
+                                                            <a href="{{url('/details')}}">{{$item['product']['title']}}</a><br>
+                                                            <?php
+                                                            $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
+                                                            $unitPrice = Cart::getVariationPrice($item['product_id'], $details);
+                                                            ?>
+                                                            @if(count($details) > 0)
+                                                                {{mapped_implode(', ', $details, ': ')}}
+                                                            @else
+                                                                -
+                                                            @endif
                                                         </td>
-                                                        <td>KES {{$item -> unit_price}}/-</td>
-                                                        <td>{{$item -> size}}</td>
-                                                        <td>KES {{$item -> unit_price * $item -> quantity}}/-</td>
+                                                        <td class="item_qty">
+                                                            <input type="hidden" class="product_id" value="" aria-label>
+                                                            <label>
+                                                                <input type="number" class="text-center bg-warning" value="{{$item['quantity']}}">
+                                                            </label>
+                                                            <img class="loader" src="{{asset('images/loaders/load.gif')}}" alt="loader.gif">
+                                                        </td>
+                                                        <td>KES {{$unitPrice}}/-</td>
+                                                        <td>{{$item['product']['discount']}}%</td>
+                                                        <td class="border-left">KES {{$unitPrice * $item['quantity']}}/-</td>
                                                         <td>
                                                             <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart" data-toggle="modal" data-target="#delete_cart_modal">
                                                                 <i class="fas fa-backspace"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
+                                                    <?php $totalPrice += ($unitPrice * $item['quantity'])?>
                                                 @endforeach
 
                                                 </tbody>
-                                                <tfoot class="bg-secondary text-white">
+                                                <tfoot class="bg-dark text-white">
                                                 <tr>
-                                                    <th colspan="6">TOTAL</th>
-                                                    <th colspan="2">KES {{$cart['total'][0] -> total}}/-</th>
+                                                    <th colspan="6" class="text-right py-0">
+                                                        <p class="m-0 small">Total Discount : </p>
+                                                    </th>
+                                                    <th colspan="3" class="border-left py-0"><p class="m-0 small">0.0%</p></th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="text-right py-0"><p class="m-0 small">Total Price : </p></th>
+                                                    <th colspan="3" class="border-left py-0">
+                                                        <p class="m-0 small">KES {{currencyFormat($totalPrice)}}/-</p>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="text-right">
+                                                        <p class="m-0 small">TOTAL ({{currencyFormat($totalPrice)}} - 0.0) = </p>
+                                                    </th>
+                                                    <th colspan="3" class="border-left">
+                                                        <p class="m-0 small">KES {{currencyFormat($totalPrice)}}/-</p>
+                                                    </th>
                                                 </tr>
                                                 </tfoot>
                                             </table>
@@ -121,11 +170,11 @@
 
                                         <div class="box_footer">
                                             <div class="float-left">
-                                                <a href="/products" class="btn btn-outline-dark"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
+                                                <a href="{{url('/products')}}" class="btn btn-outline-dark"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
                                             </div>
                                             <div class="float-right">
                                                 <button type="submit" name="update" value="Update Cart" class="btn btn-outline-dark"><i class="fas fa-sync-alt"></i> Update Cart</button>
-                                                <a href="/checkout" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
+                                                <a href="{{url('/checkout')}}" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
                                             </div>
                                         </div>
                                         <!--    End Box Footer    -->
@@ -174,7 +223,7 @@
                                 <div id="results" class="col column">
 
                                     <!--    Start Single ProductSeeder    -->
-                                    @foreach($cart['products'] -> take(5) as $item)
+                                    {{--@foreach($cart['products'] -> take(5) as $item)
                                         <div class="card">
                                             <a href="/details/{{$item -> id}}"><img src='/images/products/{{$item -> pro_image_one}}' alt=''></a>
                                             <div class="card-body">
@@ -203,7 +252,7 @@
                                                 <span class="label">{{$item -> pro_label}}</span>
                                             </a>
                                         </div>
-                                @endforeach
+                                @endforeach--}}
                                 <!--    End Single ProductSeeder    -->
 
                                 </div>
@@ -243,7 +292,11 @@
                                             <th>KES</th>
                                         </tr>
                                         <tr>
-                                            <td>Transport</td>
+                                            <td>Total Tax</td>
+                                            <th>KES 00.00</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Discount</td>
                                             <th>KES 00.00</th>
                                         </tr>
                                         <tr class="total">

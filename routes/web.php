@@ -39,6 +39,8 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 //  Add to Cart Route
 Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 
+//  Shopping Cart Route
+Route::get('/cart', [ProductController::class, 'cart']);
 
 
 
@@ -57,8 +59,6 @@ Route::get('/profile/{page}', function() {
 });
 
 Route::get('/details/{id}', [ProductController::class, 'productDetails']);
-
-Route::get('/cart', [ProductController::class, 'cart']);
 
 Route::get('/policies', [PolicyController::class, 'index']);
 

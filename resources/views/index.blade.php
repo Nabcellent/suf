@@ -3,6 +3,7 @@
 @section('content')
     @include('partials.top_nav')
     @include('partials.social_icons')
+    <?php use App\Models\Product; ?>
 
     <div id="index">
         <div class="container-fluid p-0">
@@ -80,7 +81,7 @@
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
-                                                    <a href="#">{{$item['username']}}</a>
+                                                    <a href="#">{{$item['seller']['username']}}</a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title">
@@ -88,11 +89,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if(strtolower($item['label']) === "new")
-                                                            <p>{{$item['base_price']}}/=</p>
+                                                            <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                            @if($discountPrice > 0)
+                                                                <p>{{$discountPrice}}/=</p><br>
+                                                                <del class="text-secondary">{{$item['base_price']}}/=</del>
                                                             @else
-                                                            <p>{{$item['sale_price']}}/=</p><br>
-                                                            <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                                <p>{{$item['base_price']}}/=</p>
                                                             @endif
                                                         </div>
                                                         <div class="col button">
@@ -155,11 +157,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if(strtolower($item['label']) === "new")
-                                                                <p>{{$item['base_price']}}/=</p>
-                                                            @else
-                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                            <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                            @if($discountPrice > 0)
+                                                                <p>{{$discountPrice}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                            @else
+                                                                <p>{{$item['base_price']}}/=</p>
                                                             @endif
                                                         </div>
                                                         <div class="col button">
@@ -216,11 +219,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if(strtolower($item['label']) === "new")
-                                                                <p>{{$item['base_price']}}/=</p>
-                                                            @else
-                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                            <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                            @if($discountPrice > 0)
+                                                                <p>{{$discountPrice}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                            @else
+                                                                <p>{{$item['base_price']}}/=</p>
                                                             @endif
                                                         </div>
                                                         <div class="col button">
@@ -276,11 +280,12 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col prices">
-                                                            @if(strtolower($item['label']) === "new")
-                                                                <p>{{$item['base_price']}}/=</p>
-                                                            @else
-                                                                <p>{{$item['sale_price']}}/=</p><br>
+                                                            <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                            @if($discountPrice > 0)
+                                                                <p>{{$discountPrice}}/=</p><br>
                                                                 <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                            @else
+                                                                <p>{{$item['base_price']}}/=</p>
                                                             @endif
                                                         </div>
                                                         <div class="col button">

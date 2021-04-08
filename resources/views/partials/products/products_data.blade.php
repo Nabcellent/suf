@@ -1,4 +1,6 @@
 
+<?php use App\Models\Product; ?>
+
 <div class="container-fluid p-0">
     <div id="results" class="col column">
 
@@ -26,11 +28,12 @@
                     <p class="m-0 text-center text-secondary">{{$item['brand']['name']}}</p>
                     <div class="row">
                         <div class="col prices">
-                            @if(strtolower($item['label']) === "new")
-                                <p>{{$item['base_price']}}/=</p>
+                            <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                            @if($discountPrice > 0)
+                                    <p>{{$discountPrice}}/=</p><br>
+                                    <del class="text-secondary">{{$item['base_price']}}/=</del>
                             @else
-                                <p>{{$item['sale_price']}}/=</p><br>
-                                <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                    <p>{{$item['base_price']}}/=</p>
                             @endif
                         </div>
                         <div class="col button">

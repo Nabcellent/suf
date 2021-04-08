@@ -13,10 +13,10 @@ const createCategory = async(req, res) => {
         return res.redirect('back');
     }
 
-    const {title, sections, description} = req.body;
+    const {title, sections, discount, description} = req.body;
 
     try {
-        CategoryService.createCategory(title, sections, description)
+        CategoryService.createCategory(title, sections, discount, description)
             .then(data => {
                 if(data === 1) {
                     alertUser(req, 'success', 'Success!', 'Category Created.')
@@ -43,7 +43,7 @@ const readCategories = async(req, res) => {
             }),
             categories: await dbRead.getReadInstance().getFromDb({
                 table: 'categories',
-                columns: 'categories.id, categories.title, categories.description, categories.status, ' +
+                columns: 'categories.id, categories.title, categories.description, categories.status, categories.discount, ' +
                     'section.title AS sectionTitle, section.id AS section_id',
                 join: [['categories AS section', 'section.id = categories.section_id']],
                 where: [['categories.section_id', 'IS NOT', 'NULL'], ['categories.category_id', 'IS', 'NULL']],
@@ -71,10 +71,10 @@ const readCategories = async(req, res) => {
     }
 }
 const updateCategory = async(req, res, next) => {
-    const {category_id, title, section, description} = req.body;
+    const {category_id, title, section, discount, description} = req.body;
 
     try {
-        CategoryService.updateCategory(category_id, title, section, description)
+        CategoryService.updateCategory(category_id, title, section, discount, description)
             .then(response => {
                 if(response instanceof Error) {
                     throw createError(404, response);

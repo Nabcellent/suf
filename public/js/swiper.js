@@ -52,7 +52,7 @@ $(() => {
         grabCursor: true,
         autoplay: {
             delay: 2000,
-            disableOnInteraction: false,
+            disableOnInteraction: true,
         },
         pagination: {
             el: '.swiper-pagination',
@@ -64,6 +64,13 @@ $(() => {
         },
         thumbs: {
             swiper: galleryThumbs,
+        },
+        on: {
+            init: function (sw) {
+                if(sw.activeIndex === 1) {
+                    this.autoplay = false;
+                }
+            },
         },
     });
 

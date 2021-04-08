@@ -2,6 +2,7 @@
 @section('title', 'Details')
 @section('content')
     @include('/partials/top_nav')
+    <?php use App\Models\Product; ?>
 
 <div id="details">
 
@@ -77,37 +78,47 @@
                             </div>
                             <div class="row" style="min-height: 10rem">
                                 <div class="col variations">
+
                                     @if(count($details['variations']) > 0)
                                         <h5>Variations</h5>
                                         <hr class="bg-warning m-0">
                                         <ul class="list-group list-group-flush">
-
                                             @foreach($details['variations'] as  $variation)
                                                 <?php $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)) ?>
-                                                <li class="list-group-item">{{$variationName}}
-                                                    <div class="form-group m-0">
-                                                        @foreach($variation['variation_options'] as $option)
-                                                            <div class="custom-control custom-radio custom-control-inline">
-                                                                <input type="radio" id="option{{$option['id']}}" name="variant{{$variationName}}"
-                                                                       class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}" required>
-                                                                <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
-                                                                    {{$option['variant']}}
-                                                                </label>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </li>
+                                                @if(count($variation['variation_options']) > 0)
+                                                    <li class="list-group-item">{{$variationName}}
+                                                        <div class="form-group m-0">
+                                                                @foreach($variation['variation_options'] as $option)
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="option{{$option['id']}}" name="variant{{$variationName}}"
+                                                                               class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}" required>
+                                                                        <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
+                                                                            {{$option['variant']}}
+                                                                        </label>
+                                                                    </div>
+                                                                @endforeach
+                                                        </div>
+                                                    </li>
+                                                @endif
                                             @endforeach
-
                                         </ul>
                                     @endif
+
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col">
-                                    <p class="font-weight-bold">
-                                        KSH <span class="variation_price">{{$details['base_price']}}</span>/=
-                                    </p>
+                                    <?php $discountPrice = Product::getDiscountPrice($details['id']); ?>
+                                    @if($discountPrice > 0)
+                                            <p class="font-weight-bold m-0">
+                                                KSH <span class="variation_price">{{$discountPrice}}</span>/=
+                                            </p>
+                                            <del class="text-secondary">{{$details['base_price']}}/=</del>
+                                        @else
+                                            <p class="font-weight-bold">
+                                                KSH <span class="variation_price">{{$details['base_price']}}</span>/=
+                                            </p>
+                                        @endif
                                 </div>
                                 <div class="col text-right">
                                     <input type="hidden" name="product_id" value="{{$details['id']}}">

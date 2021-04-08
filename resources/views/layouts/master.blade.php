@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{url('css/responsive.css')}}">
 </head>
 <body>
+@include('partials.alert')
 @include('partials.top_header')
 
 @if(isset($pageTitle) && $pageTitle === "Index")

@@ -54,7 +54,7 @@
             </div>
 
             <div class="row">
-                <div class="col-5">
+                <div class="col-6">
                     <div class="card crud_table shadow mb-4">
                         <div class="card-header d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Categories</h6>
@@ -70,6 +70,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Section</th>
+                                        <th scope="col">Discount</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
@@ -80,6 +81,7 @@
                                             <td></td>
                                             <td><%= row.title %></td>
                                             <td><%= row.sectionTitle %></td>
+                                            <td><%= row.discount %>%</td>
                                             <td class="action">
                                                 <% if(row.status === 1) { %>
                                                     <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
@@ -92,6 +94,7 @@
                                                    data-id="<%= row.id %>"
                                                    data-title="<%= row.title %>"
                                                    data-section="<%= row.section_id %>"
+                                                   data-discount="<%= row.discount %>"
                                                    data-desc="<%= row.description %>">
                                                     <i class="fas fa-pen text-dark"></i>
                                                 </a>

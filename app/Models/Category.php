@@ -39,7 +39,6 @@ class Category extends Model
     /**
      * STATIC FUNCTIONS
     */
-
     public static function sections(): mixed {
         $getCategories = self::where(['section_id' => null, 'category_id' => null])
             ->with('categories')->where('status', 1)->get();

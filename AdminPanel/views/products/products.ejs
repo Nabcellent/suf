@@ -2,7 +2,7 @@
 
 <div id="products" class="container-fluid p-0">
     <div class="row">
-        <div class="col-9">
+        <div class="col-10">
             <div class="card crud_table shadow mb-4">
                 <div class="card-header d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Products</h6>
@@ -19,7 +19,7 @@
                                 <th>Seller</th>
                                 <th>Date</th>
                                 <th>Price</th>
-                                <th>Sale Price</th>
+                                <th>Discount</th>
                                 <th>Label</th>
                                 <th>Qty sold</th>
                                 <th>Status</th>
@@ -37,7 +37,7 @@
                                     <td><%= row.first_name %> <%= row.last_name %></td>
                                     <td class="text-nowrap"><%= productsInfo.moment(row.created_at).format('D/M/YY') %></td>
                                     <td class="text-center"><%= row.base_price %></td>
-                                    <td class="text-center"><%= row.sale_price %></td>
+                                    <td class="text-center"><%= row.discount %>%</td>
                                     <td><%= row.label %></td>
                                     <td class="text-center"><%= row.qry_sold %></td>
                                     <td class="text-center" style="font-size: 14pt">

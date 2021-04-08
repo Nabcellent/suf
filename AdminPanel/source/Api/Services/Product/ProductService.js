@@ -5,6 +5,29 @@ const link = require("../../../Config/database");
 const date = new Date();
 
 
+
+const createProduct = async(title, seller_id, brand_id, category_id, label, base_price, discount,
+                           main_image, keywords, description, is_featured) => {
+    const values = {
+        category_id,        seller_id,
+        brand_id,           title,          main_image,
+        discount,
+        keywords,           description,    is_featured,
+        label,              base_price,
+        created_at:date,    updated_at:date
+    }
+    try {
+        return await new Promise((resolve, reject) => {
+            db('products').insert(values)
+                .then(rows => {
+                    resolve(rows.length);
+                }).catch(error => reject(error));
+        });
+    } catch (error) {
+        return error;
+    }
+}
+
 const updateProductStatus = async(id, status) => {
     try {
         return await new Promise((resolve, reject) => {
@@ -81,36 +104,7 @@ module.exports = {
     /*********
      * CREATE
      * ********/
-    createProduct: async(title, seller_id, brand_id, category_id, label, base_price, sale_price, discount,
-                         main_image, keywords, description, is_featured) => {
-        try {
-            sale_price = sale_price.trim() === "" ? 0 : sale_price;
-            discount = discount.trim() === "" ? 0 : discount;
-            is_featured = (is_featured === 'on') ? "Yes" : "No";
-            const values = {
-                category_id,        seller_id,
-                brand_id,           title,          main_image,
-                sale_price,         discount,
-                keywords,           description,    is_featured,
-                label,              base_price,
-                created_at:date,    updated_at:date
-            }
-
-            return await new Promise((resolve, reject) => {
-                const qry = `INSERT INTO products SET ?`;
-
-                link.query(qry, values, (error, result) => {
-                    if(error) {
-                        reject(new Error(error.message));
-                    } else {
-                        resolve(result.affectedRows);
-                    }
-                })
-            })
-        } catch(error) {
-            console.log(error);
-        }
-    },
+    createProduct,
 
     createAttribute: async(name, values) => {
         try {
@@ -211,23 +205,22 @@ module.exports = {
     /*********
      * UPDATE
      * ********/
-    updateProduct: async(id, category_id, seller_id, title, keywords, description, is_featured, label, base_price,
-                         sale_price, discount, brand_id) => {
+    updateProduct: async(id, category_id, seller_id, title, keywords, description, is_featured, label, base_price
+                         , discount, brand_id) => {
         try {
-            sale_price = sale_price.trim() === "" ? 0 : sale_price;
             discount = discount.trim() === "" ? 0 : discount;
             is_featured = (is_featured === 'on') ? "Yes" : "No";
             const VALUES = [
                 category_id,    seller_id,      title,
                 keywords,       description,    is_featured,
-                label,          base_price,     sale_price,
+                label,          base_price,
                 discount,       brand_id,       date,
                 id
             ]
 
             return await new Promise((resolve, reject) => {
                 const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?, keywords = ?, description = ?,
-                    is_featured = ?, label = ?, base_price = ?, sale_price = ?, discount = ?, brand_id = ?, updated_at = ?
+                    is_featured = ?, label = ?, base_price = ?, discount = ?, brand_id = ?, updated_at = ?
                     WHERE id = ?`;
 
                 link.query(qry, VALUES, (err, result) => {
