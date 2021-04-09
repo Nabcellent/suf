@@ -51,10 +51,10 @@ const createCategory = async(title, categoryId, discount, description) => {
     }
     return name;
 }
-const createSubCategory = async(title, section_id, category_id, description) => {
+const createSubCategory = async(title, section_id, category_id, discount, description) => {
     try {
         const VALUES = {
-            title, section_id, category_id, description,
+            title, section_id, category_id, discount, description,
             created_at: date, updated_at:date
         };
         return await new Promise((resolve, reject) => {
@@ -70,6 +70,7 @@ const createSubCategory = async(title, section_id, category_id, description) => 
 
 const updateCategory = async(id, title, section_id, discount, description) => {
     try {
+        if(discount.trim() === '') discount = 0;
         return await new Promise((resolve, reject) => {
             db('categories').where({id}).update({title, section_id, discount, description})
                 .then(result => {
@@ -81,10 +82,11 @@ const updateCategory = async(id, title, section_id, discount, description) => {
         return error;
     }
 }
-const updateSubCategory = async(id, title, section_id, category_id, description) => {
+const updateSubCategory = async(id, title, section_id, category_id, discount, description) => {
     try {
+        if(discount.trim() === '') discount = 0;
         return await new Promise((resolve, reject) => {
-            db('categories').where({id}).update({title, section_id, category_id, description})
+            db('categories').where({id}).update({title, section_id, category_id, discount, description})
                 .then(result => {
                     resolve(result);
                 })

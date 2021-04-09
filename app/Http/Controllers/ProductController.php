@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -110,19 +111,23 @@ class ProductController extends Controller
         return view('details')->with(compact('details', 'totalStock', 'related'));
     }
 
-    public function getProductPrice(Request $req): void
+    public function getProductPrice(Request $req): ?array
     {
         if($req->ajax()) {
             $data = $req->all();
+            $productId = (int)$data['productId'];
 
-            $basePrice = Product::where('id', (int)$data['productId'])->value('base_price');
+            $basePrice = Product::where('id', $productId)->value('base_price');
             $extraPrice = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
                 ->whereIn('variant', $data['variations'])
-                ->where('product_id', $data['productId'])->sum('extra_price');
+                ->where('product_id', $productId)->sum('extra_price');
 
             $newPrice = $basePrice + $extraPrice;
-            echo $newPrice;
+
+            return Product::getVariationDiscountPrice($productId, $newPrice);
         }
+
+        return null;
     }
 
     public function addToCart(Request $req): Redirector|RedirectResponse|Application
@@ -188,7 +193,7 @@ class ProductController extends Controller
         }
 
         $message = "Item Added to Cart!";
-        return back()->with('alert', [
+        return redirect('/cart')->with('alert', [
             'type' => 'success',
             'intro' => 'Success! ',
             'message' => $message
@@ -201,5 +206,74 @@ class ProductController extends Controller
 
         //dd($cart);
         return view('cart', compact('cart'));
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function updateCartItemQty(Request $req): JsonResponse|Redirector|RedirectResponse|Application
+    {
+        if($req->ajax()) {
+            $data = $req->all();
+            $cartId = $data['cartId'];
+            $demandedQty = $data['newQty'];
+
+            $cartItem = Cart::find($cartId);
+            $details = json_decode($cartItem['details'], true, 512, JSON_THROW_ON_ERROR);
+
+            //check if stock is available
+            $availableStock = Variation::checkVariations($cartItem['product_id'], $details)->select('stock')->min('stock');
+            $inactiveStatus = Variation::checkVariations($cartItem['product_id'], $details)
+                ->select('variations_options.status')->where('variations_options.status', 0)->exists();
+
+
+            if($inactiveStatus) {
+                $variant = Variation::checkVariations($cartItem['product_id'], $details)
+                    ->where('variations_options.status', 0)->value('variant');
+                $cart = Cart::cartItems();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Variation, "' . ($variant) . '" is currently unavailable for this product. ☹',
+                    'view' => (string)view('partials.products.cart-table', compact('cart'))
+                ]);
+            }
+
+            if($availableStock < $demandedQty) {
+                $cart = Cart::cartItems();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'The current stock for this product is insufficient. 😢',
+                    'view' => (string)view('partials.products.cart-table', compact('cart'))
+                ]);
+            }
+
+            $cartItem->quantity = $demandedQty;
+            $cartItem->save();
+
+            $cart = Cart::cartItems();
+            return response()->json([
+                'status' => true,
+                'view' => (string)view('partials.products.cart-table', compact('cart'))
+            ]);
+        }
+
+        $message = "Access Denied!";
+        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message]);
+    }
+
+    public function deleteCartItem(Request $req): JsonResponse|Redirector|RedirectResponse|Application
+    {
+        if($req->ajax()) {
+            Cart::destroy($req->cartId);
+
+            $cart = Cart::cartItems();
+            return response()->json([
+                'status' => true,
+                'view' => (string)view('partials.products.cart-table', compact('cart'))
+            ]);
+        }
+
+        $message = "Access Denied!";
+        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message]);
     }
 }

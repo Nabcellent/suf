@@ -42,6 +42,12 @@ Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 //  Shopping Cart Route
 Route::get('/cart', [ProductController::class, 'cart']);
 
+//  Update Cart Item Quantity
+Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
+
+//  Delete Cart Item
+Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
+
 
 
 Route::get('/sign-in', function() {

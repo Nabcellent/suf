@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Product extends Model
 {
@@ -16,7 +15,7 @@ class Product extends Model
      */
     public static function products(): Builder
     {
-        return self::with('brand', 'seller');
+        return self::with('brand', 'seller')->has('variations');
     }
 
     public function category(): BelongsTo
@@ -65,6 +64,26 @@ class Product extends Model
         }
 
         return $discountPrice;
+    }
+
+    public static function getVariationDiscountPrice($productId, $newPrice): array
+    {
+        $proDetails = self::select('base_price', 'discount', 'category_id')->where('id', $productId)->first()->toArray();
+        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
+
+        if($proDetails['discount'] > 0) {
+            $discountPrice = $newPrice - ($newPrice * $proDetails['discount'] / 100);
+            //  Get Discount
+            $discount = $newPrice - $discountPrice;
+        } else if($catDetails['discount'] > 0) {
+            $discountPrice = $newPrice - ($newPrice * $catDetails['discount'] / 100);
+            $discount = $newPrice - $discountPrice;
+        } else {
+            $discountPrice = $newPrice;
+            $discount = 0;
+        }
+
+        return array('unit_price' => $newPrice, 'discount_price' => $discountPrice, 'discount' => $discount);
     }
 
     use HasFactory;

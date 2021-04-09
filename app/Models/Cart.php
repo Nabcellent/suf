@@ -43,13 +43,16 @@ class Cart extends Model
         return $cartItems;
     }
 
-    public static function getVariationPrice($productId, $variations) {
+    public static function getVariationPrice($productId, $variations): array
+    {
         $basePrice = Product::where('id', (int)$productId)->value('base_price');
         $extraPrice = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
             ->whereIn('variant', $variations)
             ->where('product_id', $productId)->sum('extra_price');
 
-        return $basePrice + $extraPrice;
+        $newPrice = $basePrice + $extraPrice;
+
+        return Product::getVariationDiscountPrice($productId, $newPrice);
     }
 
     use HasFactory;

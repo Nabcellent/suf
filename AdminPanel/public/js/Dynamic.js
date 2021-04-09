@@ -47,6 +47,7 @@ $(() => {
         $('#sub_category_modal #sub_category_id').val($(this).attr('data-id'));
         $('#sub_category_modal textarea[name="description"]').val($(this).attr('data-desc'));
         $('#sub_category_modal #section').val($(this).attr('data-section'));
+        $('#sub_category_modal input[name="discount"]').val($(this).attr('data-discount'));
 
         $('#sub_category_modal #title').val($(this).attr('data-title'));
         $('#sub_category_modal form').attr('action', '/products/sub-category?_method=PUT');

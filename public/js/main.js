@@ -118,6 +118,23 @@ $(() => {
 
 
 
+    /*****************************  CART PAGE  *****************************/
+
+    $(function(){
+        $('#cart td.quantity input[type="number"]').niceNumber({
+            autoSize:false,
+            buttonDecrement:"<i class='bx bx-minus font-weight-bold'></i>",
+            buttonIncrement:"<i class='bx bx-plus font-weight-bold'></i>",
+            buttonPosition:'around',     // 'around', 'left', or 'right'
+
+            //  Callback Functions
+            onDecrement:false,
+            onIncrement:false,
+        });
+    });
+
+
+
     /*****************************  Contact Info  *****************************/
 
     $('.info_icon').on('mouseenter', function() {
@@ -126,3 +143,21 @@ $(() => {
         $($(this)).parent().next().find('.info_text').css('color', 'rgb(184, 134, 11)');
     });
 });
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    GLOBAL FUNCTIONS
+ * ---------------------------------------------------------------------------------------------------------------------
+ * */
+jQuery.cachedScript = function( url, options ) {
+    options = $.extend( options || {}, {
+        dataType: "script",
+        cache: true,
+        url: url
+    });
+
+    return jQuery.ajax( options );
+};

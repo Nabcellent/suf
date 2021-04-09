@@ -5,66 +5,37 @@ $(() => {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
-
-
-    $(document).on('click', '.pagination a', function (event) {
-        event.preventDefault();
-        let page = $(this).attr('href').split('page=')[1];
-        let ajaxUrl = '/products?page=' + page;
-        getProducts(ajaxUrl);
-    });
-
-
-    $(document).on('change', '#products #sort_by', function() {
-        let ajaxUrl = '/products?page=1';
-        getProducts(ajaxUrl);
-    });
-
-    /**==============================================================================  Filter Categories   */
-
-    $(document).on('click','.product_check',function() {
-        getProducts('/products', true);
-    });
-
-    /**=======================================================================  Change Products Per Page   */
-
-    $(document).on('change', '#products nav #per_page',() => {
-        getProducts('/products', );
-    });
-
-
-
-    /**=======================================================================  Change Price Per Variation   */
-    $(document).on('click', '#details input[name^="variant"]', function() {
-        let variations = [];
-        const productId = $(this).attr('data-id');
-
-        $('#details input[name^="variant"]:checked').each(function() {
-            variations.push($(this).val());
-        });
-
-        $.ajax({
-            data: {
-                variations,
-                productId
-            },
-            type:'POST',
-            url:'/get-product-price',
-            success: (response) => {
-                console.log(response);
-                $('#details .variation_price').html(response);
-            },
-            error: () => {
-                alert("Error");
-            }
-        });
-    })
 });
 
 
 
-const getProducts = (url, changeHeading = false) => {
+/**==================================================================================================  PRODUCT PAGE   */
+
+/**==============================================================================  Pagination   */
+$(document).on('click', '.pagination a', function (event) {
+    event.preventDefault();
+    let page = $(this).attr('href').split('page=')[1];
+    let ajaxUrl = '/products?page=' + page;
+    getProducts(ajaxUrl);
+});
+
+/**==============================================================================  Sorting   */
+$(document).on('change', '#products #sort_by', function() {
+    let ajaxUrl = '/products?page=1';
+    getProducts(ajaxUrl);
+});
+
+/**==============================================================================  Filter Categories   */
+$(document).on('click','.product_check',function() {
+    getProducts('/products');
+});
+
+/**=======================================================================  Change Products Per Page   */
+$(document).on('change', '#products nav #per_page',() => {
+    getProducts('/products', );
+});
+
+const getProducts = (url) => {
     $('#loader').show();
     let sort = $('#products #sort_by').val();
     let perPage = parseInt($('#products nav #per_page').val());
@@ -105,4 +76,97 @@ function getFilterText(text_id) {
         filterData.push($(this).val());
     });
     return filterData;
+}
+
+
+
+
+/**=====================================================================================================  DETAILS PAGE   */
+
+/**=======================================================================  Change Price Per Variation   */
+$(document).on('click', '#details input[name^="variant"]', function() {
+    let variations = [];
+    const productId = $(this).attr('data-id');
+
+    $('#details input[name^="variant"]:checked').each(function() {
+        variations.push($(this).val());
+    });
+
+    $.ajax({
+        data: {
+            variations,
+            productId
+        },
+        type:'POST',
+        url:'/get-product-price',
+        success: (response) => {
+            if(response['discount'] > 0) {
+                $('#details .variation_price').html(response['discount_price']);
+                $('#details del').html(response['unit_price'] + '/=');
+            } else {
+                $('#details .variation_price').html(response['discount_price']);
+            }
+        },
+        error: () => {
+            alert("Error");
+        }
+    });
+});
+
+
+
+/**=====================================================================================================  CART PAGE   */
+
+$(document).on('click', '#cart .cart_table td.quantity button', function() {
+    const $qtyInput = $(this).parents('td.quantity').find($('input[type="number"]'));
+    const newQty = parseInt($qtyInput.val());
+    const cartId = $qtyInput.data('id');
+
+    if(newQty > 0) {
+        changeCartQty(cartId, newQty);
+        //$(this).parents('td.quantity').find($('img')).show();
+    } else {
+        alert("Error: Quantity must be at least 1!");
+    }
+});
+$(document).on('change', '#cart .cart_table td.quantity input[type="number"]', function() {
+    if($(this).val() < 1) {
+        $(this).val(1);
+        return;
+    }
+
+    const newQty = parseInt($(this).val(), 10);
+    const cartId = $(this).data('id');
+
+    changeCartQty(cartId, newQty);
+});
+
+const changeCartQty = (cartId, newQty) => {
+    $.ajax({
+        data: {cartId, newQty},
+        type: 'POST',
+        url: '/update-cart-item-qty',
+        success: (response) => {
+            $('#cart #cart_table').html(response.view);
+
+            if(!response.status) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: response.message,
+                    timer: 5000
+                })
+            }
+
+            $.cachedScript( "js/jquery.nice-number.js" ).done(function( script, textStatus ) {
+                console.log( textStatus );
+            });
+            $.cachedScript( "js/main.js" ).done(function( script, textStatus ) {
+                console.log( textStatus );
+            });
+        },
+        error:() => {
+            alert("Error");
+        }
+    })
 }

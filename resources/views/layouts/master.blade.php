@@ -21,8 +21,11 @@
     {{--    BOXICONS CSS    --}}
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
+    {{--    NICENUMBER CSS    --}}
+    <link href="{{url('css/jquery.nice-number.css')}}" rel='stylesheet'>
+
     {{--    MY CSS    --}}
-    <link rel="stylesheet" href="{{url('css/style.css')}}">
+    <link rel="stylesheet" href="{{url('css/app.css')}}">
     <link rel="stylesheet" href="{{url('css/responsive.css')}}">
 </head>
 <body>
@@ -46,10 +49,17 @@
 <!--    Swiper JS CDN    -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+{{--    SweetAlert2 CDN    --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js" integrity="sha256-C7IaCo6kN3RN2EjOcM6WEMmykQV8mK72CI1jx0kqeZg=" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+
 {{--    MY JS    --}}
+<script src="{{url('js/jquery.nice-number.js')}}"></script>
 <script src="{{url('js/main.js')}}"></script>
 <script src="{{url('js/swiper.js')}}"></script>
 <script src="{{url('js/search.js')}}"></script>
 <script src="{{url('js/fetch.js')}}"></script>
+<script src="{{url('js/sweetAlert.js')}}"></script>
 </body>
 </html>

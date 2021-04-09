@@ -679,12 +679,12 @@ nav .nav-link:hover {
     border-radius: 50%;
     transition: .5s;
     box-shadow: 0 0 2px #ff0000,
-                0 0 5px #ff0000,
-                0 0 10px #ff0000,
-                0 0 15px #ff0000,
-                0 0 25px #ff0000,
-                0 0 30px #ff0000,
-                0 0 40px #ff0000;
+    0 0 5px #ff0000,
+    0 0 10px #ff0000,
+    0 0 15px #ff0000,
+    0 0 25px #ff0000,
+    0 0 30px #ff0000,
+    0 0 40px #ff0000;
 }
 #categories_sidebar .form-check.list label .indicator:before {
     width: 5px;
@@ -937,14 +937,39 @@ nav ul.pagination {
     width: 3.7rem;
     max-height: 4rem
 }
-#cart .cart_table .table tr td.item_qty input {
-    border-radius: 1rem;
+#cart .cart_table .table tbody tr td.quantity input {
     border: none;
+    padding: 0 .5rem;
     outline: none;
-    align-self: start;
+    width: 2.5rem;
+    height: 1.7rem;
+    background-color: var(--body-color);
 }
-#cart .cart_table .table tbody tr td input {
-    max-width: 3.5rem
+#cart .cart_table .table tbody tr td.quantity input:hover {
+    background-color: var(--light-gold);
+    color: var(--dark-blue);
+}
+#cart .cart_table .table tbody tr td.quantity button {
+    width: 1.7rem;
+    height: 1.7rem;
+    outline: none;
+    border: none;
+    background-color: var(--body-color);
+    display: flex;
+    align-items: center;
+}
+#cart .cart_table .table tbody tr td.quantity button:hover {
+    background-color: var(--light-gold);
+}
+#cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus {
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    color: green;
+}
+#cart .cart_table .table tbody tr td.quantity button.nice-number-button-minus {
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    color: red;
 }
 #cart .cart_table .table tbody tr td .loader {
     display: none;
@@ -952,8 +977,13 @@ nav ul.pagination {
 
 }
 #cart .cart_table .table tfoot th {
-    font-size: 1.3rem;
+    font-size: .8rem;
     font-weight: 400;
+    color: rgb(89, 180, 100);
+}
+#cart .cart_table .table tfoot tr.total th {
+    font-weight: 600;
+    color: #FFFFFF;
 }
 
 #cart .box_footer .btn-outline-dark {
@@ -1322,4 +1352,11 @@ nav ul.pagination {
     inset -1px -1px 12px rgba(28, 200, 138, .5),
     inset 1px 1px 4px rgba(28, 200, 138, .1),
     inset 1px 1px 8px rgba(0, 0, 0, .15);
+}
+
+
+
+
+h2.swal2-title {
+    font-size: 17px!important;
 }

@@ -43,12 +43,14 @@ const updateProductStatus = async(id, status) => {
         console.log(error);
     }
 }
-const updateVariationPrice = async(id, Price) => {
+const updateVariationPrice = async(id, price) => {
     try {
+        if(price === '') price = 0;
+        price = parseInt(price, 10);
         return await new Promise((resolve, reject) => {
             const qry = `UPDATE variations_options SET extra_price = ? WHERE id = ?`;
 
-            link.query(qry, [Price, id], (error, result) => {
+            link.query(qry, [price, id], (error, result) => {
                 if(error)
                     reject(new Error(error.message));
                 resolve(result.changedRows);

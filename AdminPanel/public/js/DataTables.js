@@ -126,7 +126,7 @@ customerDataTable.on( 'order.dt search.dt', function () {
 }).draw();
 
 
-/*_____________________  CUSTOMERS  _____________________*/
+/*_____________________  ORDERS  _____________________*/
 
 const orderDataTable = $('#orders_table').DataTable({
     scrollY:        '50vh',
@@ -156,7 +156,7 @@ orderDataTable.on( 'order.dt search.dt', function () {
 }).draw();
 
 
-/*_____________________  SUB_CATEGORIES  _____________________*/
+/*_____________________  CATEGORIES  _____________________*/
 
 const categoriesTable = $('#categories_table').DataTable({
     scrollY:        '30vh',
@@ -183,11 +183,14 @@ categoriesTable.on( 'order.dt search.dt', function () {
     } );
 }).draw();
 
+
+/*_____________________  SUB_CATEGORIES  _____________________*/
+
 const subCategoriesTable = $('#sub_categories_table').DataTable({
     scrollY:        '30vh',
     scrollCollapse: true,
     language: {
-        info: 'Total Categories: _MAX_',
+        info: 'Total Sub-Categories: _MAX_',
         infoFiltered:   "(filtered _TOTAL_)",
         search: "_INPUT_",
         searchPlaceholder: "Search sub-category"

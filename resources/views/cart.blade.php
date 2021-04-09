@@ -3,26 +3,6 @@
 @section('content')
     @include('/partials/top_nav')
 
-    <?php
-    use App\Models\Cart;use JetBrains\PhpStorm\Pure;
-    function mapped_implode($glue, $array, $symbol = '='): string
-    {
-        return implode($glue, array_map(
-                static function($k, $v) use($symbol) {
-                    return $k . $symbol . $v;
-                },
-                array_keys($array),
-                array_values($array)
-            )
-        );
-    }
-
-    #[Pure] function currencyFormat($number): string
-    {
-        return number_format((float)$number, 2, '.', ',');
-    }
-    ?>
-
 <div id="cart">
 <!--    Start Content Area    -->
 
@@ -52,7 +32,7 @@
 
                     <div class="row pb-2">
                         <div class="col-md-12">
-                            <div class="box bg-light py-2 px-3 rounded shadow cart_table">
+                            <div class="box bg-light pt-2 pb-3 px-3 rounded shadow cart_table">
 
                                 @if(count($cart) === 0)
                                     <div class='p-5'>
@@ -74,80 +54,8 @@
                                         <h1>Cart Items</h1>
                                         <p class="text-muted">You currently have items in your Cart.</p>
 
-                                        <div id="cart_table" class="table-responsive cart_table">
-                                            <table class="table table-sm table-striped table-hover table_fixed">
-                                                <thead class="thead-dark">
-                                                <tr class="header">
-                                                    <th scope="col">#</th>
-                                                    <th scope="col" colspan="2">Product Description</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Unit Price</th>
-                                                    <th scope="col">Discount</th>
-                                                    <th scope="col" colspan="2">Sub-Total</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                <?php $totalPrice = 0; ?>
-                                                @foreach($cart as $item)
-                                                    <tr>
-                                                        <th scope="row">{{$loop -> iteration}}</th>
-                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
-                                                        <td>
-                                                            <a href="{{url('/details')}}">{{$item['product']['title']}}</a><br>
-                                                            <?php
-                                                            $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-                                                            $unitPrice = Cart::getVariationPrice($item['product_id'], $details);
-                                                            ?>
-                                                            @if(count($details) > 0)
-                                                                {{mapped_implode(', ', $details, ': ')}}
-                                                            @else
-                                                                -
-                                                            @endif
-                                                        </td>
-                                                        <td class="item_qty">
-                                                            <input type="hidden" class="product_id" value="" aria-label>
-                                                            <label>
-                                                                <input type="number" class="text-center bg-warning" value="{{$item['quantity']}}">
-                                                            </label>
-                                                            <img class="loader" src="{{asset('images/loaders/load.gif')}}" alt="loader.gif">
-                                                        </td>
-                                                        <td>KES {{$unitPrice}}/-</td>
-                                                        <td>{{$item['product']['discount']}}%</td>
-                                                        <td class="border-left">KES {{$unitPrice * $item['quantity']}}/-</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart" data-toggle="modal" data-target="#delete_cart_modal">
-                                                                <i class="fas fa-backspace"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <?php $totalPrice += ($unitPrice * $item['quantity'])?>
-                                                @endforeach
-
-                                                </tbody>
-                                                <tfoot class="bg-dark text-white">
-                                                <tr>
-                                                    <th colspan="6" class="text-right py-0">
-                                                        <p class="m-0 small">Total Discount : </p>
-                                                    </th>
-                                                    <th colspan="3" class="border-left py-0"><p class="m-0 small">0.0%</p></th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="6" class="text-right py-0"><p class="m-0 small">Total Price : </p></th>
-                                                    <th colspan="3" class="border-left py-0">
-                                                        <p class="m-0 small">KES {{currencyFormat($totalPrice)}}/-</p>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="6" class="text-right">
-                                                        <p class="m-0 small">TOTAL ({{currencyFormat($totalPrice)}} - 0.0) = </p>
-                                                    </th>
-                                                    <th colspan="3" class="border-left">
-                                                        <p class="m-0 small">KES {{currencyFormat($totalPrice)}}/-</p>
-                                                    </th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
+                                        <div id="cart_table" class="table-responsive">
+                                            @include('partials.products.cart-table')
                                         </div>
                                         <!--    End Cart Table    -->
 
