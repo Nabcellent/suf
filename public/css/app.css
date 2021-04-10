@@ -1278,6 +1278,7 @@ nav ul.pagination {
     margin-bottom: .1rem;
 }
 .anime_form label.error {
+    font-size: 10pt;
     color: hsla(9, 79%, 31%, 1);
 }
 .anime_form input,

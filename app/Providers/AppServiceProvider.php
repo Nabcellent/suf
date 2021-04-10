@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Pagination\Paginator;
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //  Use Bootstrap for paginators
+        //  Use Bootstrap for paginator
         Paginator::useBootstrap();
 
 
@@ -46,6 +47,6 @@ class AppServiceProvider extends ServiceProvider
             'trendingCategories' => Product::all()
         ];
 
-        View::share(compact('user','sections', 'categories', 'latestFour', 'footerInfo'));
+        View::share(compact('user', 'sections', 'categories', 'latestFour', 'footerInfo'));
     }
 }

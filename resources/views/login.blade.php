@@ -9,6 +9,20 @@
     <div id="content">
         <div class="container registration_page_container">
 
+            <!--    Start Breadcrumb    -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Su-F</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Login</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!--    End Breadcrumb    -->
+
             <!--    Start Contact Section    -->
 
             <div class="row justify-content-center">
@@ -28,13 +42,13 @@
                         </div>
 
                         <div class="card-body pb-0 anime_card">
-                            <form id="sign_in_form" class="anime_form" action="/sign-in" method="POST">
+                            <form id="login_form" class="anime_form" action="{{url('/login')}}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="email" placeholder="Email or Phone number *" aria-label required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password" placeholder="Password *" required>
+                                    <input type="password" class="form-control" name="password" placeholder="Password *" aria-label required>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col">
@@ -51,7 +65,7 @@
                                     <button type="submit" class="morphic_btn morphic_btn_primary">
                                         <span>Sign In <i class="fas fa-sign-in-alt"></i></span>
                                     </button>
-                                    <img class="d-none loader_gif" src="images/loaders/Ripple-1s-151px.gif" alt="loader.gif">
+                                    <img class="d-none loader_gif" src="{{asset('images/loaders/Ripple-1s-151px.gif')}}" alt="loader.gif">
                                 </div>
                             </form>
                         </div>
@@ -60,7 +74,7 @@
 
                     <div class="row mt-4 justify-content-center">
                         <div class="col-md-6 text-center">
-                            <p class="lead">New to Su-F ? <a href="/register">Sign Up</a> Already!</p>
+                            <p class="lead">New to Su-F ? <a href="{{url('/register')}}">Sign Up</a> Already!</p>
                         </div>
                     </div>
                 </div>

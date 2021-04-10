@@ -3,7 +3,6 @@
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController;
@@ -23,7 +22,26 @@ use App\Http\Controllers\PolicyController;
 //  Home Page Routes
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
-//  Product Routes
+/**
+ *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER RELATED ROUTES
+ */
+//  Authentication Routes
+Route::get('/login', function() {return view('login');});
+Route::get('/register', function() {return view('register');});
+
+Route::post('/login', [UserController::class, 'authenticate']);
+Route::post('/register', [UserController::class, 'createUser']);
+
+Route::get('/logout', [UserController::class, 'signOut']);
+
+//  Check if Email Exists
+Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
+Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
+
+
+/**
+ *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PRODUCT RELATED ROUTES
+*/
 Route::get('/products', [ProductController::class, 'index']);
 //  Get category Url
 $carUrls = Category::select('id')->where('status', 1)->get()->pluck('id')->toArray();
@@ -50,15 +68,7 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 
 
-Route::get('/sign-in', function() {
-    return view('login');
-});
 
-Route::get('/sign-out', [UserController::class, 'signOut']);
-
-Route::get('/register', function() {
-    return view('register');
-});
 
 Route::get('/profile/{page}', function() {
     return view('profile');
@@ -74,14 +84,7 @@ Route::get('/policies', [PolicyController::class, 'index']);
  * *************    ************    ************    ************    POST REQUESTS
  */
 
-Route::post('/sign-in', [UserController::class, 'authenticate']);
-
-Route::post('/register', [UserController::class, 'create']);
-
 Route::post('/profile/update-user', [UserController::class, 'update']);
-
-Route::post('/cart', [ProductController::class, 'addToCart']);
-
 
 //  Listing Routes
 //Route::get('/products/{url}', [ProductController::class, 'listing']);

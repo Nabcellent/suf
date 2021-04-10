@@ -1,5 +1,18 @@
 </header>
 
+<?php
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
+if(Auth::check()) {
+    $cartCount = Cart::where('user_id', Auth::id())->count();
+} else if(!empty(Session::get('session_id'))) {
+    $cartCount = Cart::where('session_id', Session::get('session_id'))->count();
+}
+
+?>
+
 <header id="mega_nav" class="sticky-top header">
     <div class="container-fluid nav_container">
         <div class="row px-3 align-items-center v_center">
@@ -87,12 +100,12 @@
                     </button>
                 </div>
                 <div class="icons ml-2">
-                    <a href="/cart" class="icon_button">
+                    <a href="{{url('/cart')}}" class="icon_button">
                         <i class="fab fa-opencart"></i>
 
-                        @if(Auth::check())
+                        @if(Auth::check() || !empty(Session::get('session_id')))
                             <span class="icon_count">
-                                {{$topNavInfo['cartCount']}}
+                                {{$cartCount}}
                             </span>
                         @endif
 

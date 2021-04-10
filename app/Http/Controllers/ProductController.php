@@ -183,6 +183,7 @@ class ProductController extends Controller
 
             //  Save to Cart Table
             $cart = new Cart;
+            $cart -> user_id = (Auth::check()) ? Auth::id() : null;
             $cart -> session_id = $sessionId;
             $cart -> product_id = $data['product_id'];
             $cart -> details = $details;

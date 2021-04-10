@@ -59,7 +59,7 @@
 
                         <div class="row">
                             <div class="col">
-                                <form id="customer_registration_form" class="anime_form" action="/register" method="POST">
+                                <form id="register_form" class="anime_form" action="{{url('/register')}}" method="POST">
                                     @csrf
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -78,31 +78,33 @@
                                         <input type="email" class="form-control" name="email" placeholder="example@gmail.com"
                                                value="{{ old('email') }}" aria-label required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Gender</label><br>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="male" name="gender" class="custom-control-input" value="M" required>
-                                            <label class="custom-control-label" for="male">Male</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="female" name="gender" class="custom-control-input" value="F" required>
-                                            <label class="custom-control-label" for="female">Female</label>
+                                    <div class="mb-3">
+                                        <div class="form-group m-0">
+                                            <label>Gender *</label><br>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="male" name="gender" class="custom-control-input" value="Male" @if(old('gender')) checked @endif required>
+                                                <label class="custom-control-label" for="male">Male</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" id="female" name="gender" class="custom-control-input" value="Female" @if(old('gender')) checked @endif required>
+                                                <label class="custom-control-label" for="female">Female</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Phone Number *</label>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">+254</span>
                                             </div>
                                             <input type="number" class="form-control" name="phone" aria-label value="{{ old('phone') }}"
-                                                   placeholder="712345678" pattern="((^0[17]+)|(^[17]+)).*" required>
+                                                   placeholder="712345678" pattern="((^0[17]+)|(^[17]+)).*">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label>Create password *</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Create password"
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Create password"
                                                    aria-label required>
                                         </div>
                                         <div class="form-group col">
@@ -112,11 +114,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group text-right">
-                                        <input type="hidden" name="user_type" value="customer">
                                         <button type="submit" class="morphic_btn morphic_btn_primary">
                                             <span><i class="fas fa-user-plus"></i> Sign Up</span>
                                         </button>
-                                        <img class="d-none loader_gif" src="images/loaders/Ripple-1s-151px.gif" alt="loader.gif">
+                                        <img class="d-none loader_gif" src="{{asset('images/loaders/Ripple-1s-151px.gif')}}" alt="loader.gif">
                                     </div>
                                 </form>
                             </div>
@@ -127,7 +128,7 @@
 
                     <div class="row mt-4 justify-content-center">
                         <div class="col-md-6 text-center">
-                            <p class="lead">Already have an account? <a href="/sign-in">Sign In</a>.</p>
+                            <p>Already have an account? <a href="{{url('/login')}}">Sign In</a>.</p>
                         </div>
                     </div>
                 </div>

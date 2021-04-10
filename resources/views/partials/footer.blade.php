@@ -43,16 +43,14 @@
                 <h3>User Section</h3>
                 <p>
 
-                    <?php
-                    if(isset($_SESSION["c_email"])) {
-                        echo "<a href='../checkout.php'>Checkout<br></a>";
-                        echo "<a href='../pages/customer/profile.php?edit_account'>Edit Account<br></a>";
-                        echo "<a href='../sign_out.php'>Sign Out</a>";
-                    } else {
-                        echo "<a href='../sign_in.php'>Sign In<br></a>";
-                        echo "<a href='../customer_register.php'>Register account</a>";
-                    }
-                    ?>
+                    @if(Auth::check())
+                        <a href='../checkout.php'>Checkout<br></a>
+                        <a href='../pages/customer/profile.php?edit_account'>Edit Account<br></a>
+                        <a href="{{url('/logout')}}">Sign Out</a>
+                    @else
+                        <a href="{{url('/login')}}">Sign In<br></a>
+                        <a href="{{url('/register')}}">Register account</a>
+                    @endif
                     <br><a href="{{url('policies')}}">Terms & Conditions</a>
 
                 </p>

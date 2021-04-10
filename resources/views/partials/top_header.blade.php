@@ -15,22 +15,27 @@
                     @if(Auth::check())
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                {{Str::substr(ucfirst($user -> first_name), 0, 1) . '. ' . ucfirst($user -> last_name)}}
+                                {{Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)}}
                                 <i class="fas fa-user-circle"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{url('checkout')}}">Checkout</a>
                                 <a class="dropdown-item" href="{{url('profile/edit')}}">My Account</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{url('sign-out')}}">Sign Out</a>
+                                <a class="dropdown-item" href="{{url('logout')}}">Sign Out</a>
                             </div>
                         </li>
                     @else
                         <li class="nav-item">
+                            <a class="nav-link" style="transform: scale(1);">Hey There!👋 You might wanna</a>
+                        </li>
+                        <li class="nav-item" style="text-decoration: underline;">
                             <a class="nav-link" href="{{url('register')}}">Register</a>
                         </li>
-                        <li class="nav-item"><span class="navbar-brand m-0 px-1 text-muted">or</span></li>
-                        <li class="nav-item"><a class="nav-link" href="{{url('sign-in')}}">Sign In</a></li>
+                        <li class="nav-item"><a class="nav-link">or</a></li>
+                        <li class="nav-item" style="text-decoration: underline;">
+                            <a class="nav-link" href="{{url('login')}}">Sign In</a>
+                        </li>
                     @endif
 
                 </ul>
