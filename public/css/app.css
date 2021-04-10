@@ -48,8 +48,9 @@ a {
     text-decoration: none!important;
 }
 #global_alert {
+    border-bottom: .1rem solid;
     position: absolute;
-    top: 7rem;
+    top: 5rem;
     right: 1rem;
     z-index: var(--z-index-4);
 }

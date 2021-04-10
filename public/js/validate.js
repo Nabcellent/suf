@@ -45,8 +45,7 @@ $(() => {
             phone: {
                 required: true,
                 digits: true,
-                pattern: '((^0[17]+)|(^[17]+)).*',
-                maxlength: 10,
+                maxlength: 9,
                 minlength: 9,
                 remote: 'check-phone',
             },

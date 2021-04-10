@@ -1,15 +1,16 @@
 $(() => {
     /*****************************  Alert Message  *****************************/
-    const alert = $('#global_alert');
-    const timeOut = () => {
+    const $alert = $('#global_alert');
+    const timeOut = (duration) => {
+        duration *= 1000;
         setTimeout(() => {
-            alert.addClass('hide');
-            alert.removeClass('show');
-        }, 7000);
+            $alert.addClass('hide');
+            $alert.removeClass('show');
+        }, duration);
     }
 
-    if(alert.length !== 0 && alert.hasClass('show')) {
-        timeOut();
+    if($alert.length !== 0 && $alert.hasClass('show')) {
+        timeOut($alert.data('duration'));
     }
 
 

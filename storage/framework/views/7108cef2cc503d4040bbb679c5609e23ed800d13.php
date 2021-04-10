@@ -1,5 +1,6 @@
 <?php if(session('alert')): ?>
-    <div id="global_alert" class="alert alert-<?php echo e(session('alert')['type']); ?> alert-dismissible fade show" role="alert">
+    <div id="global_alert" class="alert alert-<?php echo e(session('alert')['type']); ?> alert-dismissible fade show shadow-lg" role="alert"
+         data-duration="<?php echo e(session('alert')['duration']); ?>">
         <strong><?php echo e(session('alert')['intro']); ?></strong> <?php echo e(session('alert')['message']); ?>
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -7,4 +8,6 @@
         </button>
     </div>
 <?php endif; ?>
+
+
 <?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/partials/alert.blade.php ENDPATH**/ ?>

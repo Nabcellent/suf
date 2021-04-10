@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PolicyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +21,7 @@ use App\Http\Controllers\PolicyController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes(['verify' => true]);
 
 //  Home Page Routes
 Route::get('/', [IndexController::class, 'index'])->name('home');
@@ -26,11 +30,16 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER RELATED ROUTES
  */
 //  Authentication Routes
-Route::get('/login', function() {return view('login');});
-Route::get('/register', function() {return view('register');});
+//Route::get('/login', function() {return view('login');})->name('login');
+//Route::get('/register', function() {return view('register');})->name('register');
+//Route::post('/login', [UserController::class, 'authenticate']);
+//Route::post('/register', [RegisterController::class, 'register']);
 
-Route::post('/login', [UserController::class, 'authenticate']);
-Route::post('/register', [UserController::class, 'createUser']);
+
+//  Confirm Account
+Route::match(['GET', 'POST'], '/confirm/{code}', [UserController::class, 'confirmAccount']);
+//Route::match(['GET', 'POST'],'/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
+Route::match(['GET', 'POST'],'/reset-password/{token?}', [UserController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
 
 Route::get('/logout', [UserController::class, 'signOut']);
 
@@ -88,3 +97,7 @@ Route::post('/profile/update-user', [UserController::class, 'update']);
 
 //  Listing Routes
 //Route::get('/products/{url}', [ProductController::class, 'listing']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
