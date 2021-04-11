@@ -23,7 +23,7 @@ class SellerSeeder extends Seeder
         Seller::insert([
             [
                 "user_id" => 2,
-                "id_number" => 12345,
+                "national_id" => 1234567,
                 "username" => "lobengz",
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),

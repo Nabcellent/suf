@@ -22,7 +22,7 @@
                                 <a class="dropdown-item" href="{{url('checkout')}}">Checkout</a>
                                 <a class="dropdown-item" href="{{url('profile/edit')}}">My Account</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{url('logout')}}">Sign Out</a>
+                                <a class="dropdown-item" href="{{route('logout')}}">Sign Out</a>
                             </div>
                         </li>
                     @else

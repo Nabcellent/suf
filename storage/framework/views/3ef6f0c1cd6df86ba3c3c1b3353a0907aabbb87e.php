@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'Password Reset'); ?>
+<?php $__env->startSection('title', 'Forgotten Password'); ?>
 <?php $__env->startSection('content'); ?>
 
     <div class="login">
@@ -31,11 +31,6 @@
                                 <?php if(session('status')): ?>
                                     <div class="alert alert-success py-1 px-2 mb-1" role="alert">
                                         <ul class="m-0"><li class="list-group-flush"><?php echo e(session('status')); ?></li></ul>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if($errors->any()): ?>
-                                    <div class="alert alert-danger py-1 px-2 mb-1" role="alert">
-                                        <ul class="m-0"><li><?php echo e($errors->first()); ?></li></ul>
                                     </div>
                                 <?php endif; ?>
                                 <hr class="bg-info m-0">

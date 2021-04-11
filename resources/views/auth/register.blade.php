@@ -61,7 +61,7 @@
                                             <div class="form-group col-md-6">
                                                 <label>First name *</label>
                                                 <input type="text" class="form-control @error('first_name') is-invalid @enderror"
-                                                       name="first_name" placeholder="First name" value="{{ old('first_name') }}" aria-label required>
+                                                       name="first_name" placeholder="First name" value="{{ old('first_name') }}" aria-label required autofocus>
                                                 @error('first_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

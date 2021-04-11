@@ -1,6 +1,5 @@
 <?php $__env->startSection('title', 'Home'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 

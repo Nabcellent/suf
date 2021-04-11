@@ -1,3 +1,4 @@
+<?php $__env->startSection('title', 'Verify Email'); ?>
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <!--    Start Breadcrumb    -->
@@ -21,9 +22,12 @@
 
                 <div class="card-body">
                     <?php if(session('resent')): ?>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <?php echo e(__('A fresh verification link has been sent to your email address.')); ?>
 
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                     <?php endif; ?>
 

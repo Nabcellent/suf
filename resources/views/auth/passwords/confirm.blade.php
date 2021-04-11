@@ -1,9 +1,23 @@
 @extends('layouts.master')
-
+@section('title', 'Confirm Password')
 @section('content')
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <!--    Start Breadcrumb    -->
+    <div class="row pb-lg-5">
+        <div class="col-lg-12">
+            <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Su-F</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Forgotten Password</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--    End Breadcrumb    -->
+
+    <div class="row justify-content-center py-md-5 mb-lg-5">
+        <div class="col-md-8 py-md-5 mb-lg-5">
             <div class="card">
                 <div class="card-header">{{ __('Confirm Password') }}</div>
 

@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasFactory, Notifiable;
+
+
     public function seller(): HasOne
     {
         return $this->hasOne(Seller::class);
     }
-
-    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,9 +24,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'gender',
+        'user_type',
         'email',
         'password',
+        'ip_address'
     ];
 
     /**

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Password Reset')
+@section('title', 'Forgotten Password')
 @section('content')
 
     <div class="login">
@@ -32,11 +32,6 @@
                                 @if(session('status'))
                                     <div class="alert alert-success py-1 px-2 mb-1" role="alert">
                                         <ul class="m-0"><li class="list-group-flush">{{ session('status') }}</li></ul>
-                                    </div>
-                                @endif
-                                @if($errors->any())
-                                    <div class="alert alert-danger py-1 px-2 mb-1" role="alert">
-                                        <ul class="m-0"><li>{{$errors->first()}}</li></ul>
                                     </div>
                                 @endif
                                 <hr class="bg-info m-0">

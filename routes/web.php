@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,19 +29,8 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
 /**
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER RELATED ROUTES
  */
-//  Authentication Routes
-//Route::get('/login', function() {return view('login');})->name('login');
-//Route::get('/register', function() {return view('register');})->name('register');
-//Route::post('/login', [UserController::class, 'authenticate']);
-//Route::post('/register', [RegisterController::class, 'register']);
 
-
-//  Confirm Account
-Route::match(['GET', 'POST'], '/confirm/{code}', [UserController::class, 'confirmAccount']);
-//Route::match(['GET', 'POST'],'/forgot-password', [UserController::class, 'forgotPassword'])->name('password.request');
-Route::match(['GET', 'POST'],'/reset-password/{token?}', [UserController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
-
-Route::get('/logout', [UserController::class, 'signOut']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 //  Check if Email Exists
 Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
@@ -67,7 +56,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 
 //  Shopping Cart Route
-Route::get('/cart', [ProductController::class, 'cart']);
+Route::get('/cart', [ProductController::class, 'cart'])/*->middleware('password.confirm')*/;
 
 //  Update Cart Item Quantity
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
@@ -81,9 +70,7 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 Route::get('/profile/{page}', function() {
     return view('profile');
-});
-
-Route::get('/details/{id}', [ProductController::class, 'productDetails']);
+})->middleware(['password.confirm']);
 
 Route::get('/policies', [PolicyController::class, 'index']);
 
