@@ -20,7 +20,8 @@ router.route('/')
 router.get('/create/:userType', UserController.getCreateUser);
 
 router.route('/:id')
-    .get(UserController.readProfile);
+    .get(UserController.readProfile)
+    .delete(UserController.deleteUser);
 
 
 router.route('/customer')

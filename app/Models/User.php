@@ -12,12 +12,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-
-    public function seller(): HasOne
-    {
-        return $this->hasOne(Seller::class);
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -51,4 +45,24 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * RELATIONSHIP FUNCTIONS
+     */
+    public function seller(): HasOne
+    {
+        return $this->hasOne(Seller::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
+
+
+
+    /**
+     * STATIC FUNCTIONS
+     */
 }

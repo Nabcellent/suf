@@ -1,4 +1,5 @@
 const express = require('express');
+const {CategoryValidation} = require("../Validations");
 const router = express.Router();
 const {ProductController, AddonController, JQueryController, CategoryController} = require("../Controllers");
 const {ProductValidation, VariationValidation, BrandValidation} = require("../Validations");
@@ -25,9 +26,9 @@ router
 
 
 /***    DETAILS ROUTE
- * ***************************************************************/
+ * ********************************************************************************************************************/
 router
-    .route('/details/all/:id')
+    .route('/details/:id')
     .get(ProductController.readProductDetails);
 
 router.route('/details/variation/:id')
@@ -49,10 +50,12 @@ router
 
 
 
+/***    CATEGORIES ROUTE
+ * ********************************************************************************************************************/
 router
     .route('/categories')
     .get(CategoryController.readCategories)
-    .post(CategoryController.createCategory)
+    .post(CategoryValidation.categoryCreate(), CategoryController.createCategory)
 router.delete('/categories/:id', CategoryController.deleteCategory);
 
 router.put('/category', CategoryController.updateCategory);

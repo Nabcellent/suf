@@ -7,7 +7,7 @@ module.exports = {
 
         if(!errors.isEmpty()) {
             const error = errors.array()[0];
-            alertUser(req, 'info', 'Something is missing!', error.msg);
+            alertUser(req, 'info', 'Something is amiss!', error.msg);
 
             res.redirect('back');
             return true;

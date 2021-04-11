@@ -9,7 +9,7 @@ const date = new Date();
 
 const createCategory = async(title, categoryId, discount, description) => {
     try {
-        discount = parseFloat(discount);
+        discount = (discount === '') ? 0 : parseFloat(discount);
         description = description.toString();
         return await new Promise((resolve, reject) => {
             if(typeof categoryId === 'undefined') {
@@ -26,9 +26,10 @@ const createCategory = async(title, categoryId, discount, description) => {
                 const qry = "INSERT INTO categories(title, discount, description, section_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
 
                 if(typeof categoryId === "object" && categoryId.length > 1) {
-                    categoryId.forEach((id) => {
+                    categoryId.forEach(id => {
                         link.query(qry, [title, discount, description, id, date, date], (err, result) => {
                             if (err) {
+                                console.log(err);
                                 reject(new Error(err.message));
                             } else {
                                 resolve(result.affectedRows);
@@ -49,7 +50,6 @@ const createCategory = async(title, categoryId, discount, description) => {
     } catch(error) {
         console.log(error);
     }
-    return name;
 }
 const createSubCategory = async(title, section_id, category_id, discount, description) => {
     try {

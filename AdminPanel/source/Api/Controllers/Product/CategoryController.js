@@ -105,7 +105,9 @@ const deleteCategory = async(req, res) => {
 }
 
 const createSubCategory = async(req, res, next) => {
-    const {section, category, title, discount, description} = req.body;
+    let {section, category, title, discount, description} = req.body;
+    discount = (discount === '') ? 0 : parseFloat(discount);
+    description = description.toString();
 
     try {
         CategoryService.createSubCategory(title, section, category, discount, description)

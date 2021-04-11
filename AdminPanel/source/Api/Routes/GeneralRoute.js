@@ -25,22 +25,19 @@ router.get('/', checkAuth, (req, res) => {
 
 router.get('/dashboard', /*checkAuth,*/ async (req, res) => {
     const getDashData = async () => {
-        const data = {
+        return {
             moment: moment,
-            products: [],
-            customers: [],
-            productCats: [],
+            products: await dbRead.getReadInstance().getFromDb({table: 'products'}),
+            customers: await dbRead.getReadInstance().getFromDb({
+                table: 'users',
+                where: [['user_type', '=', 'customer']]
+            }),
+            categories: await dbRead.getReadInstance().getFromDb({
+                table: 'categories',
+                where: [['section_id', 'IS NOT', 'NULL']]
+            }),
             orders: []
         };
-
-        (await dbRead.getReadInstance().getFromDb({table: 'products'})).forEach((row) => {data.products.push(row)});
-        (await dbRead.getReadInstance().getFromDb({
-            table: 'users',
-            where: [['user_type', '=', 'customer']]
-        })).forEach((row) => {data.customers.push(row)});
-        (await dbRead.getReadInstance().getFromDb({table: 'categories'})).forEach((row) => {data.productCats.push(row)});
-
-        return data;
     }
 
     try {

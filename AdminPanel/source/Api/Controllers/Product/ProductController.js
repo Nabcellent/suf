@@ -42,9 +42,9 @@ const createProduct = async(req, res, next) => {
                 .then(response => {
                     if(response instanceof Error) {
                         throw createError(404, response);
-                    } else if(response === 1) {
-                        alertUser(req, 'success', 'Success!', 'Product Created');
-                        res.redirect('/products');
+                    } else if(response.length === 1) {
+                        alertUser(req, 'success', 'Success!', 'Product Created. Please add a variation before completion.');
+                        res.redirect('/products/details/' + response[0]);
                     } else {
                         throw createError(404, 'Something went wrong');
                     }
@@ -163,17 +163,20 @@ const readProductCreate = async(req, res) => {
                 where: [
                     ['section_id', 'IS NOT', 'NULL'],['category_id', 'IS', 'NULL'],
                     ['status', '=', 1]
-                ]
+                ],
+                orderBy: ['title']
             }),
             sellers: await dbRead.getReadInstance().getFromDb({
                 table: 'users',
                 columns: 'sellers.user_id, first_name, last_name',
-                join: [['sellers', 'users.id = sellers.user_id']]
+                join: [['sellers', 'users.id = sellers.user_id']],
+                orderBy: ['last_name']
             }),
             brands: await dbRead.getReadInstance().getFromDb({
                 table: 'brands',
                 columns: 'id, name',
-                where: [['status', '=', 1]]
+                where: [['status', '=', 1]],
+                orderBy: ['name']
             })
         }
     }

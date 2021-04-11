@@ -31,11 +31,13 @@ $(() => {
         rules: {
             first_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                lettersonly: true
             },
             last_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                lettersonly: true
             },
             email: {
                 required: true,
@@ -55,12 +57,19 @@ $(() => {
                 minlength: 4
             },
             password_confirmation: {
+                required: true,
                 equalTo: '#password'
             }
         },
         messages: {
-            first_name: 'Please enter your first name.',
-            last_name: 'Please enter your last name.',
+            first_name: {
+                required: 'Please enter your first name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            last_name: {
+                required: 'Please enter your last name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
             email: {
                 required: 'Please enter your email address',
                 email: 'Please enter a valid email address',
@@ -68,7 +77,7 @@ $(() => {
             },
             phone: {
                 required: 'Please provide your phone number.',
-                digits: 'Please enter a valid phone number.',
+                digits: 'Only numbers are allowed.',
                 pattern: 'Invalid phone number',
                 remote: 'This phone number is already in use.',
             },
@@ -77,7 +86,8 @@ $(() => {
                 required: 'Please provide a password.',
                 minlength: 'Password must be at least 6 characters.',
             },
-            confirm_password: {
+            password_confirmation: {
+                required: 'Kindly confirm your new password.',
                 equalTo: 'Both passwords must be the same.'
             }
         }
@@ -95,5 +105,97 @@ $(() => {
             email: 'Your email or phone number is required.',
             password: 'Your password is required.',
         }
+    });
+
+    /**
+     * *********************************************************    UPDATE PERSONAL DETAILS
+     */
+    $('#profile-form').validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 3,
+                lettersonly: true
+            },
+            last_name: {
+                required: true,
+                minlength: 3,
+                lettersonly: true
+            },
+            phone: {
+                required: true,
+                digits: true,
+                maxlength: 9,
+                minlength: 9,
+                remote: 'check-phone',
+            }
+        },
+        messages: {
+            first_name: {
+                required: 'Please enter your first name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            last_name: {
+                required: 'Please enter your last name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            phone: {
+                required: 'Please provide your phone number.',
+                digits: 'Only numbers are allowed.',
+                pattern: 'Invalid phone number',
+                remote: 'This phone number is already in use.',
+            }
+        }
+    });
+
+    /**
+     * *********************************************************    UPDATE PASSWORD
+     */
+    $('#change-password').validate({
+        rules: {
+            current_password: 'required',
+            password: {
+                required: true,
+                minlength: 4
+            },
+            password_confirmation: {
+                required: true,
+                equalTo: '#password'
+            }
+        },
+        messages: {
+            current_password: 'Please confirm your current password',
+            password: {
+                required: 'Please provide a new password.',
+                minlength: 'Password must be at least 6 characters.',
+            },
+            password_confirmation: {
+                required: 'Kindly confirm your new password.',
+                equalTo: 'Your new passwords do not match.'
+            }
+        }
+    });
+
+    $('#edit-profile #change-password input[name="current_password"]').keyup(function() {
+        const $inputValue = $(this).val();
+
+        $.ajax({
+            data: {current_password: $inputValue},
+            type: 'POST',
+            url: '/check-password',
+            success: (response) => {
+                if(response) {
+                    $(this).addClass('is-valid');
+                    $(this).removeClass('is-invalid');
+                } else {
+                    $(this).addClass('is-invalid');
+                    $(this).removeClass('is-valid');
+                }
+                console.log(response);
+            },
+            error: () => {
+                alert("Error");
+            }
+        })
     })
-})
+});

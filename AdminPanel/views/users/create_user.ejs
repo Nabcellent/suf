@@ -56,15 +56,17 @@
                                                placeholder="Enter phone number *" aria-label required>
                                     </div>
                                     <div class="form-group col">
-                                        <label for="">National Id</label>
-                                        <input type="number" name="national_id" class="form-control"
+                                        <label for="national_id">National Id</label>
+                                        <input type="number" id="national_id" name="national_id" class="form-control"
                                                placeholder="Enter National ID number *" aria-label required>
                                     </div>
-                                    <div class="form-group col">
-                                        <label for="">Pin</label>
-                                        <input type="number" name="pin" class="form-control"
-                                               placeholder="Enter pin number" aria-label>
-                                    </div>
+                                    <% if(userType.toLowerCase() === 'admin') { %>
+                                        <div class="form-group col">
+                                            <label for="">Pin</label>
+                                            <input type="number" name="pin" class="form-control"
+                                                   placeholder="Enter pin number" aria-label>
+                                        </div>
+                                    <% } %>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col">
@@ -108,7 +110,7 @@
                             <div class="card-footer text-right">
                                 <input type="hidden"  name="user_type" value="<%= userType %>">
                                 <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fas fa-plus-circle"></i> Insert Product
+                                    <i class="fas fa-plus-circle"></i> Create Seller
                                 </button>
                                 <img class="d-none loader_gif" src="/images/loaders/Gear-0.2s-200px.gif" alt="loader.gif">
                             </div>

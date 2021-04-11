@@ -2,113 +2,99 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Notifications\Notifiable;
 
 use App\Models\User;
 use App\Models\Address;
-use App\Http\Requests\RegisterPostRequest;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use JetBrains\PhpStorm\NoReturn;
 
 class UserController extends Controller
 {
+    use Notifiable;
     //
-    public function authenticate(Request $req): RedirectResponse
-    {
-        $credentials = $req->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $req->session()->regenerate();
-
-            //  Update user cart with user id
-            if(!empty(Session::get('session_id'))) {
-                $sessionId = Session::get('session_id');
-                Cart::where('session_id', $sessionId)->update(['user_id' => Auth::id()]);
-            }
-
-            return redirect()->intended('/');
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
-    }
-
-    public function createUser(RegisterPostRequest $req): Redirector|Application|RedirectResponse
+    public function account(Request $req, $page = null): View|Factory|RedirectResponse|Application
     {
         if($req->isMethod('POST')) {
-            $phone = $req -> validated()['phone'];
-            $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
+            $req->validate([
+                'first_name' => 'required|max:20|alpha',
+                'last_name' => 'required|max:20|alpha',
+                'phone' => [
+                    'required','digits_between: 9, 10',
+                    'regex:/^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
+                    Rule::unique('addresses')->ignore(Auth::id(), 'user_id'),
+                ],
+                'address' => 'nullable|min:5'
+            ]);
 
-            $user = new User;
-            $address = new Address;
+            $phone = strlen($req -> phone) === 10 ? substr($req -> phone, -9) : $req -> phone;
 
-            $user -> first_name = $req->validated()['first_name'];
-            $user -> last_name = $req->validated()['last_name'];
-            $user -> gender = $req->validated()['gender'];
-            $user -> user_type = "Customer";
-            $user -> email = $req->validated()['email'];
-            $user -> password = Hash::make($req->validated()['password']);
-            $user -> ip_address = $req -> ip();
+            $user = Auth::user();
+            $address = Auth::user()->address;
+
+            $user -> first_name = $req -> first_name;
+            $user -> last_name = $req -> last_name;
             $user -> save();
 
-            $address -> user_id = $user -> id;
             $address -> phone = $phone;
+            $address -> address = $req->address;
             $address -> save();
 
-            $credentials = $req->only('email', 'password');
-            if(Auth::attempt($credentials)) {
-                $req->session()->regenerate();
-
-                //  Update user cart with user id
-                if(!empty(Session::get('session_id'))) {
-                    $sessionId = Session::get('session_id');
-                    Cart::where('session_id', $sessionId)->update(['user_id' => Auth::id()]);
-                }
-
-                return redirect()->intended('/products');
-            }
-
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
+            $message = "Your account has been Updated. 😌";
+            return back()
+                ->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
         }
 
-        $message = "Access Denied!";
-        return redirect('/login')
-            ->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message]);
+        if($page === null) {
+            $page = 'edit';
+        }
+        $user = Auth::user()->toArray();
+        $address = Auth::user()->address->toArray();
+
+        return view('profile')->with(compact('page', 'user', 'address'));
     }
 
-    public function update(Request $req): RedirectResponse
+    public function updatePassword(Request $req): RedirectResponse
     {
-        $phone = strlen($req -> phone) === 10 ? substr($req -> phone, -9) : $req -> phone;
+        $req->validate([
+            'current_password' => 'password',
+            'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'password_confirmation' => 'required',
+        ]);
 
-        $user = User::find(Auth::id());
-        $address = Address::firstWhere('user_id', Auth::id());
+        $user = Auth::user();
+        $user->password = bcrypt($req->password);
+        $user->save();
 
-        $user -> first_name = $req -> first_name;
-        $user -> last_name = $req -> last_name;
-        $user -> save();
-
-        $address -> phone = $phone;
-        $address -> save();
-
-        return back();
+        $message = "Your password has been Updated. 😌";
+        return back()
+            ->with('alert', ['type' => 'success', 'intro' => 'Success! ', 'message' => $message, 'duration' => 7]);
     }
 
-    public function signOut(Request $request): Redirector|Application|RedirectResponse
+
+
+    /**
+     * ---------------------------------------------------------------------------------------------    DATABASE CHECKS
+    */
+
+    public function checkCurrentPassword(Request $req): bool
     {
-        Auth::logout();
+        if($req->ajax() && $req->isMethod('POST')) {
+            if(Hash::check($req->current_password, Auth::user()['password'])) {
+                return true;
+            }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            return false;
+        }
 
-        return redirect('/login');
+        return false;
     }
 
     public function checkEmailExists(Request $req): string
@@ -123,7 +109,14 @@ class UserController extends Controller
     {
         $phone = $req -> phone;
         $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
-        $exists = Address::where('phone', $req -> phone)->exists();
+
+        $check = Address::where('phone', $phone);
+
+        if(Auth::check()) {
+            $check->where('user_id', '<>', Auth::id());
+        }
+
+        $exists = $check->exists();
 
         return $exists ? "false" : "true";
     }

@@ -30,6 +30,17 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER RELATED ROUTES
  */
 
+//  User Account
+Route::match(['GET', 'POST'], '/account/{page?}', [UserController::class, 'account'])
+    ->middleware(['verified', 'auth'])->name('update-user');
+//  Check User Password     ~   AJAX
+Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
+//  Change Password
+Route::post('/change-password', [UserController::class, 'updatePassword'])
+    ->middleware(['verified', 'auth'])->name('change-password');
+
+
+
 Route::get('/logout', [LoginController::class, 'logout']);
 
 //  Check if Email Exists
@@ -68,11 +79,8 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 
 
-Route::get('/profile/{page}', function() {
-    return view('profile');
-})->middleware(['password.confirm']);
 
-Route::get('/policies', [PolicyController::class, 'index']);
+Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
 
 
 

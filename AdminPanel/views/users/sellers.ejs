@@ -46,7 +46,9 @@
                                     <td><%= moment(row.date).format('DD/MM/YYYY') %></td>
                                     <td class="action">
                                         <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3" title="Remove"><i class="fas fa-trash text-danger"></i></a>
+                                        <a href="#" class="ml-3 delete_user" title="Remove" data-id="<%= row.user_id %>">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             <% }) %>

@@ -111,6 +111,26 @@ const createUser = async (req, res, next) => {
         next(e);
     }
 }
+const deleteUser = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        User.deleteUser(id)
+            .then(data => {
+                if(data === 1) {
+                    alertUser(req, 'success', '', 'User Deleted!');
+                    res.json(data);
+                } else {
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+                    res.json(data);
+                }
+            }).catch(error => res.json({error}));
+    } catch(error) {
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+        res.json({error});
+    }
+}
+
 const readProfile = async(req, res) => {
     res.render('users/profile', {
         Title: 'Customers',
@@ -118,7 +138,6 @@ const readProfile = async(req, res) => {
         admin: {first_name: 'Michael'}/*req.user[0]*/,
     });
 }
-
 const readAdmins = async (req, res, next) => {
     try {
         User.readAdmins()
@@ -234,10 +253,13 @@ const readCustomer = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     getCreateUser,
 
     createUser,
+    deleteUser,
 
     readAdmins,
 

@@ -20,7 +20,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{url('checkout')}}">Checkout</a>
-                                <a class="dropdown-item" href="{{url('profile/edit')}}">My Account</a>
+                                <a class="dropdown-item" href="{{url('/account')}}">My Account</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{route('logout')}}">Sign Out</a>
                             </div>

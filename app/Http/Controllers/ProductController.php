@@ -151,7 +151,7 @@ class ProductController extends Controller
 
                 if($productStock < $data['quantity']) {
                     $message = "Required quantity is not available for this combination🤧";
-                    return back()->with('alert', ['type' => 'danger', 'intro' => 'Oops!', 'message' => $message]);
+                    return back()->with('alert', ['type' => 'danger', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
                 }
             }
 
@@ -170,7 +170,7 @@ class ProductController extends Controller
             }
             if($countProducts > 0) {
                 $message = "Product already exists in Cart😁";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message]);
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
             }
 
             //  Convert Details to JSON for storage
@@ -178,7 +178,7 @@ class ProductController extends Controller
                 $details = json_encode($details, JSON_THROW_ON_ERROR);
             } catch (JsonException $e) {
                 $message = "Something went wrong🤧";
-                return back()->with('alert', ['type' => 'danger', 'intro' => '💔!', 'message' => $message]);
+                return back()->with('alert', ['type' => 'danger', 'intro' => '💔!', 'message' => $message, 'duration' => 7]);
             }
 
             //  Save to Cart Table
@@ -197,7 +197,8 @@ class ProductController extends Controller
         return redirect('/cart')->with('alert', [
             'type' => 'success',
             'intro' => 'Success! ',
-            'message' => $message
+            'message' => $message,
+            'duration' => 7
         ]);
     }
 
@@ -259,7 +260,7 @@ class ProductController extends Controller
         }
 
         $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message]);
+        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
     }
 
     public function deleteCartItem(Request $req): JsonResponse|Redirector|RedirectResponse|Application
@@ -275,6 +276,6 @@ class ProductController extends Controller
         }
 
         $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message]);
+        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
     }
 }

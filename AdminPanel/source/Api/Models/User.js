@@ -33,10 +33,10 @@ const createAdmin = async (user_id, national_id, username, pin) => {
         return error;
     }
 }
-const createSeller = async (user_id, national_id, username, pin) => {
+const createSeller = async (user_id, national_id, username) => {
     try {
         return await new Promise((resolve, reject) => {
-            db('sellers').insert({user_id, national_id, username, pin, created_at, updated_at}).then(rows => {
+            db('sellers').insert({user_id, national_id, username, created_at, updated_at}).then(rows => {
                 resolve(rows.length);
             }).catch(error => reject(error));
         });
@@ -44,10 +44,10 @@ const createSeller = async (user_id, national_id, username, pin) => {
         return error;
     }
 }
-const createAddress = async (user_id, phone, address_one) => {
+const createAddress = async (user_id, phone, address) => {
     try {
         return await new Promise((resolve, reject) => {
-            db('addresses').insert({user_id, phone, address_one, created_at, updated_at}).then(rows => {
+            db('addresses').insert({user_id, phone, address, created_at, updated_at}).then(rows => {
                 resolve(rows.length);
             }).catch(error => reject(error));
         });
@@ -87,6 +87,19 @@ const readSellers = () => {
     }
 }
 
+const deleteUser = async(id) => {
+    try {
+        return await new Promise((resolve, reject) => {
+            db('users').where({id}).del()
+                .then(result => {
+                    resolve(result);
+                }).catch(err => reject(err));
+        });
+    } catch(err) {
+        return err;
+    }
+}
+
 module.exports = {
     createUser,
     createAdmin,
@@ -95,4 +108,6 @@ module.exports = {
 
     readAdmins,
     readSellers,
+
+    deleteUser
 }

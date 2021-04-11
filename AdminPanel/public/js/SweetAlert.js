@@ -1,5 +1,41 @@
 
-/*_______  Set Variation To Delete with SweetAlert  _______*/
+/*________________________________________________________  Set Variation To Delete with SweetAlert  _______*/
+$(document).on('click','.delete_user', function() {
+    const id = $(this).data('id');
+
+    Swal.fire({
+        title: 'Are you sure you want to delete this user?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete user!'
+    }).then(result => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/users/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    if(result === 1) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                       alert("Something went wrong!");
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+/*________________________________________________________  Set Variation To Delete with SweetAlert  _______*/
 $(document).on('click','.delete_variation', function() {
     const id = $(this).attr('data-id');
 
@@ -36,7 +72,7 @@ $(document).on('click','.delete_variation', function() {
 
 
 
-/*_______  Set Sub-Category To Delete with SweetAlert  _______*/
+/*________________________________________________________  Set Sub-Category To Delete with SweetAlert  _______*/
 $(document).on('click','.delete_sub_category', function() {
     const id = $(this).attr('data-id');
 
@@ -70,7 +106,7 @@ $(document).on('click','.delete_sub_category', function() {
 });
 
 
-/*_______  Set Banner To Delete  _______*/
+/*________________________________________________________  Set Banner To Delete  _______*/
 $(document).on('click','.delete_banner', function() {
     const id = $(this).attr('data-id');
     const image = $(this).attr('data-image');

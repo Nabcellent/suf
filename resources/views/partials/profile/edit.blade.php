@@ -1,23 +1,43 @@
+<?php
 
-<div class="card edit_profile">
+if($user['gender'] ==='Male') {
+    $gender = 'Male';
+    $genderIcon = '<i class="bx bx-male-sign"></i>';
+}else {
+    $gender = 'Female';
+    $genderIcon = "<i class='bx bx-female-sign'></i>";
+}
+
+?>
+
+<div id="edit-profile" class="card">
 
     <!--    Start Update Profile    -->
-
     <div class="card-header">
         <h3><i class="fas fa-user-edit"></i> Personal Details</h3>
         <hr>
     </div>
     <div class="card-body">
-        <form id="edit_profile_form" class="anime_form" action="/profile/update-user" method="POST">
+        <form id="profile-form" class="anime_form" action="{{route('update-user')}}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="u_first_name">First name *</label>
-                    <input type="text" class="form-control" name="first_name" value="{{ucfirst(Auth::user() -> first_name)}}" required>
+                    <label>First name *</label>
+                    <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ucfirst($user['first_name'])}}" required>
+                    @error('first_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="u_last_name">Last name *</label>
-                    <input type="text" class="form-control" name="last_name" value="{{ucfirst(Auth::user() -> last_name)}}" required>
+                    <label>Last name *</label>
+                    <input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ucfirst($user['last_name'])}}" required>
+                    @error('last_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-row">
@@ -27,42 +47,49 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-envelope"></i></span>
                         </div>
-                        <input type="email" class="form-control" name="email" value="{{Auth::user() -> email}}" readonly>
+                        <input type="email" class="form-control" name="email" value="{{$user['email']}}" readonly>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label for="u_gender">Gender</label>
                     <div class="input-group mb-3">
-                        @if(Auth::user() -> gender === 'M')
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class='bx bx-male-sign'></i></span>
-                            </div>
-                            <input type="text" class="form-control" name="gender" value="Male" readonly>
-                            @elseif(Auth::user() -> gender ==='F')
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class='bx bx-female-sign'></i></span>
-                            </div>
-                            <input type="text" class="form-control" name="gender" value="Female" readonly>
-                        @endif
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?= $genderIcon ?></span>
+                        </div>
+                        <input type="text" class="form-control" name="gender" value="{{ $gender }}" readonly>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="u_phone_number">Phone Number *</label>
-                <div class="input-group mb-3">
+                <label>Phone Number *</label>
+                <div class="input-group mb-3 is-invalid">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="number" class="form-control" name="phone" pattern="([0 | 1 | 7]+).*"
-                           value="{{\App\Models\Address::firstWhere('user_id', Auth::id()) -> phone}}" aria-label required>
+                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$address['phone']}}"
+                           pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
+                    @error('phone')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="u_first_name">Home Address *</label>
+                <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Enter your current home address">{{ $address['address'] }}</textarea>
+                @error('address')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="form-group text-right">
                 <button type="submit" class="morphic_btn morphic_btn_primary">
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
-                <img id="update_profile_gif" class="d-none loader_gif" src="/images/loaders/Infinity-1s-197px.gif" alt="loader.gif">
+                <img id="update_profile_gif" class="d-none loader_gif" src="{{asset('/images/loaders/Infinity-1s-197px.gif')}}" alt="loader.gif">
             </div>
         </form>
     </div>
@@ -75,25 +102,43 @@
         <hr>
     </div>
     <div class="card-body">
-        <form id="change_password_form" class="anime_form" action="../../profile.php" method="POST" enctype="multipart/form-data">
+        <form id="change-password" class="anime_form" action="{{route('change-password')}}" method="POST">
+            @csrf
             <div class="form-group">
-                <input type="hidden" id="customer_email" name="customer_email" value="">
-                <label for="u_current_pass">Current password *</label>
-                <input type="password" class="form-control" id="u_current_pass" name="u_current_pass" placeholder="Enter current password *" required>
+                <label for="current_password">Current password *</label>
+                <input type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" placeholder="Enter current password *" required>
+                @error('current_password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
-                    <label for="u_new_pass">New password *</label>
-                    <input type="password" class="form-control" id="u_new_pass" name="u_new_pass" placeholder="Enter new password *" required>
+                    <label for="password">New password *</label>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter new password *" required>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
-                    <label for="u_confirm_new_pass">Confirm New password *</label>
-                    <input type="password" class="form-control" id="u_confirm_new_pass" name="u_confirm_new_pass" placeholder="Confirm new password *" required>
+                    <label for="password_confirmation">Confirm New password *</label>
+                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
+                           name="password_confirmation" placeholder="Confirm new password *" required>
+                    @error('password_confirmation')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group text-right">
-                <button type="submit" name="customer_crud" value="update_pass" class="morphic_btn morphic_btn_primary"><span><i class="fas fa-pen"></i> Change Password</span></button>
-                <img id="change_pass_gif" class="d-none loader_gif" src="/images/loaders/Infinity-1s-197px.gif" alt="loader.gif">
+                <button type="submit" class="morphic_btn morphic_btn_primary">
+                    <span><i class="fas fa-pen"></i> Change Password</span>
+                </button>
+                <img id="change_pass_gif" class="d-none loader_gif" src="{{asset('/images/loaders/Infinity-1s-197px.gif')}}" alt="loader.gif">
             </div>
         </form>
     </div>

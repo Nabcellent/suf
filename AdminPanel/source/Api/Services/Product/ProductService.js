@@ -1,6 +1,6 @@
 const knex = require('knex');
 const config = require('../../../../knexfile');
-const db = knex(config.development)
+const db = knex(config.development);
 const link = require("../../../Config/database");
 const date = new Date();
 
@@ -8,6 +8,8 @@ const date = new Date();
 
 const createProduct = async(title, seller_id, brand_id, category_id, label, base_price, discount,
                            main_image, keywords, description, is_featured) => {
+    discount = discount.trim() === "" ? 0 : parseInt(discount);
+    is_featured = (is_featured === 'on') ? "Yes" : "No";
     const values = {
         category_id,        seller_id,
         brand_id,           title,          main_image,
@@ -20,7 +22,7 @@ const createProduct = async(title, seller_id, brand_id, category_id, label, base
         return await new Promise((resolve, reject) => {
             db('products').insert(values)
                 .then(rows => {
-                    resolve(rows.length);
+                    resolve(rows);
                 }).catch(error => reject(error));
         });
     } catch (error) {
@@ -28,6 +30,34 @@ const createProduct = async(title, seller_id, brand_id, category_id, label, base
     }
 }
 
+const updateProduct = async(id, category_id, seller_id, title, keywords, description, is_featured, label, base_price
+    , discount, brand_id) => {
+    try {
+        discount = discount.trim() === "" ? 0 : discount;
+        is_featured = (is_featured === 'on') ? "Yes" : "No";
+        const VALUES = [
+            category_id,    seller_id,      title,
+            keywords,       description,    is_featured,
+            label,          base_price,
+            discount,       brand_id,       date,
+            id
+        ]
+
+        return await new Promise((resolve, reject) => {
+            const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?, keywords = ?, description = ?,
+                    is_featured = ?, label = ?, base_price = ?, discount = ?, brand_id = ?, updated_at = ?
+                    WHERE id = ?`;
+
+            link.query(qry, VALUES, (err, result) => {
+                if(err)
+                    reject(new Error(err.message));
+                resolve(result.changedRows);
+            })
+        })
+    } catch(error) {
+        console.log(error);
+    }
+}
 const updateProductStatus = async(id, status) => {
     try {
         return await new Promise((resolve, reject) => {
@@ -207,34 +237,7 @@ module.exports = {
     /*********
      * UPDATE
      * ********/
-    updateProduct: async(id, category_id, seller_id, title, keywords, description, is_featured, label, base_price
-                         , discount, brand_id) => {
-        try {
-            discount = discount.trim() === "" ? 0 : discount;
-            is_featured = (is_featured === 'on') ? "Yes" : "No";
-            const VALUES = [
-                category_id,    seller_id,      title,
-                keywords,       description,    is_featured,
-                label,          base_price,
-                discount,       brand_id,       date,
-                id
-            ]
-
-            return await new Promise((resolve, reject) => {
-                const qry = `UPDATE products SET category_id = ?, seller_id = ?, title = ?, keywords = ?, description = ?,
-                    is_featured = ?, label = ?, base_price = ?, discount = ?, brand_id = ?, updated_at = ?
-                    WHERE id = ?`;
-
-                link.query(qry, VALUES, (err, result) => {
-                    if(err)
-                        reject(new Error(err.message));
-                    resolve(result.changedRows);
-                })
-            })
-        } catch(error) {
-            console.log(error);
-        }
-    },
+    updateProduct,
     updateProductStatus,
     updateVariationPrice,
     updateVariationStock,
