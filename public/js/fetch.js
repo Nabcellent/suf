@@ -123,8 +123,7 @@ $(document).on('click', '#cart .cart_table td.quantity button', function() {
     const cartId = $qtyInput.data('id');
 
     if(newQty > 0) {
-        changeCartQty(cartId, newQty);
-        //$(this).parents('td.quantity').find($('img')).show();
+        updateCartQty(cartId, newQty);
     } else {
         alert("Error: Quantity must be at least 1!");
     }
@@ -138,22 +137,25 @@ $(document).on('change', '#cart .cart_table td.quantity input[type="number"]', f
     const newQty = parseInt($(this).val(), 10);
     const cartId = $(this).data('id');
 
-    changeCartQty(cartId, newQty);
+    updateCartQty(cartId, newQty);
 });
 
-const changeCartQty = (cartId, newQty) => {
+const updateCartQty = (cartId, newQty) => {
     $.ajax({
         data: {cartId, newQty},
         type: 'POST',
         url: '/update-cart-item-qty',
         success: (response) => {
             $('#cart #cart_table').html(response.view);
+            $('.cart_count').html(response.cartCount);
+            $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
 
             if(!response.status) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'info',
-                    title: response.message,
+                    title: 'Sorryy☹',
+                    text: response.message,
                     timer: 5000
                 })
             }

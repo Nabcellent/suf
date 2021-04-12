@@ -1,18 +1,4 @@
 </header>
-
-<?php
-use App\Models\Cart;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-
-if(Auth::check()) {
-    $cartCount = Cart::where('user_id', Auth::id())->count();
-} else if(!empty(Session::get('session_id'))) {
-    $cartCount = Cart::where('session_id', Session::get('session_id'))->count();
-}
-
-?>
-
 <header id="mega_nav" class="sticky-top header">
     <div class="container-fluid nav_container">
         <div class="row px-3 align-items-center v_center">
@@ -77,8 +63,8 @@ if(Auth::check()) {
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="/about" class="nav_link">About</a></li>
-                        <li><a href="/contact-us" class="nav_link">Contact Us</a></li>
+                        <li><a href="{{url('/about')}}" class="nav_link">About</a></li>
+                        <li><a href="{{url('/contact-us')}}" class="nav_link">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>
@@ -96,24 +82,16 @@ if(Auth::check()) {
                 <div class="icons ml-2">
                     <button class="icon_button">
                         <i class="fas fa-hand-sparkles"></i>
-                        <span class="icon_count">~</span>
+                        <span class="icon_count"></span>
                     </button>
                 </div>
                 <div class="icons ml-2">
-                    <a href="{{url('/cart')}}" class="icon_button">
+                    <a href="{{ url('/cart') }}" class="icon_button">
                         <i class="fab fa-opencart"></i>
-
-                        @if(Auth::check() || !empty(Session::get('session_id')))
-                            <span class="icon_count">
-                                {{$cartCount}}
-                            </span>
-                        @endif
-
+                        <span class="cart_count">{{ cartCount() }}</span>
                     </a>
                 </div>
-                <div class="cart_total">
-                    <p class="m-0">7000/=</p>
-                </div>
+                <div class="cart_total"><p class="m-0">{{ cartTotal() }}/=</p></div>
 
                 <!--    Start Mobile Menu Trigger    -->
 

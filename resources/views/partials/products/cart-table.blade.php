@@ -1,5 +1,5 @@
 <?php
-use App\Models\Cart;use JetBrains\PhpStorm\Pure;
+use App\Models\Cart;
 
 function mapped_implode($glue, $array, $symbol = '='): string
 {
@@ -13,10 +13,6 @@ function mapped_implode($glue, $array, $symbol = '='): string
     );
 }
 
-#[Pure] function currencyFormat($number): string
-{
-    return number_format((float)$number, 2);
-}
 ?>
 
 <table class="table table-sm table-striped table-hover table_fixed">

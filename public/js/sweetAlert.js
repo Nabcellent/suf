@@ -22,20 +22,32 @@ $(document).on('click', '#cart .delete_cart_item', function() {
                     url: '/delete-cart-item',
                     success: (response) => {
                         if(response.status) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            );
+                            if(response.cartCount > 0) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                );
 
-                            $('#cart #cart_table').html(response.view);
+                                $('#cart #cart_table').html(response.view);
+                                $('.cart_count').html(response.cartCount);
+                                $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
 
-                            $.cachedScript( "js/jquery.nice-number.js" ).done(function( script, textStatus ) {
-                                console.log( textStatus );
-                            });
-                            $.cachedScript( "js/main.js" ).done(function( script, textStatus ) {
-                                console.log( textStatus );
-                            });
+                                $.cachedScript( "js/jquery.nice-number.js" ).done(function( script, textStatus ) {
+                                    console.log( textStatus );
+                                });
+                                $.cachedScript( "js/main.js" ).done(function( script, textStatus ) {
+                                    console.log( textStatus );
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            }
                         } else {
                             Swal.fire({
                                 position: 'top-end',

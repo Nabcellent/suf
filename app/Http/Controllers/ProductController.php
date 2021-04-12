@@ -255,6 +255,8 @@ class ProductController extends Controller
             $cart = Cart::cartItems();
             return response()->json([
                 'status' => true,
+                'cartCount'=> cartCount(),
+                'cartTotal'=> cartTotal(),
                 'view' => (string)view('partials.products.cart-table', compact('cart'))
             ]);
         }
@@ -271,6 +273,8 @@ class ProductController extends Controller
             $cart = Cart::cartItems();
             return response()->json([
                 'status' => true,
+                'cartCount'=> cartCount(),
+                'cartTotal'=> cartTotal(),
                 'view' => (string)view('partials.products.cart-table', compact('cart'))
             ]);
         }

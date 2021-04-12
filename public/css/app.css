@@ -414,7 +414,7 @@ nav .nav-link:hover {
     background-color: navy;
     color: var(--body-color);
 }
-#mega_nav .item_right .icons .icon_count {
+#mega_nav .item_right .icons .cart_count {
     position: absolute;
     height: 1.1rem;
     display: flex;
@@ -1360,5 +1360,5 @@ nav ul.pagination {
 
 
 h2.swal2-title {
-    font-size: 17px!important;
+    font-sizee: 17px!important;
 }

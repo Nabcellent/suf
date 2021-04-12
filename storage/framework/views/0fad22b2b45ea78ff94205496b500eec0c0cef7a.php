@@ -51,7 +51,7 @@
                                         <!--    Start Cart Table    -->
 
                                         <h1>Cart Items</h1>
-                                        <p class="text-muted">You currently have items in your Cart.</p>
+                                        <p class="text-muted">You currently have <span class="cart_count"><?php echo e(cartCount()); ?></span> item(s) in your Cart.</p>
 
                                         <div id="cart_table" class="table-responsive">
                                             <?php echo $__env->make('partials.products.cart-table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

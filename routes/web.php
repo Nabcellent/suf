@@ -27,21 +27,27 @@ Auth::routes(['verify' => true]);
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
 /**
- *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER RELATED ROUTES
+ *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROTECTED ROUTES
  */
 
-//  User Account
-Route::match(['GET', 'POST'], '/account/{page?}', [UserController::class, 'account'])
-    ->middleware(['verified', 'auth'])->name('update-user');
-//  Check User Password     ~   AJAX
-Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
-//  Change Password
-Route::post('/change-password', [UserController::class, 'updatePassword'])
-    ->middleware(['verified', 'auth'])->name('change-password');
+Route::middleware(['auth'])->group(function() {
+    //  User Account
+    Route::match(['GET', 'POST'], '/account/{page?}', [UserController::class, 'account'])
+        ->middleware(['verified', 'auth'])->name('update-user');
+
+    //  Check User Password     ~   AJAX
+    Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
+
+    //  Change Password
+    Route::post('/change-password', [UserController::class, 'updatePassword'])
+        ->middleware(['verified', 'auth'])->name('change-password');
+
+    //  Logout User
+    Route::get('/logout', [LoginController::class, 'logout']);
+});
 
 
 
-Route::get('/logout', [LoginController::class, 'logout']);
 
 //  Check if Email Exists
 Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
