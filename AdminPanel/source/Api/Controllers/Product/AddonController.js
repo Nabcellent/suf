@@ -1,35 +1,25 @@
-const moment = require('moment');
 const AddonService = require("../../Services/Product/AddonService");
 const {validationResult} = require("express-validator");
 const {dbRead} = require("../../../Database/query");
 const {alertUser} = require('../../Helpers');
 
+
+const readBrands = async (req, res, next) => {
+    try {
+        const brands = await dbRead.getReadInstance().getFromDb({
+            table: 'brands',
+            columns: 'id, name, status',
+        });
+
+        res.render('products/brands', {Title: 'Brands', layout: './layouts/nav', brands});
+    } catch(error) {
+        next(error);
+    }
+}
+
+
 module.exports = {
-    readAddons: async (req, res) => {
-        const getAddOnData = async () => {
-            return {
-                coupons: await dbRead.getReadInstance().getFromDb({
-                    table: 'coupons',
-                    columns: 'coup_title',
-                    join: [['products', 'coupons.pro_id = products.id']]
-                }),
-                brands: await dbRead.getReadInstance().getFromDb({
-                    table: 'brands',
-                    columns: 'id, name, status',
-                }),
-                moment: moment
-            };
-        }
-
-        try {
-            const data = await getAddOnData();
-
-            res.render('products/addons', {Title: 'Add-Ons', layout: './layouts/nav', addons: data});
-        } catch(error) {
-            console.log(error);
-        }
-    },
-
+    readBrands,
 
 
     createUpdateBrand: async(req, res) => {

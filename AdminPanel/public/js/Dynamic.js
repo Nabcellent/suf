@@ -162,8 +162,46 @@ $(() => {
 
 
 
-/**
- * UPDATE STATUSES*/
+/********************************************************************************
+ * UPDATE COUPON STATUS */
+$(document).on('click', '.update_coupon_status', function() {
+    const status = $(this).children('i').attr('status');
+    const id = $(this).data('id');
+    const url = '/products/coupon-status';
+
+    updateStatus(status, id, url, $(this));
+})
+
+
+/********************************************************************************
+ * UPDATE STATUSES DYNAMIC FUNCTION
+ * ********************************************************************************/
+
+const updateStatus = (status, id, url, element) => {
+    $.ajax({
+        data: {
+            status: status,
+            id: id
+        },
+        method: 'PATCH',
+        url: url,
+        success: (response) => {
+            console.log(response);
+            if(response.errors) {
+                alert(response.errors.message);
+            } else {
+                if(response.status === 0) {
+                    element.html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+                } else{
+                    element.html('<i class="fas fa-toggle-on" status="Active"></i>');
+                }
+            }
+        }, error: () => {
+            alert("error");
+        }
+    });
+}
+
 
 $(document).on('click','.update_product_status', function() {
     $.ajax({

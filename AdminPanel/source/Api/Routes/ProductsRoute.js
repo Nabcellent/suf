@@ -1,7 +1,7 @@
 const express = require('express');
 const {CategoryValidation} = require("../Validations");
 const router = express.Router();
-const {ProductController, AddonController, JQueryController, CategoryController} = require("../Controllers");
+const {ProductController, AddonController, JQueryController, CategoryController, CouponController} = require("../Controllers");
 const {ProductValidation, VariationValidation, BrandValidation} = require("../Validations");
 
 router
@@ -67,14 +67,23 @@ router.post('/sub-category', CategoryController.createSubCategory);
 
 
 
+/***    COUPON ROUTES
+ * ********************************************************************************************************************/
+
+router
+    .route('/coupons')
+    .get(CouponController.readCoupons);
+
+
+
 router
     .route('/attributes')
     .get(ProductController.readAttributes)
     .post(ProductController.createAttribute);
 
 router
-    .route('/addons')
-    .get(AddonController.readAddons)
+    .route('/brands')
+    .get(AddonController.readBrands);
 
 router
     .route('/addons/brand')
@@ -85,6 +94,15 @@ router
 router.put('/addons/status', AddonController.updateBrandStatus)
 
 
+
+
+
+/**
+ * STATUS UPDATES    */
+
+router.patch('/coupon-status', CouponController.updateStatus)
+
+
 /**
  * JQUERY ROUTES    */
 router.get('/details/attributeValues/:name', JQueryController.getAttributeValueById);
@@ -92,5 +110,8 @@ router.get('/details/attributeValues/:name', JQueryController.getAttributeValueB
 router.get('/get-categories/:id', JQueryController.getCategoryBySection);
 
 router.get('/get-sub-category/:id', JQueryController.getSubCategoryByCategory);
+
+
+
 
 module.exports = router;
