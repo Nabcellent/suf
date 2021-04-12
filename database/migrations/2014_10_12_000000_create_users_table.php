@@ -18,12 +18,13 @@ class CreateUsersTable extends Migration
             $table->string('first_name', 20);
             $table->string('last_name', 20);
             $table->enum('gender', ['Male', 'Female']);
+            $table->string('image')->nullable();
             $table->enum('user_type', ['Customer', 'Seller', 'Admin']);
+            $table->tinyInteger('status')->default(1);
             $table->string('email', 50)->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->ipAddress('ip_address');
-            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class CreateCouponsTable extends Migration
             $table->enum('option', ['Manual', 'Automatic']);
             $table->string('code');
             $table->text('categories');
-            $table->text('user');
+            $table->text('users');
             $table->enum('coupon_type', ['Single', 'Multiple']);
             $table->enum('amount_type', ['Percent', 'Fixed']);
             $table->float('amount');

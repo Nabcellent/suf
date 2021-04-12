@@ -3,7 +3,7 @@ const UserService = require("../Services/UserService");
 const createError = require("http-errors");
 const {join} = require("path");
 const {User} = require('../Models');
-const {alertUser, Helpers} = require("../Helpers");
+const {alertUser, Help} = require("../Helpers");
 const {validationResult} = require("express-validator");
 const {dbRead} = require("../../Database/query");
 
@@ -147,7 +147,7 @@ const readAdmins = async (req, res, next) => {
                         Title: 'Administrators',
                         layout: './layouts/nav',
                         admins: response,
-                        imageExists: Helpers.imageExists,
+                        imageExists: Help.imageExists,
                         moment
                     });
                 } else if(response instanceof Error) {
@@ -213,7 +213,7 @@ const readSellers = async (req, res, next) => {
                         Title: 'Sellers',
                         layout: './layouts/nav',
                         sellers: response,
-                        imageExists: Helpers.imageExists,
+                        imageExists: Help.imageExists,
                         moment
                     });
                 } else if(response instanceof Error) {

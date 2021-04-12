@@ -1,4 +1,3 @@
-<%- include('../partials/alert.ejs') %>
 
 <div class="container-fluid p-0">
     <div class="row">
@@ -6,7 +5,7 @@
             <div class="card crud_table shadow mb-4">
                 <div class="card-header d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Coupons</h6>
-                    <button class="btn btn-info">Add Coupon</button>
+                    <a href="/products/coupon-view" class="btn btn-info">Add Coupon</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -40,7 +39,7 @@
                                             /=
                                         <% } %>
                                     </td>
-                                    <td><%= moment(row.expiry).format('D/M/YY') %></td>
+                                    <td><%= moment(row.expiry).format('DD/MM/YYYY') %></td>
                                     <td class="action">
                                         <% if(row.status === 1) { %>
                                             <a class="update_coupon_status" data-id="<%= row.id %>" title="Update Status"
@@ -64,4 +63,4 @@
     </div>
 </div>
 
-<%- include('./modals/coupon-brand_modals') %>
+<%- include('./modals') %>

@@ -23,13 +23,21 @@ const imageExists = (folderName, image) => {
     return false;
 }
 
+const str_random = (length) => {
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz1234567890";
+    let string = '';
 
-module.exports = {
-    imageExists
+    //loop to select a new character in each iteration
+    for (let i = 0; i < length; i++) {
+        let rand = Math.floor(Math.random() * characters.length);
+        string += characters.substring(rand, rand + 1);
+    }
+
+    return string;
 }
 
 
-//  Knex queries
-const knex = require('knex');
-const config = require('../../../knexfile');
-const db = knex(config.development);
+module.exports = {
+    imageExists,
+    str_random
+}

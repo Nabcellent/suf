@@ -5,6 +5,7 @@ const CategoryValidation = require('./CategoryValidation');
 const ProductValidation = require('./ProductValidation');
 const UserValidation = require('./UserValidation');
 const VariationValidation = require('./VariationValidation');
+const CouponValidation = require('./CouponValidation');
 
 module.exports = {
     UserValidation,
@@ -13,5 +14,6 @@ module.exports = {
     VariationValidation,
     BannerValidation,
     AttributeValidation,
-    CategoryValidation
+    CategoryValidation,
+    CouponValidation
 }

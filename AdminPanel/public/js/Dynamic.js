@@ -121,6 +121,19 @@ $(() => {
 
 
     /**
+     * =============================================    COUPONS
+     * */
+    //  SHOW / HIDE COUPON CODE FIELD
+    $('#coupon-view form input#manual').on('click', () => {
+        $('#coupon-code-field').show(300);
+    });
+    $('#coupon-view form input#automatic').on('click', () => {
+        $('#coupon-code-field').hide(200);
+    });
+
+
+
+    /**
      * ON ACTION FETCH FROM SERVER  */
 
     $('#section').on('change', async function() {
@@ -369,4 +382,4 @@ $(document).on('click','.update_banner_status', function() {
             alert("error");
         }
     });
-})
+});

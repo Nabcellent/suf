@@ -5,6 +5,21 @@ const bcrypt = require('bcryptjs');
 let created_at  = new Date();
 let updated_at = new Date();
 
+
+const activeUsers = () => {
+    try {
+        return new Promise((resolve, reject) => {
+            db('users').where({status: 1})
+                .then(rows => {
+                    resolve(rows);
+                }).catch(err => reject(err));
+        });
+    } catch (e) {
+        return e;
+    }
+}
+
+
 const createUser = async(first_name, last_name, gender, user_type, email, password, image, ip_address) => {
     gender = gender.toLowerCase() === 'm' ? 'Male' : 'Female';
     password = await bcrypt.hash(password, 10);
@@ -100,7 +115,11 @@ const deleteUser = async(id) => {
     }
 }
 
+
+
 module.exports = {
+    activeUsers,
+
     createUser,
     createAdmin,
     createSeller,

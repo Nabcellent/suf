@@ -1,11 +1,11 @@
 const express = require('express');
-const {CategoryValidation} = require("../Validations");
+const {validate} = require("../Helpers/Validation");
 const router = express.Router();
 const {ProductController, AddonController, JQueryController, CategoryController, CouponController} = require("../Controllers");
+const {CategoryValidation, CouponValidation} = require("../Validations");
 const {ProductValidation, VariationValidation, BrandValidation} = require("../Validations");
 
-router
-    .route('/')
+router.route('/')
     .get(ProductController.readProducts)
     .post(ProductValidation.create(), ProductController.createProduct)
     .put(ProductValidation.update(), ProductController.updateProduct)
@@ -13,22 +13,19 @@ router
 
 router.put('/status', ProductController.updateProductStatus)
 
-router
-    .route('/create')
+router.route('/create')
     .get((req, res) => {
         res.render('products/add_product', {Title: 'Add Product', layout: './layouts/nav'});
     })
 
-router
-    .route('/create/info')
+router.route('/create/info')
     .get(ProductController.readProductCreate);
 
 
 
 /***    DETAILS ROUTE
  * ********************************************************************************************************************/
-router
-    .route('/details/:id')
+router.route('/details/:id')
     .get(ProductController.readProductDetails);
 
 router.route('/details/variation/:id')
@@ -42,8 +39,7 @@ router.patch('/details/variation/set-stock', ProductController.updateVariationSt
 router.patch('/details/variation/status', ProductController.updateVariationStatus);
 router.patch('/details/variation-option/status', ProductController.updateVariationOptionStatus);
 
-router
-    .route('/details/images')
+router.route('/details/images')
     .post(ProductController.createImage)
     .put(ProductController.updateImageStatus)
     .delete(ProductController.deleteImage);
@@ -52,8 +48,7 @@ router
 
 /***    CATEGORIES ROUTE
  * ********************************************************************************************************************/
-router
-    .route('/categories')
+router.route('/categories')
     .get(CategoryController.readCategories)
     .post(CategoryValidation.categoryCreate(), CategoryController.createCategory)
 router.delete('/categories/:id', CategoryController.deleteCategory);
@@ -70,23 +65,22 @@ router.post('/sub-category', CategoryController.createSubCategory);
 /***    COUPON ROUTES
  * ********************************************************************************************************************/
 
-router
-    .route('/coupons')
+router.route('/coupons')
     .get(CouponController.readCoupons);
+router.route('/coupon-view/:id?')
+    .get(CouponController.createUpdateCoupon)
+    .post(CouponValidation.create(), validate, CouponController.createUpdateCoupon);
 
 
 
-router
-    .route('/attributes')
+router.route('/attributes')
     .get(ProductController.readAttributes)
     .post(ProductController.createAttribute);
 
-router
-    .route('/brands')
+router.route('/brands')
     .get(AddonController.readBrands);
 
-router
-    .route('/addons/brand')
+router.route('/addons/brand')
     .post(BrandValidation.create(), AddonController.createUpdateBrand)
     .put(BrandValidation.update(), AddonController.createUpdateBrand)
     .delete(AddonController.deleteBrand);
