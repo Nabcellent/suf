@@ -66,5 +66,6 @@
 <script src="{{url('js/search.js')}}"></script>
 <script src="{{url('js/fetch.js')}}"></script>
 <script src="{{url('js/sweetAlert.js')}}"></script>
+<script src="{{url('js/payment.js')}}"></script>
 </body>
 </html>

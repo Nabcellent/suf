@@ -39,3 +39,15 @@ function cartTotal(): string
 {
     return number_format((float)$number, 2);
 }
+
+function mapped_implode($glue, $array, $symbol = '='): string
+{
+    return implode($glue, array_map(
+            static function($k, $v) use($symbol) {
+                return $k . $symbol . $v;
+            },
+            array_keys($array),
+            array_values($array)
+        )
+    );
+}

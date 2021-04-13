@@ -32,11 +32,11 @@ class Cart extends Model
     {
         if(Auth::check()) {
             $cartItems = self::with(['product' => static function($query) {
-                $query->select('id', 'title', 'main_image', 'base_price', 'discount');
+                $query->select('id', 'category_id', 'title', 'main_image', 'base_price', 'discount');
             }])->where('user_id', Auth::id())->orderByDesc('id')->get()->toArray();
         } else {
             $cartItems = self::with(['product' => static function($query) {
-                $query->select('id', 'title', 'main_image', 'base_price', 'discount');
+                $query->select('id', 'category_id', 'title', 'main_image', 'base_price', 'discount');
             }])->where('session_id', Session::get('session_id'))->orderByDesc('id')->get()->toArray();
         }
 

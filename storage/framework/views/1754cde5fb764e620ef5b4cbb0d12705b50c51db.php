@@ -66,6 +66,7 @@
 <script src="<?php echo e(url('js/search.js')); ?>"></script>
 <script src="<?php echo e(url('js/fetch.js')); ?>"></script>
 <script src="<?php echo e(url('js/sweetAlert.js')); ?>"></script>
+<script src="<?php echo e(url('js/payment.js')); ?>"></script>
 </body>
 </html>
 <?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views//layouts/master.blade.php ENDPATH**/ ?>

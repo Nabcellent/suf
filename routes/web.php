@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrderController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,10 +32,13 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROTECTED ROUTES
  */
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['verified', 'auth'])->group(function() {
     //  User Account
     Route::match(['GET', 'POST'], '/account/{page?}', [UserController::class, 'account'])
         ->middleware(['verified', 'auth'])->name('update-user');
+
+    Route::post('/delivery-address/{id}', [OrderController::class, 'deliveryAddress'])
+        ->whereNumber('id')->name('delivery-address');
 
     //  Check User Password     ~   AJAX
     Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
@@ -41,6 +46,14 @@ Route::middleware(['auth'])->group(function() {
     //  Change Password
     Route::post('/change-password', [UserController::class, 'updatePassword'])
         ->middleware(['verified', 'auth'])->name('change-password');
+
+
+    //  Apply Coupon
+    Route::post('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply-coupon');
+
+
+    //  Checkout
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 
     //  Logout User
     Route::get('/logout', [LoginController::class, 'logout']);
@@ -86,19 +99,5 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 
 
+
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
-
-
-
-/**
- * *************    ************    ************    ************    POST REQUESTS
- */
-
-Route::post('/profile/update-user', [UserController::class, 'update']);
-
-//  Listing Routes
-//Route::get('/products/{url}', [ProductController::class, 'listing']);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -26,8 +26,8 @@ class CouponSeeder extends Seeder
             'amount_type' => 'Percent',
             'amount' => '10',
             'expiry' => Carbon::tomorrow(),
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

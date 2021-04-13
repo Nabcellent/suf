@@ -1,18 +1,6 @@
 <?php
 use App\Models\Cart;
 
-function mapped_implode($glue, $array, $symbol = '='): string
-{
-    return implode($glue, array_map(
-            static function($k, $v) use($symbol) {
-                return $k . $symbol . $v;
-            },
-            array_keys($array),
-            array_values($array)
-        )
-    );
-}
-
 ?>
 
 <table class="table table-sm table-striped table-hover table_fixed">
@@ -77,11 +65,19 @@ function mapped_implode($glue, $array, $symbol = '='): string
     </tr>
     <tr>
         <th colspan="6" class="text-right">Coupon Discount : </th>
-        <th colspan="3" class="border-left">KES.0.0/-</th>
+        <th colspan="3" class="border-left">
+            KES.<?php if(session('couponAmount')): ?> <?php echo e(session('couponAmount')); ?> <?php else: ?> 0.0 <?php endif; ?>/-
+        </th>
     </tr>
     <tr class="total">
-        <th colspan="6" class="text-right">GRAND TOTAL (<?php echo e(currencyFormat($totalPrice)); ?> - 0.0) = </th>
-        <th colspan="3" class="border-left">KES <?php echo e(currencyFormat($totalPrice)); ?>/-</th>
+        <th colspan="6" class="text-right">
+            GRAND TOTAL (<?php echo e(currencyFormat($totalPrice)); ?> - <?php if(session('couponAmount')): ?> <?php echo e(session('couponAmount')); ?>) <?php else: ?> 0.0) <?php endif; ?> =
+        </th>
+        <th colspan="3" class="border-left">
+            KES
+            <?php if(session('grandTotal')): ?> <?php echo e(session('grandTotal')); ?> <?php else: ?> <?php echo e(currencyFormat($totalPrice)); ?> <?php endif; ?>
+            /-
+        </th>
     </tr>
     </tfoot>
 </table>

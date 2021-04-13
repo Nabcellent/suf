@@ -14,7 +14,7 @@ const withCategories = () => {
             db('categories').where({section_id: null, category_id: null})
                 .then(async sections => {
                     for(const section of sections) {
-                        section.categories = await db('categories').where('section_id', section.id)
+                        section.categories = await db('categories').where({section_id: section.id, category_id: null})
                             .then(async categories => {
                                 for(const category of categories) {
                                     category.subCategories = await db('categories').where('category_id', category.id)

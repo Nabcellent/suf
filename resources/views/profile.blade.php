@@ -30,26 +30,30 @@
                         <div class="card mb-2 sidebar_menu">
                             <div class="card-header">
                                 <img src="{{asset('/images/users/630728-200.png')}}" class="card-img-top" alt="...">
-                                <h5 class="card-title">User Name</h5>
+                                <h5 class="card-title" style="text-decoration: underline">
+                                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                </h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush category_menu profile_links">
                                     <li class="list-group-item">
-                                        <a href="{{url('/profile/edit')}}" class="stretched-link">
-                                            <i class="fas fa-user-edit"></i>
-                                            <span>Your Account</span>
+                                        <a href="{{url('/account')}}" class="stretched-link">
+                                            <i class="fas fa-user-edit"></i><span>Your Account</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{{url('/profile/my-orders')}}" class="stretched-link">
-                                            <i class="fas fa-list"></i>
-                                            <span>My Orders</span>
+                                        <a href="{{url('/account/orders')}}" class="stretched-link">
+                                            <i class="fas fa-list"></i><span>My Orders</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{{url('/sign-out')}}" class="stretched-link">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                            <span>Sign Out</span>
+                                        <a href="{{url('/account/delivery-address')}}" class="stretched-link">
+                                            <i class="far fa-address-card"></i><span>Delivery Addresses</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="{{route('logout')}}" class="stretched-link">
+                                            <i class="fas fa-sign-out-alt"></i><span>Sign Out</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -63,10 +67,10 @@
                     <div class="col-md-9 px-1 profile_pages">
                         @if($page === 'edit')
                             @include('partials.profile.edit')
-                        @elseif(Request() -> page === 'my-orders')
+                        @elseif($page === 'orders')
                             @include('partials.profile.myorders')
-                        @elseif(Request() -> page === 'confirm-payment')
-                            @include('partials.profile.confirm_payment')
+                        @elseif($page === 'delivery-address')
+                            @include('partials.profile.delivery_address')
                         @endif
 
                     </div>

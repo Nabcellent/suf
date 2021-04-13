@@ -8,7 +8,7 @@ const {ProductValidation, VariationValidation, BrandValidation} = require("../Va
 router.route('/')
     .get(ProductController.readProducts)
     .post(ProductValidation.create(), ProductController.createProduct)
-    .put(ProductValidation.update(), ProductController.updateProduct)
+    .put(ProductValidation.update(), validate, ProductController.updateProduct)
     .delete(ProductController.deleteProduct);
 
 router.put('/status', ProductController.updateProductStatus)

@@ -77,29 +77,27 @@ const readProducts = async(req, res) => {
     }
 }
 const updateProduct = async(req, res) => {
-    if(!await validationHelper.validate(req, res)) {
-        const {
-            title, label, seller, category, keywords, base_price, discount, brand_id, description, featured, product_id
-        } = req.body;
+    const {
+        title, label, seller, category, keywords, base_price, discount, brand_id, description, featured, product_id
+    } = req.body;
 
-        try {
-            ProductServices.updateProduct(product_id, category, seller, title, keywords, description, featured, label,
-                base_price, discount, brand_id)
-                .then((data) => {
-                    if(data === 1) {
-                        alertUser(req, 'success', '', 'Product Updated!');
-                    } else if(data === 0) {
-                        alertUser(req, 'info', '', 'Nothing to Update.');
-                    } else {
-                        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
-                    }
-                    res.redirect('back');
-                }).catch(error => console.log(error));
-        } catch(error) {
-            console.log(error);
-            alertUser(req, 'danger', 'Error!', 'Something went wrong!');
-            res.redirect('back');
-        }
+    try {
+        ProductServices.updateProduct(product_id, category, seller, title, keywords, description, featured, label,
+            base_price, discount, brand_id)
+            .then((data) => {
+                if(data === 1) {
+                    alertUser(req, 'success', '', 'Product Updated!');
+                } else if(data === 0) {
+                    alertUser(req, 'info', '', 'Nothing to Update.');
+                } else {
+                    alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+                }
+                res.redirect('back');
+            }).catch(error => console.log(error));
+    } catch(error) {
+        console.log(error);
+        alertUser(req, 'danger', 'Error!', 'Something went wrong!');
+        res.redirect('back');
     }
 }
 const updateProductStatus = async(req, res) => {

@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                 <?php else: ?>
-                                    <form action="<?php echo e(url('/cart')); ?>" method="POST">
+                                    <div>
 
                                         <!--    Start Cart Table    -->
 
@@ -63,11 +63,12 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-inline float-right pb-3">
-                                                    <div class="form-group">
-                                                        <label for="coupon_code">Coupon Code: </label>
-                                                        <input type="text" name="coupon_code" id="coupon_code" class="form-control-sm mx-2">
-                                                        <input type="submit" name="use_coupon" class="btn-sm btn-warning" value="Use Coupon">
-                                                    </div>
+                                                    <form action="<?php echo e(route('apply-coupon')); ?>" method="POST" class="form-group">
+                                                        <?php echo csrf_field(); ?>
+                                                        <label for="code">Coupon Code: </label>
+                                                        <input type="text" name="code" id="code" class="form-control-sm mx-2" placeholder="Enter Code" required>
+                                                        <button type="submit" class="btn-sm btn-warning">Apply</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,33 +82,11 @@
                                             </div>
                                             <div class="float-right">
                                                 <button type="submit" name="update" value="Update Cart" class="btn btn-outline-dark"><i class="fas fa-sync-alt"></i> Update Cart</button>
-                                                <a href="<?php echo e(url('/checkout')); ?>" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
+                                                <a href="<?php echo e(route('checkout')); ?>" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
                                             </div>
                                         </div>
                                         <!--    End Box Footer    -->
-
-
-                                        <!--    Start Delete Item Modal    -->
-
-                                        <div class="modal fade" id="delete_cart_modal">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Item?</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Keep Item</button>
-                                                        <button type="button" class="btn btn-outline-danger" id="delete_item">Yes, Delete</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--    End Delete Item Modal    -->
-
-                                    </form>
+                                    </div>
                                 <?php endif; ?>
 
                             </div>
@@ -179,7 +158,7 @@
                                         </tr>
                                         <tr class="total">
                                             <td>Total</td>
-                                            <th>KES</th>
+                                            <th>KES 00.00</th>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -1,18 +1,6 @@
 <?php
 use App\Models\Cart;
 
-function mapped_implode($glue, $array, $symbol = '='): string
-{
-    return implode($glue, array_map(
-            static function($k, $v) use($symbol) {
-                return $k . $symbol . $v;
-            },
-            array_keys($array),
-            array_values($array)
-        )
-    );
-}
-
 ?>
 
 <table class="table table-sm table-striped table-hover table_fixed">
@@ -75,11 +63,19 @@ function mapped_implode($glue, $array, $symbol = '='): string
     </tr>
     <tr>
         <th colspan="6" class="text-right">Coupon Discount : </th>
-        <th colspan="3" class="border-left">KES.0.0/-</th>
+        <th colspan="3" class="border-left">
+            KES.@if(session('couponAmount')) {{ session('couponAmount') }} @else 0.0 @endif/-
+        </th>
     </tr>
     <tr class="total">
-        <th colspan="6" class="text-right">GRAND TOTAL ({{currencyFormat($totalPrice)}} - 0.0) = </th>
-        <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
+        <th colspan="6" class="text-right">
+            GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponAmount')) {{ session('couponAmount') }}) @else 0.0) @endif =
+        </th>
+        <th colspan="3" class="border-left">
+            KES
+            @if(session('grandTotal')) {{ session('grandTotal') }} @else {{currencyFormat($totalPrice)}} @endif
+            /-
+        </th>
     </tr>
     </tfoot>
 </table>

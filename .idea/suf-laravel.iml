@@ -113,6 +113,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/css-selector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/ui" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/inspectionProfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/AdminPanel/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -29,26 +29,31 @@
                         <div class="card mb-2 sidebar_menu">
                             <div class="card-header">
                                 <img src="<?php echo e(asset('/images/users/630728-200.png')); ?>" class="card-img-top" alt="...">
-                                <h5 class="card-title">User Name</h5>
+                                <h5 class="card-title" style="text-decoration: underline">
+                                    <?php echo e(Auth::user()->first_name); ?> <?php echo e(Auth::user()->last_name); ?>
+
+                                </h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush category_menu profile_links">
                                     <li class="list-group-item">
-                                        <a href="<?php echo e(url('/profile/edit')); ?>" class="stretched-link">
-                                            <i class="fas fa-user-edit"></i>
-                                            <span>Your Account</span>
+                                        <a href="<?php echo e(url('/account')); ?>" class="stretched-link">
+                                            <i class="fas fa-user-edit"></i><span>Your Account</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="<?php echo e(url('/profile/my-orders')); ?>" class="stretched-link">
-                                            <i class="fas fa-list"></i>
-                                            <span>My Orders</span>
+                                        <a href="<?php echo e(url('/account/orders')); ?>" class="stretched-link">
+                                            <i class="fas fa-list"></i><span>My Orders</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="<?php echo e(url('/sign-out')); ?>" class="stretched-link">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                            <span>Sign Out</span>
+                                        <a href="<?php echo e(url('/account/delivery-address')); ?>" class="stretched-link">
+                                            <i class="far fa-address-card"></i><span>Delivery Addresses</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="<?php echo e(route('logout')); ?>" class="stretched-link">
+                                            <i class="fas fa-sign-out-alt"></i><span>Sign Out</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -62,10 +67,10 @@
                     <div class="col-md-9 px-1 profile_pages">
                         <?php if($page === 'edit'): ?>
                             <?php echo $__env->make('partials.profile.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                        <?php elseif(Request() -> page === 'my-orders'): ?>
+                        <?php elseif($page === 'orders'): ?>
                             <?php echo $__env->make('partials.profile.myorders', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                        <?php elseif(Request() -> page === 'confirm-payment'): ?>
-                            <?php echo $__env->make('partials.profile.confirm_payment', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <?php elseif($page === 'delivery-address'): ?>
+                            <?php echo $__env->make('partials.profile.delivery_address', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php endif; ?>
 
                     </div>

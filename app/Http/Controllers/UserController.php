@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\County;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -55,10 +56,15 @@ class UserController extends Controller
         if($page === null) {
             $page = 'edit';
         }
+        $counties = "";
+        if($page === 'delivery-address') {
+            $counties = County::where('status', 1)->orderBy('name')->get()->toArray();
+        }
+
         $user = Auth::user()->toArray();
         $address = Auth::user()->address->toArray();
 
-        return view('profile')->with(compact('page', 'user', 'address'));
+        return view('profile')->with(compact('page', 'user', 'address', 'counties'));
     }
 
     public function updatePassword(Request $req): RedirectResponse
