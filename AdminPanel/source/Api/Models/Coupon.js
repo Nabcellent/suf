@@ -31,11 +31,23 @@ const create = (option, code, categories, users, coupon_type, amount_type, amoun
         return e;
     }
 }
+const update = (id, categories, users, coupon_type, amount_type, amount, expiry) => {
+    try {
+        return new Promise((resolve, reject) => {
+            db('coupons').where({id}).update({categories, users, coupon_type, amount_type, amount, expiry, created_at, updated_at})
+                .then(row => {
+                    resolve(row);
+                }).catch(err => reject(err));
+        });
+    } catch (e) {
+        return e;
+    }
+}
 
 const readCoupons = () => {
     try {
         return new Promise((resolve, reject) => {
-            db('coupons')
+            db('coupons').orderBy('created_at','DESC')
                 .then(rows => {
                     resolve(rows);
                 }).catch(err => reject(err));
@@ -58,8 +70,11 @@ const updateStatus = async (id, status) => {
 
 module.exports = {
     findById,
+
     create,
+
     readCoupons,
 
+    update,
     updateStatus
 }

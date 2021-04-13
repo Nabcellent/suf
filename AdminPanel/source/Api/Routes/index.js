@@ -8,6 +8,7 @@ const usersRoute = require('./UsersRoute');
 const adminRoutes = require('./AdminRoutes');
 const sellerRoutes = require('./SellerRoutes');
 const authRoute = require('./AuthRoute');
+const deleteRoutes = require('./DeleteRoutes');
 
 router.use('/auth', /*checkAuth,*/ authRoute);
 router.use('/users', /*checkAuth,*/ usersRoute);
@@ -17,6 +18,7 @@ router.use('/products', /*checkAuth,*/ productsRoute);
 router.use('/orders', /*checkAuth,*/ ordersRoute);
 router.use('/payments', /*checkAuth,*/ ordersRoute);
 router.use('/content', /*checkAuth,*/ pageContentRoutes);
+router.use('/delete', /*checkAuth,*/ deleteRoutes);
 
 
 router.use(generalRoute);

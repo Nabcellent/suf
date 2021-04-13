@@ -36,8 +36,46 @@ const str_random = (length) => {
     return string;
 }
 
+const getTableByModel = (model) => {
+    let table;
+
+    switch(model.toLowerCase()) {
+        case 'ad_box': table = 'ad_boxes'
+            break;
+        case 'address': table = 'addresses'
+            break;
+        case 'admin': table = 'admins'
+            break;
+        case 'attribute': table = 'attributes'
+            break;
+        case 'banner': table = 'banners'
+            break;
+        case 'brand': table = 'brands'
+            break;
+        case 'cart': table = 'cart'
+            break;
+        case 'category': table = 'categories'
+            break;
+        case 'coupon': table = 'coupons'
+            break;
+        case 'product': table = 'products'
+            break;
+        case 'product_image': table = 'products_images'
+            break;
+        case 'user': table = 'users'
+            break;
+        case 'variation': table = 'variations'
+            break;
+        case 'variation_option': table = 'variations_options'
+            break;
+    }
+
+    return table;
+}
+
 
 module.exports = {
     imageExists,
-    str_random
+    str_random,
+    getTableByModel
 }

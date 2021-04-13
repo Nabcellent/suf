@@ -7,5 +7,5 @@ module.exports = {
     Help,
     getDateHelper,
     validationHelper,
-    alertUser
+    alertUser,
 }

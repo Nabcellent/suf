@@ -4,6 +4,7 @@ module.exports = {
     create: () => {
         return [
             check("option", "Option is required")
+                .if((value, { req }) => !req.params.id)
                 .not().isEmpty().bail(),
             check('categories', "Categories field is required")
                 .not().isEmpty(),

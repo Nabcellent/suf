@@ -1,10 +1,9 @@
-const {dbRead} = require("../../../Database/query");
-const moment = require('moment');
 const createError = require("http-errors");
+const moment = require('moment');
+const {User, Section, Coupon} = require("../../Models");    //  Models
+//  Helpers
+const {in_array} = require('locutus/php/array');
 const {alertUser, Help} = require("../../Helpers");
-const {User} = require("../../Models");
-const {Section} = require("../../Models");
-const {Coupon} = require("../../Models");
 
 
 const createUpdateCoupon = async (req, res, next) => {
@@ -15,12 +14,11 @@ const createUpdateCoupon = async (req, res, next) => {
     const users = await User.activeUsers();
 
     if(!id) {
-        title = 'Create Coupon';
+        title = 'Create';
 
         if(req.method === 'POST') {
             //  Create coupon
-
-            let {option, code, categories, users, coupon_type, amount_type, expiry_date, amount} = req.body;
+            let {option, code, categories, users = '', coupon_type, amount_type, expiry_date, amount} = req.body;
             if(Array.isArray(users)) users = users.join();
             if(Array.isArray(categories)) categories = categories.join();
 
@@ -44,25 +42,54 @@ const createUpdateCoupon = async (req, res, next) => {
             }
         } else {
             return res.render('coupons/view', {
-                Title: title, layout: './layouts/nav', moment, coupon, categories, users
+                Title: title + ' Coupon', layout: './layouts/nav', moment, coupon, categories, users
             });
         }
     } else {
         //  Update coupon
-        title = 'Update Coupon';
-        try {
-            Coupon.findById(id)
-                .then(response => {
-                    if(response instanceof Error) {
-                        throw createError(404, response);
-                    } else if(response.length === 1) {
-                        coupon = response;
-                    } else {
-                        console.log(response); throw createError(404, 'Something went wrong');
-                    }
-                }).catch(err => next(err));
-        } catch(error) {
-            next(error);
+        title = 'Update';
+
+        if(req.method === 'POST') {
+            let {categories, users = '', coupon_type, amount_type, expiry_date, amount} = req.body;
+            if(Array.isArray(users)) users = users.join();
+            if(Array.isArray(categories)) categories = categories.join();
+
+            try {
+                Coupon.update(id, categories, users, coupon_type, amount_type, amount, expiry_date)
+                    .then(response => {
+                        if(response instanceof Error) {
+                            throw createError(404, response);
+                        } else if(response === 1) {
+                            alertUser(req, 'success', 'Success! ', 'Coupon has been updated.');
+                        } else {
+                            console.log(response);
+                            throw createError(404, "Something went wrong");
+                        }
+                        return res.redirect('/products/coupons');
+                    }).catch(err => next(err));
+            } catch (err) {
+                return next(err);
+            }
+        } else {
+            try {
+                Coupon.findById(id)
+                    .then(response => {
+                        if(response instanceof Error) {
+                            throw createError(404, response);
+                        } else if(response) {
+                            response.users = response.users.split(',') || [];
+                            response.categories = response.categories.split(',') || [];
+                            coupon = response;
+                        } else {
+                            console.log(response); throw createError(404, 'Something went wrong');
+                        }
+                        return res.render('coupons/view', {
+                            Title: title + ' Coupon', layout: './layouts/nav', moment, coupon, categories, users, in_array
+                        });
+                    }).catch(err => next(err));
+            } catch(error) {
+                next(error);
+            }
         }
     }
 }

@@ -218,7 +218,6 @@ const couponDataTable = $('#coupons_table').DataTable({
     scrollY:        '50vh',
     scrollCollapse: true,
     paging:         false,
-    order: [[2, 'ASC']],
     language: {
         info: 'Number of coupons: _MAX_',
         infoFiltered:   "(filtered _TOTAL_ coupons)",
