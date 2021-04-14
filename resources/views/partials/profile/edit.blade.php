@@ -18,7 +18,7 @@ if($user['gender'] ==='Male') {
         <hr>
     </div>
     <div class="card-body">
-        <form id="profile-form" class="anime_form" action="{{route('update-user')}}" method="POST">
+        <form id="profile-form" class="anime_form" action="{{route('user-account')}}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -67,7 +67,7 @@ if($user['gender'] ==='Male') {
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$address['phone']}}"
+                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value=""
                            pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
                     @error('phone')
                         <span class="invalid-feedback" role="alert">
@@ -77,8 +77,8 @@ if($user['gender'] ==='Male') {
                 </div>
             </div>
             <div class="form-group">
-                <label for="u_first_name">Home Address *</label>
-                <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Enter your current home address">{{ $address['address'] }}</textarea>
+                <label for="u_first_name">Primary/Current Address *</label>
+                <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Enter your current home address"></textarea>
                 @error('address')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

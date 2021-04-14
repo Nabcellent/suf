@@ -12,7 +12,7 @@ function cartCount(): string
     } else if(!empty(Session::get('session_id'))) {
         $count = Cart::where('session_id', Session::get('session_id'))->sum('quantity');
     } else {
-        $count = "";
+        $count = 0;
     }
 
     return $count;
@@ -39,6 +39,9 @@ function cartTotal(): string
 {
     return number_format((float)$number, 2);
 }
+
+function currencyToFloat($currency): float
+{ return (float)preg_replace('/[^\d.]/', '', $currency); }
 
 function mapped_implode($glue, $array, $symbol = '='): string
 {

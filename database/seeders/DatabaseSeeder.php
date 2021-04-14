@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             /*UserSeeder::class,
             SellerSeeder::class,
-            AddressSeeder::class,
             AttributeSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
@@ -27,7 +26,8 @@ class DatabaseSeeder extends Seeder
             AdBoxSeeder::class,
             BannerSeeder::class,
             CouponSeeder::class,*/
-            DeliveryAddressSeeder::class
+            AddressSeeder::class,
+            PhoneSeeder::class,
         ]);
     }
 }

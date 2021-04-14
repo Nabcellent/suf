@@ -16,26 +16,26 @@ class IndexController extends Controller
     {
         $pageTitle = "Index";
         //  Get Featured Products
-        $featuredProductsCount = Product::where('is_featured', 'Yes')->where('products.status', 1)->count();
+        $featuredProductsCount = Product::where('is_featured', 'Yes')->where('products.status', 1)->has('variations')->count();
         $featuredProducts = Product::products()->where('products.status', 1)
-            ->where('is_featured', 'Yes')->get()->toArray();
+            ->where('is_featured', 'Yes')->has('variations')->get()->toArray();
 
         //  Get Latest Products
         $newGentsProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
             ->select('products.*', 'sellers.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
-            ->where(['section.title' => 'Gents', 'products.status' => 1])
+            ->where(['section.title' => 'Gents', 'products.status' => 1])->has('variations')
             ->orderByDesc('products.id')->limit(10)->get()->toArray();
         $newLadiesProducts = Product::join('sellers', 'sellers.user_id', 'seller_id')
             ->select('products.*', 'sellers.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
-            ->where(['section.title' => 'Ladies', 'products.status' => 1])
+            ->where(['section.title' => 'Ladies', 'products.status' => 1])->has('variations')
             ->orderByDesc('products.id')->limit(12)->get()->toArray();
 
         //  Get Top Products
-        $topProducts = Product::where('status', 1)->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
+        $topProducts = Product::where('status', 1)->has('variations')->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
 
         //  Get banners & Ad boxes
         $banners = Banner::getBanners();

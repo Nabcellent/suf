@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\County;
+use App\Models\Phone;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Notifications\Notifiable;
@@ -15,13 +18,12 @@ use App\Models\User;
 use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use JetBrains\PhpStorm\NoReturn;
 
 class UserController extends Controller
 {
     use Notifiable;
     //
-    public function account(Request $req, $page = null): View|Factory|RedirectResponse|Application
+    public function account(Request $req, $page = 'edit', $id = null): View|Factory|RedirectResponse|Application
     {
         if($req->isMethod('POST')) {
             $req->validate([
@@ -38,33 +40,47 @@ class UserController extends Controller
             $phone = strlen($req -> phone) === 10 ? substr($req -> phone, -9) : $req -> phone;
 
             $user = Auth::user();
-            $address = Auth::user()->address;
+            $phone = Auth::user()->phone;
 
             $user -> first_name = $req -> first_name;
             $user -> last_name = $req -> last_name;
             $user -> save();
 
-            $address -> phone = $phone;
-            $address -> address = $req->address;
-            $address -> save();
+            $phoneNumber = $req -> phone;
+            $phoneNumber = strlen($phoneNumber) === 10 ? substr($phoneNumber, -9) : $phoneNumber;
+
+            $phone -> phone = $phoneNumber;
+            $phone -> primary = (Phone::where('user_id', Auth::id())->exists()) ? 0 : 1;
+            $phone -> save();
 
             $message = "Your account has been Updated. 😌";
             return back()
                 ->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
         }
 
-        if($page === null) {
-            $page = 'edit';
-        }
-        $counties = "";
         if($page === 'delivery-address') {
+            $btnAction = "Add";
+
             $counties = County::where('status', 1)->orderBy('name')->get()->toArray();
+
+            if(url()->previous() === route('checkout')) {
+                session(['url.intended' => url()->previous()]);
+            }
+
+            if($id !== null) {
+                $btnAction = "Update";
+                $address = Address::where('id', $id)->with('subCounty')->first()->toArray();
+
+                return view('profile')->with(compact('page' , 'address', 'counties', 'btnAction'));
+            }
+
+            return view('profile')->with(compact('page',  'counties', 'btnAction'));
         }
 
         $user = Auth::user()->toArray();
-        $address = Auth::user()->address->toArray();
+        $address = Auth::user()->addresses->toArray();
 
-        return view('profile')->with(compact('page', 'user', 'address', 'counties'));
+        return view('profile')->with(compact('page', 'user', 'address'));
     }
 
     public function updatePassword(Request $req): RedirectResponse
@@ -82,6 +98,49 @@ class UserController extends Controller
         $message = "Your password has been Updated. 😌";
         return back()
             ->with('alert', ['type' => 'success', 'intro' => 'Success! ', 'message' => $message, 'duration' => 7]);
+    }
+
+    public function deliveryAddress(Request $req, $id = null): Redirector|Application|RedirectResponse
+    {
+        $req->validate([
+            'sub_county' => 'required',
+            'address' => 'required',
+        ], [
+            'address.required' => 'Please input a small description of where your stay (like; house number, street/drive, estate/court)'
+        ]);
+
+        if($id === null) {
+            $address = new Address;
+            $message = "Your delivery address has been added. 😌";
+        } else {
+            $address = Address::find($id);
+            $message = "Your delivery address has been updated. 😌";
+        }
+
+        $address->user_id = Auth::id();
+        $address->sub_county_id = $req->sub_county;
+        $address->address = $req->address;
+
+        $address->save();
+
+        if(!session()->has('url.intended')) {
+            session(['url.intended' => url(route('user-account'))]);
+        }
+
+        return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
+    }
+
+    public function deleteAddress($id): RedirectResponse
+    {
+        if(!isset($id)) {
+            $message = "Something went terribly wrong. Please write to us.";
+            return back()->with('alert', ['type' => 'danger', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
+        }
+
+        Address::destroy($id);
+
+        $message = "Address Deleted.";
+        return back()->with('alert', ['type' => 'success', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
     }
 
 
@@ -116,7 +175,7 @@ class UserController extends Controller
         $phone = $req -> phone;
         $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
 
-        $check = Address::where('phone', $phone);
+        $check = Phone::where('phone', $phone);
 
         if(Auth::check()) {
             $check->where('user_id', '<>', Auth::id());

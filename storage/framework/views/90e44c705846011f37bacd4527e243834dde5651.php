@@ -66,12 +66,12 @@ use App\Models\Cart;
     <tr>
         <th colspan="6" class="text-right">Coupon Discount : </th>
         <th colspan="3" class="border-left">
-            KES.<?php if(session('couponAmount')): ?> <?php echo e(session('couponAmount')); ?> <?php else: ?> 0.0 <?php endif; ?>/-
+            KES.<?php if(session('couponDiscount')): ?> <?php echo e(session('couponDiscount')); ?> <?php else: ?> 0.0 <?php endif; ?>/-
         </th>
     </tr>
     <tr class="total">
         <th colspan="6" class="text-right">
-            GRAND TOTAL (<?php echo e(currencyFormat($totalPrice)); ?> - <?php if(session('couponAmount')): ?> <?php echo e(session('couponAmount')); ?>) <?php else: ?> 0.0) <?php endif; ?> =
+            GRAND TOTAL (<?php echo e(currencyFormat($totalPrice)); ?> - <?php if(session('couponDiscount')): ?> <?php echo e(session('couponDiscount')); ?>) <?php else: ?> 0.0) <?php endif; ?> =
         </th>
         <th colspan="3" class="border-left">
             KES

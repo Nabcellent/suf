@@ -6,8 +6,6 @@ $(() => {
                 error.insertAfter(element.closest('.form-group'));
             } else if(element.prop('type') === 'file') {
                 error.insertAfter(element.closest('div'));
-            } else if(element.is('textarea')) {
-                error.insertAfter(element.next());
             } else if(element.closest('.input-group').length > 0) {
                 error.insertAfter(element.parent('.input-group'));
             } else if(element.hasClass('anime_input')) {
@@ -197,5 +195,20 @@ $(() => {
                 alert("Error");
             }
         })
+    });
+
+
+
+    $('#delivery-address-form').validate({
+        rules: {
+            county: 'required',
+            sub_county: 'required',
+            address: 'required'
+        },
+        messages: {
+            county: 'Please select your County.',
+            sub_county: 'please select your Sub-county.',
+            address: 'Please input a small description of where your stay (like; house number, street/drive, estate/court)'
+        }
     })
 });

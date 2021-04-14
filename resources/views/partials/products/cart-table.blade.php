@@ -64,12 +64,12 @@ use App\Models\Cart;
     <tr>
         <th colspan="6" class="text-right">Coupon Discount : </th>
         <th colspan="3" class="border-left">
-            KES.@if(session('couponAmount')) {{ session('couponAmount') }} @else 0.0 @endif/-
+            KES.@if(session('couponDiscount')) {{ session('couponDiscount') }} @else 0.0 @endif/-
         </th>
     </tr>
     <tr class="total">
         <th colspan="6" class="text-right">
-            GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponAmount')) {{ session('couponAmount') }}) @else 0.0) @endif =
+            GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponDiscount')) {{ session('couponDiscount') }}) @else 0.0) @endif =
         </th>
         <th colspan="3" class="border-left">
             KES

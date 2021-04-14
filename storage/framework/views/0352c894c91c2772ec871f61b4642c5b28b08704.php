@@ -18,7 +18,7 @@ if($user['gender'] ==='Male') {
         <hr>
     </div>
     <div class="card-body">
-        <form id="profile-form" class="anime_form" action="<?php echo e(route('update-user')); ?>" method="POST">
+        <form id="profile-form" class="anime_form" action="<?php echo e(route('user-account')); ?>" method="POST">
             <?php echo csrf_field(); ?>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -102,7 +102,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="phone" value="<?php echo e($address['phone']); ?>"
+unset($__errorArgs, $__bag); ?>" name="phone" value=""
                            pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
                     <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -119,7 +119,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
             <div class="form-group">
-                <label for="u_first_name">Home Address *</label>
+                <label for="u_first_name">Primary/Current Address *</label>
                 <textarea class="form-control <?php $__errorArgs = ['address'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -127,7 +127,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="address" placeholder="Enter your current home address"><?php echo e($address['address']); ?></textarea>
+unset($__errorArgs, $__bag); ?>" name="address" placeholder="Enter your current home address"></textarea>
                 <?php $__errorArgs = ['address'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

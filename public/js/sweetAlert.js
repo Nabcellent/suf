@@ -66,3 +66,33 @@ $(document).on('click', '#cart .delete_cart_item', function() {
         });
     }
 });
+
+
+
+/**=============================================================================  DELETE ADDRESS ITEM FROM CHECKOUT   */
+
+$(document).on('click', '#checkout form a.delete-address', function() {
+    const id = $(this).data('id');
+    if(typeof id !== 'undefined') {
+        Swal.fire({
+            title: 'Are you really sure? 🤧',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '/delete-delivery-address/' + id;
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href="/contact-us">Report this issue?</a>'
+        })
+    }
+})

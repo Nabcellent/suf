@@ -13,15 +13,23 @@ class AddressSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         //
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Address::truncate();
 
         Address::insert([
-            'user_id' => 2,
-            'phone' => 110039317,
+            [
+                'user_id' => 1,
+                'sub_county_id' => 321,
+            ],[
+                'user_id' => 1,
+                'sub_county_id' => 310,
+            ],[
+                'user_id' => 2,
+                'sub_county_id' => 317,
+            ]
         ]);
     }
 }

@@ -58,7 +58,7 @@ class CouponController extends Controller
 
 
             //  Apply Coupon
-            $cartTotal = (float)preg_replace('/[^\d.]/', '', cartTotal());
+            $cartTotal = currencyToFloat(cartTotal());
             if($coupon['amount_type'] === 'Fixed') {
                 $discount = $coupon['amount'];
             } else {
@@ -68,8 +68,8 @@ class CouponController extends Controller
             $grandTotal = $cartTotal - $discount;
 
             //  Add to session variable
-            Session::put('couponAmount', currencyFormat($discount));
-            Session::put('couponCode', $code);
+            Session::put('couponDiscount', currencyFormat($discount));
+            Session::put('couponId', $coupon['id']);
             Session::put('grandTotal', currencyFormat($grandTotal));
 
             $message = "Coupon Applied. 🥳";

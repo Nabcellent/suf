@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'first_name' => ['required', 'string', 'max:20', 'alpha'],
             'last_name' => 'required|max:20|alpha',
             'gender' => 'required',
-            'phone' => 'required|digits_between: 9, 10|unique:addresses',
+            'phone' => 'required|digits_between: 9, 10|unique:phones',
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
             'password_confirmation' => 'required',

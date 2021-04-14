@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
@@ -34,11 +35,17 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
 
 Route::middleware(['verified', 'auth'])->group(function() {
     //  User Account
-    Route::match(['GET', 'POST'], '/account/{page?}', [UserController::class, 'account'])
-        ->middleware(['verified', 'auth'])->name('update-user');
+    Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])
+        ->middleware(['verified', 'auth'])->name('user-account');
 
-    Route::post('/delivery-address/{id}', [OrderController::class, 'deliveryAddress'])
+    //  Delivery Addresses
+    Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])
         ->whereNumber('id')->name('delivery-address');
+
+    Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
+
+    //  Get Sub-County by Id    ~   AJAX
+    Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
 
     //  Check User Password     ~   AJAX
     Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
@@ -54,6 +61,10 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  Checkout
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('place-order');
+
+    //  Thanks Page
+    Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
 
     //  Logout User
     Route::get('/logout', [LoginController::class, 'logout']);

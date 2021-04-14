@@ -57,5 +57,5 @@ class Cart extends Model
 
     use HasFactory;
 
-    public $table = "cart";
+    protected $table = 'cart';
 }

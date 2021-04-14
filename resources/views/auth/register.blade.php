@@ -23,14 +23,10 @@
 
                 <div class="row justify-content-center pb-md-5 mb-md-5">
 
-                    <!--    Start Contact Section    -->
+                    <!--    Start Registration Section    -->
 
                     <div class="col-md-7 col-sm-12 py-md-5 mb-md-5">
-                        <!--    Start Box    -->
-
                         <div class="box bg-light p-2 rounded shadow">
-
-                            <!--    Start Box Header    -->
                             <div class="row">
                                 <div class="col">
                                     <div class="box_header mt-2">
@@ -50,9 +46,6 @@
                                     <hr class="bg-dark mt-0 mb-1">
                                 </div>
                             </div>
-                            <!--    End Box Header    -->
-
-                            <!--    Start Contact Form    -->
                             <div class="row">
                                 <div class="col">
                                     <form id="register_form" class="anime_form" action="{{ route('register') }}" method="POST">

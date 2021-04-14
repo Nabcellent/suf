@@ -73,17 +73,20 @@ class ProductController extends Controller
             return view('partials.products.products_data', compact('products'));
         }
 
-        $categoryId = Route::getFacadeRoot()->current()->uri();
-        $categoryId = substr($categoryId, 9);
-        $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
-
         $productCount = Product::products()->where('products.status', 1)->count();
         $products = Product::products()->where('products.status', 1);
 
-        $catDetails = null;
-        if($categoryId !== null && $categoryCount > 0) {
-            $catDetails = Category::categoryDetails($categoryId);
-            $products->whereIn('products.category_id', $catDetails['catIds']);
+        $categoryId = Route::getFacadeRoot()->current()->uri();
+        $categoryId = substr($categoryId, 9);
+
+        $catDetails = "";
+        if(empty(trim($categoryId))) {
+            $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
+
+            if($categoryId !== null && $categoryCount > 0) {
+                $catDetails = Category::categoryDetails($categoryId);
+                $products->whereIn('products.category_id', $catDetails['catIds']);
+            }
         }
 
         $products = $products->paginate(10);
@@ -91,7 +94,6 @@ class ProductController extends Controller
         $sellers = Seller::sellers()->get()->toArray();
         $brands = Brand::brands()->get()->toArray();
 
-        //echo "<pre>"; print_r($catDetails); die;
         return View('products')
             ->with(compact('products', 'sellers', 'brands', 'catDetails'))
             ->with(compact('productCount'));

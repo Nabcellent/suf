@@ -176,3 +176,53 @@ const updateCartQty = (cartId, newQty) => {
 
 
 /**=====================================================================================================  ACCOUNT PAGE   */
+$(() => {
+    const $county = $('#delivery-address form #county');
+    if($county.val().trim()) {
+        const data = {
+            id: $county.val(),
+            subCounty: $('#delivery-address form #county :selected').attr('data-subCounty')
+        };
+
+        fetchSubCounties(data);
+    }
+});
+
+$(document).on('click', '#delivery-address form #county', function() {
+    const id = $(this).val();
+    console.log($(this).is(':selected'));
+
+    fetchSubCounties({id});
+});
+
+function fetchSubCounties(data) {
+
+
+    $.ajax({
+        data: data,
+        type: 'POST',
+        url: '/get-sub-counties',
+        statusCode: {
+            404: function(responseObject, textStatus, jqXHR) {
+                // No content found (404)
+                // This code will be executed if the server returns a 404 response
+                alert('Not Found');
+            },
+            200: (responseObject, textStatus) => {
+                $('#delivery-address form select[name="sub_county"]').html(responseObject.subCounties);
+            },
+            503: function(responseObject, textStatus, errorThrown) {
+                // Service Unavailable (503)
+                // This code will be executed if the server returns a 503 response
+                alert('Unavailable');
+            }
+        },
+        error: () => {
+            alert('Error: Something went wrong');
+        }
+    }).done((data) => {
+        //alert("Done " + data);
+    }).fail((error, textStatus) => {
+        alert('Something went wrong: ' + textStatus);
+    });
+}

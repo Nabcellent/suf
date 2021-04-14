@@ -28,7 +28,7 @@ class RegisterPostRequest extends FormRequest
             'last_name' => 'required|max:20|alpha',
             'email' => 'required|email:rfc,dns|unique:users',
             'gender' => 'required',
-            'phone' => 'required|digits_between: 9, 10|unique:addresses',
+            'phone' => 'required|digits_between: 9, 10|unique:phones',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
         ];
