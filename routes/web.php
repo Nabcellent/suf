@@ -38,14 +38,19 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])
         ->middleware(['verified', 'auth'])->name('user-account');
 
-    //  Users Orders
-    Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
+    //  Phone Numbers
+    Route::patch('/add-phone', [UserController::class, 'updatePhone']);
+
+    Route::get('/delete-phone/{id}', [UserController::class, 'deletePhone']);
 
     //  Delivery Addresses
     Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])
         ->whereNumber('id')->name('delivery-address');
 
     Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
+
+    //  Users Orders
+    Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
 
     //  Get Sub-County by Id    ~   AJAX
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
@@ -68,6 +73,8 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  Thanks Page
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
+
+    Route::get('/test-order-placed', [OrderController::class, 'testShipped']);
 
     //  Logout User
     Route::get('/logout', [LoginController::class, 'logout']);

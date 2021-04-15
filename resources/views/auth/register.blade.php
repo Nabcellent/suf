@@ -114,9 +114,7 @@
                                                        placeholder="Confirm password" aria-label required>
                                             </div>
                                             @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
+                                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                             @enderror
                                         </div>
                                         <div class="form-group text-right">

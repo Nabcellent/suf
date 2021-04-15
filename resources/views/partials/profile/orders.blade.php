@@ -1,3 +1,4 @@
+
 <div class="box bg-light p-3 rounded shadow">
     <div class="row">
         <div class="col">
@@ -11,38 +12,96 @@
     <div class="row">
         <div class="col">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Due Amount</th>
-                        <th scope="col">Invoice No</th>
-                        <th scope="col">Qty</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Order Date</th>
-                        <th scope="col">Paid/Unpaid</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
+                @if(count($orders) > 0)
+                    <table class="table table-striped table-borderless table-hover">
+                        <thead>
                         <tr>
-                            <th scope='row'>$i</th>
-                            <td>KES - 800</td>
-                            <td>$invoiceNo</td>
-                            <td>$quantity</td>
-                            <td>$size</td>
-                            <td>$orderDate</td>
-                            <td>$orderStatus</td>
-                            <td>
-                                <a href="{{ url('#') }}" target='_blank' class='text-nowrap morphic_btn morphic_btn_success'>
-                                    <span><i class='fas fa-clipboard-check'></i> Confirm Paid</span>
-                                </a>
-                            </td>
+                            <th scope="col">Order No.</th>
+                            <th scope="col">Amount Due</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
+                        </thead>
+                        <tbody id="accordion">
 
-                    </tbody>
-                </table>
+                        @foreach($orders as $order)
+                            <tr data-toggle="collapse" data-target="#order-products{{ $order['id'] }}" style="cursor: pointer">
+                                <th scope="row">{{ $order['id'] }}</th>
+                                <td>KES.{{ currencyFormat($order['total']) }}/=</td>
+                                <td>{{ ucfirst($order['payment_method']) }} {{ ucfirst($order['payment_type']) }}</td>
+                                <td>{{ date('M d, Y', strtotime($order['created_at'])) }}</td>
+                                <td>{{ $order['status'] }}</td>
+                                <td>
+                                    <a href="{{ url('#') }}" target='_blank' class='text-nowrap morphic_btn morphic_btn_success'>
+                                        <span><i class='fas fa-clipboard-check'></i> Confirm Paid</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="p-0">
+                                    <div class="ml-3 collapse" data-parent="#accordion" id="order-products{{ $order['id'] }}">
+                                        <table class="table table-sm table-bordered small">
+                                            <thead>
+                                            <tr>
+                                                <th>product(s)</th>
+                                                <th>Details</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Sub-Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <?php $total = 0; ?>
+                                            @foreach($order['order_products'] as $item)
+                                                <?php $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
+                                                <tr>
+                                                    <td>{{ $item['product']['title'] }}</td>
+                                                    <td>
+                                                        @if(count($details) > 0)
+                                                            {{ mapped_implode(', ', $details, ': ') }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $item['quantity'] }}</td>
+                                                    <td>{{ currencyFormat($item['final_unit_price']) }}/-</td>
+                                                    <td>{{ currencyFormat($item['final_unit_price'] * $item['quantity']) }}/=</td>
+                                                </tr>
+                                                <?php $total += $item['final_unit_price'] ?>
+                                            @endforeach
+
+                                            @if($order['discount'] > 0)
+                                                <tr class="border-0">
+                                                    <th colspan="4" class="text-right">Total Discount:</th>
+                                                    <td colspan="3">{{ currencyFormat($order['discount']) }}/=</td>
+                                                </tr>
+                                            @endif
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                @else
+                    <div class='p-5'>
+                        <div class='d-flex align-items-center justify-content-center empty_cart'>
+                            <h1 class='display-1'><i class='fab fa-shopify'></i></h1>
+                        </div>
+                        <div class='d-flex align-items-center justify-content-center empty_cart'>
+                            <h4>You Haven't placed any orders yet...</h4>
+                        </div>
+                        <div class='d-flex align-items-center justify-content-center empty_cart'>
+                            <a href="{{url('/products')}}" class='btn btn-info'><i class='bx bx-run bx-flip-horizontal' ></i> Wanna do some Shopping? 😁</a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

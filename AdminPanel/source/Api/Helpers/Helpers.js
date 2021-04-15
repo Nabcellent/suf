@@ -1,6 +1,12 @@
 const {join} = require("path");
 const fs = require('fs');
 
+
+
+const currencyFormat = (number) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'KSH' }).format(number)
+}
+
 const imageExists = (folderName, image) => {
     let subPath;
     switch (folderName){
@@ -75,6 +81,7 @@ const getTableByModel = (model) => {
 
 
 module.exports = {
+    currencyFormat,
     imageExists,
     str_random,
     getTableByModel

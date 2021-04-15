@@ -17,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\User;
 use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -32,26 +33,16 @@ class UserController extends Controller
                 'phone' => [
                     'required','digits_between: 9, 10',
                     'regex:/^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
-                    Rule::unique('addresses')->ignore(Auth::id(), 'user_id'),
+                    Rule::unique('phones')->ignore(Auth::id(), 'user_id'),
                 ],
                 'address' => 'nullable|min:5'
             ]);
 
-            $phone = strlen($req -> phone) === 10 ? substr($req -> phone, -9) : $req -> phone;
-
             $user = Auth::user();
-            $phone = Auth::user()->phone;
 
             $user -> first_name = $req -> first_name;
             $user -> last_name = $req -> last_name;
             $user -> save();
-
-            $phoneNumber = $req -> phone;
-            $phoneNumber = strlen($phoneNumber) === 10 ? substr($phoneNumber, -9) : $phoneNumber;
-
-            $phone -> phone = $phoneNumber;
-            $phone -> primary = (Phone::where('user_id', Auth::id())->exists()) ? 0 : 1;
-            $phone -> save();
 
             $message = "Your account has been Updated. 😌";
             return back()
@@ -77,27 +68,9 @@ class UserController extends Controller
             return view('profile')->with(compact('page',  'counties', 'btnAction'));
         }
 
-        $user = Auth::user()->toArray();
-        $address = Auth::user()->addresses->toArray();
+        $user = User::where('id', Auth::id())->with('phones', 'addresses')->first()->toArray();
 
-        return view('profile')->with(compact('page', 'user', 'address'));
-    }
-
-    public function updatePassword(Request $req): RedirectResponse
-    {
-        $req->validate([
-            'current_password' => 'password',
-            'password' => ['required', 'string', 'min:4', 'confirmed'],
-            'password_confirmation' => 'required',
-        ]);
-
-        $user = Auth::user();
-        $user->password = bcrypt($req->password);
-        $user->save();
-
-        $message = "Your password has been Updated. 😌";
-        return back()
-            ->with('alert', ['type' => 'success', 'intro' => 'Success! ', 'message' => $message, 'duration' => 7]);
+        return view('profile')->with(compact('page', 'user'));
     }
 
     public function deliveryAddress(Request $req, $id = null): Redirector|Application|RedirectResponse
@@ -128,6 +101,67 @@ class UserController extends Controller
         }
 
         return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
+    }
+
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updatePhone(Request $req): \Illuminate\Http\JsonResponse
+    {
+        $valid = Validator::make($req->all(), [
+            'phone' => [
+                'required','digits_between: 9, 10',
+                'regex:/^(([71])(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
+                'unique:phones',
+            ],
+        ]);
+
+        if($valid->fails()) {
+            $message = $valid->errors()->messages()['phone'][0];
+
+            return response()->json(['status' => false, 'message' => $message]);
+        }
+
+        $phoneNumber = $req -> phone;
+        $phoneNumber = strlen($phoneNumber) === 10 ? substr($phoneNumber, -9) : $phoneNumber;
+
+        $phone = new Phone;
+        $phone -> user_id = Auth::id();
+        $phone -> phone = $phoneNumber;
+        $phone -> primary = 0;
+        $phone -> save();
+
+        return response()->json(['status' => true, 'message' => 'Phone has been added!']);
+    }
+
+    public function updatePassword(Request $req): RedirectResponse
+    {
+        $req->validate([
+            'current_password' => 'password',
+            'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'password_confirmation' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $user->password = bcrypt($req->password);
+        $user->save();
+
+        $message = "Your password has been Updated. 😌";
+        return back()
+            ->with('alert', ['type' => 'success', 'intro' => 'Success! ', 'message' => $message, 'duration' => 7]);
+    }
+
+    public function deletePhone($id): RedirectResponse
+    {
+        if(!isset($id)) {
+            $message = "Something went terribly wrong. Please write to us.";
+            return back()->with('alert', ['type' => 'danger', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
+        }
+
+        Phone::destroy($id);
+
+        $message = "Phone Deleted.";
+        return back()->with('alert', ['type' => 'success', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
     }
 
     public function deleteAddress($id): RedirectResponse

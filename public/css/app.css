@@ -1174,7 +1174,7 @@ nav ul.pagination {
 #profile .card-body .active a {
     color: darkgoldenrod;
 }
-#profile .card-body a {
+#profile .sidebar_menu .card-body a {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 6fr;
@@ -1182,7 +1182,7 @@ nav ul.pagination {
     text-decoration: none;
     color: firebrick;
 }
-#profile .card-body a:after {
+#profile .sidebar_menu .card-body a:after {
     content: "";
     position: absolute;
     top: 100%;
@@ -1191,11 +1191,11 @@ nav ul.pagination {
     transition: width 0.3s ease 0s, left 0.3s ease 0s;
     width: 0;
 }
-#profile .card-body a:hover:after {
+#profile .sidebar_menu .card-body a:hover:after {
     width: 70%;
     left: 0;
 }
-#profile .card-body a:hover {
+#profile .sidebar_menu .card-body a:hover {
     color: rgb(174, 124, 11);
 }
 

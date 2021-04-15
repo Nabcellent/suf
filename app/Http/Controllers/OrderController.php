@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\OrdersProduct;
-use App\Models\Product;
+use App\Models\{Address, Cart, Order, OrdersProduct};
+use App\Mail\OrderPlaced;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,19 +14,19 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use ReflectionException;
 
 class OrderController extends Controller
 {
     public function showOrders() {
         $page = "orders";
 
-        $orders = Order::usersOrders()->get()->toArray();
+        $orders = Order::usersOrders()->orderByDesc('created_at')->get()->toArray();
 
-        dd($orders);
-
-        return view('profile')->with(compact('page'));
+        return view('profile')->with(compact('page', 'orders'));
     }
 
     /**
@@ -88,44 +86,53 @@ class OrderController extends Controller
                 Session::put('grandTotal', cartTotal());
             }
 
-            DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
-                //  Insert Order Details
-                $orderId = Order::insertGetId([
-                    'user_id' => Auth::id(),
-                    'address_id' => $data['address'],
-                    'phone_id' => $data['phone'],
-                    'coupon_id' => Session::get('couponId'),
-                    'coupon_discount' => currencyToFloat(Session::get('couponDiscount')),
-                    'payment_method' => $paymentMethod,
-                    'payment_type' => $paymentType,
-                    'total' => currencyToFloat(Session::get('grandTotal')),
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
+            try {
+                DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
+                    //  Insert Order Details
+                    $orderId = Order::insertGetId([
+                        'user_id' => Auth::id(),
+                        'address_id' => $data['address'],
+                        'phone_id' => $data['phone'],
+                        'coupon_id' => Session::get('couponId'),
+                        'discount' => currencyToFloat(Session::get('couponDiscount')),
+                        'payment_method' => $paymentMethod,
+                        'payment_type' => $paymentType,
+                        'total' => currencyToFloat(Session::get('grandTotal')),
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
 
-                //  Get Cart Items
-                $cart = Cart::cartItems();
+                    //  Get Cart Items
+                    $cart = Cart::cartItems();
 
-                //  Insert Orders Products
-                foreach($cart as $item) {
-                    $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-                    $finalPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
+                    //  Insert Orders Products
+                    foreach($cart as $item) {
+                        $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
+                        $finalPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
 
-                    $ordersProduct = new OrdersProduct;
-                    $ordersProduct->order_id = $orderId;
-                    $ordersProduct->product_id = $item['product_id'];
-                    $ordersProduct->details = $item['details'];
-                    $ordersProduct->quantity = $item['quantity'];
-                    $ordersProduct->final_unit_price = $finalPrice;
+                        $ordersProduct = new OrdersProduct;
+                        $ordersProduct->order_id = $orderId;
+                        $ordersProduct->product_id = $item['product_id'];
+                        $ordersProduct->details = $item['details'];
+                        $ordersProduct->quantity = $item['quantity'];
+                        $ordersProduct->final_unit_price = $finalPrice;
 
-                    $ordersProduct->save();
-                }
+                        $ordersProduct->save();
+                    }
 
-                //  Add orderId to session
-                Session::put('orderId', $orderId);
-            });
+                    //  Add orderId to session
+                    Session::put('orderId', $orderId);
 
-            $message = "Your Order has been Placed ! 🥳";
+                    $order = Order::findOrFail($orderId);
+                    Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
+                });
+            } catch (Exception $e) {
+                $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
+                return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+            }
+
+            //  Return Success
+            $message = "Your Order has been Placed ! 🥳 You shall receive an email shortly.";
             return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
         }
 
@@ -143,5 +150,15 @@ class OrderController extends Controller
         }
 
         return redirect('/cart');
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testShipped(): string
+    {
+        $order = Order::find(4);
+
+        return (new OrderPlaced($order))->render();
     }
 }

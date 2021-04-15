@@ -1,5 +1,5 @@
 @extends('/layouts.master')
-@section('title', 'CheckOut')
+@section('title', 'Thank You')
 @section('content')
     @include('/partials/top_nav')
 
@@ -40,7 +40,7 @@
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <h5>Your Order is being processed. 💯</h5>
+                            <h5><i class="fas fa-shipping-fast"></i> Your Order is being processed. 💯</h5>
                             <div class="row">
                                 <div class="col-3">
                                     <p class="m-0">Order Number: </p>
@@ -59,6 +59,7 @@
                     <div class="row">
                         <div class="col d-flex justify-content-between">
                             <a href="{{ url('/products') }}" class="btn btn-success"><i class='bx bx-run bx-flip-horizontal' ></i> Shop some more? 😙</a>
+                            <a href="{{ url('/orders') }}" class="btn btn-outline-info">My orders <i class="fab fa-shopify"></i></a>
                         </div>
                     </div>
                 </div>
@@ -74,5 +75,5 @@
 
 use Illuminate\Support\Facades\Session;
 
-session::forget(['grandTotal', 'orderId', 'couponDiscount']);
+session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
 ?>

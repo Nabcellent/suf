@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'CheckOut'); ?>
+<?php $__env->startSection('title', 'Thank You'); ?>
 <?php $__env->startSection('content'); ?>
     <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -39,7 +39,7 @@
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <h5>Your Order is being processed. 💯</h5>
+                            <h5><i class="fas fa-shipping-fast"></i> Your Order is being processed. 💯</h5>
                             <div class="row">
                                 <div class="col-3">
                                     <p class="m-0">Order Number: </p>
@@ -58,6 +58,7 @@
                     <div class="row">
                         <div class="col d-flex justify-content-between">
                             <a href="<?php echo e(url('/products')); ?>" class="btn btn-success"><i class='bx bx-run bx-flip-horizontal' ></i> Shop some more? 😙</a>
+                            <a href="<?php echo e(url('/orders')); ?>" class="btn btn-outline-info">My orders <i class="fab fa-shopify"></i></a>
                         </div>
                     </div>
                 </div>
@@ -73,7 +74,7 @@
 
 use Illuminate\Support\Facades\Session;
 
-session::forget(['grandTotal', 'orderId', 'couponDiscount']);
+session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
 ?>
 
 <?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/thanks.blade.php ENDPATH**/ ?>

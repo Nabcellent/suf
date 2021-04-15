@@ -2,7 +2,6 @@
 <?php $__env->startSection('content'); ?>
     <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-
     <!--    Start Profile    -->
     <div id="profile">
         <!--    Start Content Area    -->
@@ -44,11 +43,6 @@
                                     <li class="list-group-item">
                                         <a href="<?php echo e(url('/orders')); ?>" class="stretched-link">
                                             <i class="fas fa-list"></i><span>My Orders</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="<?php echo e(url('/account/delivery-address')); ?>" class="stretched-link">
-                                            <i class="far fa-address-card"></i><span>Delivery Addresses</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">

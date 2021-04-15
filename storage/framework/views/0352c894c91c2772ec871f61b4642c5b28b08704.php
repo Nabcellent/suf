@@ -88,23 +88,44 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                 </div>
             </div>
+            <div class="form-group text-right">
+                <button type="submit" class="morphic_btn morphic_btn_primary">
+                    <span><i class="fas fa-pen"></i> Update Profile</span>
+                </button>
+                <img id="update_profile_gif" class="d-none loader_gif" src="<?php echo e(asset('/images/loaders/Infinity-1s-197px.gif')); ?>" alt="loader.gif">
+            </div>
             <div class="form-group">
-                <label>Phone Number *</label>
-                <div class="input-group mb-3 is-invalid">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-mobile"></i></span>
-                        <span class="input-group-text">+254</span>
-                    </div>
-                    <input type="tel" class="form-control <?php $__errorArgs = ['phone'];
+                <label class="d-flex justify-content-between">
+                    <span>Phone Number(s) *</span>
+                    <a href="#" class="input-group-text border-primary text-info add-phone">
+                        <i class='bx bx-plus' ></i>
+                    </a>
+                </label>
+                <?php $__currentLoopData = $user['phones']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $phone): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-mobile"></i></span>
+                            <span class="input-group-text">+254</span>
+                        </div>
+                        <input type="tel" class="form-control <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="phone" value=""
-                           pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
-                    <?php $__errorArgs = ['phone'];
+unset($__errorArgs, $__bag); ?>" name="phone" value="<?php echo e($phone['phone']); ?>"
+                               pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
+                        <div class="input-group-append">
+                            <?php if($phone['primary']): ?>
+                                <span class="input-group-text">primary</span>
+                            <?php endif; ?>
+                            <a href="#" class="input-group-text border-primary text-info"><i class='bx bx-edit-alt'></i></a>
+                            <a href="#" class="input-group-text border-danger text-danger delete-phone" data-id="<?php echo e($phone['id']); ?>">
+                                <i class='bx bx-trash-alt'></i>
+                            </a>
+                        </div>
+                        <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -112,41 +133,46 @@ $message = $__bag->first($__errorArgs[0]); ?>
                         <span class="invalid-feedback" role="alert">
                             <strong><?php echo e($message); ?></strong>
                         </span>
-                    <?php unset($message);
+                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+            <?php if(count($user['addresses']) > 0): ?>
+                <div class="form-group">
+                    <label class="d-flex justify-content-between">
+                        <span>Address(es)</span>
+                        <a href="<?php echo e(url('/account/delivery-address/')); ?>" class="input-group-text border-primary text-info">
+                            <i class='bx bx-plus' ></i>
+                        </a>
+                    </label>
+                    <?php $__currentLoopData = $user['addresses']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $address): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-address-card"></i></span>
+                        </div>
+                        <label class="form-control text-truncate" for="address<?php echo e($address['id']); ?>">
+                            <?php echo e($address['sub_county']['county']['name']); ?>, <?php echo e($address['sub_county']['name']); ?>, <?php echo e($address['address']); ?>
+
+                        </label>
+                        <div class="input-group-append">
+                            <a href="<?php echo e(url('/account/delivery-address/' . $address["id"])); ?>" class="input-group-text border-primary text-info">
+                                <i class='bx bx-edit-alt'></i>
+                            </a>
+                            <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address" data-id="<?php echo e($address['id']); ?>">
+                                <i class='bx bx-trash-alt'></i>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="u_first_name">Primary/Current Address *</label>
-                <textarea class="form-control <?php $__errorArgs = ['address'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" name="address" placeholder="Enter your current home address"></textarea>
-                <?php $__errorArgs = ['address'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                    <span class="invalid-feedback" role="alert">
-                        <strong><?php echo e($message); ?></strong>
-                    </span>
-                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-            </div>
-            <div class="form-group text-right">
-                <button type="submit" class="morphic_btn morphic_btn_primary">
-                    <span><i class="fas fa-pen"></i> Update Profile</span>
-                </button>
-                <img id="update_profile_gif" class="d-none loader_gif" src="<?php echo e(asset('/images/loaders/Infinity-1s-197px.gif')); ?>" alt="loader.gif">
-            </div>
+            <?php else: ?>
+                <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
+                    <a href="<?php echo e(url('/account/delivery-address')); ?>">add</a></div>
+                <hr class="m-0">
+            <?php endif; ?>
         </form>
     </div>
     <!--    End Update Profile    -->

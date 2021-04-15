@@ -60,37 +60,76 @@ if($user['gender'] ==='Male') {
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Phone Number *</label>
-                <div class="input-group mb-3 is-invalid">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-mobile"></i></span>
-                        <span class="input-group-text">+254</span>
-                    </div>
-                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value=""
-                           pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
-                    @error('phone')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="u_first_name">Primary/Current Address *</label>
-                <textarea class="form-control @error('address') is-invalid @enderror" name="address" placeholder="Enter your current home address"></textarea>
-                @error('address')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
             <div class="form-group text-right">
                 <button type="submit" class="morphic_btn morphic_btn_primary">
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
                 <img id="update_profile_gif" class="d-none loader_gif" src="{{asset('/images/loaders/Infinity-1s-197px.gif')}}" alt="loader.gif">
             </div>
+            <div class="form-group">
+                <label class="d-flex justify-content-between">
+                    <span>Phone Number(s) *</span>
+                    <a href="#" class="input-group-text border-primary text-info add-phone">
+                        <i class='bx bx-plus' ></i>
+                    </a>
+                </label>
+                @foreach($user['phones'] as $phone)
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-mobile"></i></span>
+                            <span class="input-group-text">+254</span>
+                        </div>
+                        <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}"
+                               pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
+                        <div class="input-group-append">
+                            @if($phone['primary'])
+                                <span class="input-group-text">primary</span>
+                            @endif
+                            <a href="#" class="input-group-text border-primary text-info"><i class='bx bx-edit-alt'></i></a>
+                            <a href="#" class="input-group-text border-danger text-danger delete-phone" data-id="{{ $phone['id'] }}">
+                                <i class='bx bx-trash-alt'></i>
+                            </a>
+                        </div>
+                        @error('phone')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                @endforeach
+            </div>
+            @if(count($user['addresses']) > 0)
+                <div class="form-group">
+                    <label class="d-flex justify-content-between">
+                        <span>Address(es)</span>
+                        <a href="{{url('/account/delivery-address/')}}" class="input-group-text border-primary text-info">
+                            <i class='bx bx-plus' ></i>
+                        </a>
+                    </label>
+                    @foreach($user['addresses'] as $address)
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-address-card"></i></span>
+                        </div>
+                        <label class="form-control text-truncate" for="address{{ $address['id'] }}">
+                            {{ $address['sub_county']['county']['name'] }}, {{ $address['sub_county']['name'] }}, {{ $address['address'] }}
+                        </label>
+                        <div class="input-group-append">
+                            <a href="{{url('/account/delivery-address/' . $address["id"])}}" class="input-group-text border-primary text-info">
+                                <i class='bx bx-edit-alt'></i>
+                            </a>
+                            <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address" data-id="{{ $address['id'] }}">
+                                <i class='bx bx-trash-alt'></i>
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            @else
+                <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
+                    <a href="{{ url('/account/delivery-address') }}">add</a></div>
+                <hr class="m-0">
+            @endif
         </form>
     </div>
     <!--    End Update Profile    -->

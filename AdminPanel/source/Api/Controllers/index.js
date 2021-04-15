@@ -1,4 +1,5 @@
 const UserController = require('./UserController');
+const OrderController = require('./OrderController');
 const {ProductController, AddonController, CategoryController, CouponController} = require('./Product');
 const {BannerController, AdController} = require('./PageContent');
 
@@ -13,5 +14,7 @@ module.exports = {
 
     BannerController,
     AdController,
-    CouponController
+    CouponController,
+
+    OrderController
 }

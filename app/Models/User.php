@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function addresses(): HasMany
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class)->with('subCounty');
     }
 
     public function phones(): HasMany

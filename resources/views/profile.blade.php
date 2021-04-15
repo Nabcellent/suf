@@ -3,7 +3,6 @@
 @section('content')
     @include('/partials/top_nav')
 
-
     <!--    Start Profile    -->
     <div id="profile">
         <!--    Start Content Area    -->
@@ -44,11 +43,6 @@
                                     <li class="list-group-item">
                                         <a href="{{url('/orders')}}" class="stretched-link">
                                             <i class="fas fa-list"></i><span>My Orders</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="{{url('/account/delivery-address')}}" class="stretched-link">
-                                            <i class="far fa-address-card"></i><span>Delivery Addresses</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">

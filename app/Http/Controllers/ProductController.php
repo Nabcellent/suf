@@ -80,7 +80,7 @@ class ProductController extends Controller
         $categoryId = substr($categoryId, 9);
 
         $catDetails = "";
-        if(empty(trim($categoryId))) {
+        if(!empty(trim($categoryId))) {
             $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
             if($categoryId !== null && $categoryCount > 0) {

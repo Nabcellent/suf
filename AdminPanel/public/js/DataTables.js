@@ -131,8 +131,7 @@ customerDataTable.on( 'order.dt search.dt', function () {
 const orderDataTable = $('#orders_table').DataTable({
     scrollY:        '50vh',
     scrollCollapse: true,
-    paging:         false,
-    order: [[7, 'DESC']],
+    order: [0, 'DESC'],
     language: {
         info: 'Number of orders: _MAX_',
         infoFiltered:   "(filtered _TOTAL_ orders)",
@@ -142,18 +141,25 @@ const orderDataTable = $('#orders_table').DataTable({
     columnDefs: [{
         searchable: false,
         orderable: false,
-        targets: 0
+        targets: 1
     }, {
         searchable: false,
         orderable: false,
-        targets: 8
+        targets: 9
     }],
+    createdRow: function(row, data) {
+        if(data[6].replace(/[$,]/g, '') * 1 > 1000) {
+            $('td', row).eq(5).addClass('text-success');
+        } else if(data[6].replace(/[$,]/g, '') * 1 < 1000) {
+            $('td', row).eq(5).addClass('text-danger');
+        }
+        if(data[6].toLowerCase() === 'pending') {
+            $('td', row).eq(6).addClass('text-danger');
+        } else if(data[6].toLowerCase() === 'completed') {
+            $('td', row).eq(6).addClass('text-success');
+        }
+    },
 });
-orderDataTable.on( 'order.dt search.dt', function () {
-    orderDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-        cell["innerHTML"] = i+1;
-    } );
-}).draw();
 
 
 /*_____________________  CATEGORIES  _____________________*/
