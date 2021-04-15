@@ -44,8 +44,9 @@
                 <p>
 
                     @if(Auth::check())
-                        <a href='../checkout.php'>Checkout<br></a>
-                        <a href='../pages/customer/profile.php?edit_account'>Edit Account<br></a>
+                        <a href="{{ route('checkout') }}">Checkout<br></a>
+                        <a href="{{ url('/account') }}">Edit Account<br></a>
+                        <a href="{{ url('/account/orders') }}">My Orders<br></a>
                         <a href="{{url('/logout')}}">Sign Out</a>
                     @else
                         <a href="{{url('/login')}}">Sign In<br></a>

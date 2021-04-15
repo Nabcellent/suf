@@ -44,8 +44,9 @@
                 <p>
 
                     <?php if(Auth::check()): ?>
-                        <a href='../checkout.php'>Checkout<br></a>
-                        <a href='../pages/customer/profile.php?edit_account'>Edit Account<br></a>
+                        <a href="<?php echo e(route('checkout')); ?>">Checkout<br></a>
+                        <a href="<?php echo e(url('/account')); ?>">Edit Account<br></a>
+                        <a href="<?php echo e(url('/account/orders')); ?>">My Orders<br></a>
                         <a href="<?php echo e(url('/logout')); ?>">Sign Out</a>
                     <?php else: ?>
                         <a href="<?php echo e(url('/login')); ?>">Sign In<br></a>

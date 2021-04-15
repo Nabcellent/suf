@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Coupon;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CouponController extends Controller
 {
     //
-    public function applyCoupon(Request $req) {
+    public function applyCoupon(Request $req): Redirector|RedirectResponse|Application
+    {
         if($req->isMethod('POST')) {
             $code = $req->code;
             //  Exists

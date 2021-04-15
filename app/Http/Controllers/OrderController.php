@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -22,6 +21,19 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    public function showOrders() {
+        $page = "orders";
+
+        $orders = Order::usersOrders()->get()->toArray();
+
+        dd($orders);
+
+        return view('profile')->with(compact('page'));
+    }
+
+    /**
+     * @throws \JsonException
+     */
     public function checkout(): Factory|View|Application
     {
         $cart = Cart::cartItems();
@@ -31,6 +43,9 @@ class OrderController extends Controller
         return view('checkout')->with(compact('cart', 'addresses', 'phones'));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function placeOrder(Request $req): Redirector|RedirectResponse|Application
     {
         if($req->isMethod('POST')) {
@@ -61,6 +76,16 @@ class OrderController extends Controller
             } else {
                 $paymentMethod = 'cash';
                 $paymentType = 'on-delivery';
+            }
+
+            //  Only allow cash payments for now    //////////////////////////
+            if($paymentMethod !== 'cash') {
+                $message = "Prepaid method coming soon!";
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+            }
+
+            if(!session::has('grandTotal')) {
+                Session::put('grandTotal', cartTotal());
             }
 
             DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
@@ -100,25 +125,23 @@ class OrderController extends Controller
                 Session::put('orderId', $orderId);
             });
 
-            //  $req->session()->forget(['couponId', 'couponDiscount', 'grandTotal']);
-            if($paymentMethod === 'cash') {
-                $message = "Your Order has been Placed ! 🥳";
-
-                return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
-            }
-
-            $message = "Your Order has been Placed ! 🥳 Prepaid method coming soon!";
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+            $message = "Your Order has been Placed ! 🥳";
+            return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
         }
 
         $message = "Access Denied!";
         return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function thankYou() {
-        //  Empty User Cart
-        Cart::where('user_id', Auth::id())->delete();
+    public function thankYou(): View|Factory|Redirector|RedirectResponse|Application
+    {
+        if(session::has('orderId')) {
+            //  Empty User Cart
+            Cart::where('user_id', Auth::id())->delete();
 
-        return view('');
+            return view('thanks');
+        }
+
+        return redirect('/cart');
     }
 }

@@ -42,7 +42,7 @@
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="<?php echo e(url('/account/orders')); ?>" class="stretched-link">
+                                        <a href="<?php echo e(url('/orders')); ?>" class="stretched-link">
                                             <i class="fas fa-list"></i><span>My Orders</span>
                                         </a>
                                     </li>
@@ -68,7 +68,7 @@
                         <?php if($page === 'edit'): ?>
                             <?php echo $__env->make('partials.profile.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php elseif($page === 'orders'): ?>
-                            <?php echo $__env->make('partials.profile.myorders', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                            <?php echo $__env->make('partials.profile.orders', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php elseif($page === 'delivery-address'): ?>
                             <?php echo $__env->make('partials.profile.delivery_address', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php endif; ?>

@@ -208,7 +208,6 @@ class ProductController extends Controller
     {
         $cart = Cart::cartItems();
 
-        //dd($cart);
         return view('cart', compact('cart'));
     }
 

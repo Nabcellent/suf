@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -39,4 +40,7 @@ class Order extends Model
     /**
      * STATIC FUNCTIONS
      */
+    public static function usersOrders() {
+        return self::where('user_id', Auth::id())->with('orderProducts');
+    }
 }

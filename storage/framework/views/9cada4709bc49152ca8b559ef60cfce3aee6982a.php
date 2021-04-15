@@ -20,8 +20,9 @@
                                 <i class="fas fa-user-circle"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<?php echo e(url('checkout')); ?>">Checkout</a>
+                                <a class="dropdown-item" href="<?php echo e(url('/checkout')); ?>">Checkout</a>
                                 <a class="dropdown-item" href="<?php echo e(url('/account')); ?>">My Account</a>
+                                <a class="dropdown-item" href="<?php echo e(url('/orders')); ?>">My Orders</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?php echo e(route('logout')); ?>">Sign Out</a>
                             </div>

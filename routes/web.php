@@ -38,6 +38,9 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])
         ->middleware(['verified', 'auth'])->name('user-account');
 
+    //  Users Orders
+    Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
+
     //  Delivery Addresses
     Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])
         ->whereNumber('id')->name('delivery-address');

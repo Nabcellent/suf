@@ -42,7 +42,7 @@
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{{url('/account/orders')}}" class="stretched-link">
+                                        <a href="{{url('/orders')}}" class="stretched-link">
                                             <i class="fas fa-list"></i><span>My Orders</span>
                                         </a>
                                     </li>
@@ -68,7 +68,7 @@
                         @if($page === 'edit')
                             @include('partials.profile.edit')
                         @elseif($page === 'orders')
-                            @include('partials.profile.myorders')
+                            @include('partials.profile.orders')
                         @elseif($page === 'delivery-address')
                             @include('partials.profile.delivery_address')
                         @endif
