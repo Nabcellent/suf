@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use JsonException;
-use ReflectionException;
 
 class OrderController extends Controller
 {
@@ -140,7 +139,6 @@ class OrderController extends Controller
                     Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
                 });
             } catch (Exception $e) {
-                //dd($e);
                 $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
                 return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
             }
@@ -150,8 +148,7 @@ class OrderController extends Controller
             return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
         }
 
-        $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+        return accessDenied();
     }
 
     public function thankYou(): View|Factory|Redirector|RedirectResponse|Application
@@ -168,18 +165,10 @@ class OrderController extends Controller
 
 
 
-    public function invoice($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
-
-        return view('Admin.invoice')->with(compact('order'));
-    }
-
     public function printInvoicePDF($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
 
         $html = view('Admin.invoice_template')->with(compact('order'))->render();
-
-        $output = '<html lang="en-gb">Test PDF</html>';
 
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();

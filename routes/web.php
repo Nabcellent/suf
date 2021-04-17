@@ -30,8 +30,6 @@ Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
 Route::prefix('admin')->group(function () {
-    Route::get('/invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
-
     Route::get('/invoice-pdf/{id}', [OrderController::class, 'printInvoicePDF'])->name('invoice-pdf');
 });
 

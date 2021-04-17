@@ -7,7 +7,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
             <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-            <a href="/orders/generate-pdf" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Generate PDF</a>
+            <a href="http://localhost:8000/admin/invoice-pdf/<%= order.id %>" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Generate PDF</a>
         </div>
         <hr>
     </div>
@@ -75,7 +75,7 @@
                                 <p class="m-0"><%= key %>: <%= value %></p>
                             <% } %>
                         </td>
-                        <td class="unit"><%= product.final_unit_price %></td>
+                        <td class="unit"><%= product.final_unit_price %>/-</td>
                         <td class="qty"><%= product.quantity %></td>
                         <td class="total"><%= currencyFormat(subTotal) %>/-</td>
                     </tr>
@@ -104,11 +104,11 @@
                 </table>
                 <div class="thanks">Thank you!</div>
                 <div class="notices">
+                    <div><h5>Payment Method: <%= order.payment_method %></h5></div>
                     <div>
                         <div>NOTICE:</div>
                         <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
                     </div>
-                    <div><h5>Payment Method: <%= order.payment_method %></h5></div>
                 </div>
             </main>
             <footer class="invoice-footer">

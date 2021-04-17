@@ -7,9 +7,17 @@
                     <div class="row">
                         <div class="col">
                             <div class="card bg-info text-white crud_table shadow mb-4">
-                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header d-flex align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Order Details</h6>
-                                    <h6 class="btn btn-outline-light" >#<%= order.id %></h6>
+                                    <div>
+                                        <span class="m-0" >#<%= order.id %></span>
+                                        <a href="/orders/invoice/<%= order.id %>" class="ml-2 btn btn-outline-light" title="View Invoice" target="_blank">
+                                            <i class="fas fa-file-invoice"></i> Invoice
+                                        </a>
+                                        <a href="http://localhost:8000/admin/invoice-pdf/<%= order.id %>" class="btn btn-outline-light">
+                                            <i class="fa fa-file-pdf"></i> Generate PDF
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row no-gutters">

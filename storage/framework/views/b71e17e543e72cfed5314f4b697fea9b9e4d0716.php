@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="<?php use Illuminate\Support\Arr;
-
-echo e(str_replace('_', '-', app()->getLocale())); ?>">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,35 +9,35 @@ echo e(str_replace('_', '-', app()->getLocale())); ?>">
     <title>Suf - <?php echo $__env->yieldContent('title'); ?></title>
     <link rel="shortcut icon" href="<?php echo e(url('images/general/store_logo.jpg')); ?>">
 
-
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-
+    
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
-
+    
     <link rel="stylesheet" href="<?php echo e(url('css/font-awesome/css/all.min.css')); ?>">
 
-
+    
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
-
+    
     <link href="<?php echo e(url('css/jquery.nice-number.css')); ?>" rel='stylesheet'>
 
-
+    
     <link rel="stylesheet" href="<?php echo e(url('css/app.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(url('css/responsive.css')); ?>">
 </head>
 <body>
-<?php echo $__env->make('partials.alert', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('partials.top_header', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.top_header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php if(isset($pageTitle) && $pageTitle === "Index"): ?>
-    <?php echo $__env->make('partials.home_banners', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.home_banners', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php endif; ?>
 <?php echo $__env->yieldContent('content'); ?>
 
-<?php echo $__env->make('partials.footer', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
 

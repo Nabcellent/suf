@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\Cart;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Pure;
 
-function cartCount(): string
-{
+function cartCount(): string {
     if(Auth::check()) {
         $count = Cart::where('user_id', Auth::id())->sum('quantity');
     } else if(!empty(Session::get('session_id'))) {
@@ -21,8 +23,7 @@ function cartCount(): string
 /**
  * @throws JsonException
  */
-function cartTotal(): string
-{
+function cartTotal(): string {
     $total = 0;
     $cart = Cart::cartItems();
 
@@ -35,8 +36,7 @@ function cartTotal(): string
     return currencyFormat($total);
 }
 
-#[Pure] function currencyFormat($number): string
-{
+#[Pure] function currencyFormat($number): string {
     return number_format((float)$number, 2);
 }
 
@@ -53,4 +53,13 @@ function mapped_implode($glue, $array, $symbol = '='): string
             array_values($array)
         )
     );
+}
+
+function accessDenied(): Redirector|Application|RedirectResponse {
+    return redirect('/')->with('alert', [
+        'type' => 'danger',
+        'intro' => 'Sorry!',
+        'message' => "Access Denied",
+        'duration' => 7
+    ]);
 }

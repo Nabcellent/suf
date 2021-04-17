@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Coupon;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -26,6 +27,12 @@ class CouponController extends Controller
             }
 
             $coupon = Coupon::where('code', $code)->first()->toArray();
+
+            //  User has already used this coupon?
+            if($coupon['coupon_type'] === 'Single' && Order::where(['user_id' => Auth::id(), 'coupon_id' => $coupon['id']])->exists()) {
+                $message = "This was a one time coupon which you have already used. 🌚";
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+            }
 
             //  Active / Inactive
             if(!$coupon['status']) {
@@ -80,7 +87,6 @@ class CouponController extends Controller
             return back()->with('alert', ['type' => 'success', 'intro' => 'Yeessir!', 'message' => $message, 'duration' => 7]);
         }
 
-        $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+        return accessDenied();
     }
 }

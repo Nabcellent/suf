@@ -16,7 +16,7 @@ class CreateCouponsTable extends Migration
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
             $table->enum('option', ['Manual', 'Automatic']);
-            $table->string('code');
+            $table->string('code', 100)->unique();
             $table->text('categories');
             $table->text('users');
             $table->enum('coupon_type', ['Single', 'Multiple']);

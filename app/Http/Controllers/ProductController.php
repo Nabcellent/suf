@@ -262,14 +262,17 @@ class ProductController extends Controller
             ]);
         }
 
-        $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
+        return accessDenied();
     }
 
     public function deleteCartItem(Request $req): JsonResponse|Redirector|RedirectResponse|Application
     {
         if($req->ajax()) {
             Cart::destroy($req->cartId);
+
+            if(!(cartCount() > 0) && Session::has('couponId')) {
+                Session ::forget(['couponDiscount', 'couponId', 'grandTotal']);
+            }
 
             $cart = Cart::cartItems();
             return response()->json([
@@ -280,7 +283,6 @@ class ProductController extends Controller
             ]);
         }
 
-        $message = "Access Denied!";
-        return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
+        return accessDenied();
     }
 }

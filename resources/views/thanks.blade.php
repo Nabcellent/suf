@@ -12,7 +12,7 @@
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb mb-1">
                         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thank You</li>
+                        <li class="breadcrumb-item active" aria-current="page">Thank You {{ Auth::user()->first_name }}⚡</li>
                     </ul>
                 </nav>
             </div>
@@ -72,8 +72,6 @@
 @endsection
 
 <?php
-
 use Illuminate\Support\Facades\Session;
 
 session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
-?>
