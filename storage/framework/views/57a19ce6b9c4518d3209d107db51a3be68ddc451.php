@@ -22,8 +22,7 @@
                             <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
                             <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
-                                <?php $latestFour = latestFour() ?>
-                                <?php $__currentLoopData = $latestFour; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $four): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = latestFour(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $four): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="list_item text-center">
                                         <a href="<?php echo e(url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))); ?>">
                                             <img src="/images/products/<?php echo e($four['main_image']); ?>" alt="new ProductSeeder">
@@ -39,8 +38,7 @@
                             <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
-                                <?php $sections = sections(); ?>
-                                <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = sections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php if(count($section['categories']) > 0): ?>
                                         <li class="list_item">
                                             <h4 class="title">
