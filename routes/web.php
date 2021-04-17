@@ -101,10 +101,7 @@ Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhon
 */
 Route::get('/products', [ProductController::class, 'index']);
 //  Get category Url
-$carUrls = Category::select('id')->where('status', 1)->get()->pluck('id')->toArray();
-foreach($carUrls as $url) {
-    Route::get('/products/' . $url, [ProductController::class, 'index']);
-}
+Route::get('/products/{categoryId?}', [ProductController::class, 'index']);
 
 //  Product Details Route
 Route::get('/product/{id}/{title}', [ProductController::class, 'details']);

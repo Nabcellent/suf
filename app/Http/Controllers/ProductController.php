@@ -26,7 +26,7 @@ use JsonException;
 
 class ProductController extends Controller
 {
-    public function index(Request $req): View|Factory|string|Application
+    public function index(Request $req, $categoryId = null): View|Factory|string|Application
     {
         if($req->ajax()) {
             $data = $req->all();
@@ -76,14 +76,13 @@ class ProductController extends Controller
         $productCount = Product::products()->where('products.status', 1)->count();
         $products = Product::products()->where('products.status', 1);
 
-        $categoryId = Route::getFacadeRoot()->current()->uri();
-        $categoryId = substr($categoryId, 9);
+        //$categoryId = Route::getFacadeRoot()->current()->uri();
 
         $catDetails = "";
-        if(!empty(trim($categoryId))) {
+        if($categoryId !== null) {
             $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();
 
-            if($categoryId !== null && $categoryCount > 0) {
+            if($categoryCount > 0) {
                 $catDetails = Category::categoryDetails($categoryId);
                 $products->whereIn('products.category_id', $catDetails['catIds']);
             }
