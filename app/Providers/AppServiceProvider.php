@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         //  Use Bootstrap for paginator
         Paginator::useBootstrap();
 
-        if(config('app.env') === 'local') {
+        if(config('app.env') === 'production') {
             URL::forceScheme('https');
         }
     }
