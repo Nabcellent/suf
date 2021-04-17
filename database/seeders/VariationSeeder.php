@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Variation;
+use JsonException;
 
 class VariationSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class VariationSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function run(): void
     {

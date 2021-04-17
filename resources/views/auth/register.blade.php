@@ -99,7 +99,7 @@
                                                     <span class="input-group-text">+254</span>
                                                 </div>
                                                 <input type="tel" class="form-control" name="phone" aria-label value="{{ old('phone') }}"
-                                                       placeholder="712345678" pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$">
+                                                       placeholder="712345678" pattern="^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$">
                                             </div>
                                         </div>
                                         <div class="form-row">

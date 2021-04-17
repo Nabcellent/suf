@@ -121,7 +121,7 @@ $(() => {
 
 
     /**
-     * =============================================    COUPONS
+     * ===========================================================================    COUPONS
      * */
     //  SHOW / HIDE COUPON CODE FIELD
     $('#coupon-view form input#manual').on('click', () => {
@@ -129,6 +129,23 @@ $(() => {
     });
     $('#coupon-view form input#automatic').on('click', () => {
         $('#coupon-code-field').hide(200);
+    });
+
+
+    /**
+     * ===========================================================================    ORDERS
+     * */
+    //  SHOW HIDE COURIER FIELDS
+    $(document).on('change', '#order-view form#update-order-status #status', function() {
+        if($(this).val().toLowerCase() === 'completed') {
+            $('form#update-order-status input[name="courier"]').attr('required', true);
+            $('form#update-order-status input[name="tracking_number"]').attr('required', true);
+            $('form#update-order-status #courier').show(200);
+        } else {
+            $('form#update-order-status input[name="courier"]').attr('required', false);
+            $('form#update-order-status input[name="tracking_number"]').attr('required', false);
+            $('form#update-order-status #courier').hide(100);
+        }
     });
 
 

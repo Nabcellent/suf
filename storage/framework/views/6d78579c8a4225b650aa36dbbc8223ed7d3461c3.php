@@ -1,7 +1,8 @@
 <?php $__env->startSection('title', 'Details'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php use App\Models\Product; ?>
+    <?php echo $__env->make('/partials/top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php use App\Models\Product;
+use Illuminate\Support\Arr; ?>
 
 <div id="details">
 
@@ -30,7 +31,7 @@
         <div class="row my-2 justify-content-center">
             <div class="col p-3 card" style="min-height: 30rem;">
                 <div class="row" style="height: 100%;">
-                    
+
                     <div class="col-6">
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
@@ -52,7 +53,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="col-6">
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
@@ -246,7 +247,7 @@
                                     </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <!--    End Single ProductSeeder    -->
-                                
+
                             <!--    End Single ProductSeeder    -->
 
                             </div>
@@ -266,4 +267,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/details.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/details.blade.php ENDPATH**/ ?>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\{Address, Cart, Order, OrdersProduct};
 use App\Mail\OrderPlaced;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -17,11 +18,31 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use JsonException;
 use ReflectionException;
 
 class OrderController extends Controller
 {
-    public function showOrders() {
+    /**
+     * @throws JsonException
+     */
+    public function checkout(): View|Factory|RedirectResponse|Application
+    {
+        $cart = Cart::cartItems();
+
+        if(cartCount() > 0) {
+            $addresses = Address::addresses()->get()->toArray();
+            $phones = Auth::user()->phones->toArray();
+
+            return view('checkout')->with(compact('cart', 'addresses', 'phones'));
+        }
+
+        $message = "You do not have any items in your cart yet.";
+        return back()->with('alert', ['type' => 'info', 'intro' => 'Oops🤭!', 'message' => $message, 'duration' => 7]);
+    }
+
+    public function showOrders(): Factory|View|Application
+    {
         $page = "orders";
 
         $orders = Order::usersOrders()->orderByDesc('created_at')->get()->toArray();
@@ -30,24 +51,17 @@ class OrderController extends Controller
     }
 
     /**
-     * @throws \JsonException
-     */
-    public function checkout(): Factory|View|Application
-    {
-        $cart = Cart::cartItems();
-        $addresses = Address::addresses()->get()->toArray();
-        $phones = Auth::user()->phones->toArray();
-
-        return view('checkout')->with(compact('cart', 'addresses', 'phones'));
-    }
-
-    /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function placeOrder(Request $req): Redirector|RedirectResponse|Application
     {
         if($req->isMethod('POST')) {
             $data = $req->all();
+
+            if(!$req->has('address')) {
+                $message = "Please provide a delivery address. Add at least one if there is none.";
+                return back()->with('alert', ['type' => 'info', 'intro' => 'heyy!', 'message' => $message, 'duration' => 7]);
+            }
 
             $req->validate([
                 'address' => 'bail|present|required|integer|exists:addresses,id',
@@ -88,6 +102,8 @@ class OrderController extends Controller
 
             try {
                 DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
+                    $cart = Cart::cartItems();
+
                     //  Insert Order Details
                     $orderId = Order::insertGetId([
                         'user_id' => Auth::id(),
@@ -101,9 +117,6 @@ class OrderController extends Controller
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-
-                    //  Get Cart Items
-                    $cart = Cart::cartItems();
 
                     //  Insert Orders Products
                     foreach($cart as $item) {
@@ -127,8 +140,9 @@ class OrderController extends Controller
                     Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
                 });
             } catch (Exception $e) {
+                //dd($e);
                 $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
-                return redirect('/')->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+                return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
             }
 
             //  Return Success
@@ -152,13 +166,34 @@ class OrderController extends Controller
         return redirect('/cart');
     }
 
-    /**
-     * @throws ReflectionException
-     */
-    public function testShipped(): string
-    {
-        $order = Order::find(4);
 
-        return (new OrderPlaced($order))->render();
+
+    public function invoice($id): Factory|View|Application {
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
+
+        return view('Admin.invoice')->with(compact('order'));
+    }
+
+    public function printInvoicePDF($id): Factory|View|Application {
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
+
+        $html = view('Admin.invoice_template')->with(compact('order'))->render();
+
+        $output = '<html lang="en-gb">Test PDF</html>';
+
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream();
+
+        return view('Admin.invoice')->with(compact('order'));
     }
 }

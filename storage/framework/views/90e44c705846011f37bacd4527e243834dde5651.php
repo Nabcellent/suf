@@ -45,8 +45,8 @@ use App\Models\Cart;
                     <img class="loader" src="<?php echo e(asset('images/loaders/load.gif')); ?>" alt="loader.gif">
                 </div>
             </td>
-            <td>KES <?php echo e($unitPrice); ?>/-</td>
-            <td>KES.<?php echo e($discount); ?>/-</td>
+            <td><?php echo e($unitPrice); ?>/-</td>
+            <td>- <?php echo e($discount * $item['quantity']); ?>/-</td>
             <td class="border-left">KES <?php echo e($discountPrice * $item['quantity']); ?>/-</td>
             <td>
                 <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart_item" data-id="<?php echo e($item['id']); ?>">

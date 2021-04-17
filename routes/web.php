@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SMSController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,17 @@ use App\Http\Controllers\PolicyController;
 |
 */
 Auth::routes(['verify' => true]);
+
+
+//  ADMIN ROUTES
+Route::prefix('admin')->group(function () {
+    Route::get('/invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
+
+    Route::get('/invoice-pdf/{id}', [OrderController::class, 'printInvoicePDF'])->name('invoice-pdf');
+});
+
+
+
 
 //  Home Page Routes
 Route::get('/', [IndexController::class, 'index'])->name('home');
@@ -73,8 +85,6 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  Thanks Page
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
-
-    Route::get('/test-order-placed', [OrderController::class, 'testShipped']);
 
     //  Logout User
     Route::get('/logout', [LoginController::class, 'logout']);

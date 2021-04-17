@@ -1,6 +1,8 @@
-<?php $__env->startSection('title', 'Contact'); ?>
+<?php use Illuminate\Support\Arr;
+
+$__env->startSection('title', 'Contact'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('partials.top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <div id="contact_us">
 
 <!--    Start Content Area    -->
@@ -151,4 +153,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/contact_us.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/contact_us.blade.php ENDPATH**/ ?>

@@ -153,9 +153,9 @@ const orderDataTable = $('#orders_table').DataTable({
         } else if(data[6].replace(/[$,]/g, '') * 1 < 1000) {
             $('td', row).eq(5).addClass('text-danger');
         }
-        if(data[6].toLowerCase() === 'pending') {
+        if(data[7].toLowerCase() === 'cancelled') {
             $('td', row).eq(6).addClass('text-danger');
-        } else if(data[6].toLowerCase() === 'completed') {
+        } else if(data[7].toLowerCase() === 'completed') {
             $('td', row).eq(6).addClass('text-success');
         }
     },

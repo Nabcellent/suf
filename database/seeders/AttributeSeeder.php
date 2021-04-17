@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use App\Models\Attribute;
 use Illuminate\Database\Seeder;
+use JsonException;
 
 class AttributeSeeder extends Seeder
 {
@@ -12,7 +13,7 @@ class AttributeSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function run(): void
     {

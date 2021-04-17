@@ -43,8 +43,8 @@ use App\Models\Cart;
                     <img class="loader" src="{{asset('images/loaders/load.gif')}}" alt="loader.gif">
                 </div>
             </td>
-            <td>KES {{$unitPrice}}/-</td>
-            <td>KES.{{$discount}}/-</td>
+            <td>{{ $unitPrice }}/-</td>
+            <td>- {{ $discount * $item['quantity'] }}/-</td>
             <td class="border-left">KES {{$discountPrice * $item['quantity']}}/-</td>
             <td>
                 <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart_item" data-id="{{$item['id']}}">

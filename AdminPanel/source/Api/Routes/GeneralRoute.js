@@ -36,7 +36,10 @@ router.get('/dashboard', /*checkAuth,*/ async (req, res) => {
                 table: 'categories',
                 where: [['section_id', 'IS NOT', 'NULL']]
             }),
-            orders: []
+            orders: await dbRead.getReadInstance().getFromDb({
+                table: 'orders',
+                limit: 5
+            }),
         };
     }
 

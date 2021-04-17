@@ -4,7 +4,7 @@ $(document).on('click', '.add-phone', () => {
     $(document).on('keyup', '.swal-input', function() {
         let value = $(this).val();
         let $phoneInput = $('#phone-form input');
-        if(!value.match(/^(([71])(?:[12569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$/)) {
+        if(!value.match(/^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$/)) {
             $phoneInput.removeClass('is-valid');
             $phoneInput.addClass('is-invalid');
             $('#phone-form strong').text('Invalid phone number');
@@ -120,7 +120,7 @@ $(document).on('click', '#cart .delete_cart_item', function() {
                             if(response.cartCount > 0) {
                                 Swal.fire(
                                     'Deleted!',
-                                    'Your file has been deleted.',
+                                    'Your cart item has been deleted.',
                                     'success'
                                 );
 
@@ -166,7 +166,7 @@ $(document).on('click', '#cart .delete_cart_item', function() {
 
 /**=============================================================================  DELETE ADDRESS   */
 
-$(document).on('click', '#checkout form a.delete-address', function() {
+$(document).on('click', 'form a.delete-address', function() {
     const id = $(this).data('id');
     if(typeof id !== 'undefined') {
         Swal.fire({
@@ -194,7 +194,7 @@ $(document).on('click', '#checkout form a.delete-address', function() {
 
 
 
-/**=============================================================================  DELETE ADDRESS   */
+/**=============================================================================  DELETE PHONE   */
 
 $(document).on('click', '#edit-profile .delete-phone', function() {
     const id = $(this).data('id');

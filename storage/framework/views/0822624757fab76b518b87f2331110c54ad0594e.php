@@ -176,7 +176,7 @@ unset($__errorArgs, $__bag); ?>
                                         </td>
                                         <td><?php echo e($item['quantity']); ?></td>
                                         <td>KES.<?php echo e($unitPrice); ?>/-</td>
-                                        <td>KES.<?php echo e($discount); ?>/-</td>
+                                        <td> - KES.<?php echo e($discount * $item['quantity']); ?>/-</td>
                                         <td class="border-left">KES <?php echo e($discountPrice * $item['quantity']); ?>/-</td>
                                     </tr>
                                     <?php $totalPrice += ($discountPrice * $item['quantity'])?>

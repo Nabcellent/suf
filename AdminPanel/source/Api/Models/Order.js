@@ -70,6 +70,10 @@ const readOrder = (id) => {
                         .then(async orderProducts => {
                             return orderProducts;
                         }).catch(err => reject(err));
+                    order.orderLogs = await db('orders_logs').where({order_id: order.id}).orderBy('id', 'DESC')
+                        .then(async orderLogs => {
+                            return orderLogs;
+                        }).catch(err => reject(err));
                     resolve(order);
                 }).catch(err => reject(err));
         });
@@ -78,11 +82,14 @@ const readOrder = (id) => {
     }
 }
 
-const updateStatus = (id, status) => {
+const updateStatus = (id, status, courier, tracking_number) => {
     return new Promise((resolve, reject) => {
-        db('orders').where({id}).update({status})
-            .then((data) => {
-                resolve(data);
+        db('orders').where({id}).update({status, courier, tracking_number})
+            .then(async data => {
+                await db('orders_logs').insert({order_id:id, status, created_at, updated_at})
+                    .then(() => {
+                        resolve(data);
+                    }).catch(err => reject(err));
             }).catch(err => reject(err));
     });
 }

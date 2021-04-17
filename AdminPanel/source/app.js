@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const path = require('path');
 const expressLayout = require('express-ejs-layouts');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 
@@ -30,7 +31,6 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 //==    Set Templating Engine
 app.use(expressLayout);
 app.set('layout', './layouts/navless');
-app.set('views', './views');
 app.set('view engine', 'ejs');
 
 

@@ -1,6 +1,8 @@
-<?php $__env->startSection('title', 'Profile'); ?>
+<?php use Illuminate\Support\Arr;
+
+$__env->startSection('title', 'Profile'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('/partials/top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <!--    Start Profile    -->
     <div id="profile">
@@ -60,11 +62,11 @@
 
                     <div class="col-md-9 px-1 profile_pages">
                         <?php if($page === 'edit'): ?>
-                            <?php echo $__env->make('partials.profile.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                            <?php echo $__env->make('partials.profile.edit', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php elseif($page === 'orders'): ?>
-                            <?php echo $__env->make('partials.profile.orders', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                            <?php echo $__env->make('partials.profile.orders', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php elseif($page === 'delivery-address'): ?>
-                            <?php echo $__env->make('partials.profile.delivery_address', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                            <?php echo $__env->make('partials.profile.delivery_address', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php endif; ?>
 
                     </div>
@@ -79,4 +81,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/profile.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/profile.blade.php ENDPATH**/ ?>

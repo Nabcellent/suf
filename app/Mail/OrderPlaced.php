@@ -39,12 +39,18 @@ class OrderPlaced extends Mailable
      */
     public function build(): self
     {
-        return $this->from('su.fashion10@gmail.com')
+        if(Auth::user()->gender === 'Male') {
+            $icons = ["hello" => "😁", "relax" => "💆🏽‍♂️", "thanks" => "💪🏽"];
+        } else {
+            $icons = ["hello" => "✨", "relax" => "💆🏼‍♀️", "thanks" => "🤗"];
+        }
+
+        return $this->subject('Order Placed')->from('su.fashion10@gmail.com')
             ->markdown('emails.orders.placed', [
                 'user' =>Auth::user(),
+                'order' => $this->order,
                 'url' => $this->orderUrl,
-                'orderTotal' => currencyFormat($this->order->total),
-                'orderStatus' => $this->order->status
+                'icons' => $icons
             ]);
     }
 }

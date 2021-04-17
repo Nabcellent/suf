@@ -1,4 +1,6 @@
-<?php $__env->startSection('title', 'Sign In'); ?>
+<?php use Illuminate\Support\Arr;
+
+$__env->startSection('title', 'Sign In'); ?>
 <?php $__env->startSection('content'); ?>
 
     <div class="login">
@@ -112,4 +114,4 @@ unset($__errorArgs, $__bag); ?>"
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/login.blade.php ENDPATH**/ ?>

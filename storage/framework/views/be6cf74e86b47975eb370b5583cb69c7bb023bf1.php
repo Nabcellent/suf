@@ -1,15 +1,16 @@
 <?php $__env->startSection('title', 'Home'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('partials.top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->make('partials.social_icons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php use App\Models\Product; ?>
+    <?php echo $__env->make('partials.top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.social_icons', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php use App\Models\Product;
+use Illuminate\Support\Arr; ?>
 
     <div id="index">
         <div class="container-fluid p-0">
 
-            
 
-            
+
+
 
             <div class="container">
                 <div class="row">
@@ -30,9 +31,9 @@
 
                 </div>
             </div>
-            
 
-            
+
+
 
             <div class="products">
 
@@ -307,13 +308,13 @@
                         </div>
                     </div>
                     <!--    End Swiper 1    -->
-                    
+
 
                 </div>
             </div>
-            
 
-            
+
+
 
             <div class="rotating-img">
                 <div class="container">
@@ -330,4 +331,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/index.blade.php ENDPATH**/ ?>

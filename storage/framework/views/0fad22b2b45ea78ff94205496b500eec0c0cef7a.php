@@ -97,23 +97,9 @@
                     <!--    Start Products you may like -->
 
                     <div id="products_like" class="row">
-                        <div class="col">
-                            <div class="row like_title">
-                                <div class="col">
-                                    <h3>Products you may Like</h3>
-                                    <hr class="bg-light my-0">
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div id="results" class="col column">
-
-                                    <!--    Start Single ProductSeeder    -->
-                                    
-                                <!--    End Single ProductSeeder    -->
-
-                                </div>
-                            </div>
+                        <div class="col like_title">
+                            <h3>Luku Kali ni Setoka !</h3>
+                            <hr class="bg-light my-0">
                         </div>
                     </div>
                     <!--    End Products you may like -->

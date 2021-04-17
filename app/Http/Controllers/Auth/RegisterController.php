@@ -73,7 +73,7 @@ class RegisterController extends Controller
      *
      * @param $ip
      * @param array $data
-     * @return \App\Models\User
+     * @return User
      */
     protected function createUser($ip, array $data): User
     {

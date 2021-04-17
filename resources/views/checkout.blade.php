@@ -146,9 +146,9 @@
                                             @if(count($details) > 0) {{mapped_implode(', ', $details, ": ")}} @else - @endif
                                         </td>
                                         <td>{{$item['quantity']}}</td>
-                                        <td>KES.{{$unitPrice}}/-</td>
-                                        <td>KES.{{$discount}}/-</td>
-                                        <td class="border-left">KES {{$discountPrice * $item['quantity']}}/-</td>
+                                        <td>KES.{{ $unitPrice  }}/-</td>
+                                        <td> - KES.{{ $discount * $item['quantity'] }}/-</td>
+                                        <td class="border-left">KES {{ $discountPrice * $item['quantity'] }}/-</td>
                                     </tr>
                                     <?php $totalPrice += ($discountPrice * $item['quantity'])?>
                                 @endforeach

@@ -7,6 +7,7 @@ use App\Models\Phone;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -19,6 +20,7 @@ use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -104,9 +106,9 @@ class UserController extends Controller
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
-    public function updatePhone(Request $req): \Illuminate\Http\JsonResponse
+    public function updatePhone(Request $req): JsonResponse
     {
         $valid = Validator::make($req->all(), [
             'phone' => [

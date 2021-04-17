@@ -6,6 +6,8 @@ router.get('/', OrderController.readOrders);
 
 router.get('/view/:id', OrderController.readOrder);
 
+router.get('/invoice/:id', OrderController.readInvoice);
+
 router.patch('/status', OrderController.updateStatus);
 
 

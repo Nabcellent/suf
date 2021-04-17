@@ -22,14 +22,10 @@
 
                 <div class="row justify-content-center pb-md-5 mb-md-5">
 
-                    <!--    Start Contact Section    -->
+                    <!--    Start Registration Section    -->
 
                     <div class="col-md-7 col-sm-12 py-md-5 mb-md-5">
-                        <!--    Start Box    -->
-
                         <div class="box bg-light p-2 rounded shadow">
-
-                            <!--    Start Box Header    -->
                             <div class="row">
                                 <div class="col">
                                     <div class="box_header mt-2">
@@ -49,9 +45,6 @@
                                     <hr class="bg-dark mt-0 mb-1">
                                 </div>
                             </div>
-                            <!--    End Box Header    -->
-
-                            <!--    Start Contact Form    -->
                             <div class="row">
                                 <div class="col">
                                     <form id="register_form" class="anime_form" action="<?php echo e(route('register')); ?>" method="POST">
@@ -133,7 +126,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <span class="input-group-text">+254</span>
                                                 </div>
                                                 <input type="tel" class="form-control" name="phone" aria-label value="<?php echo e(old('phone')); ?>"
-                                                       placeholder="712345678" pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$">
+                                                       placeholder="712345678" pattern="^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$">
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -152,9 +145,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong><?php echo e($message); ?></strong>
-                                                </span>
+                                                <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
                                             <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;

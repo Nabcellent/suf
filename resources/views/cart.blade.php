@@ -98,52 +98,9 @@
                     <!--    Start Products you may like -->
 
                     <div id="products_like" class="row">
-                        <div class="col">
-                            <div class="row like_title">
-                                <div class="col">
-                                    <h3>Products you may Like</h3>
-                                    <hr class="bg-light my-0">
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div id="results" class="col column">
-
-                                    <!--    Start Single ProductSeeder    -->
-                                    {{--@foreach($cart['products'] -> take(5) as $item)
-                                        <div class="card">
-                                            <a href="/details/{{$item -> id}}"><img src='/images/products/{{$item -> pro_image_one}}' alt=''></a>
-                                            <div class="card-body">
-                                                <div class="row product_title">
-                                                    <div class="col">
-                                                        <h6 class="card-title m-0 h-"><a href=''>{{$item -> pro_title}}</a></h6>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-auto prices">
-                                                        @if($item -> pro_sale_price === 0)
-                                                            <p>{{$item -> pro_price}}/=</p>
-                                                        @else
-                                                            <p>{{$item -> pro_price}}/=</p>
-                                                            <del class="text-secondary">{{$item -> pro_sale_price}}/=</del>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-7 button">
-                                                        <a href="/details/{{$item -> id}}" class='btn btn-block btn-outline-primary add'>
-                                                            <i class='fas fa-cart-plus'></i> +
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="product_label {{$item -> pro_label}} ">
-                                                <span class="label">{{$item -> pro_label}}</span>
-                                            </a>
-                                        </div>
-                                @endforeach--}}
-                                <!--    End Single ProductSeeder    -->
-
-                                </div>
-                            </div>
+                        <div class="col like_title">
+                            <h3>Luku Kali ni Setoka !</h3>
+                            <hr class="bg-light my-0">
                         </div>
                     </div>
                     <!--    End Products you may like -->
