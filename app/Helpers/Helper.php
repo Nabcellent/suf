@@ -1,12 +1,26 @@
 <?php
 
 use App\Models\Cart;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Pure;
+
+function sections() {
+    return Category::sections();
+}
+function latestFour(): array {
+    return Product::products()->where('products.status', 1)
+        ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
+}
+function trendingCategories(): Collection|array {
+    return Product::all();
+}
 
 function cartCount(): string {
     if(Auth::check()) {

@@ -9,7 +9,8 @@
                 <h3>Trending Categories</h3>
                 <div class="dropdown-divider"></div>
 
-                <?php $__currentLoopData = $footerInfo['trendingCategories'] -> take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $trendingCategories = trendingCategories() ?>
+                <?php $__currentLoopData = $trendingCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <p><a href="#"><?php echo e($item -> title); ?></a></p>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

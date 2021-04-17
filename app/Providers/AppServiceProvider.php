@@ -27,26 +27,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(): void
-    {
+    public function boot(): void {
         //  Use Bootstrap for paginator
         Paginator::useBootstrap();
-
-
-        //  Header Content
-        $user = Auth::user();
-
-        //  Navbar Content
-        $sections = Category::sections();
-        $categories = Category::sections();
-        $latestFour = Product::products()->where('products.status', 1)
-            ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
-
-        //  Footer Content
-        $footerInfo = [
-            'trendingCategories' => Product::all()
-        ];
-
-        View::share(compact('user', 'sections', 'categories', 'latestFour', 'footerInfo'));
     }
 }

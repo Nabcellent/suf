@@ -9,7 +9,8 @@
                 <h3>Trending Categories</h3>
                 <div class="dropdown-divider"></div>
 
-                @foreach($footerInfo['trendingCategories'] -> take(5) as $item)
+                <?php $trendingCategories = trendingCategories() ?>
+                @foreach($trendingCategories as $item)
                     <p><a href="#">{{$item -> title}}</a></p>
                 @endforeach
 

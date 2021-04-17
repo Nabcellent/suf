@@ -22,6 +22,7 @@
                             <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
                             <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
+                                <?php $latestFour = latestFour() ?>
                                 @foreach($latestFour as $four)
                                     <div class="list_item text-center">
                                         <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
@@ -38,6 +39,7 @@
                             <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
+                                <?php $sections = sections(); ?>
                                 @foreach($sections as $section)
                                     @if(count($section['categories']) > 0)
                                         <li class="list_item">
