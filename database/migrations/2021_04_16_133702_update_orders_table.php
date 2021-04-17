@@ -15,7 +15,7 @@ class UpdateOrdersTable extends Migration
     {
         Schema::table('orders', function(Blueprint $table) {
             $table->string('courier', 30)->after('total');
-            $table->string('tracking_number')->after('courier_name');
+            $table->string('tracking_number')->after('courier');
         });
     }
 
