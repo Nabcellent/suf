@@ -4,6 +4,8 @@
         <li class="list-group-item d-flex justify-content-between">
             <h4 class="m-0">FILTERS</h4><i class="fas fa-filter"></i>
         </li>
+
+        <?php $sections = sections(); ?>
         @foreach($sections as $section)
             @if(count($section['categories']) > 0)
                 <li class="list-group-item">
