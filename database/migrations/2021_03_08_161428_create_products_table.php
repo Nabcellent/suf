@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->bigInteger('seller_id')->unsigned();
-            $table->foreign('seller_id')->references('user_id')->on('sellers')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreignId('brand_id')->default(0);
             $table->string('title');
             $table->string('main_image');
@@ -25,7 +25,6 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('label', 10)->nullable();
             $table->float('base_price');
-            $table->float('sale_price')->nullable()->default(0);
             $table->float('discount')->nullable()->default(0);
             $table->enum('is_featured', ['Yes', 'No']);
             $table->tinyInteger('status')->default(1);

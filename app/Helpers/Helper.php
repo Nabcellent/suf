@@ -70,10 +70,16 @@ function mapped_implode($glue, $array, $symbol = '='): string
 }
 
 function accessDenied(): Redirector|Application|RedirectResponse {
-    return redirect('/')->with('alert', [
+    return back()->with('alert', [
         'type' => 'danger',
         'intro' => 'Sorry!',
         'message' => "Access Denied",
         'duration' => 7
     ]);
+}
+
+
+
+function latestProductId() {
+    return Product::latest('id')->value('id');
 }

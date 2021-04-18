@@ -13,5 +13,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-
+/y-hide
 sql-backup.sql

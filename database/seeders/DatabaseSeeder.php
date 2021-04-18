@@ -25,9 +25,10 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             AdBoxSeeder::class,
             BannerSeeder::class,
-            CouponSeeder::class,*/
+            CouponSeeder::class,
             AddressSeeder::class,
-            PhoneSeeder::class,
+            PhoneSeeder::class,*/
+            AdminSeeder::class
         ]);
     }
 }

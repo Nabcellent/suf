@@ -162,27 +162,4 @@ class OrderController extends Controller
 
         return redirect('/cart');
     }
-
-
-
-    public function printInvoicePDF($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
-
-        $html = view('Admin.invoice_template')->with(compact('order'))->render();
-
-        // instantiate and use the dompdf class
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        $dompdf->stream();
-
-        return view('Admin.invoice')->with(compact('order'));
-    }
 }

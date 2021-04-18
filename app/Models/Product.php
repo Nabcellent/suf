@@ -10,22 +10,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
+    use HasFactory;
+
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public static function products(): Builder
-    {
-        return self::with('brand', 'seller')->has('variations');
-    }
-
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->with('section');
     }
 
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(Seller::class, 'seller_id', 'user_id');
+        return $this->belongsTo(Admin::class);
     }
 
     public function brand(): BelongsTo {
@@ -86,5 +83,12 @@ class Product extends Model
         return array('unit_price' => $newPrice, 'discount_price' => $discountPrice, 'discount' => $discount);
     }
 
-    use HasFactory;
+
+    /**
+     * --------------------------------------------------------------------------------------------------ADMIN FUNCTIONS
+    */
+    public static function productDetails($id): Builder
+    {
+        return self::where('id', $id)->with('category', 'seller', 'brand', 'variations', 'images');
+    }
 }
