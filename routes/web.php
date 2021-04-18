@@ -57,9 +57,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/product/{id}', [Admin\ProductController::class, 'showProduct'])->name('product');
 
         Route::get('/categories', [Admin\CategoryController::class, 'showCategories'])->name('categories');
-        Route::get('/brands')->name('brands');
-        Route::get('/coupons')->name('coupons');
-        Route::get('/attributes')->name('attributes');
+        Route::get('/coupons', [Admin\CouponController::class, 'showCoupons'])->name('coupons');
+        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
+        Route::get('/attributes', [Admin\AttributeController::class, 'showAttributes'])->name('attributes');
 
         //  Overview Routes
         Route::get('/orders', [Admin\OrderController::class, 'showOrders'])->name('orders');
@@ -85,6 +85,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::post('/product/variation')->name('variation');
             Route::post('/product/image')->name('product-image');
             Route::post('/delete-product-image')->name('product-image');
+
+            Route::post('/attribute')->name('attribute');
         });
 
         //  UPDATE ROUTES

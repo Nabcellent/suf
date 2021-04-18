@@ -18,7 +18,7 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <!--    Font Awesome CSS    -->
-    <link rel="stylesheet" href="<?php echo e(asset('/css/Admin/fontawesome/css/all.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('/css/font-awesome/css/all.min.css')); ?>">
 
     <!--    DataTables CSS    -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -81,11 +81,11 @@
 <script src="<?php echo e(asset('js/Admin/Fetch.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Validations.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Main.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/Dynamic.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/SweetAlert.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/Select2.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/DataTables.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/Swipers.js')); ?>"></script>
+<script src="<?php echo e(asset('js/Admin/Dynamic.js')); ?>" defer></script>
+<script src="<?php echo e(asset('js/Admin/SweetAlert.js')); ?>" defer></script>
+<script src="<?php echo e(asset('js/Admin/Select2.js')); ?>" defer></script>
+<script src="<?php echo e(asset('js/Admin/DataTables.js')); ?>" defer></script>
+<script src="<?php echo e(asset('js/Admin/Swipers.js')); ?>" defer></script>
 
 </body>
 </html>

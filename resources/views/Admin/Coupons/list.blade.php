@@ -1,15 +1,13 @@
 @extends('Admin.layouts.app')
 @section('content')
 
-
-
     <div class="container-fluid p-0">
         <div class="row">
             <div class="col-9">
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Coupons</h6>
-                        <a href="/products/coupon-view" class="btn btn-info">Add Coupon</a>
+                        <a href="{{ route('admin.coupon') }}" class="btn btn-info">Add Coupon</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -28,35 +26,29 @@
                                 </thead>
                                 <tbody>
 
-                                <% coupons.forEach(row => { %>
-                                <tr>
-                                    <th></th>
-                                    <td><%= row.code %></td>
-                                    <td><%= row.option %></td>
-                                    <td><%= row.coupon_type %></td>
-                                    <td><%= row.amount_type %></td>
-                                    <td>
-                                        <%= row.amount %>
-                                        <% if(row.amount_type === 'Percent') { %>
-                                        %
-                                        <% } else { %>
-                                        /=
-                                        <% } %>
-                                    </td>
-                                    <td><%= moment(row.expiry).format('DD/MM/YYYY') %></td>
-                                    <td class="action">
-                                        <% if(row.status === 1) { %>
-                                        <a class="update_coupon_status" data-id="<%= row.id %>" title="Update Status"
-                                           style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                        <% } else { %>
-                                        <a class="update_coupon_status" data-id="<%= row.id %>" title="Update Status"
-                                           style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                        <% } %>
-                                        <a href="/products/coupon-view/<%= row.id %>" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3 delete-from-table" data-model="coupon" data-id="<%= row.id %>" title="Remove"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
-                                <% }); %>
+                                @foreach($coupons as $coupon)
+                                    <tr>
+                                        <th></th>
+                                        <td>{{ $coupon['code'] }}</td>
+                                        <td>{{ $coupon['option'] }}</td>
+                                        <td>{{ $coupon['coupon_type'] }}</td>
+                                        <td>{{ $coupon['amount_type'] }}</td>
+                                        <td>{{ $coupon['amount'] }} {{ ($coupon['code'] === "Percent") ? "%" : "/=" }}</td>
+                                        <td>{{ date('m-d-Y', strtotime($coupon['expiry'])) }}</td>
+                                        <td class="action">
+                                            @if($coupon['status'])
+                                                <a class="update_coupon_status" data-id="{{ $coupon['id'] }}" title="Update Status"
+                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                            @else
+                                                <a class="update_coupon_status" data-id="{{ $coupon['id'] }}" title="Update Status"
+                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            @endif
+
+                                            <a href="{{ route('admin.coupon', ['id' => $coupon['id']]) }}" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" data-model="coupon" data-id="{{ $coupon['id'] }}" title="Remove"><i class="fas fa-trash text-danger"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                                 </tbody>
                             </table>
@@ -66,11 +58,5 @@
             </div>
         </div>
     </div>
-
-    <%- include('./modals') %>
-
-
-
-    @include('Admin.products.modals')
 
 @endsection

@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brand extends Model
 {
+    use HasFactory;
+
+    /**
+     *  RELATIONSHIP FUNCTIONS
+     */
     public static function brands(): Builder
     {
         return self::with('products');
@@ -18,6 +23,4 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
-
-    use HasFactory;
 }

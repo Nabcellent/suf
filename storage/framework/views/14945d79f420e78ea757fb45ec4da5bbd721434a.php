@@ -274,7 +274,40 @@
 
 
 
-<!--#################################################    BRAND MODALS    #########################################-->
+<!--#################################################    ATTRIBUTE MODALS    #########################################-->
+
+<!--&&&===    CREATE ATTRIBUTE    ===&&&-->
+<div class="modal fade" id="add_attribute" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="<?php echo e(route('admin.create.attribute')); ?>" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" aria-label required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control variation" name="values" multiple="multiple" style="width: 100%" aria-label>
+                            <option>orange</option>
+                            <option>white</option>
+                            <option>purple</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!--&&&===    CREATE BRAND    ===&&&-->
 <div class="modal fade" id="brand" aria-hidden="true">

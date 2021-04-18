@@ -78,7 +78,6 @@
                                 <a href="<?php echo e(route('admin.products')); ?>" class="nav_dropdown_item">list</a>
                                 <a href="<?php echo e(route('admin.product', ['id' => latestProductId()])); ?>" class="nav_dropdown_item">View</a>
                                 <a href="<?php echo e(route('admin.categories')); ?>" class="nav_dropdown_item">Categories</a>
-                                <a href="<?php echo e(route('admin.brands')); ?>" class="nav_dropdown_item">Brands</a>
                                 <a href="<?php echo e(route('admin.coupons')); ?>" class="nav_dropdown_item">Coupons</a>
                                 <a href="<?php echo e(route('admin.attributes')); ?>" class="nav_dropdown_item">Attributes</a>
                             </div>

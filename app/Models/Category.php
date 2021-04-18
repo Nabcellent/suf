@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JetBrains\PhpStorm\ArrayShape;
 
 class Category extends Model
 {
@@ -20,6 +21,11 @@ class Category extends Model
 
     public function product(): HasMany {
         return $this->hasMany(Product::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'category_id')->with('section');
     }
 
     public function categories(): HasMany
@@ -51,7 +57,7 @@ class Category extends Model
         return $getCategories;
     }
 
-    public static function categoryDetails($url): array
+    #[ArrayShape(['catIds' => "array", 'catDetails' => "mixed", 'breadcrumbs' => "string"])] public static function categoryDetails($url): array
     {
         $catDetails = self::select('id', 'title', 'category_id', 'description')->with(['subCategories' => function($query) {
             $query->select('categories.category_id', 'categories.id', 'title', 'description')
