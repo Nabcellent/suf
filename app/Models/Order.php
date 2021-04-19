@@ -36,11 +36,6 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function orderProducts(): HasMany
-    {
-        return $this->hasMany(OrdersProduct::class)->with('product');
-    }
-
     public function phone(): BelongsTo
     {
         return $this->belongsTo(Phone::class);
@@ -56,11 +51,23 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(OrdersProduct::class)->with('product');
+    }
+
+    public function orderLogs(): HasMany {
+        return $this->hasMany(OrdersLog::class);
+    }
+
 
 
     /**
      * STATIC FUNCTIONS
      */
+    public static function orders() {
+        return self::with('user', 'orderProducts', 'phone');
+    }
     public static function usersOrders() {
         return self::where('user_id', Auth::id())->with('orderProducts');
     }

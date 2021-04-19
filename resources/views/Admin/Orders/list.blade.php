@@ -14,7 +14,6 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Order No</th>
-                                    <th scope="col">Email</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Pay Method</th>
                                     <th scope="col">Pay Type</th>
@@ -27,32 +26,31 @@
                                 </thead>
                                 <tbody>
 
-                                <% orders.forEach(row => { %>
+                                @foreach($orders as $order)
                                 <tr>
-                                    <th><%= row.id %></th>
-                                    <td><%= row.email %></td>
-                                    <td><%= row.phone %></td>
-                                    <td><%= row.payment_method %></td>
-                                    <td><%= row.payment_type %></td>
-                                    <td><%= row.discount %></td>
-                                    <td><%= row.total %></td>
-                                    <td><%= row.status %></td>
-                                    <td><%= moment(row.created_at).format('DD/MM/YYYY') %></td>
+                                    <th>{{ $order['id'] }}</th>
+                                    <td>{{ $order['phone']['phone'] }}</td>
+                                    <td>{{ $order['payment_method'] }}</td>
+                                    <td>{{ $order['payment_type'] }}</td>
+                                    <td>{{ $order['discount'] }}</td>
+                                    <td>{{ $order['total'] }}</td>
+                                    <td>{{ $order['status'] }}</td>
+                                    <td>{{ date('d~m~y', strtotime($order['created_at'])) }}</td>
                                     <td class="action" style="background-color: #1a202c">
-                                        <a href="/orders/view/<%= row.id %>" class="ml-2" title="view Order">
+                                        <a href="{{ route('admin.order', ['id' => $order['id']]) }}" class="ml-2" title="view Order">
                                             <i class="fas fa-eye text-info"></i>
                                         </a>
-                                        <% if(row.tracking_number !== 0) { %>
-                                        <a href="orders/invoice/<%= row.id %>" class="ml-2" title="View Invoice" target="_blank">
-                                            <i class="fas fa-file-invoice text-warning"></i>
-                                        </a>
-                                        <a href="http://localhost:8000/admin/invoice-pdf/<%= row.id %>" class="ml-2" title="GENERATE PDF" target="_blank">
-                                            <i class='fas fa-file-pdf text-white'></i>
-                                        </a>
-                                        <% } %>
+                                        @if($order['tracking_number'])
+                                            <a href="{{ route('admin.invoice', ['id' => $order['id']]) }}" class="ml-2" title="View Invoice" target="_blank">
+                                                <i class="fas fa-file-invoice text-warning"></i>
+                                            </a>
+                                            <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="ml-2" title="GENERATE PDF">
+                                                <i class='fas fa-file-pdf text-white'></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
-                                <% }); %>
+                                @endforeach
 
                                 </tbody>
                             </table>

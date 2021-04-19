@@ -11,7 +11,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Products</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-primary">{{ $productCount }}</span>
+                                    <span class="badge badge-pill badge-primary">{{ tableCount()['products'] }}</span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -31,7 +31,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Customers</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-success">{{ $customerCount }}</span>
+                                    <span class="badge badge-pill badge-success">{{ tableCount()['customers'] }}</span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -50,7 +50,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orders</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-warning">{{ $orderCount }}</span>
+                                    <span class="badge badge-pill badge-warning">{{ tableCount()['orders'] }}</span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -69,7 +69,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-info">{{ $sellerCount }}</span>
+                                    <span class="badge badge-pill badge-info">{{ tableCount()['sellers'] }}</span>
                                 </div>
                             </div>
                             <div class="col-auto">

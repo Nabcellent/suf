@@ -1,45 +1,13 @@
-$(() => {
-    /**
-     *  ==============================================================================   FETCH CALL FOR ADD PRODUCT PAGE
-     * */
-    if(location.href === 'http://localhost:3000/products/create') {
-        fetch('/products/create/info')
-            .then(response => response.json())
-            .then((data) => {
-                let categoryOptions = '';
-                data.sections.forEach(section => {
-                    categoryOptions += `<optgroup label="${section.title}">`;
-
-                    data.categories.forEach(category => {
-                        if(category.section_id === section.id) {
-                            categoryOptions += `<option value="${category.id}">${category.title}</option>`
-                        }
-                    });
-
-                    categoryOptions += '</optgroup>';
-                });
-
-                let sellerOptions = '';
-                data.sellers.forEach(seller => {
-                    sellerOptions += `<option value="${seller.user_id}">${seller.last_name} ${seller.first_name}</option>`;
-                })
-
-                let brandOptions = '';
-                data.brands.forEach(brand => {
-                    brandOptions += `<option value="${brand.id}">${brand.name}</option>`;
-                });
-
-                $('#select_brand').append(brandOptions);
-                $('#categories').append(categoryOptions);
-                $('#sellers').append(sellerOptions);
-            })
-            .catch((error) => {
-                alert('Problem contacting server');
-                console.log(error)
-            })
+/**==============================================================================  AJAX CSRF TOKEN   */
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
+});
 
 
+
+$(() => {
     $('#variation_attribute_s2').on('change', function() {
         fetch(`/products/details/attributeValues/${$(this).val()}`)
             .then(response => response.json())
@@ -60,5 +28,27 @@ $(() => {
                 alert('Problem contacting server');
                 console.log(error)
             });
+    });
+
+    /**
+     *  ==============================================================================   FETCH CALL FOR ADD PRODUCT PAGE
+     * */
+    $('#categories').on('change', async function() {
+        const categoryId = $(this).val();
+        $.ajax({
+            data: {id: categoryId},
+            type:'POST',
+            url:'/admin/get-sub-categories',
+            success: (response, textStatus) => {
+                if(textStatus === 'success') {
+                    $('#add_product #sub_categories').html(response.subCategories);
+                } else {
+                    alert('Error');
+                }
+            },
+            error: () => {
+                alert("Error");
+            }
+        });
     });
 });

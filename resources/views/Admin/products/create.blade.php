@@ -9,7 +9,8 @@
             <div class="row">
                 <div class="col-lg-9 col-md-12">
                     <div class="card shadow crud_form">
-                        <form id="frm_add_product" action="{{ route('admin.create-product') }}" method="POST" enctype="multipart/form-data">
+                        <form id="frm_add_product" action="{{ route('admin.create.product') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="card-header crud_form">
                                 <h4 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Add Product</h4>
                                 <div class="dropdown no-arrow">
@@ -28,44 +29,81 @@
                             <div class="card-body crud_form">
                                 <div class="form-row">
                                     <div class="form-group col">
-                                        <input type="text" name="title" class="form-control mt-2 crud_form"
+                                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror mt-2 crud_form"
                                                placeholder="Enter product title *" aria-label>
+                                        @error('title')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                     </div>
                                     <div class="form-group col">
-                                        <select id="select_brand" name="brand_id" class="mt-2 form-control crud_form" aria-label required>
+                                        <select name="brand" class="mt-2 form-control @error('brand') is-invalid @enderror crud_form" aria-label required>
                                             <option selected hidden value="">Select a brand*</option>
+                                            @foreach($brands as $brand)
+                                                <option value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
+                                            @endforeach
                                         </select>
+                                        @error('brand')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label></label>
-                                        <select id="sellers" name="seller" class="form-control crud_form" aria-label required>
+                                        <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
                                             <option selected hidden value="">Select a seller*</option>
+                                            @foreach($sellers as $seller)
+                                                <option value="{{ $seller['id'] }}">{{ $seller['username'] }}</option>
+                                            @endforeach
                                         </select>
+                                        @error('seller')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                     </div>
                                     <div class="form-group col">
                                         <label></label>
-                                        <select id="categories" class="form-control crud_form" name="category" aria-label required>
+                                        <select id="categories" class="form-control @error('category') is-invalid @enderror crud_form" name="category" aria-label required>
                                             <option selected hidden value="">Select a category *</option>
+                                            @foreach($sections as $section)
+                                                <optgroup label="{{ $section['title'] }}"></optgroup>
+                                                @foreach($section['categories'] as $category)
+                                                    <option value="{{ $category['id'] }}"> &nbsp; --- {{ $category['title'] }}</option>
+                                                @endforeach
+                                            @endforeach
                                         </select>
+                                        @error('category')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                     </div>
                                     <div class="form-group col">
                                         <label></label>
-                                        <select id="sub_categories" class="form-control crud_form" name="sub_category" aria-label required>
+                                        <select id="sub_categories" class="form-control @error('sub_category') is-invalid @enderror crud_form" name="sub_category" aria-label required>
                                             <option selected hidden value="">Select a sub-category *</option>
                                         </select>
+                                        @error('sub_category')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <p class="mt-1 mb-0 small">Product label</p>
                                         <div class="custom-control custom-radio custom-control">
-                                            <input type="radio" id="new" name="label" class="custom-control-input" value="new">
+                                            <input type="radio" id="new" name="label" class="custom-control-input" value="new" @if(old('label')) checked @endif required>
                                             <label class="custom-control-label crud_form" for="new">New product</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control">
-                                            <input type="radio" id="sale" name="label" class="custom-control-input" value="sale">
+                                            <input type="radio" id="sale" name="label" class="custom-control-input" value="sale" @if(old('label')) checked @endif required>
                                             <label class="custom-control-label crud_form" for="sale">Sale product</label>
                                         </div>
                                     </div>
@@ -73,7 +111,12 @@
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label></label>
-                                                <input type="number" name="base_price" class="form-control crud_form" placeholder="Base price *" aria-label required>
+                                                <input type="number" name="base_price" class="form-control @error('base_price') is-invalid @enderror crud_form" placeholder="Base price *" aria-label required>
+                                        @error('base_price')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="form-group col">
                                                 <label></label>
@@ -86,7 +129,12 @@
                                     <div class="form-group col">
                                         <label></label>
                                         <div class="custom-file">
-                                            <input type="file" name="main_image" class="custom-file-input crud_form" required>
+                                            <input type="file" name="main_image" class="custom-file-input @error('main_image') is-invalid @enderror crud_form" required>
+                                            @error('main_image')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             <label class="custom-file-label crud_form file">Choose image</label>
                                         </div>
                                     </div>
@@ -101,8 +149,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="featured" name="featured">
-                                        <label class="custom-control-label" for="featured">Featured</label>
+                                        <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured">
+                                        <label class="custom-control-label" for="is_featured">Featured</label>
                                     </div>
                                 </div>
                             </div>
@@ -120,10 +168,10 @@
                 <div class="card-body">
                     <div class="list-group list-group-flush">
                         <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            All Products<span class="badge badge-primary badge-pill">14</span>
+                            All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            Orders<span class="badge badge-primary badge-pill">7</span>
+                            Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                         </a>
                         <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             Quantity Sold<span class="badge badge-primary badge-pill">17</span>

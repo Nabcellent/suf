@@ -13,7 +13,6 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Order No</th>
-                                    <th scope="col">Email</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Pay Method</th>
                                     <th scope="col">Pay Type</th>
@@ -26,32 +25,31 @@
                                 </thead>
                                 <tbody>
 
-                                <% orders.forEach(row => { %>
+                                <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <th><%= row.id %></th>
-                                    <td><%= row.email %></td>
-                                    <td><%= row.phone %></td>
-                                    <td><%= row.payment_method %></td>
-                                    <td><%= row.payment_type %></td>
-                                    <td><%= row.discount %></td>
-                                    <td><%= row.total %></td>
-                                    <td><%= row.status %></td>
-                                    <td><%= moment(row.created_at).format('DD/MM/YYYY') %></td>
+                                    <th><?php echo e($order['id']); ?></th>
+                                    <td><?php echo e($order['phone']['phone']); ?></td>
+                                    <td><?php echo e($order['payment_method']); ?></td>
+                                    <td><?php echo e($order['payment_type']); ?></td>
+                                    <td><?php echo e($order['discount']); ?></td>
+                                    <td><?php echo e($order['total']); ?></td>
+                                    <td><?php echo e($order['status']); ?></td>
+                                    <td><?php echo e(date('d~m~y', strtotime($order['created_at']))); ?></td>
                                     <td class="action" style="background-color: #1a202c">
-                                        <a href="/orders/view/<%= row.id %>" class="ml-2" title="view Order">
+                                        <a href="<?php echo e(route('admin.order', ['id' => $order['id']])); ?>" class="ml-2" title="view Order">
                                             <i class="fas fa-eye text-info"></i>
                                         </a>
-                                        <% if(row.tracking_number !== 0) { %>
-                                        <a href="orders/invoice/<%= row.id %>" class="ml-2" title="View Invoice" target="_blank">
-                                            <i class="fas fa-file-invoice text-warning"></i>
-                                        </a>
-                                        <a href="http://localhost:8000/admin/invoice-pdf/<%= row.id %>" class="ml-2" title="GENERATE PDF" target="_blank">
-                                            <i class='fas fa-file-pdf text-white'></i>
-                                        </a>
-                                        <% } %>
+                                        <?php if($order['tracking_number']): ?>
+                                            <a href="<?php echo e(route('admin.invoice', ['id' => $order['id']])); ?>" class="ml-2" title="View Invoice" target="_blank">
+                                                <i class="fas fa-file-invoice text-warning"></i>
+                                            </a>
+                                            <a href="<?php echo e(route('admin.invoice-pdf', ['id' => $order['id']])); ?>" class="ml-2" title="GENERATE PDF">
+                                                <i class='fas fa-file-pdf text-white'></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                                <% }); %>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                 </tbody>
                             </table>

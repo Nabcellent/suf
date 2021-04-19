@@ -37,6 +37,7 @@
     <link href="{{ asset('css/Admin/style.css') }}" rel="stylesheet">
 </head>
 <body id="app" @if(Auth::guard('admin')->check()) class="nav_body" @endif>
+@include('Admin.include.alert')
 
 @if(Auth::guard('admin')->check())
     @include('Admin.include.navbar')
@@ -78,9 +79,9 @@
 
 <!-- Scripts -->
 <!--<script src="{{ asset('js/app.js') }}" defer></script>-->
+<script src="{{ asset('js/Admin/Main.js') }}"></script>
 <script src="{{ asset('js/Admin/Fetch.js') }}"></script>
 <script src="{{ asset('js/Admin/Validations.js') }}"></script>
-<script src="{{ asset('js/Admin/Main.js') }}"></script>
 <script src="{{ asset('js/Admin/Dynamic.js') }}" defer></script>
 <script src="{{ asset('js/Admin/SweetAlert.js') }}" defer></script>
 <script src="{{ asset('js/Admin/Select2.js') }}" defer></script>

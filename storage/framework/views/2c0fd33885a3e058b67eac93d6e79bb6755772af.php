@@ -37,6 +37,7 @@
     <link href="<?php echo e(asset('css/Admin/style.css')); ?>" rel="stylesheet">
 </head>
 <body id="app" <?php if(Auth::guard('admin')->check()): ?> class="nav_body" <?php endif; ?>>
+<?php echo $__env->make('Admin.include.alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php if(Auth::guard('admin')->check()): ?>
     <?php echo $__env->make('Admin.include.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -78,9 +79,9 @@
 
 <!-- Scripts -->
 <!--<script src="<?php echo e(asset('js/app.js')); ?>" defer></script>-->
+<script src="<?php echo e(asset('js/Admin/Main.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Fetch.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Validations.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/Main.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Dynamic.js')); ?>" defer></script>
 <script src="<?php echo e(asset('js/Admin/SweetAlert.js')); ?>" defer></script>
 <script src="<?php echo e(asset('js/Admin/Select2.js')); ?>" defer></script>

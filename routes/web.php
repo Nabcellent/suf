@@ -27,9 +27,6 @@ use App\Http\Controllers\PolicyController;
 */
 Auth::routes(['verify' => true]);
 
-//  Home Page Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 //  ADMIN ROUTES
 Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
     //  AUTH ROUTES
@@ -37,7 +34,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //Login Routes
         Route::get('/sign-in', [Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
         Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('login');
-        Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
         //Forgot Password Routes
         Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -48,13 +44,14 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
     });
 
-    Route::middleware(['admin'])->group(function() {
-        Route::get('/', [IndexController::class, 'index'])->name('dashboard');
+    Route::middleware(['auth:admin'])->group(function() {
+        Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
+        Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
         //  Products Routes
         Route::get('/products', [Admin\ProductController::class,'showProducts'])->name('products');
-        Route::match(['GET', 'POST'],'/products/create', [Admin\ProductController::class, 'getCreateProduct'])->name('create-product');
-        Route::get('/product/{id}', [Admin\ProductController::class, 'showProduct'])->name('product');
+        Route::get('/products/create', [Admin\ProductController::class, 'showProductForm'])->name('create-product');
+        Route::get('/product/{id}', [Admin\ProductController::class, 'getProduct'])->name('product');
 
         Route::get('/categories', [Admin\CategoryController::class, 'showCategories'])->name('categories');
         Route::get('/coupons', [Admin\CouponController::class, 'showCoupons'])->name('coupons');
@@ -63,6 +60,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  Overview Routes
         Route::get('/orders', [Admin\OrderController::class, 'showOrders'])->name('orders');
+        Route::get('/order/{id}', [Admin\OrderController::class, 'showOrder'])->name('order');
+        Route::get('/invoice/{id}', [Admin\OrderController::class, 'showInvoice'])->name('invoice');
+        Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'processInvoicePDF'])->name('invoice-pdf');
         Route::get('/payments')->name('payments');
 
         //  Content Routes
@@ -79,11 +79,10 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  Admin Routes
         Route::get('/profile', [Admin\AdminController::class, 'profile'])->name('profile');
 
-        Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'printInvoicePDF'])->name('invoice-pdf');
-
 
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
+            Route::post('/products/create', [Admin\ProductController::class, 'getCreateProduct'])->name('product');
             Route::post('/product/variation')->name('variation');
             Route::post('/product/image')->name('product-image');
             Route::post('/delete-product-image')->name('product-image');
@@ -93,18 +92,31 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  UPDATE ROUTES
         Route::name('update.')->group(function() {
-            Route::put('/product/{id}')->name('product');
+            Route::put('/product/{id}', [Admin\ProductController::class, 'updateProduct'])->name('product');
             Route::patch('/product/stock/')->name('stock');
             Route::patch('/product/extra-price')->name('extra-price');
+
+            Route::patch('/order/{id}', [Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
         });
 
         //  DELETE ROUTES
         Route::name('delete.')->group(function() {
-            Route::delete('/product')->name('product');
+            Route::delete('/product', [Admin\ProductController::class, 'deleteProduct'])->name('product');
             Route::delete('/delete-product-image')->name('product-image');
         });
+
+        //  AJAX ROUTES
+        Route::post('/get-sub-categories', [Admin\ProductController::class, 'getSubCategoriesByCategoryId']);
     });
 });
+
+
+
+
+
+
+//  Home Page Routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /**
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROTECTED ROUTES
@@ -113,7 +125,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 Route::middleware(['verified', 'auth'])->group(function() {
     //  User Account
     Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])
-        ->middleware(['verified', 'auth'])->name('user-account');
+        ->middleware(['verified', 'auth'])->name('profile');
 
     //  Phone Numbers
     Route::patch('/add-phone', [UserController::class, 'updatePhone']);
@@ -194,7 +206,3 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

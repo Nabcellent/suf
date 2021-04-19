@@ -84,8 +84,8 @@ label.error {
 .alert {
     position: absolute;
     right: 0;
-    top: 4rem;
-    z-index: var(--z-index-1);
+    top: 0;
+    z-index: 101;
     box-shadow: 1px 1px 1rem rgba(0, 0, 0, .1);
 }
 

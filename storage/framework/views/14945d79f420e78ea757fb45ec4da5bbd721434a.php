@@ -1,11 +1,12 @@
 <!--#################################################    VIEW MODALS   ##############################################-->
 
-<!--&&&===    ADD IMAGE MODAL    ===&&&-->
+<!--&&&===    DELETE PRODUCT    ===&&&-->
 <div class="modal fade" id="delete_product_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="<?php echo e(route('admin.delete.product')); ?>" method="POST">
-                <?php echo method_field('PUT'); ?>
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('DELETE'); ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -29,98 +30,131 @@
 
 
 
-
 <!--#################################################    PRODUCTS MODALS    #########################################-->
 
 <!--&&&===    EDIT PRODUCT TABLE    ===&&&-->
-<div class="modal fade" id="edit_product_modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form action="<?php echo e(url()->current()); ?>" method="POST">
-                <?php echo method_field('PUT'); ?>
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Title</label>
-                            <input type="text" name="title" class="form-control crud_form" value="<%= details.product[0].product_title %>"
-                                   placeholder="Title" aria-label>
+<?php if(isset($product)): ?>
+    <div class="modal fade" id="edit_product_modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="<?php echo e(url()->current()); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Title</label>
+                                <input type="text" name="title" class="form-control crud_form" value="<?php echo e($product['title']); ?>"
+                                       placeholder="Title" aria-label>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Label</label>
+                                <input type="text" name="label" class="form-control crud_form" value="<?php echo e($product['label']); ?>"
+                                       placeholder="Label" aria-label>
+                            </div>
                         </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Label</label>
-                            <input type="text" name="label" class="form-control crud_form" value="<%= details.product[0].label %>"
-                                   placeholder="Label" aria-label>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Seller</label>
+                                <select id="sellers" name="seller" class="form-control <?php $__errorArgs = ['seller'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
+                                    <option selected hidden value="">Select a seller*</option>
+                                    <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option <?php if($seller['id'] === $product['seller_id']): ?> selected <?php endif; ?> value="<?php echo e($seller['id']); ?>"><?php echo e($seller['username']); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Category</label>
+                                <select id="categories" class="form-control <?php $__errorArgs = ['category'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label required>
+                                    <option selected hidden value="">Select a category *</option>
+                                    <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <optgroup label="<?php echo e($section['title']); ?>"></optgroup>
+                                        <?php $__currentLoopData = $section['categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <optgroup label=" &nbsp;&nbsp;&nbsp;&nbsp; <?php echo e($category['title']); ?>"></optgroup>
+                                            <?php $__currentLoopData = $category['sub_categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subCat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option <?php if($subCat['id'] === $product['category_id']): ?> selected <?php endif; ?> value="<?php echo e($subCat['id']); ?>"> &nbsp;&nbsp;&nbsp;&nbsp; ------ <?php echo e($subCat['title']); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Brand</label>
+                                <select name="brand" class="mt-2 form-control <?php $__errorArgs = ['brand'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
+                                    <option selected hidden value="">Select a brand*</option>
+                                    <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option <?php if($brand['id'] === $product['brand_id']): ?> selected <?php endif; ?> value="<?php echo e($brand['id']); ?>"><?php echo e($brand['name']); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Keywords</label>
+                                <input type="text" name="keywords" class="form-control crud_form" value="<?php echo e($product['keywords']); ?>"
+                                       placeholder="Keywords" aria-label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Base Price</label>
+                                <input type="number" name="base_price" class="form-control crud_form" value="<?php echo e($product['base_price']); ?>"
+                                       placeholder="Base price" aria-label>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Discount (%)</label>
+                                <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="<?php echo e($product['discount']); ?>"
+                                       placeholder="Discount" aria-label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-0">Description</label>
+                            <textarea  name="description" class="form-control crud_form"
+                                       rows="4" placeholder="Description..." aria-label><?php echo e($product['description']); ?>"</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" <?php if($product['is_featured'] === 'Yes'): ?> checked <?php endif; ?>>
+                                <label class="custom-control-label" for="is_featured">Featured</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Seller</label>
-                            <select id="sellers_s2" name="seller" class="form-control crud_form" aria-label required>
-                                <option selected hidden value="<%= details.product[0].user_id %>">
-                                    <%= details.product[0].last_name %> <%= details.product[0].first_name %></option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Category</label>
-                            <select id="categories_s2" class="form-control crud_form" name="category" aria-label required>
-                                <option selected hidden value="<%= details.product[0].category_id %>">
-                                    <%= details.product[0].category_title %></option>
-                            </select>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Brand</label>
-                            <select id="select_brand" name="brand_id" class="mt-2 form-control crud_form" aria-label required>
-                                <option selected hidden value="<%= details.product[0].brand_id %>">
-                                    <%= details.product[0].brand %></option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Keywords</label>
-                            <input type="text" name="keywords" class="form-control crud_form" value="<%= details.product[0].keywords %>"
-                                   placeholder="Keywords" aria-label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Base Price</label>
-                            <input type="number" name="base_price" class="form-control crud_form" value="<%= details.product[0].base_price %>"
-                                   placeholder="Base price" aria-label>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Discount (%)</label>
-                            <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="<%= details.product[0].discount %>"
-                                   placeholder="Discount" aria-label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="mb-0">Description</label>
-                        <textarea  name="description" class="form-control crud_form"
-                                   rows="4" placeholder="Description..." aria-label><%= details.product[0].description %></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="featured" name="featured">
-                            <%if(details.product[0].is_featured === "Yes") { %> checked <% } %>>
-                            <label class="custom-control-label" for="featured">Featured</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="product_id" value="<%= details.product[0].id %>">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
 
 
 

@@ -11,7 +11,13 @@
                                 <div class="card bg-primary text-white crud_table shadow mb-4">
                                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Product Details</h6>
-                                        <button class="btn btn-outline-light" data-toggle="modal" data-target="#edit_product_modal">Edit</button>
+                                        <div>
+                                            <button class="btn btn-outline-light" data-toggle="modal" data-target="#edit_product_modal">Edit</button>
+                                            <a href="#" class="ml-2 delete_product" data-toggle="modal" data-id="{{ $product['id'] }}"
+                                               data-image="{{ $product['main_image'] }}" data-target="#delete_product_modal" title="Delete this product">
+                                                <i class="fas fa-trash text-warning"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row no-gutters">

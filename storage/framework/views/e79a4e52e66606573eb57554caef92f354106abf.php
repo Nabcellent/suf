@@ -9,7 +9,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Products</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-primary"><?php echo e($productCount); ?></span>
+                                    <span class="badge badge-pill badge-primary"><?php echo e(tableCount()['products']); ?></span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -29,7 +29,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Customers</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-success"><?php echo e($customerCount); ?></span>
+                                    <span class="badge badge-pill badge-success"><?php echo e(tableCount()['customers']); ?></span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -48,7 +48,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orders</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-warning"><?php echo e($orderCount); ?></span>
+                                    <span class="badge badge-pill badge-warning"><?php echo e(tableCount()['orders']); ?></span>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -67,7 +67,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-info"><?php echo e($sellerCount); ?></span>
+                                    <span class="badge badge-pill badge-info"><?php echo e(tableCount()['sellers']); ?></span>
                                 </div>
                             </div>
                             <div class="col-auto">

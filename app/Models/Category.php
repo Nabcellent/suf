@@ -31,13 +31,13 @@ class Category extends Model
     public function categories(): HasMany
     {
         return $this->hasMany(__CLASS__, 'section_id')
-            ->where(['category_id' => null, 'status' => 1])
+            ->where(['category_id' => null, 'status' => 1])->orderBy('title')
             ->with('subCategories');
     }
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'category_id')->where('status', 1);
+        return $this->hasMany(__CLASS__, 'category_id')->where('status', 1)->orderBy('title');
     }
 
 

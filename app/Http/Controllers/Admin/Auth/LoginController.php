@@ -133,7 +133,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function authenticated(): RedirectResponse {
-        return redirect()->route('admin.dashboard');
+        return redirect()->intended(route('admin.dashboard'));
     }
 
     /**

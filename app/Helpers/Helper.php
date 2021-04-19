@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +14,11 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Pure;
+
+function admin(): ?Authenticatable {
+    return Auth::guard('admin')->user();
+}
+
 
 function sections() {
     return Category::sections();
@@ -20,6 +29,16 @@ function latestFour(): array {
 }
 function trendingCategories(): Collection|array {
     return Product::all();
+}
+
+//  COUNT FUNCTIONS
+function tableCount(): array {
+    return [
+        'products' => Product::all()->count(),
+        'orders' => Order::all()->count(),
+        'customers' => User::all()->count(),
+        'sellers' => Admin::where('type', 'Seller')->count(),
+    ];
 }
 
 function cartCount(): string {

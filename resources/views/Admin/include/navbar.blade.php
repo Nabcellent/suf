@@ -3,8 +3,8 @@
 <header class="header">
     <div class="header_container">
         <div class="dropdown header_image">
-            {{ Str::substr(Str::upper(Auth::guard('admin')->user()->first_name), 0, 1) }}.
-            {{ Str::ucfirst(Auth::guard('admin')->user()->last_name) }}
+            {{ Str::substr(Str::upper(admin()->first_name), 0, 1) }}.
+            {{ Str::ucfirst(admin()->last_name) }}
             <img src="{{ asset('/images/users/admin/160-1606471_logo-java.png') }}" alt="Profile image" data-toggle="dropdown">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>

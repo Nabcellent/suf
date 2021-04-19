@@ -109,7 +109,7 @@
                                                 <td><?php echo e($category['section']['title']); ?></td>
                                                 <td><?php echo e($category['discount']); ?>%</td>
                                                 <td class="action">
-                                                    <?php if($section['status']): ?>
+                                                    <?php if($category['status']): ?>
                                                         <a class="update_category_status" data-id="<%= row.id %>" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     <?php else: ?>
@@ -170,7 +170,7 @@
                                                 <td><?php echo e($subCategory['category']['section']['title']); ?></td>
                                                 <td><?php echo e($subCategory['discount']); ?>%</td>
                                                 <td class="action">
-                                                    <?php if($section['status']): ?>
+                                                    <?php if($subCategory['status']): ?>
                                                         <a class="update_category_status" data-id="<?php echo e($subCategory['id']); ?>" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     <?php else: ?>

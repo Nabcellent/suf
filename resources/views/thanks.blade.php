@@ -75,3 +75,4 @@
 use Illuminate\Support\Facades\Session;
 
 session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
+?>

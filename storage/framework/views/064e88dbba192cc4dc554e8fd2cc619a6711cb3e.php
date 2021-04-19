@@ -1,6 +1,6 @@
 <?php $__env->startSection('title', 'Thank You'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <div id="checkout" class="container px-lg-5">
 
@@ -11,7 +11,7 @@
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb mb-1">
                         <li class="breadcrumb-item"><a href="<?php echo e(url('/')); ?>">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thank You</li>
+                        <li class="breadcrumb-item active" aria-current="page">Thank You <?php echo e(Auth::user()->first_name); ?>⚡</li>
                     </ul>
                 </nav>
             </div>
@@ -71,11 +71,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php
-
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 
 session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
 ?>
 
-<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/thanks.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/thanks.blade.php ENDPATH**/ ?>

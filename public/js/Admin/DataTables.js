@@ -145,7 +145,7 @@ const orderDataTable = $('#orders_table').DataTable({
     }, {
         searchable: false,
         orderable: false,
-        targets: 9
+        targets: 8
     }],
     createdRow: function(row, data) {
         if(data[6].replace(/[$,]/g, '') * 1 > 1000) {

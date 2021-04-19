@@ -3,14 +3,37 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static create(array $array)
+ */
 class Product extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'category_id',
+        'seller_id',
+        'brand_id',
+        'title',
+        'main_image',
+        'keywords',
+        'description',
+        'label',
+        'base_price',
+        'discount',
+        'is_featured'
+    ];
 
     /**
      * RELATIONSHIP FUNCTIONS
@@ -44,9 +67,11 @@ class Product extends Model
 
     /**
      * STATIC FUNCTIONS
-     * @param $productId
-     * @return int
      */
+    public static function products() {
+        return self::with('seller');
+    }
+
     public static function getDiscountPrice($productId): int
     {
         $proDetails = self::select('base_price', 'discount', 'category_id')->where('id', $productId)->first()->toArray();

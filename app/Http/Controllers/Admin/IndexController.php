@@ -11,18 +11,14 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
     public function index(): Factory|View|Application {
-        $productCount = Product::all()->count();
-        $customerCount = User::all()->count();
-        $orderCount = Product::all()->count();
-        $sellerCount = Admin::where('type', 'Seller')->count();
-
         $newOrders = Order::with('user', 'phone')->orderByDesc('id')->limit(5)->get()->toArray();
 
         return view('Admin.dashboard')
-            ->with(compact('productCount', 'customerCount', 'orderCount', 'sellerCount', 'newOrders'));
+            ->with(compact('newOrders'));
     }
 }

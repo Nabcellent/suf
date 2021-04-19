@@ -1,4 +1,3 @@
-
 $(() => {
     /*_______  Set Product To Delete  _______*/
     $('.delete_product').on('click', function() {
@@ -169,24 +168,6 @@ $(() => {
         });
 
         $('#sub_category_modal #category').html(options);
-    });
-
-    $('#categories').on('change', async function() {
-        const sectionId = $(this).val();
-        const response = await fetch('/products/get-sub-category/' + sectionId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        const data = await response.json();
-
-        let options = '<option selected hidden value="">Select a sub-category *</option>';
-        $(data).each(function() {
-            options += `<option value="${$(this)[0].id}">${$(this)[0].title}</option>`;
-        });
-
-        $('#add_product #sub_categories').html(options);
     });
 });
 

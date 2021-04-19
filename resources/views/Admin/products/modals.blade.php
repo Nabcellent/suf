@@ -1,11 +1,12 @@
 <!--#################################################    VIEW MODALS   ##############################################-->
 
-<!--&&&===    ADD IMAGE MODAL    ===&&&-->
+<!--&&&===    DELETE PRODUCT    ===&&&-->
 <div class="modal fade" id="delete_product_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="{{ route('admin.delete.product') }}" method="POST">
-                @method('PUT')
+                @csrf
+                @method('DELETE')
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -29,98 +30,110 @@
 
 
 
-
 <!--#################################################    PRODUCTS MODALS    #########################################-->
 
 <!--&&&===    EDIT PRODUCT TABLE    ===&&&-->
-<div class="modal fade" id="edit_product_modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form action="{{ url()->current() }}" method="POST">
-                @method('PUT')
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Title</label>
-                            <input type="text" name="title" class="form-control crud_form" value="<%= details.product[0].product_title %>"
-                                   placeholder="Title" aria-label>
+@isset($product)
+    <div class="modal fade" id="edit_product_modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form action="{{ url()->current() }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Title</label>
+                                <input type="text" name="title" class="form-control crud_form" value="{{ $product['title'] }}"
+                                       placeholder="Title" aria-label>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Label</label>
+                                <input type="text" name="label" class="form-control crud_form" value="{{ $product['label'] }}"
+                                       placeholder="Label" aria-label>
+                            </div>
                         </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Label</label>
-                            <input type="text" name="label" class="form-control crud_form" value="<%= details.product[0].label %>"
-                                   placeholder="Label" aria-label>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Seller</label>
+                                <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
+                                    <option selected hidden value="">Select a seller*</option>
+                                    @foreach($sellers as $seller)
+                                        <option @if($seller['id'] === $product['seller_id']) selected @endif value="{{ $seller['id'] }}">{{ $seller['username'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Category</label>
+                                <select id="categories" class="form-control @error('category') is-invalid @enderror crud_form" name="sub_category" aria-label required>
+                                    <option selected hidden value="">Select a category *</option>
+                                    @foreach($sections as $section)
+                                        <optgroup label="{{ $section['title'] }}"></optgroup>
+                                        @foreach($section['categories'] as $category)
+                                            <optgroup label=" &nbsp;&nbsp;&nbsp;&nbsp; {{ $category['title'] }}"></optgroup>
+                                            @foreach($category['sub_categories'] as $subCat)
+                                                <option @if($subCat['id'] === $product['category_id']) selected @endif value="{{ $subCat['id'] }}"> &nbsp;&nbsp;&nbsp;&nbsp; ------ {{ $subCat['title'] }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Brand</label>
+                                <select name="brand" class="mt-2 form-control @error('brand') is-invalid @enderror crud_form" aria-label required>
+                                    <option selected hidden value="">Select a brand*</option>
+                                    @foreach($brands as $brand)
+                                        <option @if($brand['id'] === $product['brand_id']) selected @endif value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Keywords</label>
+                                <input type="text" name="keywords" class="form-control crud_form" value="{{ $product['keywords'] }}"
+                                       placeholder="Keywords" aria-label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="mb-0">Base Price</label>
+                                <input type="number" name="base_price" class="form-control crud_form" value="{{ $product['base_price'] }}"
+                                       placeholder="Base price" aria-label>
+                            </div>
+                            <div class="form-group col">
+                                <label class="mb-0">Discount (%)</label>
+                                <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="{{ $product['discount'] }}"
+                                       placeholder="Discount" aria-label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="mb-0">Description</label>
+                            <textarea  name="description" class="form-control crud_form"
+                                       rows="4" placeholder="Description..." aria-label>{{ $product['description'] }}"</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" @if($product['is_featured'] === 'Yes') checked @endif>
+                                <label class="custom-control-label" for="is_featured">Featured</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Seller</label>
-                            <select id="sellers_s2" name="seller" class="form-control crud_form" aria-label required>
-                                <option selected hidden value="<%= details.product[0].user_id %>">
-                                    <%= details.product[0].last_name %> <%= details.product[0].first_name %></option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Category</label>
-                            <select id="categories_s2" class="form-control crud_form" name="category" aria-label required>
-                                <option selected hidden value="<%= details.product[0].category_id %>">
-                                    <%= details.product[0].category_title %></option>
-                            </select>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Brand</label>
-                            <select id="select_brand" name="brand_id" class="mt-2 form-control crud_form" aria-label required>
-                                <option selected hidden value="<%= details.product[0].brand_id %>">
-                                    <%= details.product[0].brand %></option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Keywords</label>
-                            <input type="text" name="keywords" class="form-control crud_form" value="<%= details.product[0].keywords %>"
-                                   placeholder="Keywords" aria-label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label class="mb-0">Base Price</label>
-                            <input type="number" name="base_price" class="form-control crud_form" value="<%= details.product[0].base_price %>"
-                                   placeholder="Base price" aria-label>
-                        </div>
-                        <div class="form-group col">
-                            <label class="mb-0">Discount (%)</label>
-                            <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="<%= details.product[0].discount %>"
-                                   placeholder="Discount" aria-label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="mb-0">Description</label>
-                        <textarea  name="description" class="form-control crud_form"
-                                   rows="4" placeholder="Description..." aria-label><%= details.product[0].description %></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="featured" name="featured">
-                            <%if(details.product[0].is_featured === "Yes") { %> checked <% } %>>
-                            <label class="custom-control-label" for="featured">Featured</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="product_id" value="<%= details.product[0].id %>">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+@endisset
 
 
 

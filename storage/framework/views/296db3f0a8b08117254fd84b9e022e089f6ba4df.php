@@ -23,7 +23,7 @@
                 <h3>Important links</h3>
                 <p><a href="<?php echo e(url('cart')); ?>">Shopping Cart</a></p>
                 <p><a href="<?php echo e(url('products')); ?>">Our Products</a></p>
-                <p><a href="<?php echo e(url('profile/edit')); ?>">My Account</a></p>
+                <p><a href="<?php echo e(route('profile', ['page' => 'edit'])); ?>">My Account</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="#">Strathmore University Website</a></p>
                 <p><a href="#">e-learning System</a></p>
