@@ -10,12 +10,17 @@ class Phone extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'phone',
+        'primary',
+    ];
+
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function user(): BelongsTo
+    public function phoneable(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 
 

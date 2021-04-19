@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -61,14 +63,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Address::class)->with('subCounty');
     }
 
-    public function phones(): HasMany
-    {
-        return $this->hasMany(Phone::class)->orderByDesc('primary');
+    public function phones(): MorphMany {
+        return $this->morphMany(Phone::class, 'phoneable')->orderByDesc('primary');
     }
 
-    public function primaryPhone(): HasOne
-    {
-        return $this->hasOne(Phone::class)->where('primary', 1);
+    public function primaryPhone(): MorphOne {
+        return $this->morphOne(Phone::class, 'phoneable')->where('primary', 1);
     }
 
     public function orders(): HasMany

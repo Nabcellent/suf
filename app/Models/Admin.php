@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -24,9 +28,9 @@ class Admin extends Authenticatable
         'gender',
         'national_id',
         'type',
+        'ip_address',
         'email',
         'password',
-        'ip_address'
     ];
 
     /**
@@ -37,4 +41,23 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password', 'pin', 'remember_token',
     ];
+
+
+
+    /**
+     * RELATIONSHIP FUNCTIONS
+     */
+    public function phones(): MorphMany {
+        return $this->morphMany(Phone::class, 'phoneable')->orderByDesc('primary');
+    }
+
+    public function primaryPhone(): MorphOne {
+        return $this->morphOne(Phone::class, 'phoneable')->where('primary', 1);
+    }
+
+
+
+    /**
+     * STATIC FUNCTIONS
+     */
 }

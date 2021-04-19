@@ -36,7 +36,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
     Route::namespace('Auth')->group(function(){
         //Login Routes
         Route::get('/sign-in', [Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('/login',[Admin\Auth\LoginController::class, 'login'])->name('login');
+        Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('login');
         Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
         //Forgot Password Routes
@@ -66,16 +66,18 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/payments')->name('payments');
 
         //  Content Routes
-        Route::get('/banners')->name('banners');
-        Route::get('/ads')->name('ads');
-        Route::get('/policies')->name('policies');
+        Route::match(['GET', 'POST', 'PUT'],'/banners/{id?}', [Admin\PageContentController::class, 'getCreateUpdateBanners'])->name('banners');
+        Route::match(['GET', 'POST', 'PUT'],'/ads/{id?}', [Admin\PageContentController::class, 'getCreateUpdateAds'])->name('ads');
+        Route::match(['GET', 'POST', 'PUT'],'/policies/{id?}', [Admin\PageContentController::class, 'getCreateUpdatePolicies'])->name('policies');
 
         //  Users Routes
         Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
         Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers');
         Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins');
+        Route::match(['GET', 'POST', 'PUT'], '/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
 
-        Route::get('/admin/profile')->name('profile');
+        //  Admin Routes
+        Route::get('/profile', [Admin\AdminController::class, 'profile'])->name('profile');
 
         Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'printInvoicePDF'])->name('invoice-pdf');
 

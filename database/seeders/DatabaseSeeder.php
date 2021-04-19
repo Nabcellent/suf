@@ -27,8 +27,9 @@ class DatabaseSeeder extends Seeder
             BannerSeeder::class,
             CouponSeeder::class,
             AddressSeeder::class,
-            PhoneSeeder::class,*/
             AdminSeeder::class
+            PolicySeeder::class,
+            PhoneSeeder::class,*/
         ]);
     }
 }

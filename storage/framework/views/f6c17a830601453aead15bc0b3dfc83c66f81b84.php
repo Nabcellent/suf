@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="anime_input_field">
-                                    <input type="text" id="email" name="email" class="anime_input" required>
+                                    <input type="text" id="email" name="email" class="anime_input" required autocomplete="email" autofocus>
                                     <span class="placeholder">Email or Phone number</span>
                                 </label>
                             </div>

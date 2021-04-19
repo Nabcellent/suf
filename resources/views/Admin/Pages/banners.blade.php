@@ -29,44 +29,44 @@
                     <div class="card-body">
                         <div class="row">
 
-                            <% bannerInfo.banners.forEach((row) => { %>
-                            <div class="col-xl-3 col-md-6 align-self-center card-body border-info shadow slider_box">
+                             @foreach($banners as $banner)
+                                <div class="col-xl-3 col-md-6 align-self-center card-body border-info shadow slider_box">
                                 <div class="slider_title">
-                                    <%= row.title %>
-                                    <% if(row.status === 1) { %>
-                                    <a class="update_banner_status" data-id="<%= row.id %>" title="Update Status"
+	                                {{ $banner['title'] }}
+                                    @if($banner['status'])
+                                    <a class="update_banner_status" data-id="{{ $banner['id'] }}" title="Update Status"
                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                    <% } else { %>
-                                    <a class="update_banner_status" data-id="<%= row.id %>" title="Update Status"
+                                    @else
+                                    <a class="update_banner_status" data-id="{{ $banner['id'] }}" title="Update Status"
                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                    <% } %>
+                                    @endif
                                 </div>
                                 <div class="slider_img">
-                                    <img src="/images/banners/<%= row.image %>" alt="<%= row.alt %>">
+                                    <img src="{{ asset('/images/banners/' . $banner['image']) }}" alt="<%= row.alt %>">
                                 </div>
                                 <div class="slider_action">
                                     <a href="#" class="update_banner" data-toggle="modal" data-target="#update_banner_modal" title="Modify"
-                                       data-id="<%= row.id %>"
-                                       data-title="<%= row.title %>"
-                                       data-image="<%= row.image %>"
-                                       data-link="<%= row.link %>"
-                                       data-alt="<%= row.alt %>"
-                                       data-description="<%= row.description %>">
+                                       data-id="{{ $banner['id'] }}"
+                                       data-title="{{ $banner['title'] }}"
+                                       data-image="{{ $banner['image'] }}"
+                                       data-link="{{ $banner['link'] }}"
+                                       data-alt="{{ $banner['alt'] }}"
+                                       data-description="{{ $banner['description'] }}">
                                         <i class="fas fa-pen"></i>
                                     </a>
-                                    <a href="#" class="delete_banner" title="Remove" data-id="<%= row.id %>" data-image="<%= row.image %>">
+                                    <a href="#" class="delete_banner" title="Remove" data-id="{{ $banner['id'] }}">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </div>
                                 <div class="details">
-                                    <strong>Link -</strong> <a href="<%= row.link %>" target="_blank"><%= row.link %></a>
+                                    <strong>Link -</strong> <a href="{{ $banner['link'] }}" target="_blank">{{ $banner['link'] }}</a>
                                     <div>
                                         <strong>Description:</strong>
-                                        <p><%= row.description %></p>
+                                        <p>{{ $banner['description'] }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <% }) %>
+                            @endforeach
 
                         </div>
                     </div>
@@ -77,5 +77,5 @@
 
     <hr style="background-color: #900">
 
-    @include('Admin.products.modals')
+    @include('Admin.Pages.modals')
 @endsection

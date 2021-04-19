@@ -52,18 +52,25 @@
 
                                 <tbody>
 
-                                <% policyInfo.policies.forEach((row, i) => { %>
+                                @foreach($policies as $policy)
                                 <tr>
-                                    <td><%= i + 1 %></td>
-                                    <td><%= row.pol_title %></td>
-                                    <td><%= row.pol_link %></td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $policy['title'] }}</td>
+                                    <td>{{ $policy['url'] }}</td>
                                     <td><i class="fas fa-eye text-info"></i></td>
                                     <td class="action">
+                                        @if($policy['status'])
+                                            <a class="update_policy_status" data-id="{{ $policy['id'] }}" title="Update Status"
+                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                        @else
+                                            <a class="update_policy_status" data-id="{{ $policy['id'] }}" title="Update Status"
+                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                        @endif
                                         <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
                                         <a href="#" class="ml-3" title="Remove"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
-                                <% }) %>
+                                @endforeach
 
                                 </tbody>
                             </table>
@@ -75,12 +82,14 @@
 
         <!--    Start delete modal    -->
 
-        <div class="modal fade" id="del_product_modal<?= $productId ?>">
+        <div class="modal fade" id="del_product_modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="/products" method="POST">
+                    <form action="{{ route('admin.policies') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel<?= $productId ?>">Delete Product</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
