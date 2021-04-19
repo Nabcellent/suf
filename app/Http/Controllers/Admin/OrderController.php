@@ -9,6 +9,7 @@ use Dompdf\Dompdf;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,22 +17,20 @@ class OrderController extends Controller
     public function showOrders(): Factory|View|Application {
         $orders = Order::orders()->get()->toArray();
 
-        //dd($orders);
         return view('Admin.Orders.list')->with(compact('orders'));
     }
 
     public function showOrder($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('user', 'phone', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
 
-        //dd($order);
         return view('Admin.Orders.view')->with(compact('order'));
     }
 
-    public function updateOrderStatus(Request $request, $id): \Illuminate\Http\RedirectResponse {
+    public function updateOrderStatus(Request $request, $id): RedirectResponse {
         $order = Order::find($id);
 
         if($request->status === 'completed') {
-            $valid = $request->validate([
+            $request->validate([
                 'courier' => 'required|alpha',
                 'tracking_number' => 'required|integer|unique:orders',
             ]);
@@ -52,11 +51,13 @@ class OrderController extends Controller
         return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function showInvoice($id) {
+    public function showInvoice($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
 
         return view('Admin.Orders.invoice')->with(compact('order'));
     }
+
+
 
     public function processInvoicePDF($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
