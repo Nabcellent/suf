@@ -18,7 +18,7 @@
                     <ul class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{url('/products')}}">Shop</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="/products/{{$details['category']['id']}}">{{$details['category']['title']}}</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/products/{{$details['sub_category']['id']}}">{{$details['sub_category']['title']}}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{$details['title']}}</li>
                     </ul>
                 </nav>
@@ -35,19 +35,19 @@
                     <div class="col-6">
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
+                                <div class="swiper-slide" style="background-image:url('{{asset('storage/images/products/' . $details['main_image'])}}')"></div>
 
                                 @foreach($details['images'] as $image)
-                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                    <div class="swiper-slide" style="background-image:url('{{asset('storage/images/products/' . $image['image'])}}')"></div>
                                 @endforeach
                             </div>
                         </div>
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
+                                <div class="swiper-slide" style="background-image:url('{{asset('storage/images/products/' . $details['main_image'])}}')"></div>
 
                                 @foreach($details['images'] as $image)
-                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                    <div class="swiper-slide" style="background-image:url('{{asset('storage/images/products/' . $image['image'])}}')"></div>
                                 @endforeach
                             </div>
                         </div>

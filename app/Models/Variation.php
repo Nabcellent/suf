@@ -10,6 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Variation extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'product_id',
+        'variation',
+    ];
+
+    /**
      * RELATIONSHIP FUNCTIONS
      */
     public function product(): BelongsTo

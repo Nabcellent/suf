@@ -8,26 +8,28 @@ $.ajaxSetup({
 
 
 $(() => {
-    $('#variation_attribute_s2').on('change', function() {
-        fetch(`/products/details/attributeValues/${$(this).val()}`)
-            .then(response => response.json())
-            .then((data) => {
-                let values = JSON.parse(data);
-                let attributeValOptions = '<option></option>';
-
-                if(Array.isArray(values)) {
-                    values.forEach(value => {
-                        attributeValOptions += `<option value="${value}">${value}</option>`
-                    })
-                } else {
-                    attributeValOptions += `<option value="${values}">${values}</option>`
+    $('select#attribute').on('change', function() {
+        $.ajax({
+            data: {id: $(this).val()},
+            type:'POST',
+            url:'/admin/get-attribute-values',
+            statusCode: {
+                200: function(responseObject) {
+                    $('select[name="variation_options[]"]').html(responseObject.values);
+                },
+                500: function(responseObject, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Something went wrong!");
+                },
+                404: function() {
+                    alert("Error! Not found");
                 }
-                $('#values_s2').html(attributeValOptions);
-            })
-            .catch((error) => {
-                alert('Problem contacting server');
-                console.log(error)
-            });
+            },
+            error: (error) => {
+                alert("Error");
+                console.log(error);
+            }
+        });
     });
 
     /**

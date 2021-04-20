@@ -27,9 +27,14 @@
 
 <div id="invoice">
     <div class="toolbar hidden-print">
-        <div class="text-right">
-            <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-            <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Generate PDF</a>
+        <div class="d-flex justify-content-between">
+            <a href="{{ route('admin.orders') }}" class="btn btn-outline-info"><i class="bx bx-left-arrow bx-fade-left-hover"></i>Back to Orders</a>
+            <div>
+                <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+                <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-info">
+                    <i class="fa fa-file-pdf-o"></i> Generate PDF <i class="bx bx-download bx-fade-down-hover"></i>
+                </a>
+            </div>
         </div>
         <hr>
     </div>

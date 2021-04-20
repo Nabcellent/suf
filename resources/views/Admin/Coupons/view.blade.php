@@ -9,9 +9,9 @@
                 <div class="row">
                     <div class="col-lg-9 col-md-12">
                         <div class="card shadow">
-                            <form id="coupon-form" action="{{ route('admin.coupon') }}" method="POST">
+                            <form id="coupon-form" action="{{ url()->current() }}" method="POST">
                                 @csrf
-                                @if($title === 'Update') @method('PUT') @endif
+                                @isset($coupon) @method('PUT') @endif
                                 <div class="card-header d-flex justify-content-between">
                                     <h4 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> {{ $title }}</h4>
                                     <div class="dropdown no-arrow">
@@ -28,29 +28,39 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul class="m-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <div class="form-row">
                                         <div class="form-group col">
-                                            <label>Method</label><br>
+                                            <label>Option</label><br>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="automatic" name="option" class="custom-control-input" value="Automatic" @if(isset($coupon)) disabled @endif checked required>
+                                                <input type="radio" id="automatic" name="option" class="custom-control-input @error('Automatic') is-invalid @enderror"
+                                                       value="Automatic" @if(isset($coupon)) disabled @endif checked required>
                                                 <label class="custom-control-label" for="automatic">Automatic</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="manual" name="option" class="custom-control-input" value="Manual"
-                                                       @if(isset($coupon)) {{ $coupon['option'] === 'Manual' ? 'checked' : '' }} @endif required>
+                                                <input type="radio" id="manual" name="option" class="custom-control-input @error('Automatic') is-invalid @enderror" value="Manual"
+                                                       @if(isset($coupon)) disabled {{ $coupon['option'] === 'Manual' ? 'checked' : '' }} @endif required>
                                                 <label class="custom-control-label" for="manual">Manual</label>
                                             </div>
                                         </div>
                                         <div class="form-group col" id="coupon-code-field" @if(isset($coupon)) disabled @else style="display: none" @endif >
                                             <label for="">Code</label>
-                                            <input type="text" name="code" class="form-control" placeholder="Enter coupon code" @if(isset($coupon)) disabled @endif
+                                            <input type="text" name="code" class="form-control @error('code') is-invalid @enderror" placeholder="Enter coupon code" @if(isset($coupon)) disabled @endif
                                             value="@if(isset($coupon)) {{ $coupon['code'] }} @endif" aria-label>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label for="">Select Categories</label>
-                                            <select class="form-control" id="categories_s2" name="categories" multiple="multiple" style="width: 100%" aria-label>
+                                            <select class="form-control @error('categories') is-invalid @enderror" id="categories_s2" name="categories[]" multiple="multiple" style="width: 100%" aria-label>
                                                 @foreach($sections as $section)
                                                     <optgroup label="{{ $section['title'] }}"></optgroup>
                                                     @foreach($section['categories'] as $category)
@@ -58,7 +68,7 @@
                                                             &nbsp; {{ $category['title'] }}
                                                         </option>
                                                         @foreach($category['sub_categories'] as $subCategory)
-                                                            <option value="<%= subCategory.id %>" @if(isset($coupon) && in_array($subCategory['id'], explode(',', $coupon['categories']), false)) selected @endif >
+                                                            <option value="{{ $subCategory['id'] }}" @if(isset($coupon) && in_array($subCategory['id'], explode(',', $coupon['categories']), false)) selected @endif >
                                                                 &nbsp; -- {{ $subCategory['title'] }}</option>
                                                         @endforeach
                                                     @endforeach
@@ -67,9 +77,9 @@
                                         </div>
                                         <div class="form-group col">
                                             <label for="">Select Users</label>
-                                            <select class="form-control select2" name="users" multiple="multiple" style="width: 100%" aria-label>
+                                            <select class="form-control @error('users') is-invalid @enderror select2" name="users[]" multiple="multiple" style="width: 100%" aria-label>
                                                 @foreach($users as $user)
-                                                    <option value="<%= user.email %>" @if(isset($coupon) && in_array($category['id'], explode(',', $coupon['categories']), false)) selected @endif >
+                                                    <option value="{{ $user['email'] }}" @if(isset($coupon) && in_array($user['email'], explode(',', $coupon['users']), false)) selected @endif >
                                                         &nbsp; {{ $user['email'] }}</option>
                                                 @endforeach
                                             </select>
@@ -79,11 +89,11 @@
                                         <div class="form-group col">
                                             <label>Coupon Type</label><br>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="multiple" name="coupon_type" class="custom-control-input" value="Multiple" checked required>
+                                                <input type="radio" id="multiple" name="coupon_type" class="custom-control-input"  value="Multiple" checked required>
                                                 <label class="custom-control-label" for="multiple">Multiple</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="single" name="coupon_type" class="custom-control-input" value="Single"
+                                                <input type="radio" id="single" name="coupon_type" class="custom-control-input" @if(old('gender')) checked @endif value="Single"
                                                        @if(isset($coupon)) {{ $coupon['coupon_type'] === 'Single' ? 'checked' : '' }} @endif required>
                                                 <label class="custom-control-label" for="single">Single</label>
                                             </div>
@@ -95,7 +105,7 @@
                                                 <label class="custom-control-label" for="percent">Percentage (%)</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="fixed" name="amount_type" class="custom-control-input" value="Fixed"
+                                                <input type="radio" id="fixed" name="amount_type" class="custom-control-input" @if(old('gender')) checked @endif value="Fixed"
                                                        @if(isset($coupon)) {{ $coupon['amount_type'] === 'Fixed' ? 'checked' : '' }} @endif required>
                                                 <label class="custom-control-label" for="fixed">Fixed (in KSH)</label>
                                             </div>
@@ -104,13 +114,13 @@
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label for="">Amount</label>
-                                            <input type="number" name="amount" class="form-control" placeholder="Enter coupon amount" aria-label required
-                                                   value="<%= (typeof coupon !== 'undefined') ? coupon.amount : '' %>">
+                                            <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror" placeholder="Enter coupon amount" aria-label required
+                                                   value="@if(isset($coupon)){{ $coupon['amount'] }}@endif">
                                         </div>
                                         <div class="form-group col">
                                             <label>Expiry Date</label>
-                                            <input type="date" class="form-control" name="expiry_date" placeholder="Enter expiry date" min="2021-01-01" max="2021-12-31" required
-                                                   value="<%= (typeof coupon !== 'undefined') ? moment(coupon.expiry).format('YYYY-MM-DD') : '' %>">
+                                            <input type="date" class="form-control @error('expiry') is-invalid @enderror" name="expiry" placeholder="Enter expiry date" min="2021-01-01" max="2021-12-31" required
+                                                   value="@if(isset($coupon)){{ $coupon['expiry'] }}@endif">
                                         </div>
                                     </div>
                                 </div>

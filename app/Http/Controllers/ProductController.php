@@ -100,13 +100,13 @@ class ProductController extends Controller
 
     public function details($id): Factory|View|Application
     {
-        $details = Product::with(['category', 'brand', 'seller', 'variations' => function($query) {
+        $details = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
             $query->where('status', 1);
         }, 'images'])
             ->find($id)->toArray();
         $totalStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
             ->where(['product_id' => $id, 'variations.status' => 1, 'variations_options.status' => 1])->sum('stock');
-        $related = Product::with('brand')->where('category_id', $details['category']['id'])
+        $related = Product::with('brand')->where('category_id', $details['sub_category']['id'])
             ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get()->toArray();
 
         return view('details')->with(compact('details', 'totalStock', 'related'));

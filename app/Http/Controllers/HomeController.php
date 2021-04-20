@@ -48,7 +48,7 @@ class HomeController extends Controller
         $adBoxes = AdBox::all();
 
         //dd($newGentsProducts);
-        return View('index')
+        return View('home')
             ->with(compact('pageTitle','banners', 'adBoxes', 'featuredProducts', 'featuredProductsCount'))
             ->with(compact('newGentsProducts', 'newLadiesProducts', 'topProducts'));
     }

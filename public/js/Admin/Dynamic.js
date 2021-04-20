@@ -1,38 +1,37 @@
 $(() => {
-    /*_______  Set Product To Delete  _______*/
-    $('.delete_product').on('click', function() {
-        $('#delete_product_modal #product_id').val($(this).attr('data-id'));
-        $('#delete_product_modal #image_name').val($(this).attr('data-image'));
+    /*_______   SET PRICE ID    _______*/
+    $(document).on('click', 'a.stock', function() {
+        const $id = $(this).data('id');
+
+        $('input[name="variation_option_id"]').val($id);
     });
 
-    /*_______  Set Brand Id To Update  _______*/
+    /*_______   SET STOCK    _______*/
+    $(document).on('click', 'a.extra_price', function() {
+        const $id = $(this).data('id');
+
+        $('input[name="variation_option_id"]').val($id);
+    });
+
+
+    /*__________________________________________  Set Brand Id To Update  _______*/
     $('.update_brand').on('click', function() {
         let brandId = $(this).attr('data-id');
         let brandName = $(this).attr('data-name');
-        let brandStatus = $(this).attr('data-status');
         $('#brand #btn_update_brand').html("Update");
         $('#brand .modal-title').html("Update Brand");
 
-        $('#brand form').attr('action', '/products/addons/brand?_method=PUT');
-
         $('#brand #brand_id').val(brandId);
         $('#brand #name').val(brandName);
-
-        if(brandStatus === '0') {
-            $('#brand #inactive').prop('checked', true);
-        } else {
-            $('#brand #active').prop('checked', true);
-        }
-    })
-
-    /*_______  Set Brand Id To Delete  _______*/
-    $('.delete_brand').on('click', function() {
-        let brandId = $(this).attr('data-id');
-        $('#delete_brand_modal #brand_id').val(brandId);
+    });
+    $(document).on('click', 'button#create_brand', function() {
+        $('form#create_brand input[name="name"]').val('');
+        $('#brand #brand_id').val("");
+        $('#brand #btn_update_brand').html("Create");
+        $('#brand .modal-title').html("Create Brand");
     });
 
     /*__________________________________________  Set Banner To Create/Update  _____________________*/
-    let $bannerSubmit = $('#add_banner_modal button[type="submit"]');
     let $bannerForm = $('#add_banner_modal form');
 
     $(document).on('click', '#btn_add_banner', () => {
@@ -59,6 +58,7 @@ $(() => {
         $('#coupon-code-field').show(300);
     });
     $('#coupon-view form input#automatic').on('click', () => {
+        $('input[name="code"]').val(null);
         $('#coupon-code-field').hide(200);
     });
 

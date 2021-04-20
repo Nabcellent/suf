@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <img src="{{ asset('/images/products/' . $product['main_image']) }}" alt="main_image" style="width: 15rem;">
+                                                <img src="{{ asset('storage/images/products/' . $product['main_image']) }}" alt="main_image" style="width: 15rem;">
                                                 <h5 class="card-title pt-2">{{ $product['title'] }}</h5>
                                             </div>
                                             <div class="col">
@@ -33,7 +33,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Category</th>
-                                                                    <td class="py-0">{{ $product['category']['section']['title'] }} - {{ $product['category']['title'] }}</td>
+                                                                    <td class="py-0">{{ $product['sub_category']['category']['title'] }} - {{ $product['sub_category']['title'] }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Seller</th>
@@ -119,9 +119,8 @@
                                                         <td class="pb-0 pt-1">
                                                             <table class="table table-sm">
                                                                 <thead>
-                                                                <?php $variation = json_decode($variant['variation'], true, 512, JSON_THROW_ON_ERROR); ?>
                                                                 <tr>
-                                                                    <th scope="col">{{ key($variation) }}</th>
+                                                                    <th scope="col">{{ key(json_decode($variant['variation'], true, 512, JSON_THROW_ON_ERROR)) }}</th>
                                                                     <th scope="col">Stock</th>
                                                                     <th scope="col">Extra Cost</th>
                                                                     <th scope="col" colspan="2">Actions</th>
@@ -136,36 +135,31 @@
                                                                             <div class="row">
                                                                                 <div class="col-4">{{ $option['stock'] }}</div>
                                                                                 <div class="col">
-                                                                                    <a href="#" data-id="{{ $option['id'] }}" class="stock"
-                                                                                       data-toggle="modal" data-target="#set_stock">set stock</a>
+                                                                                    <a href="#" data-id="{{ $option['id'] }}" class="stock" data-toggle="modal" data-target="#set_stock">set stock</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="row">
-                                                                                <div class="col-4">
-                                                                                    {{ currencyFormat($option['extra_price']) }}/-
-                                                                                </div>
+                                                                                <div class="col-4">{{ currencyFormat($option['extra_price']) }}/-</div>
                                                                                 <div class="col">
-                                                                                    <a href="#" data-id="{{ $option['id'] }}" class="extra_price"
-                                                                                       data-toggle="modal" data-target="#set_price">set price</a>
+                                                                                    <a href="#" data-id="{{ $option['id'] }}" class="extra_price" data-toggle="modal" data-target="#set_price">set price</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
+                                                                        <td><a href="#"><i class="fas fa-pen-fancy"></i> Image</a></td>
                                                                         <td>
-                                                                            <a href="#"><i class="fas fa-pen-fancy"></i> Image</a>
-                                                                        </td>
-                                                                        <td>
-
                                                                             @if($option['status'])
-                                                                                <a class="update_variation_option_status" data-id="{{ $option['id'] }}" title="Update Status"
-                                                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                                                <a class="update_status" data-id="{{ $option['id'] }}" data-model="Variation's Option" title="Update Status" style="cursor: pointer">
+                                                                                    <i class="fas fa-toggle-on" status="Active"></i>
+                                                                                </a>
                                                                             @else
-                                                                                <a class="update_variation_option_status" data-id="{{ $option['id'] }}" title="Update Status"
-                                                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                                                <a class="update_status" data-id="{{ $option['id'] }}" data-model="Variation's Option" title="Update Status" style="cursor: pointer">
+                                                                                    <i class="fas fa-toggle-off" status="Inactive"></i>
+                                                                                </a>
                                                                             @endif
 
-                                                                            <a href="#" class="ml-2"><i class="bx bxs-trash-alt"></i></a>
+                                                                            <a href="#" class="delete-from-table ml-2" data-id="{{ $option['id'] }}" data-model="Variation's Option"><i class="bx bxs-trash-alt"></i></a>
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach
@@ -175,15 +169,21 @@
                                                         </td>
                                                         <td class="d-flex">
                                                             @if($variant['status'])
-                                                                <h5><a class="update_variation_status" data-id="{{ $variant['id'] }}" title="Update Status"
-                                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a></h5>
+                                                                <h5>
+                                                                    <a class="update_status" data-id="{{ $variant['id'] }}" data-model="Variation" title="Update Status" style="cursor: pointer">
+                                                                        <i class="fas fa-toggle-on" status="Active"></i>
+                                                                    </a>
+                                                                </h5>
                                                             @else
-                                                                <h5><a class="update_variation_status" data-id="{{ $variant['id'] }}" title="Update Status"
-                                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a></h5>
+                                                                <h5>
+                                                                    <a class="update_status" data-id="{{ $variant['id'] }}" data-model="Variation" title="Update Status" style="cursor: pointer">
+                                                                        <i class="fas fa-toggle-off" status="Inactive"></i>
+                                                                    </a>
+                                                                </h5>
                                                             @endif
 
                                                             <a href="#"><h5><i class="fas fa-pen pl-3"></i></h5></a>
-                                                            <a href="#" class="delete_variation" data-id="{{ $variant['id'] }}"><h5><i class="fas fa-trash pl-3"></i></h5></a>
+                                                            <a href="#" class="delete-from-table" data-id="{{ $variant['id'] }}" data-model="Variation"><h5><i class="fas fa-trash pl-3"></i></h5></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -240,58 +240,66 @@
                                 <button class="btn btn-outline-info" data-toggle="modal" data-target="#add_image_modal">Upload</button>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-borderless table-hover crud_table" id="categories_table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Image</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        @foreach($product['images'] as $image)
+                                @if(count($product['images']) > 0)
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-borderless table-hover crud_table" id="categories_table">
+                                            <thead>
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td><img src="{{ asset('/images/products/' . $image['image']) }}" alt="image" class="img-fluid"></td>
-                                                <td class="action">
-
-                                                    @if($image['status'])
-                                                        <a class="update_image_status mr-4" data-id="{{ $image['id'] }}" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                                    @else
-                                                        <a class=" update_image_status mr-3" data-id="{{ $image['id'] }}" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                                    @endif
-
-                                                    <a href="#" class="delete_image" data-id="{{ $image['id'] }}" data-image="{{ $image['image'] }}"
-                                                       data-toggle="modal" data-target="#delete_image_modal" title="Remove">
-                                                        <i class="fas fa-trash text-danger"></i>
-                                                    </a>
-                                                </td>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Action</th>
                                             </tr>
-                                        @endforeach
+                                            </thead>
+                                            <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            @foreach($product['images'] as $image)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td><img src="{{ asset('storage/images/products/' . $image['image']) }}" alt="image" class="img-fluid"></td>
+                                                    <td class="action">
+
+                                                        @if($image['status'])
+                                                            <a class="update_status mr-4" data-id="{{ $image['id'] }}" data-model="Product's Image" title="Update Status"
+                                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                        @else
+                                                            <a class=" update_status mr-3" data-id="{{ $image['id'] }}" data-model="Product's Image" title="Update Status"
+                                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                        @endif
+
+                                                        <a href="#" class="delete-from-table" data-id="{{ $image['id'] }}" data-model="Product's Image" data-image="{{ $image['image'] }}" title="Remove">
+                                                            <i class="fas fa-trash text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <div class="row my-5 ">
+                                        <div class="col">
+                                            <h5>This product has no extra images yet.</h5>
+                                            <hr class="bg-primary">
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="col-7 pl-md-1">
                         <div class="card text-white bg-dark crud_table shadow mb-4">
-                            <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                            <div class="card-header">
                                 <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> Product Images</h6>
-                                <button class="btn btn-outline-info" data-toggle="modal" data-target="#add_category">Edit</button>
                             </div>
                             <div class="card-body">
+                                @if(count($product['images']) > 0)
                                 <div id="details-swiper" class="swiper-container">
                                     <div class="swiper-wrapper">
 
                                         @foreach($product['images'] as $image)
                                             <div class="swiper-slide">
-                                                <img src="{{ asset('/images/products/' . $image['image']) }}" alt="Product Image">
+                                                <img src="{{ asset('storage/images/products/' . $image['image']) }}" alt="Product Image">
                                             </div>
                                         @endforeach
 
@@ -300,6 +308,14 @@
                                     <div class="swiper-button-next"></div>
                                     <div class="swiper-button-prev"></div>
                                 </div>
+                                @else
+                                    <div class="row my-5 ">
+                                        <div class="col">
+                                            <h5>This product has no extra images yet.</h5>
+                                            <hr class="bg-primary">
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

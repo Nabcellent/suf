@@ -32,19 +32,19 @@
                                         <td><?php echo e($coupon['option']); ?></td>
                                         <td><?php echo e($coupon['coupon_type']); ?></td>
                                         <td><?php echo e($coupon['amount_type']); ?></td>
-                                        <td><?php echo e($coupon['amount']); ?> <?php echo e(($coupon['code'] === "Percent") ? "%" : "/="); ?></td>
+                                        <td><?php echo e($coupon['amount']); ?> <?php echo e(($coupon['amount_type'] === "Percent") ? "%" : "/="); ?></td>
                                         <td><?php echo e(date('m-d-Y', strtotime($coupon['expiry']))); ?></td>
                                         <td class="action">
                                             <?php if($coupon['status']): ?>
-                                                <a class="update_coupon_status" data-id="<?php echo e($coupon['id']); ?>" title="Update Status"
+                                                <a class="update_status" data-id="<?php echo e($coupon['id']); ?>" data-model="Coupon" title="Update Status"
                                                style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                             <?php else: ?>
-                                                <a class="update_coupon_status" data-id="<?php echo e($coupon['id']); ?>" title="Update Status"
+                                                <a class="update_status" data-id="<?php echo e($coupon['id']); ?>" data-model="Coupon" title="Update Status"
                                                style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             <?php endif; ?>
 
                                             <a href="<?php echo e(route('admin.coupon', ['id' => $coupon['id']])); ?>" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" data-model="coupon" data-id="<?php echo e($coupon['id']); ?>" title="Remove"><i class="fas fa-trash text-danger"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" data-model="Coupon" data-id="<?php echo e($coupon['id']); ?>" title="Remove"><i class="fas fa-trash text-danger"></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

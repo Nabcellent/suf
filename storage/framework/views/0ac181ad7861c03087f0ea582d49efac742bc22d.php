@@ -136,7 +136,7 @@
                                         <?php $__currentLoopData = $order['order_products']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
                                             <td><?php echo e($loop->iteration); ?></td>
-                                            <td><img src="<?php echo e(asset('/images/products/' . $item['product']['main_image'])); ?>" alt="product" class="img-fluid"></td>
+                                            <td><img src="<?php echo e(asset('storage/images/products/' . $item['product']['main_image'])); ?>" alt="product" class="img-fluid"></td>
                                             <td><a href="<?php echo e(route('admin.product', ['id' => $item['id']])); ?>"><?php echo e($item['product']['title']); ?></a></td>
                                             <td><?php echo e($item['product']['brand']['name']); ?></td>
                                             <td><?php echo e($item['product']['seller']['username']); ?></td>

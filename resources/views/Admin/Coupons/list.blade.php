@@ -33,19 +33,19 @@
                                         <td>{{ $coupon['option'] }}</td>
                                         <td>{{ $coupon['coupon_type'] }}</td>
                                         <td>{{ $coupon['amount_type'] }}</td>
-                                        <td>{{ $coupon['amount'] }} {{ ($coupon['code'] === "Percent") ? "%" : "/=" }}</td>
+                                        <td>{{ $coupon['amount'] }} {{ ($coupon['amount_type'] === "Percent") ? "%" : "/=" }}</td>
                                         <td>{{ date('m-d-Y', strtotime($coupon['expiry'])) }}</td>
                                         <td class="action">
                                             @if($coupon['status'])
-                                                <a class="update_coupon_status" data-id="{{ $coupon['id'] }}" title="Update Status"
+                                                <a class="update_status" data-id="{{ $coupon['id'] }}" data-model="Coupon" title="Update Status"
                                                style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                             @else
-                                                <a class="update_coupon_status" data-id="{{ $coupon['id'] }}" title="Update Status"
+                                                <a class="update_status" data-id="{{ $coupon['id'] }}" data-model="Coupon" title="Update Status"
                                                style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             @endif
 
                                             <a href="{{ route('admin.coupon', ['id' => $coupon['id']]) }}" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" data-model="coupon" data-id="{{ $coupon['id'] }}" title="Remove"><i class="fas fa-trash text-danger"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" data-model="Coupon" data-id="{{ $coupon['id'] }}" title="Remove"><i class="fas fa-trash text-danger"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

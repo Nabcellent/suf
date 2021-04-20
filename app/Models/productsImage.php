@@ -8,10 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class productsImage extends Model
 {
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'product_id',
+        'image'
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
-
-    use HasFactory;
 }

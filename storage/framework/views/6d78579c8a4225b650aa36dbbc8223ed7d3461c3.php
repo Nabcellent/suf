@@ -1,8 +1,7 @@
 <?php $__env->startSection('title', 'Details'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php use App\Models\Product;
-use Illuminate\Support\Arr; ?>
+    <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php use App\Models\Product; ?>
 
 <div id="details">
 
@@ -18,7 +17,7 @@ use Illuminate\Support\Arr; ?>
                     <ul class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="<?php echo e(url('/')); ?>">Home</a></li>
                         <li class="breadcrumb-item"><a href="<?php echo e(url('/products')); ?>">Shop</a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="/products/<?php echo e($details['category']['id']); ?>"><?php echo e($details['category']['title']); ?></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/products/<?php echo e($details['sub_category']['id']); ?>"><?php echo e($details['sub_category']['title']); ?></a></li>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo e($details['title']); ?></li>
                     </ul>
                 </nav>
@@ -31,29 +30,29 @@ use Illuminate\Support\Arr; ?>
         <div class="row my-2 justify-content-center">
             <div class="col p-3 card" style="min-height: 30rem;">
                 <div class="row" style="height: 100%;">
-
+                    
                     <div class="col-6">
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $details['main_image'])); ?>')"></div>
+                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $details['main_image'])); ?>')"></div>
 
                                 <?php $__currentLoopData = $details['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $image['image'])); ?>')"></div>
+                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $image['image'])); ?>')"></div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $details['main_image'])); ?>')"></div>
+                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $details['main_image'])); ?>')"></div>
 
                                 <?php $__currentLoopData = $details['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $image['image'])); ?>')"></div>
+                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $image['image'])); ?>')"></div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
 
-
+                    
                     <div class="col-6">
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
@@ -247,7 +246,7 @@ use Illuminate\Support\Arr; ?>
                                     </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <!--    End Single ProductSeeder    -->
-
+                                
                             <!--    End Single ProductSeeder    -->
 
                             </div>
@@ -267,4 +266,4 @@ use Illuminate\Support\Arr; ?>
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/details.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/details.blade.php ENDPATH**/ ?>

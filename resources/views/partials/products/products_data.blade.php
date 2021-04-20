@@ -9,7 +9,7 @@
             <div class="card">
                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                     @if(isset($item['main_image']))
-                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                     @else
                         <?php $image_path = ''; ?>
                     @endif

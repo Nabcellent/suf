@@ -32,7 +32,7 @@
                                 @foreach($products as $item)
                                     <tr>
                                         <td></td>
-                                        <td><img src="{{ asset('/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
+                                        <td><img src="{{ asset('storage/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
                                         <td class="title">{{ $item['title'] }}</td>
                                         <td>{{ $item['seller']['username'] }}</td>
                                         <td class="text-nowrap">{{ date('d.m.Y', strtotime($item['created_at'])) }}</td>
@@ -42,10 +42,10 @@
                                         <td class="text-center"> wait </td>
                                         <td class="text-center" style="font-size: 14pt">
                                             @if($item['status'])
-                                                <a class="update_product_status" data-id="{{ $item['id'] }}" title="Update Status"
+                                                <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                             @else
-                                                <a class="update_product_status" data-id="{{ $item['id'] }}" title="Update Status"
+                                                <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             @endif
                                         </td>
@@ -53,8 +53,7 @@
                                             <a href="{{ url('/admin/product/' . $item['id']) }}" class="ml-2" title="view">
                                                 <i class="fas fa-eye text-info"></i>
                                             </a>
-                                            <a href="#" class="ml-2 delete_product" data-toggle="modal" data-id="{{ $item['id'] }}"
-                                               data-target="#delete_product_modal" title="Remove">
+                                            <a href="#" class="ml-2 delete-from-table" data-id="{{ $item['id'] }}" data-model="Product" title="Remove">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </td>

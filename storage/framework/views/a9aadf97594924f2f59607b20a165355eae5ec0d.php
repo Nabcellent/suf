@@ -1,16 +1,15 @@
 <?php $__env->startSection('title', 'Home'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('partials.top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->make('partials.social_icons', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php use App\Models\Product;
-use Illuminate\Support\Arr; ?>
+    <?php echo $__env->make('partials.top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.social_icons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php use App\Models\Product; ?>
 
     <div id="index">
         <div class="container-fluid p-0">
 
+            
 
-
-
+            
 
             <div class="container">
                 <div class="row">
@@ -31,9 +30,9 @@ use Illuminate\Support\Arr; ?>
 
                 </div>
             </div>
+            
 
-
-
+            
 
             <div class="products">
 
@@ -70,14 +69,14 @@ use Illuminate\Support\Arr; ?>
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -138,14 +137,14 @@ use Illuminate\Support\Arr; ?>
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -200,14 +199,14 @@ use Illuminate\Support\Arr; ?>
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -269,7 +268,16 @@ use Illuminate\Support\Arr; ?>
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
-                                                    <img src='images/products/<?php echo e($item['main_image']); ?>' alt=''>
+                                                    <?php if(isset($item['main_image'])): ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                    <?php else: ?>
+                                                        <?php $image_path = ''; ?>
+                                                    <?php endif; ?>
+                                                    <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
+                                                        <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
+                                                    <?php else: ?>
+                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                    <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
                                                     <a href="#">Man title</a>
@@ -308,13 +316,13 @@ use Illuminate\Support\Arr; ?>
                         </div>
                     </div>
                     <!--    End Swiper 1    -->
-
+                    
 
                 </div>
             </div>
+            
 
-
-
+            
 
             <div class="rotating-img">
                 <div class="container">
@@ -331,4 +339,4 @@ use Illuminate\Support\Arr; ?>
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/home.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/home.blade.php ENDPATH**/ ?>

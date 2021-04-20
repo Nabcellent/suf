@@ -88,11 +88,11 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
             Route::post('/products/create', [Admin\ProductController::class, 'getCreateProduct'])->name('product');
-            Route::post('/product/variation')->name('variation');
-            Route::post('/product/image')->name('product-image');
-            Route::post('/delete-product-image')->name('product-image');
+            Route::post('/product/variation/{id}', [Admin\ProductController::class, 'createVariation'])->name('variation');
+            Route::post('/product/image/{id}', [Admin\ProductController::class, 'createImage'])->name('product-image');
 
             Route::post('/attribute')->name('attribute');
+            Route::post('/brand', [Admin\AttributeController::class, 'createUpdateBrand'])->name('brand');
 
             Route::post('/users/{user}/{id?}', [Admin\UserController::class, 'createUpdateAdmin'])->name('user');
         });
@@ -100,8 +100,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  UPDATE ROUTES
         Route::name('update.')->group(function() {
             Route::put('/product/{id}', [Admin\ProductController::class, 'updateProduct'])->name('product');
-            Route::patch('/product/stock/')->name('stock');
-            Route::patch('/product/extra-price')->name('extra-price');
+            Route::patch('/product/stock/{id}', [Admin\ProductController::class, 'setStock'])->name('stock');
+            Route::patch('/product/extra-price/{id}', [Admin\ProductController::class, 'setPrice'])->name('extra-price');
 
             Route::patch('/order/{id}', [Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
 
@@ -117,8 +117,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         });
 
         //  AJAX ROUTES
-        Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
         Route::post('/get-categories', [Admin\AjaxController::class, 'getCategoriesBySectionId']);
+        Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
+        Route::post('/get-attribute-values', [Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
     });
 });
 

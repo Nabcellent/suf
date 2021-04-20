@@ -70,14 +70,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -138,14 +138,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -200,14 +200,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -269,7 +269,16 @@
                                         <div class="swiper-slide">
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
-                                                    <img src='images/products/{{$item['main_image']}}' alt=''>
+                                                    @if(isset($item['main_image']))
+                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                    @else
+                                                        <?php $image_path = ''; ?>
+                                                    @endif
+                                                    @if(!empty($item['main_image']) && file_exists($image_path))
+                                                        <img src="{{asset($image_path)}}" alt="Product image">
+                                                    @else
+                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                    @endif
                                                 </a>
                                                 <div class="supplier">
                                                     <a href="#">Man title</a>

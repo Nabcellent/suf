@@ -137,7 +137,7 @@
                                         @foreach($order['order_products'] as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('/images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
+                                            <td><img src="{{ asset('storage/images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
                                             <td><a href="{{ route('admin.product', ['id' => $item['id']]) }}">{{ $item['product']['title'] }}</a></td>
                                             <td>{{ $item['product']['brand']['name'] }}</td>
                                             <td>{{ $item['product']['seller']['username'] }}</td>

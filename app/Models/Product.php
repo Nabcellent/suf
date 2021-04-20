@@ -38,9 +38,9 @@ class Product extends Model
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function category(): BelongsTo
+    public function subCategory(): BelongsTo
     {
-        return $this->belongsTo(Category::class)->with('section');
+        return $this->belongsTo(Category::class, 'category_id', 'id')->with('category');
     }
 
     public function seller(): BelongsTo
@@ -114,6 +114,6 @@ class Product extends Model
     */
     public static function productDetails($id): Builder
     {
-        return self::where('id', $id)->with('category', 'seller', 'brand', 'variations', 'images');
+        return self::where('id', $id)->with('subCategory', 'seller', 'brand', 'variations', 'images');
     }
 }
