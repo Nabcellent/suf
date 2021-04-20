@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-lg-9 col-md-12">
                         <div class="card shadow">
-                            <form id="frm_add_user" action="<?php echo e(route('admin.user', ['user' => 'Admin'])); ?>" method="POST" enctype="multipart/form-data">
+                            <form id="create_admin" action="<?php echo e(url()->current()); ?>" method="POST" enctype="multipart/form-data">
                                 <?php if(isset($admin)): ?> <?php echo method_field('PUT'); ?> <?php endif; ?> <?php echo csrf_field(); ?>
                                 <div class="card-header d-flex justify-content-between">
                                     <h4 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Add <?php echo e($user); ?></h4>
@@ -18,7 +18,7 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Order Options</div>
-                                            <a class="dropdown-item" href="../../admin/index.php?view_products">View Products</a>
+                                            <a class="dropdown-item" href="<?php echo e(route('admin.products')); ?>">View Products</a>
                                             <a class="dropdown-item" href="#">Another action</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
@@ -29,92 +29,197 @@
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label for="">First name</label>
-                                            <input type="text" name="first_name" class="form-control"
-                                                   placeholder="Enter first name *" aria-label required>
+                                            <input type="text" name="first_name" class="form-control <?php $__errorArgs = ['first_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                   placeholder="Enter first name *" value="<?php echo e(old('first_name')); ?>" aria-label required autofocus>
+                                            <?php $__errorArgs = ['first_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                         <div class="form-group col">
                                             <label for="">Last name</label>
-                                            <input type="text" name="last_name" class="form-control"
-                                                   placeholder="Enter last name *" aria-label required>
+                                            <input type="text" name="last_name" class="form-control <?php $__errorArgs = ['last_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                   placeholder="Enter last name *" value="<?php echo e(old('last_name')); ?>" aria-label required>
+                                            <?php $__errorArgs = ['last_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="form-group col">
-                                            <label for="">Username</label>
-                                            <input type="text" name="username" class="form-control"
-                                                   placeholder="Enter username" aria-label>
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="">Email</label>
-                                            <input type="email" name="email" class="form-control"
-                                                   placeholder="Enter email address *" aria-label required>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="">Email</label>
+                                        <input type="email" name="email" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                               placeholder="Enter email address *" value="<?php echo e(old('email')); ?>" aria-label required>
+                                        <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
                                             <label for="">Phone</label>
-                                            <input type="number" name="phone" class="form-control" pattern="((^0[17]+)|(^[17]+)).*"
-                                                   placeholder="Enter phone number *" aria-label required>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">+254</span>
+                                                </div>
+                                                <input type="tel" class="form-control <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="phone" aria-label value="<?php echo e(old('phone')); ?>"
+                                                       placeholder="712345678" pattern="^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$">
+                                                <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                            </div>
                                         </div>
                                         <div class="form-group col">
                                             <label for="national_id">National Id</label>
-                                            <input type="number" id="national_id" name="national_id" class="form-control"
+                                            <input type="number" id="national_id" name="national_id" value="<?php echo e(old('national_id')); ?>" class="form-control <?php $__errorArgs = ['national_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                    placeholder="Enter National ID number *" aria-label required>
-                                        </div>
-                                        <?php if($user === 'Admin'): ?>
-                                            <div class="form-group col">
-                                                <label for="">Pin</label>
-                                                <input type="number" name="pin" class="form-control"
-                                                       placeholder="Enter pin number" aria-label>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col">
-                                            <label>Gender</label>
-                                            <div class="custom-control custom-radio custom-control">
-                                                <input type="radio" id="Male" name="gender" class="custom-control-input" value="M" required>
-                                                <label class="custom-control-label" for="Male">Male</label>
-                                            </div>
-                                            <div class="custom-control custom-radio custom-control">
-                                                <input type="radio" id="Female" name="gender" class="custom-control-input" value="F" required>
-                                                <label class="custom-control-label" for="Female">Female</label>
-                                            </div>
+                                            <?php $__errorArgs = ['national_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     <div class="form-row">
+                                        <div class="mb-3 col">
+                                            <div class="form-group m-0">
+                                                <label>Gender</label>
+                                                <div class="custom-control custom-radio custom-control">
+                                                    <input type="radio" id="Male" name="gender" class="custom-control-input <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="Male" <?php if(old('gender')): ?> checked <?php endif; ?> required>
+                                                    <label class="custom-control-label" for="Male">Male</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control">
+                                                    <input type="radio" id="Female" name="gender" class="custom-control-input <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="Female" <?php if(old('gender')): ?> checked <?php endif; ?> required>
+                                                    <label class="custom-control-label" for="Female">Female</label>
+                                                </div>
+                                                <?php $__errorArgs = ['gender'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                            </div>
+                                        </div>
                                         <div class="form-group col">
                                             <label>Profile Picture</label>
-                                            <div class="custom-file">
-                                                <input type="file" name="image" class="custom-file-input">
-                                                <label class="custom-file-label">Choose image</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input <?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group col">
-                                            <label>Address</label>
-                                            <input type="text" name="address" class="form-control" placeholder="Enter current address" aria-label>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col">
-                                            <label for="">New password</label>
-                                            <input type="password" name="password" class="form-control"
-                                                   placeholder="Enter new password *" aria-label required>
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="">Confirm Password</label>
-                                            <input type="password" name="confirmPassword" class="form-control"
-                                                   placeholder="Confirm you new password *" aria-label required>
+                                            <?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                            <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">
-                                    <input type="hidden"  name="user_type" value="<%= userType %>">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="fas fa-plus-circle"></i> Create <?php echo e($user); ?>
 
                                     </button>
-                                    <img class="d-none loader_gif" src="/images/loaders/Gear-0.2s-200px.gif" alt="loader.gif">
+                                    <img class="d-none loader_gif" src="<?php echo e(asset('/images/loaders/Gear-0.2s-200px.gif')); ?>" alt="loader.gif">
                                 </div>
                             </form>
                         </div>
@@ -126,22 +231,20 @@
                     <div class="card-body">
                         <div class="list-group list-group-flush">
                             <a href="<?php echo e(route('admin.admins')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                All Admins<span class="badge badge-primary badge-pill">14</span>
+                                All Admins<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['admins']); ?></span>
                             </a>
                             <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                All Sellers<span class="badge badge-primary badge-pill">14</span>
+                                All Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
                             </a>
                             <a href="<?php echo e(route('admin.customers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                All Customers<span class="badge badge-primary badge-pill">14</span>
+                                All Customers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['customers']); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('admin.user', ['user' => ($user === 'Admin') ? 'Seller' : 'Admin'])); ?>" class="list-group-item list-group-item-action">
+                                Create <?php echo e(($user === 'Admin') ? 'Seller' : 'Admin'); ?>
+
                             </a>
                             <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Orders<span class="badge badge-primary badge-pill">7</span>
-                            </a>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Quantity Sold<span class="badge badge-primary badge-pill">17</span>
-                            </a>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Remaining stock<span class="badge badge-primary badge-pill">37</span>
+                                Orders<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['orders']); ?></span>
                             </a>
                         </div>
                     </div>

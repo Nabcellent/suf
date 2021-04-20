@@ -30,7 +30,7 @@
                                 <tr>
                                     <td></td>
                                     <?php if(isset($seller['image'])): ?>
-                                        <td><img src="<?php echo e(asset('/images/users/seller/' . $seller['image'])); ?>" alt="profile" class="img-fluid"></td>
+                                        <td><img src="<?php echo e(asset('/images/users/admin/Profile/' . $seller['image'])); ?>" alt="profile" class="img-fluid"></td>
                                     <?php else: ?>
                                         <td><img src="<?php echo e(asset('/images/general/NO-IMAGE.png')); ?>" alt="profile" class="img-fluid"></td>
                                     <?php endif; ?>
@@ -42,7 +42,7 @@
                                     <td><?php echo e(date('d.m.Y', strtotime($seller['created_at']))); ?></td>
                                     <td class="action">
                                         <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3 delete_user" title="Remove" data-id="<?php echo e($seller['id']); ?>">
+                                        <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($seller['id']); ?>" data-model="Admin">
                                             <i class="fas fa-trash text-danger"></i>
                                         </a>
                                     </td>

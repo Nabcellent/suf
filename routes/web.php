@@ -54,8 +54,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/product/{id}', [Admin\ProductController::class, 'getProduct'])->name('product');
 
         Route::get('/categories', [Admin\CategoryController::class, 'showCategories'])->name('categories');
+        Route::get('/category/{id?}', [Admin\CategoryController::class, 'showCategoryForms'])->name('category');
         Route::get('/coupons', [Admin\CouponController::class, 'showCoupons'])->name('coupons');
-        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
         Route::get('/attributes', [Admin\AttributeController::class, 'showAttributes'])->name('attributes');
 
         //  Overview Routes
@@ -74,11 +74,16 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
         Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers');
         Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins');
-        Route::match(['GET', 'POST', 'PUT'], '/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
+        Route::get('/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
 
         //  Admin Routes
         Route::get('/profile', [Admin\AdminController::class, 'profile'])->name('profile');
 
+
+        //  MATCH ROUTES
+        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('category');
+        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
+        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
 
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
@@ -88,6 +93,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::post('/delete-product-image')->name('product-image');
 
             Route::post('/attribute')->name('attribute');
+
+            Route::post('/users/{user}/{id?}', [Admin\UserController::class, 'createUpdateAdmin'])->name('user');
         });
 
         //  UPDATE ROUTES
@@ -97,16 +104,21 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::patch('/product/extra-price')->name('extra-price');
 
             Route::patch('/order/{id}', [Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
+
+            Route::patch('/status/toggle-update', [Admin\AjaxController::class, 'updateStatus']);
         });
 
         //  DELETE ROUTES
         Route::name('delete.')->group(function() {
             Route::delete('/product', [Admin\ProductController::class, 'deleteProduct'])->name('product');
             Route::delete('/delete-product-image')->name('product-image');
+
+            Route::delete('/delete/{id}/{model}', [Admin\AjaxController::class, 'deleteFromTable']);
         });
 
         //  AJAX ROUTES
-        Route::post('/get-sub-categories', [Admin\ProductController::class, 'getSubCategoriesByCategoryId']);
+        Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
+        Route::post('/get-categories', [Admin\AjaxController::class, 'getCategoriesBySectionId']);
     });
 });
 
@@ -162,10 +174,10 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  Thanks Page
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
-
-    //  Logout User
-    Route::get('/logout', [LoginController::class, 'logout']);
 });
+
+//  Logout User
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 
 

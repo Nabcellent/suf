@@ -1,5 +1,5 @@
 <?php if(session('alert')): ?>
-    <div class="alert alert-<?php echo e(session('alert')['type']); ?> alert-dismissible fade show shadow-lg" role="alert"
+    <div id="global_alert" class="alert alert-<?php echo e(session('alert')['type']); ?> alert-dismissible fade show shadow-lg" role="alert"
          data-duration="<?php echo e(session('alert')['duration']); ?>">
         <strong><?php echo e(session('alert')['intro']); ?></strong> <?php echo e(session('alert')['message']); ?>
 

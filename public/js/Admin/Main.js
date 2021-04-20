@@ -1,6 +1,6 @@
-const $duration = $(".alert").data('duration');
+const $duration = $("#global_alert").data('duration');
 window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+    $("#global_alert").fadeTo(500, 0).slideUp(500, function(){
         $(this).remove();
     });
 }, ($duration * 1000));

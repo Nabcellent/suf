@@ -31,7 +31,7 @@
                                 <tr>
                                     <td></td>
                                     @if(isset($seller['image']))
-                                        <td><img src="{{ asset('/images/users/seller/' . $seller['image']) }}" alt="profile" class="img-fluid"></td>
+                                        <td><img src="{{ asset('/images/users/admin/Profile/' . $seller['image']) }}" alt="profile" class="img-fluid"></td>
                                     @else
                                         <td><img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid"></td>
                                     @endif
@@ -43,7 +43,7 @@
                                     <td>{{ date('d.m.Y', strtotime($seller['created_at'])) }}</td>
                                     <td class="action">
                                         <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3 delete_user" title="Remove" data-id="{{ $seller['id'] }}">
+                                        <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['id'] }}" data-model="Admin">
                                             <i class="fas fa-trash text-danger"></i>
                                         </a>
                                     </td>

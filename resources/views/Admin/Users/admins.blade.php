@@ -7,7 +7,7 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Administrators</h6>
-                        <a href="{{ route('admin.user', ['user' => 'Seller']) }}" class="btn btn-outline-info">Add Admin</a>
+                        <a href="{{ route('admin.user', ['user' => 'Admin']) }}" class="btn btn-outline-info">Add Admin</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -18,7 +18,6 @@
                                     <th>Image</th>
                                     <th>First name</th>
                                     <th>Last name</th>
-                                    <th>username</th>
                                     <th>email</th>
                                     <th>Phone</th>
                                     <th>Date Created</th>
@@ -31,19 +30,18 @@
                                     <tr>
                                         <td></td>
                                         @if(isset($admin['image']))
-                                            <td><img src="{{ asset('/images/users/seller/' . $admin['image']) }}" alt="profile" class="img-fluid"></td>
+                                            <td><img src="{{ asset('/images/users/admin/Profile/' . $admin['image']) }}" alt="profile" class="img-fluid"></td>
                                         @else
                                             <td><img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid"></td>
                                         @endif
                                         <td>{{ $admin['first_name'] }}</td>
                                         <td>{{ $admin['last_name'] }}</td>
-                                        <td>{{ $admin['username'] }}</td>
                                         <td>{{ $admin['email'] }}</td>
                                         <td>{{ $admin['primary_phone']['phone'] }}</td>
                                         <td>{{ date('d.m.Y', strtotime($admin['created_at'])) }}</td>
                                         <td class="action">
                                             <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete_user" title="Remove" data-id="{{ $admin['id'] }}">
+                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $admin['id'] }}" data-model="Admin">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </td>

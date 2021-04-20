@@ -5,7 +5,7 @@
         <div class="dropdown header_image">
             {{ Str::substr(Str::upper(admin()->first_name), 0, 1) }}.
             {{ Str::ucfirst(admin()->last_name) }}
-            <img src="{{ asset('/images/users/admin/160-1606471_logo-java.png') }}" alt="Profile image" data-toggle="dropdown">
+            <img src="{{ asset('/images/users/admin/Profile/default-profile-pic.png') }}" alt="Profile image" data-toggle="dropdown">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
                 <div class="dropdown-divider"></div>
@@ -16,7 +16,7 @@
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Exit') }}
                 </a>
-                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                <form id="logout-topnav-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>

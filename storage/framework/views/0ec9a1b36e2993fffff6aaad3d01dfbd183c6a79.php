@@ -6,7 +6,7 @@
             <?php echo e(Str::substr(Str::upper(admin()->first_name), 0, 1)); ?>.
             <?php echo e(Str::ucfirst(admin()->last_name)); ?>
 
-            <img src="<?php echo e(asset('/images/users/admin/160-1606471_logo-java.png')); ?>" alt="Profile image" data-toggle="dropdown">
+            <img src="<?php echo e(asset('/images/users/admin/Profile/default-profile-pic.png')); ?>" alt="Profile image" data-toggle="dropdown">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="<?php echo e(route('admin.profile')); ?>">Profile</a>
                 <div class="dropdown-divider"></div>
@@ -18,7 +18,7 @@
                     <?php echo e(__('Exit')); ?>
 
                 </a>
-                <form id="logout-form" action="<?php echo e(route('admin.logout')); ?>" method="POST" style="display: none;">
+                <form id="logout-topnav-form" action="<?php echo e(route('admin.logout')); ?>" method="POST" style="display: none;">
                     <?php echo csrf_field(); ?>
                 </form>
             </div>

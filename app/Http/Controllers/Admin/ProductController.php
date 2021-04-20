@@ -134,26 +134,4 @@ class ProductController extends Controller
         return redirect(route('admin.products'))
             ->with('alert', ['type' => 'success', 'intro' => '‼', 'message' => $message, 'duration' => 7]);
     }
-
-
-
-
-
-    /**
-     * ----------------------------------------------------------------------------------------------   AJAX FETCH CALLS
-     * */
-
-    public function getSubCategoriesByCategoryId(Request $request): JsonResponse {
-        $id = $request -> id;
-
-        $subCats = Category::where('category_id', $id)->get()->toArray();
-
-        $result = '<option selected hidden value="">Select a sub-category *</option>';
-
-        foreach($subCats as $subCat) {
-            $result .= '<option value="' . $subCat['id'] . '">' . $subCat['title'] . '</option>';
-        }
-
-        return response()->json(['subCategories' => $result, 200]);
-    }
 }

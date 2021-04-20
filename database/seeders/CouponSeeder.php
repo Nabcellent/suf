@@ -21,7 +21,7 @@ class CouponSeeder extends Seeder
             'option' => 'Manual',
             'code' => 'test10',
             'categories' => '1,2',
-            'user' => 'michael.nabangi@strathmore.edu,miguelnabz@gmail.com',
+            'users' => 'michael.nabangi@strathmore.edu,miguelnabz@gmail.com',
             'coupon_type' => 'Single',
             'amount_type' => 'Percent',
             'amount' => '10',

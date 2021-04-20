@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterAdminRequest;
 use App\Models\Admin;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -36,7 +42,7 @@ class UserController extends Controller
     }
 
 
-    public function getCreateUser(Request $request, $user, $id = null) {
+    public function getCreateUser($user, $id = null): View|Factory|Redirector|Application|RedirectResponse {
         if($user !== "Customer") {
             if(!$id) {
                 $title = "Create";
@@ -44,31 +50,46 @@ class UserController extends Controller
                 $title = "Update";
             }
 
-            if($request->isMethod('POST')) {
-                $admin = Admin::create([
-                    "first_name" => "Michael",
-                    "last_name" => "Nabangi",
-                    "username" => "lobengula",
-                    "gender" => "Male",
-                    "national_id" => 36107326,
-                    "type" => 'Admin',
-                    "email" => "michael.nabz@strathmore.edu",
-                    "password" => Hash::make("mike"),
-                    "ip_address" => "127.0.0.1",
-                    "created_at" => Carbon::now(),
-                    "updated_at" => Carbon::now(),
-                ]);
-
-                $admin->phones()->create([
-                    'phone' => 110039317,
-                    'primary' => 1
-                ]);
-            }
-
             return view('Admin.Users.create')
                 ->with(compact('title', 'user'));
         }
 
         return redirect(route('customers'));
+    }
+
+    public function createUpdateAdmin(RegisterAdminRequest $request, $user, $id = null): RedirectResponse {
+        $data = $request->all();
+
+        DB::transaction(function() use ($request, $user, $data) {
+            $password = ($user === 'Admin') ? 'Admin' : 'Seller';
+
+            $admin = Admin::create([
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "national_id" => $data['national_id'],
+                "type" => Str::ucfirst($user),
+                "email" => $data['email'],
+                "password" => Hash::make($password),
+                "ip_address" => $request->ip(),
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ]);
+
+            $admin->phones()->create([
+                'phone' => $data['phone'],
+                'primary' => 1
+            ]);
+        });
+
+        if($user === 'Seller') {
+            $route = redirect()->route('admin.sellers');
+        } else {
+            $route = redirect()->route('admin.admins');
+        }
+
+        $message = $user . " Created.";
+        return $route
+            ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 }

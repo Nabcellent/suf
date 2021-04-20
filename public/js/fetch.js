@@ -196,8 +196,6 @@ $(document).on('click', '#delivery-address form #county', function() {
 });
 
 function fetchSubCounties(data) {
-
-
     $.ajax({
         data: data,
         type: 'POST',

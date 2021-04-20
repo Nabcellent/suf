@@ -12,6 +12,19 @@ use JetBrains\PhpStorm\ArrayShape;
 class Category extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'section_id',
+        'category_id',
+        'discount',
+        'description',
+    ];
+
+    /**
      * RELATIONSHIP FUNCTIONS
     */
     public function section(): BelongsTo

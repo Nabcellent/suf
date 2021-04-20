@@ -31,7 +31,6 @@ class ProductSeeder extends Seeder
                 "description" => "Smart TV 50",
                 "label" => "new",
                 "base_price" => 1600,
-                "sale_price" => 0,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ], [
@@ -44,7 +43,6 @@ class ProductSeeder extends Seeder
                 "description" => "Smart phone with 4GB RAM and 128GB ROM",
                 "label" => "sale",
                 "base_price" => 300,
-                "sale_price" => 0,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ], [
@@ -57,7 +55,6 @@ class ProductSeeder extends Seeder
                 "description" => "Smart phone with 8GB RAM and 256GB ROM",
                 "label" => "new",
                 "base_price" => 2100,
-                "sale_price" => 1800,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ],

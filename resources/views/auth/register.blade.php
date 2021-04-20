@@ -74,8 +74,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Email address *</label>
-                                            <input type="email" class="form-control" name="email" placeholder="example@gmail.com"
-                                                   value="{{ old('email') }}" aria-label required>
+                                            <input type="email" class="form-control" name="email" placeholder="example@gmail.com" value="{{ old('email') }}" aria-label required>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-group m-0">

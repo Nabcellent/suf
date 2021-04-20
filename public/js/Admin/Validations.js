@@ -93,11 +93,45 @@ $(() => {
      * *********************************************************    ADD CATEGORY
      */
 
-    $('#frm_add_category').validate({
+    $('form#add_category').validate({
         rules: {
-            title: 'required',
+            category_title: 'required',
+            sections: 'required',
+            'sections[]': 'required',
+            section: 'required',
+        }
+    });
+
+    /**
+     * *********************************************************    ADD CATEGORY
+     */
+
+    $('form#add_sub_category').validate({
+        rules: {
+            sub_category_title: 'required',
             sections: 'required',
             section: 'required',
+        }
+    });
+
+
+    /**
+     * *********************************************************    CREATE ADMIN
+     */
+
+    $('form#create_admin').validate({
+        rules: {
+            first_name: 'required',
+            last_name: 'required',
+            email: 'required',
+            phone: 'required',
+            national_id: 'required',
+            gender: 'required',
+        },
+        messages: {
+            phone: {
+                pattern: 'Invalid phone number'
+            }
         }
     });
 });

@@ -51,4 +51,42 @@ $(() => {
             }
         });
     });
+
+    /**
+     *  ==========================================================================   FETCH CALL FOR CREATE CATEGORY PAGE
+     * */
+    const section = $('select#section');
+
+    if(section.val().trim()) {
+        fetchCategoriesBySectionId({
+            id:section.val(),
+            categoryId: $('select#section :selected').attr('data-categoryId')
+        });
+    }
+
+    $('#section').on('change', async function() {
+        const sectionId = $(this).val();
+
+        fetchCategoriesBySectionId({id:sectionId});
+    });
 });
+
+function fetchCategoriesBySectionId(data) {
+    $.ajax({
+        data: data,
+        type:'POST',
+        url:'/admin/get-categories',
+        statusCode: {
+            200: function(responseObject) {
+                $('select#category').html(responseObject.categories);
+            },
+            500: function(responseObject, textStatus, errorThrown) {
+                console.log(errorThrown);
+                alert("Something went wrong!");
+            }
+        },
+        error: () => {
+            alert("Error");
+        }
+    });
+}

@@ -38,6 +38,7 @@ function tableCount(): array {
         'orders' => Order::all()->count(),
         'customers' => User::all()->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
+        'admins' => Admin::where('type', '<>', 'Seller')->count(),
     ];
 }
 

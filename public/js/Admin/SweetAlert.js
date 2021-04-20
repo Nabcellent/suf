@@ -14,14 +14,14 @@ const deleteFromTable = (id, model) => {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: `Yes, delete ${model}!`
+        confirmButtonText: `Yes, delete ${model}!`,
     }).then(result => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/delete/' + id + '/' + model,
+                url: '/admin/delete/' + id + '/' + model,
                 type: 'DELETE',
-                success: function (result) {
-                    if(result === 1) {
+                statusCode: {
+                    200: function(responseObject, textStatus, errorThrown) {
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
@@ -29,7 +29,9 @@ const deleteFromTable = (id, model) => {
                         ).then(() => {
                             location.reload();
                         });
-                    } else {
+                    },
+                    500: function(responseObject, textStatus, errorThrown) {
+                        console.log(errorThrown);
                         alert("Something went wrong!");
                     }
                 },

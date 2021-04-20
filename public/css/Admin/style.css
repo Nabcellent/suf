@@ -81,7 +81,7 @@ label.error {
     margin: 0;
 }
 
-.alert {
+#global_alert {
     position: absolute;
     right: 0;
     top: 0;
