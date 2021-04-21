@@ -20,7 +20,7 @@ use App\Models\Cart;
     @foreach($cart as $item)
         <tr>
             <th scope="row">{{$loop -> iteration}}</th>
-            <td><img src="{{'storage/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
+            <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
             <td>
                 <a href="{{url('/product/' . $item['product']['id'] . '/' . preg_replace("/\s+/", "", $item['product']['title']))}}">
                     {{$item['product']['title']}}

@@ -24,6 +24,10 @@ class PolicyController extends Controller
         return view('contact_us');
     }
 
+    public function showAboutUs(): Factory|View|Application {
+        return view('about');
+    }
+
     public function sendEmail(Request $request): RedirectResponse {
         $request->validate([
             'email' => 'required|email:rfc,dns',

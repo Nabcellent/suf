@@ -20,7 +20,7 @@ use App\Models\Cart;
     <?php $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
             <th scope="row"><?php echo e($loop -> iteration); ?></th>
-            <td><img src="<?php echo e('storage/images/products/' . $item['product']['main_image']); ?>" alt="Product Image"></td>
+            <td><img src="<?php echo e('/images/products/' . $item['product']['main_image']); ?>" alt="Product Image"></td>
             <td>
                 <a href="<?php echo e(url('/product/' . $item['product']['id'] . '/' . preg_replace("/\s+/", "", $item['product']['title']))); ?>">
                     <?php echo e($item['product']['title']); ?>

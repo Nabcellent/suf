@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark top_header">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="<?php echo e(asset('storage/images/general/main_logo.jpg')); ?>" alt="SU-F logo" class="img-fluid main_logo">
+                <img src="<?php echo e(asset('/images/general/store_logo.jpg')); ?>" alt="SU-F logo" class="img-fluid main_logo">
             </a>
 
             <div class="" id="navbarSupportedContent">

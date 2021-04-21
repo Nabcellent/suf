@@ -7,11 +7,9 @@
 
     <div id="index">
         <div class="container-fluid p-0">
-
             {{--    Start Content    --}}
 
             {{--    Start Box Section    --}}
-
             <div class="container">
                 <div class="row">
 
@@ -19,7 +17,7 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="{{ $item['url'] }}">
-                                    <img class="card-img" src="{{ asset('storage/images/box_section/' . $item['image']) }}" alt="Image">
+                                    <img class="card-img" src="{{ asset('/images/box_section/' . $item['image']) }}" alt="Image">
                                     <div class="card-img-overlay text-left">
                                         <h2 class="card-title">{{$item['title']}}</h2>
                                         <p class="card-text">{{$item['description']}}</p>
@@ -33,10 +31,7 @@
             </div>
             {{--    End Box Section    --}}
 
-            {{--    Start ProductSeeder Preview    --}}
-
             <div class="products">
-
                 <!--    Start FEATURED PRODUCTS    -->
 
                 <div id="content" class="container-fluid latest_products product_container">
@@ -70,14 +65,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -138,14 +133,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -200,14 +195,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -270,14 +265,14 @@
                                             <div class="card">
                                                 <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
                                                     @if(isset($item['main_image']))
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     @else
                                                         <?php $image_path = ''; ?>
                                                     @endif
                                                     @if(!empty($item['main_image']) && file_exists($image_path))
                                                         <img src="{{asset($image_path)}}" alt="Product image">
                                                     @else
-                                                        <img src="{{asset('storage/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                                     @endif
                                                 </a>
                                                 <div class="supplier">
@@ -329,7 +324,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
-                            <img src="{{ asset('storage/images/general/main_logo.jpg') }}" alt="logo" class="img-responsive">
+                            <img src="{{ asset('images/general/store_logo.jpg') }}" alt="logo" class="img-responsive">
                         </div>
                     </div>
                 </div>

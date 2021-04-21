@@ -34,19 +34,19 @@
                     <div class="col-6">
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $details['main_image'])); ?>')"></div>
+                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $details['main_image'])); ?>')"></div>
 
                                 <?php $__currentLoopData = $details['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $image['image'])); ?>')"></div>
+                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $image['image'])); ?>')"></div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $details['main_image'])); ?>')"></div>
+                                <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $details['main_image'])); ?>')"></div>
 
                                 <?php $__currentLoopData = $details['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('storage/images/products/' . $image['image'])); ?>')"></div>
+                                    <div class="swiper-slide" style="background-image:url('<?php echo e(asset('/images/products/' . $image['image'])); ?>')"></div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
@@ -142,7 +142,9 @@
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Product Details</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Related Products</a>
+                <?php if(count($related) > 0): ?>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Related Products</a>
+                <?php endif; ?>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -187,74 +189,74 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <!--    Start Products you may Like    -->
 
-                <div id="products_like" class="row">
-                    <div class="col">
-                        <div class="row like_title">
-                            <div class="col">
-                                <h3>Products you may Like</h3>
-                                <hr class="bg-light my-0">
+            <?php if(count($related) > 0): ?>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <!--    Start Products you may Like    -->
+
+                    <div id="products_like" class="row">
+                        <div class="col">
+                            <div class="row like_title">
+                                <div class="col">
+                                    <h3>Products you may Like</h3>
+                                    <hr class="bg-light my-0">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-2">
-                            <div id="results" class="col column">
+                            <div class="row mb-2">
+                                <div id="results" class="col column">
 
-                                <!--    Start Single ProductSeeder    -->
-                                <?php $__currentLoopData = $related; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="card">
-                                        <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
-                                            <?php if(isset($item['main_image'])): ?>
-                                                <?php $image_path = 'images/products/' . $item['main_image']; ?>
-                                            <?php else: ?>
-                                                <?php $image_path = ''; ?>
-                                            <?php endif; ?>
-                                            <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
-                                                <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
-                                            <?php else: ?>
-                                                <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
-                                            <?php endif; ?>
-                                        </a>
-                                        <div class="card-body">
-                                            <h6 class="card-title"><a href=""><?php echo e($item['title']); ?></a></h6>
-                                            <div class="d-flex justify-content-center">
-                                                <hr class="col-7 m-0">
-                                            </div>
-                                            <p class="m-0 text-center text-secondary"><?php echo e($item['brand']['name']); ?></p>
-                                            <div class="row">
-                                                <div class="col prices">
-                                                    <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
-                                                    <?php if($discountPrice > 0): ?>
-                                                        <p><?php echo e($discountPrice); ?>/=</p><br>
-                                                        <del class="text-secondary"><?php echo e($item['base_price']); ?>/=</del>
-                                                    <?php else: ?>
-                                                        <p><?php echo e($item['base_price']); ?>/=</p>
-                                                    <?php endif; ?>
+                                    <!--    Start Single ProductSeeder    -->
+                                    <?php $__currentLoopData = $related; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="card">
+                                            <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
+                                                <?php if(isset($item['main_image'])): ?>
+                                                    <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                <?php else: ?>
+                                                    <?php $image_path = ''; ?>
+                                                <?php endif; ?>
+                                                <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
+                                                    <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
+                                                <?php else: ?>
+                                                    <img src="<?php echo e(asset('images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                <?php endif; ?>
+                                            </a>
+                                            <div class="card-body">
+                                                <h6 class="card-title"><a href=""><?php echo e($item['title']); ?></a></h6>
+                                                <div class="d-flex justify-content-center">
+                                                    <hr class="col-7 m-0">
                                                 </div>
-                                                <div class="col button">
-                                                    <a href="" class="btn btn-block btn-outline-primary add">
-                                                        <i class="fas fa-cart-plus"></i> +
-                                                    </a>
+                                                <p class="m-0 text-center text-secondary"><?php echo e($item['brand']['name']); ?></p>
+                                                <div class="row">
+                                                    <div class="col prices">
+                                                        <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                        <?php if($discountPrice > 0): ?>
+                                                            <p><?php echo e($discountPrice); ?>/=</p><br>
+                                                            <del class="text-secondary"><?php echo e($item['base_price']); ?>/=</del>
+                                                        <?php else: ?>
+                                                            <p><?php echo e($item['base_price']); ?>/=</p>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="col button">
+                                                        <a href="" class="btn btn-block btn-outline-primary add">
+                                                            <i class="fas fa-cart-plus"></i> +
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <a href="#" class="product_label <?php echo e(strtolower($item['label'])); ?>">
+                                                <span class="label"><?php echo e($item['label']); ?></span>
+                                            </a>
                                         </div>
-                                        <a href="#" class="product_label <?php echo e(strtolower($item['label'])); ?>">
-                                            <span class="label"><?php echo e($item['label']); ?></span>
-                                        </a>
-                                    </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <!--    End Single ProductSeeder    -->
-                                
-                            <!--    End Single ProductSeeder    -->
-
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!--    End Products you may Like    -->
                 </div>
-                <!--    End Products you may Like    -->
-            </div>
+            <?php endif; ?>
+
         </div>
         <!--    End Product Info    -->
 

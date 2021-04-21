@@ -123,32 +123,21 @@
                         </div>
                         <div class="row col">
                             <p class="text-muted">
-                                Transport and Additional Costs are calculated based on value you have entered.
+                                Transport and Additional Costs are calculated based on your delivery address and cart quantity.
                             </p>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div id="cart_summary" class="table-responsive">
-                                    <table class="table table-bordered table-dark">
-                                        <tbody>
-                                        <tr>
-                                            <td>Order Sub-Total</td>
-                                            <th>KES</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Total Tax</td>
-                                            <th>KES 00.00</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Total Discount</td>
-                                            <th>KES 00.00</th>
-                                        </tr>
-                                        <tr class="total">
-                                            <td>Total</td>
-                                            <th>KES 00.00</th>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="svg">
+                                    @if(Auth::check())
+                                        @if(Auth::user()->gender === "Male")
+                                            <img src="{{ asset('images/illustrations/undraw_empty_cart_co35.svg') }}" class="img-fluid shadow-lg" alt="">
+                                        @else
+                                            <img src="{{ asset('images/illustrations/undraw_shopping_app_flsj.svg') }}" class="img-fluid shadow-lg" alt="">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('images/illustrations/undraw_shopping_eii3.svg') }}" class="img-fluid shadow-lg" alt="">
+                                    @endif
                                 </div>
                             </div>
                         </div>

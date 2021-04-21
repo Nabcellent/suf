@@ -92,8 +92,6 @@ $(document).on('click', '.add-phone', () => {
 
 
 
-
-
 /**=================================================================================  DELETE CART ITEM FROM TABLE   */
 
 $(document).on('click', '#cart .delete_cart_item', function() {

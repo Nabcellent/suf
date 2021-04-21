@@ -140,6 +140,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
     //  USER PROFILE ROUTES
     Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
     Route::patch('/add-phone', [UserController::class, 'createPhone']);
+    Route::patch('/upload-profile-image', [UserController::class, 'uploadProfilePic'])->name('profile-pic');
     Route::get('/delete-phone/{id}', [UserController::class, 'deletePhone']);
     Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])->whereNumber('id')->name('delivery-address');
     Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
@@ -180,6 +181,7 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 Route::get('/contact', [PolicyController::class, 'showContactUsForm'])->name('contact-us');
 Route::post('/contact', [PolicyController::class, 'sendEmail'])->name('contact-us');
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
+Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
 
 //  AJAX ROUTES
 //  Get Variation price

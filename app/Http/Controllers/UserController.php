@@ -18,7 +18,9 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\User;
 use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -131,6 +133,18 @@ class UserController extends Controller
         ]);
 
         return response()->json(['status' => true, 'message' => 'Phone has been added!']);
+    }
+
+    public function uploadProfilePic(Request $request) {
+        $file = $request->file('image');
+        $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
+        $file->move(public_path('images/users/profile'), $imageName);
+
+        $user = Auth::user();
+        $user->image = $imageName;
+        $user->save();
+
+        return back()->with('alert', alert('success', 'Success', 'Profile picture saved', 7));
     }
 
     public function updatePassword(Request $req): RedirectResponse

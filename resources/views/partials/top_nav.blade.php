@@ -25,7 +25,7 @@
                                 @foreach(latestFour() as $four)
                                     <div class="list_item text-center">
                                         <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
-                                            <img src="{{ asset('storage/images/products/' . $four['main_image']) }}" alt="new ProductSeeder">
+                                            <img src="{{ asset('/images/products/' . $four['main_image']) }}" alt="new ProductSeeder">
                                             <h4 class="title">{{$four['title']}}</h4>
                                         </a>
                                     </div>
@@ -42,7 +42,7 @@
                                     @if(count($section['categories']) > 0)
                                         <li class="list_item">
                                             <h4 class="title">
-                                                <a href="{{url('#')}}">{{$section['title']}}' Fashion</a>
+                                                <a>{{$section['title']}}' Fashion</a>
                                             </h4>
                                             <div class="mt-0 dropdown-divider"></div>
                                             <ul>
@@ -58,13 +58,13 @@
                                 @endforeach
 
                                 <li class="list_item">
-                                    <img src="{{asset('storage/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
+                                    <img src="{{asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
                                     <h4 class="title"><a href="{{url('/products')}}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="{{url('/about')}}" class="nav_link">About</a></li>
-                        <li><a href="{{url('/contact-us')}}" class="nav_link">Contact Us</a></li>
+                        <li><a href="{{ route('about-us') }}" class="nav_link">About</a></li>
+                        <li><a href="{{ route('contact-us') }}" class="nav_link">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>

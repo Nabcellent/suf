@@ -6,11 +6,9 @@
 
     <div id="index">
         <div class="container-fluid p-0">
-
             
 
             
-
             <div class="container">
                 <div class="row">
 
@@ -18,7 +16,7 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="<?php echo e($item['url']); ?>">
-                                    <img class="card-img" src="<?php echo e(asset('storage/images/box_section/' . $item['image'])); ?>" alt="Image">
+                                    <img class="card-img" src="<?php echo e(asset('/images/box_section/' . $item['image'])); ?>" alt="Image">
                                     <div class="card-img-overlay text-left">
                                         <h2 class="card-title"><?php echo e($item['title']); ?></h2>
                                         <p class="card-text"><?php echo e($item['description']); ?></p>
@@ -32,10 +30,7 @@
             </div>
             
 
-            
-
             <div class="products">
-
                 <!--    Start FEATURED PRODUCTS    -->
 
                 <div id="content" class="container-fluid latest_products product_container">
@@ -69,14 +64,14 @@
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -137,14 +132,14 @@
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -199,14 +194,14 @@
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -269,14 +264,14 @@
                                             <div class="card">
                                                 <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
                                                     <?php if(isset($item['main_image'])): ?>
-                                                        <?php $image_path = 'storage/images/products/' . $item['main_image']; ?>
+                                                        <?php $image_path = 'images/products/' . $item['main_image']; ?>
                                                     <?php else: ?>
                                                         <?php $image_path = ''; ?>
                                                     <?php endif; ?>
                                                     <?php if(!empty($item['main_image']) && file_exists($image_path)): ?>
                                                         <img src="<?php echo e(asset($image_path)); ?>" alt="Product image">
                                                     <?php else: ?>
-                                                        <img src="<?php echo e(asset('storage/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
+                                                        <img src="<?php echo e(asset('/images/general/on-on-C100919_Image_01.jpeg')); ?>" alt="Product image">
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
@@ -328,7 +323,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
-                            <img src="<?php echo e(asset('storage/images/general/main_logo.jpg')); ?>" alt="logo" class="img-responsive">
+                            <img src="<?php echo e(asset('images/general/store_logo.jpg')); ?>" alt="logo" class="img-responsive">
                         </div>
                     </div>
                 </div>

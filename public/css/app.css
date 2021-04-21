@@ -1159,6 +1159,28 @@ nav ul.pagination {
     height: .1rem;
     background-image:  linear-gradient(to right, firebrick, var(--dark-blue));
 }
+#profile .profile-image {
+    position: relative;
+}
+#profile .profile-image img {
+    height: 15rem;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: .4rem .2rem;
+}
+#profile .profile-image span {
+    position: absolute;
+    right: -.7rem;
+    top: -.7rem;
+    font-size: 10pt;
+    color: var(--dark-gold);
+    cursor: pointer;
+    transition: all .3s;
+}
+#profile .profile-image span:hover {
+    color: var(--dark-red);
+}
 #profile .card-body {
     background: rgb(230, 232, 232);
 }
