@@ -113,21 +113,4 @@ class RegisterController extends Controller
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
     }
-
-    protected function registered(Request $request, $user): Factory|View|Redirector|RedirectResponse|Application {
-        $type = 'success';
-        $intro = "Awesome! 🥳 ";
-        $message = "Your account has been activated. Welcome to SU-F Store.";
-
-        if($request->user()->hasVerifiedEmail()) {
-            $this->guard()->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return redirect()->route('login')
-                ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
-        }
-
-        return view('auth.verify');
-    }
 }
