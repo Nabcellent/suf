@@ -32,11 +32,11 @@ class UserController extends Controller
             $req->validate([
                 'first_name' => 'required|max:20|alpha',
                 'last_name' => 'required|max:20|alpha',
-                'phone' => [
+                /*'phone' => [
                     'required','digits_between: 9, 10',
                     'regex:/^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
-                    Rule::unique('phones')->ignore(Auth::id(), 'user_id'),
-                ],
+                    Rule::unique('phones')->ignore(Auth::id(), 'phoneable_id'),
+                ],*/
                 'address' => 'nullable|min:5'
             ]);
 
@@ -105,10 +105,7 @@ class UserController extends Controller
         return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
     }
 
-    /**
-     * @throws ValidationException
-     */
-    public function updatePhone(Request $req): JsonResponse
+    public function createPhone(Request $req): JsonResponse
     {
         $valid = Validator::make($req->all(), [
             'phone' => [
@@ -127,11 +124,11 @@ class UserController extends Controller
         $phoneNumber = $req -> phone;
         $phoneNumber = strlen($phoneNumber) === 10 ? substr($phoneNumber, -9) : $phoneNumber;
 
-        $phone = new Phone;
-        $phone -> user_id = Auth::id();
-        $phone -> phone = $phoneNumber;
-        $phone -> primary = 0;
-        $phone -> save();
+        $user = User::find(Auth::id());
+        $user->phones()->create([
+            'phone' => $phoneNumber,
+            'primary' => 0
+        ]);
 
         return response()->json(['status' => true, 'message' => 'Phone has been added!']);
     }
@@ -152,6 +149,9 @@ class UserController extends Controller
         return back()
             ->with('alert', ['type' => 'success', 'intro' => 'Success! ', 'message' => $message, 'duration' => 7]);
     }
+
+
+
 
     public function deletePhone($id): RedirectResponse
     {
@@ -178,6 +178,8 @@ class UserController extends Controller
         $message = "Address Deleted.";
         return back()->with('alert', ['type' => 'success', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
     }
+
+
 
 
 
@@ -214,7 +216,7 @@ class UserController extends Controller
         $check = Phone::where('phone', $phone);
 
         if(Auth::check()) {
-            $check->where('user_id', '<>', Auth::id());
+            $check->where('phoneable_id', '<>', Auth::id())->where('phoneable_type', '<>', User::class);
         }
 
         $exists = $check->exists();

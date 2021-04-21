@@ -120,13 +120,6 @@ $(() => {
                 minlength: 3,
                 lettersonly: true
             },
-            phone: {
-                required: true,
-                digits: true,
-                maxlength: 9,
-                minlength: 9,
-                remote: 'check-phone',
-            }
         },
         messages: {
             first_name: {

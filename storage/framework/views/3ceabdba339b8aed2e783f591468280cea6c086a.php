@@ -1,11 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
-$user = Auth::user();
-
-?>
 
 <header id="top_header" class="navigation-sticky">
 
@@ -14,7 +6,7 @@ $user = Auth::user();
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark top_header">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="/images/general/main_logo.jpg" alt="SU-F logo" class="img-fluid main_logo">
+                <img src="<?php echo e(asset('images/general/main_logo.jpg')); ?>" alt="SU-F logo" class="img-fluid main_logo">
             </a>
 
             <div class="" id="navbarSupportedContent">
@@ -23,23 +15,29 @@ $user = Auth::user();
                     <?php if(Auth::check()): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                <?php echo e(Str::substr(ucfirst($user -> first_name), 0, 1) . '. ' . ucfirst($user -> last_name)); ?>
+                                <?php echo e(Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)); ?>
 
                                 <i class="fas fa-user-circle"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/checkout">Checkout</a>
-                                <a class="dropdown-item" href="/profile/edit">My Account</a>
+                                <a class="dropdown-item" href="<?php echo e(url('/checkout')); ?>">Checkout</a>
+                                <a class="dropdown-item" href="<?php echo e(url('/orders')); ?>">My Orders</a>
+                                <a class="dropdown-item" href="<?php echo e(url('/account')); ?>">My Account</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/sign-out">Sign Out</a>
+                                <a class="dropdown-item" href="<?php echo e(route('logout')); ?>">Sign Out</a>
                             </div>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/register">Register</a>
+                            <a class="nav-link" style="transform: scale(1);">Hey There!👋 You might wanna</a>
                         </li>
-                        <li class="nav-item"><span class="navbar-brand m-0 px-1 text-muted">or</span></li>
-                        <li class="nav-item"><a class="nav-link" href="/sign-in">Sign In</a></li>
+                        <li class="nav-item" style="text-decoration: underline;">
+                            <a class="nav-link" href="<?php echo e(url('register')); ?>">Register</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link">or</a></li>
+                        <li class="nav-item" style="text-decoration: underline;">
+                            <a class="nav-link" href="<?php echo e(url('login')); ?>">Sign In</a>
+                        </li>
                     <?php endif; ?>
 
                 </ul>

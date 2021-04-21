@@ -4,17 +4,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <!--    Start Products    -->
-
                 <h3>Trending Categories</h3>
                 <div class="dropdown-divider"></div>
 
-                <?php $trendingCategories = trendingCategories() ?>
-                @foreach($trendingCategories as $item)
-                    <p><a href="#">{{$item -> title}}</a></p>
-                @endforeach
+                @if(count(trendingCategories()) > 0)
+                    @foreach(trendingCategories() as $item)
+                        <p><a href="{{ route('products', ['categoryId' => $item['id']]) }}">{{$item['category']}}</a></p>
+                    @endforeach
+                @endif
 
-                <!--    End Products    -->
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
 
@@ -22,7 +20,7 @@
 
                 <h3>Important links</h3>
                 <p><a href="{{url('cart')}}">Shopping Cart</a></p>
-                <p><a href="{{url('products')}}">Our Products</a></p>
+                <p><a href="{{route('products')}}">Our Products</a></p>
                 <p><a href="{{route('profile', ['page' => 'edit'])}}">My Account</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="#">Strathmore University Website</a></p>

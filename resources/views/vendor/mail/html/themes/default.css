@@ -28,7 +28,8 @@ blockquote {
 }
 
 a {
-    color: #3869d4;
+    color: rgb(152, 127, 29);
+    text-decoration: none;
 }
 
 a img {

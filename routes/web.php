@@ -136,52 +136,30 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
  */
 
 Route::middleware(['verified', 'auth'])->group(function() {
-    //  User Account
-    Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])
-        ->middleware(['verified', 'auth'])->name('profile');
-
-    //  Phone Numbers
-    Route::patch('/add-phone', [UserController::class, 'updatePhone']);
-
+    //  USER PROFILE ROUTES
+    Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
+    Route::patch('/add-phone', [UserController::class, 'createPhone']);
     Route::get('/delete-phone/{id}', [UserController::class, 'deletePhone']);
-
-    //  Delivery Addresses
-    Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])
-        ->whereNumber('id')->name('delivery-address');
-
+    Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])->whereNumber('id')->name('delivery-address');
     Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
-
-    //  Users Orders
     Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
+    Route::post('/change-password', [UserController::class, 'updatePassword'])->name('change-password');
 
-    //  Get Sub-County by Id    ~   AJAX
-    Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
-
-    //  Check User Password     ~   AJAX
-    Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
-
-    //  Change Password
-    Route::post('/change-password', [UserController::class, 'updatePassword'])
-        ->middleware(['verified', 'auth'])->name('change-password');
-
-
-    //  Apply Coupon
+    //  CART ROUTES
     Route::post('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply-coupon');
 
-
-    //  Checkout
+    //  ORDER ROUTES
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
     Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('place-order');
-
-    //  Thanks Page
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
+
+    //  AJAX ROUTES
+    Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
+    Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
+
+    //  LOGOUT
+    Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 });
-
-//  Logout User
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
-
-
-
 
 //  Check if Email Exists
 Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
@@ -191,31 +169,20 @@ Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhon
 /**
  *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PRODUCT RELATED ROUTES
 */
-Route::get('/products', [ProductController::class, 'index']);
-//  Get category Url
-Route::get('/products/{categoryId?}', [ProductController::class, 'index']);
-
-//  Product Details Route
+Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
-//  Get Variation price
-Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
 
-//  Add to Cart Route
-Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
-
-//  Shopping Cart Route
+//  CART ROUTES
 Route::get('/cart', [ProductController::class, 'cart'])/*->middleware('password.confirm')*/;
-
-//  Update Cart Item Quantity
+Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
-
-//  Delete Cart Item
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
-
-
-
-
-
-
+//  CONTACT / TERMS & CONDITIONS
+Route::get('/contact', [PolicyController::class, 'showContactUsForm'])->name('contact-us');
+Route::post('/contact', [PolicyController::class, 'sendEmail'])->name('contact-us');
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
+
+//  AJAX ROUTES
+//  Get Variation price
+Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);

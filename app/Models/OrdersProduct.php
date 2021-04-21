@@ -19,7 +19,7 @@ class OrdersProduct extends Model
     }
 
     public function product(): BelongsTo {
-        return $this->belongsTo(Product::class)->with('brand', 'seller');
+        return $this->belongsTo(Product::class)->with('subCategory','brand', 'seller');
     }
 
 

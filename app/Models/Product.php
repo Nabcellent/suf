@@ -68,8 +68,8 @@ class Product extends Model
     /**
      * STATIC FUNCTIONS
      */
-    public static function products() {
-        return self::with('seller');
+    public static function products(): Builder {
+        return self::with('subCategory', 'brand', 'seller');
     }
 
     public static function getDiscountPrice($productId): int

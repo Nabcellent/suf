@@ -18,7 +18,7 @@ if($user['gender'] ==='Male') {
         <hr>
     </div>
     <div class="card-body">
-        <form id="profile-form" class="anime_form" action="<?php echo e(route('user-account')); ?>" method="POST">
+        <form id="profile-form" class="anime_form" action="<?php echo e(route('profile')); ?>" method="POST">
             <?php echo csrf_field(); ?>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -70,20 +70,16 @@ unset($__errorArgs, $__bag); ?>
             </div>
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="u_email">Email address</label>
+                    <label>Email address</label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="far fa-envelope"></i></span>
-                        </div>
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-envelope"></i></span></div>
                         <input type="email" class="form-control" name="email" value="<?php echo e($user['email']); ?>" readonly>
                     </div>
                 </div>
                 <div class="form-group col">
-                    <label for="u_gender">Gender</label>
+                    <label>Gender</label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><?= $genderIcon ?></span>
-                        </div>
+                        <div class="input-group-prepend"><span class="input-group-text"><?= $genderIcon ?></span></div>
                         <input type="text" class="form-control" name="gender" value="<?php echo e($gender); ?>" readonly>
                     </div>
                 </div>
@@ -94,6 +90,7 @@ unset($__errorArgs, $__bag); ?>
                 </button>
                 <img id="update_profile_gif" class="d-none loader_gif" src="<?php echo e(asset('/images/loaders/Infinity-1s-197px.gif')); ?>" alt="loader.gif">
             </div>
+
             <div class="form-group">
                 <label class="d-flex justify-content-between">
                     <span>Phone Number(s) *</span>

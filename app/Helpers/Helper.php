@@ -4,6 +4,7 @@ use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\OrdersProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Pure;
 
@@ -19,6 +21,15 @@ function admin(): ?Authenticatable {
     return Auth::guard('admin')->user();
 }
 
+
+function alert($type, $intro, $message, $duration): array {
+    return [
+        'type' => $type,
+        'intro' => $intro,
+        'message' => $message,
+        'duration' => $duration,
+    ];
+}
 
 function sections() {
     return Category::sections();
@@ -28,7 +39,12 @@ function latestFour(): array {
         ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
 }
 function trendingCategories(): Collection|array {
-    return Product::all();
+    return OrdersProduct::select('cat.id', 'cat.title AS category', DB::raw('COUNT(cat.title) as count'))
+        ->join('products AS p', 'orders_products.product_id', 'p.id')
+        ->join('categories AS sub', 'p.category_id', 'sub.id')
+        ->join('categories AS cat', 'sub.category_id', 'cat.id')
+        ->groupBy('category', 'cat.id')->orderByDesc('count')->limit(5)
+        ->get()->toArray();
 }
 
 //  COUNT FUNCTIONS

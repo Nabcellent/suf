@@ -50,7 +50,7 @@ foreach($policies as $item) {
                 <div class="col">
                     <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Our Terms & Conditions | Refund</li>
                         </ul>
                     </nav>

@@ -1,9 +1,6 @@
-<?php use Illuminate\Support\Arr;
-
-$__env->startSection('title', 'Policies'); ?>
+<?php $__env->startSection('title', 'Policies'); ?>
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('/partials/top_header', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->make('/partials/top_nav', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('/partials/top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php
 $tabMenu = '';
@@ -52,7 +49,7 @@ foreach($policies as $item) {
                 <div class="col">
                     <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Our Terms & Conditions | Refund</li>
                         </ul>
                     </nav>
@@ -90,4 +87,4 @@ foreach($policies as $item) {
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('/layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/policies.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('/layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/policies.blade.php ENDPATH**/ ?>

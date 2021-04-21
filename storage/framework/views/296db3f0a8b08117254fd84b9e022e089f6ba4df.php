@@ -4,17 +4,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <!--    Start Products    -->
-
                 <h3>Trending Categories</h3>
                 <div class="dropdown-divider"></div>
 
-                <?php $trendingCategories = trendingCategories() ?>
-                <?php $__currentLoopData = $trendingCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <p><a href="#"><?php echo e($item -> title); ?></a></p>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php if(count(trendingCategories()) > 0): ?>
+                    <?php $__currentLoopData = trendingCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <p><a href="<?php echo e(route('products', ['categoryId' => $item['id']])); ?>"><?php echo e($item['category']); ?></a></p>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
 
-                <!--    End Products    -->
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
 
@@ -22,7 +20,7 @@
 
                 <h3>Important links</h3>
                 <p><a href="<?php echo e(url('cart')); ?>">Shopping Cart</a></p>
-                <p><a href="<?php echo e(url('products')); ?>">Our Products</a></p>
+                <p><a href="<?php echo e(route('products')); ?>">Our Products</a></p>
                 <p><a href="<?php echo e(route('profile', ['page' => 'edit'])); ?>">My Account</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="#">Strathmore University Website</a></p>
