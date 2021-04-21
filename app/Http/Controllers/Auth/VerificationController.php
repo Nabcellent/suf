@@ -87,17 +87,4 @@ class VerificationController extends Controller
                 ])
                 ->with('verified', true);
     }
-
-    protected function verified(Request $request): RedirectResponse {
-        $type = 'success';
-        $intro = "Awesome! 🥳 ";
-        $message = "Your account has been activated. Your may now login and shoppp!.";
-
-        if(Auth::check()) {
-            Auth::logout();
-        }
-
-        return redirect()->route('login')
-            ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
-    }
 }
