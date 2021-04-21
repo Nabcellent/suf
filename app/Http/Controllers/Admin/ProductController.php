@@ -31,6 +31,15 @@ class ProductController extends Controller
             ->with(compact('products'));
     }
 
+    public function showProductForm(): Factory|View|Application {
+        $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
+        $sellers = Admin::select('id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
+        $sections = Category::sections();
+
+        return view('Admin.products.create')
+            ->with(compact('brands', 'sellers', 'sections'));
+    }
+
     public function getProduct($id): Factory|View|Application {
         $product = Product::productDetails($id)->first()->toArray();
         $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
@@ -70,15 +79,6 @@ class ProductController extends Controller
         return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function showProductForm(): Factory|View|Application {
-        $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
-        $sellers = Admin::select('id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
-        $sections = Category::sections();
-
-        return view('Admin.products.create')
-            ->with(compact('brands', 'sellers', 'sections'));
-    }
-
     public function getCreateProduct(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
         //  METHODS THAT CAN BE USED ON FILE REQUESTS
         //  guessExtension()            ---Gets the file extension
@@ -96,7 +96,7 @@ class ProductController extends Controller
 
         $data = $request->all();
 
-        $path = $request->file('main_image')->store("public/images/products");
+        $path = $request->file('main_image')->storePublicly("public/images/products");
 
         if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
             $isFeatured = "Yes";
