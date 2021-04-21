@@ -7,9 +7,14 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -81,8 +86,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(RegisterUserRequest $request)
-    {
+    public function register(RegisterUserRequest $request): View|Factory|JsonResponse|Redirector|RedirectResponse|Application {
         $user = DB::transaction(function() use($request) {
             $ip = $request->ip();
 
@@ -110,8 +114,7 @@ class RegisterController extends Controller
             : redirect($this->redirectPath());
     }
 
-    protected function registered(Request $request, $user)
-    {
+    protected function registered(Request $request, $user): Factory|View|Redirector|RedirectResponse|Application {
         $type = 'success';
         $intro = "Awesome! 🥳 ";
         $message = "Your account has been activated. Welcome to SU-F Store.";
