@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -74,5 +78,34 @@ class RegisterController extends Controller
             'ip_address' => $ip,
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function register(RegisterUserRequest $request)
+    {
+        $user = DB::transaction(function() use($request) {
+            $ip = $request->ip();
+
+            event(new Registered($user = $this->createUser($request->all(), $ip)));
+
+            $phone = $request -> phone;
+            $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
+
+            $user->phones()->create([
+                'phone' => $phone,
+                'primary' => 1
+            ]);
+
+            return $user;
+        });
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
     }
 }
