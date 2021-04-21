@@ -19,7 +19,7 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="">
-                                    <img class="card-img" src="images/box_section/{{$item['image']}}" alt="Image">
+                                    <img class="card-img" src="{{ asset('storage/images/box_section/' . $item['image']) }}" alt="Image">
                                     <div class="card-img-overlay text-left">
                                         <h2 class="card-title">{{$item['title']}}</h2>
                                         <p class="card-text">{{$item['description']}}</p>
@@ -329,7 +329,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
-                            <img src="{{asset('images/general/main_logo.jpg')}}" alt="logo" class="img-responsive">
+                            <img src="{{asset('storage/images/general/main_logo.jpg')}}" alt="logo" class="img-responsive">
                         </div>
                     </div>
                 </div>

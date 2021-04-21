@@ -18,7 +18,7 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="">
-                                    <img class="card-img" src="images/box_section/<?php echo e($item['image']); ?>" alt="Image">
+                                    <img class="card-img" src="<?php echo e(asset('storage/images/box_section/' . $item['image'])); ?>" alt="Image">
                                     <div class="card-img-overlay text-left">
                                         <h2 class="card-title"><?php echo e($item['title']); ?></h2>
                                         <p class="card-text"><?php echo e($item['description']); ?></p>
@@ -328,7 +328,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-7 text-center">
-                            <img src="<?php echo e(asset('images/general/main_logo.jpg')); ?>" alt="logo" class="img-responsive">
+                            <img src="<?php echo e(asset('storage/images/general/main_logo.jpg')); ?>" alt="logo" class="img-responsive">
                         </div>
                     </div>
                 </div>

@@ -230,7 +230,6 @@ unset($__errorArgs, $__bag); ?>
     <!--    End Content Area    -->
 
 </div>
-<!--    End Sticky Header Jumbotron    -->
 
 <?php $__env->stopSection(); ?>
 
