@@ -156,9 +156,6 @@ Route::middleware(['verified', 'auth'])->group(function() {
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
     Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
-
-    //  LOGOUT
-    Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 });
 
 //  Check if Email Exists
@@ -186,3 +183,7 @@ Route::get('/policies', [PolicyController::class, 'index'])->middleware(['passwo
 //  AJAX ROUTES
 //  Get Variation price
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
+
+
+//  LOGOUT
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
