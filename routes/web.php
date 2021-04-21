@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PolicyController;
+use Illuminate\Support\Facades\Storage;
 
 
 /*
@@ -184,6 +185,14 @@ Route::get('/policies', [PolicyController::class, 'index'])->middleware(['passwo
 //  Get Variation price
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
 
-
 //  LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
+
+
+
+
+Route::get('/test', function() {
+    Storage::disk('google')->put('test.txt', 'Hello World');
+
+    echo "done";
+});
