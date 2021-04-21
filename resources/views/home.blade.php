@@ -19,7 +19,7 @@
                         <div class="col p-3 box_section">
                             <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
                                 <a href="{{ $item['url'] }}">
-                                    <img class="card-img" src="{{ URL::asset('storage/images/box_section/' . $item['image']) }}" alt="Image">
+                                    <img class="card-img" src="{{ asset('storage/images/box_section/' . $item['image']) }}" alt="Image">
                                     <div class="card-img-overlay text-left">
                                         <h2 class="card-title">{{$item['title']}}</h2>
                                         <p class="card-text">{{$item['description']}}</p>
