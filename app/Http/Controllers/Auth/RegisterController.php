@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -107,5 +108,17 @@ class RegisterController extends Controller
         return $request->wantsJson()
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $type = 'success';
+        $intro = "Awesome! 🥳 ";
+        $message = "Your account has been activated. Welcome to SU-F Store.";
+
+        return $request->user()->hasVerifiedEmail()
+            ? redirect($this->redirectPath())
+                ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10])
+            : view('auth.verify');
     }
 }
