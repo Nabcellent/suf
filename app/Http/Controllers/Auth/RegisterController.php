@@ -119,9 +119,15 @@ class RegisterController extends Controller
         $intro = "Awesome! 🥳 ";
         $message = "Your account has been activated. Welcome to SU-F Store.";
 
-        return $request->user()->hasVerifiedEmail()
-            ? redirect($this->redirectPath())
-                ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10])
-            : view('auth.verify');
+        if($request->user()->hasVerifiedEmail()) {
+            $this->guard()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
+        }
+
+        return view('auth.verify');
     }
 }

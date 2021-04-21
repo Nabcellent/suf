@@ -13,7 +13,7 @@
                 <a class="dropdown-item" href="#">Notifications</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Store</a>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Exit') }}
                 </a>
                 <form id="logout-topnav-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
