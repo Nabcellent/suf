@@ -29,7 +29,7 @@ class OrderPlaced extends Mailable
     {
         $this->order = $order;
     }
-    
+
     /**
      * Build the message.
      *

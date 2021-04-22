@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Seller;
 use App\Models\Variation;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -19,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Product;
 use App\Models\Cart;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use JsonException;
