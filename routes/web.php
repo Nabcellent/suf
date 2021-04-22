@@ -35,6 +35,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //Login Routes
         Route::get('/sign-in', [Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
         Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('login');
+        //Register Routes
+        Route::get('/register', [Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('register');
 
         /*//Forgot Password Routes
         Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
