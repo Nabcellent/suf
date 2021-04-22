@@ -180,7 +180,7 @@ Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
-//  CONTACT / TERMS & CONDITIONS
+//  ABOUT / CONTACT / TERMS & CONDITIONS
 Route::get('/contact', [PolicyController::class, 'showContactUsForm'])->name('contact-us');
 Route::post('/contact', [PolicyController::class, 'sendEmail'])->name('contact-us');
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
