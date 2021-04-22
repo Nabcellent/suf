@@ -15,7 +15,7 @@
                     @foreach($banners as $banner)
                         <div class="carousel-item @if($loop -> first) active @endif">
                             <a @if(!empty($banner['link'])) href="{{url($banner['link'])}}" @else href="javascript:void(0)" @endif>
-                                <img src="{{asset('storage/images/banners/' . $banner["image"])}}" class='d-block w-100' alt="{{$banner['alt']}}" title="{{$banner['title']}}">
+                                <img src="{{asset('/images/banners/' . $banner["image"])}}" class='d-block w-100' alt="{{$banner['alt']}}" title="{{$banner['title']}}">
                             </a>
                             <div class='carousel-caption d-none d-md-block'>
                                 <span>New Inspiration 2021</span>
