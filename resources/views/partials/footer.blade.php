@@ -49,7 +49,7 @@
                         <a href="{{url('/logout')}}">Sign Out</a>
                     @else
                         <a href="{{url('/login')}}">Sign In<br></a>
-                        <a href="{{url('/register')}}">Register account</a>
+                        <a href="{{url('/register')}}">Register as account</a>
                     @endif
                     <br><a href="{{url('policies')}}">Register as Seller</a>
                     <br><a href="{{url('policies')}}">Terms & Conditions</a>
