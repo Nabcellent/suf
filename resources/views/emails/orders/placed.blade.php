@@ -10,7 +10,7 @@ We will contact you using this number: +254 {{ $order['phone']['phone'] }}.{{ $i
     Order Total: KSH {{ currencyFormat($order['total']) }}
 @endcomponent
 
-@component('mail::button', ['url' => $url, 'color' => 'primary'])
+@component('mail::button', ['url' => route('profile', ['page' => 'orders']), 'color' => 'primary'])
     View Order
 @endcomponent
 

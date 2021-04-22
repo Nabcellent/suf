@@ -34,11 +34,6 @@ class UserController extends Controller
             $req->validate([
                 'first_name' => 'required|max:20|alpha',
                 'last_name' => 'required|max:20|alpha',
-                /*'phone' => [
-                    'required','digits_between: 9, 10',
-                    'regex:/^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
-                    Rule::unique('phones')->ignore(Auth::id(), 'phoneable_id'),
-                ],*/
                 'address' => 'nullable|min:5'
             ]);
 

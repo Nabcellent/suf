@@ -29,9 +29,7 @@ class OrderPlaced extends Mailable
     {
         $this->order = $order;
     }
-
-    protected string $orderUrl = 'http://localhost:8000/orders';
-
+    
     /**
      * Build the message.
      *
@@ -49,7 +47,7 @@ class OrderPlaced extends Mailable
             ->markdown('emails.orders.placed', [
                 'user' =>Auth::user(),
                 'order' => $this->order,
-                'url' => $this->orderUrl,
+                'url' => route('profile', ['page' => 'orders']),
                 'icons' => $icons
             ]);
     }

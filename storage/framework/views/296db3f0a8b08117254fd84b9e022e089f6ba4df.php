@@ -49,7 +49,7 @@
                         <a href="<?php echo e(url('/logout')); ?>">Sign Out</a>
                     <?php else: ?>
                         <a href="<?php echo e(url('/login')); ?>">Sign In<br></a>
-                        <a href="<?php echo e(url('/register')); ?>">Register account</a>
+                        <a href="<?php echo e(url('/register')); ?>">Register as account</a>
                     <?php endif; ?>
                     <br><a href="<?php echo e(url('policies')); ?>">Register as Seller</a>
                     <br><a href="<?php echo e(url('policies')); ?>">Terms & Conditions</a>
