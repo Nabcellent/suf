@@ -28,7 +28,10 @@
     <link rel="stylesheet" href="<?php echo e(url('css/app.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(url('css/responsive.css')); ?>">
 </head>
-<body>
+<body id="bg">
+<canvas></canvas>
+<?php echo $__env->make('partials.background', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
 <?php echo $__env->make('partials.alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('partials.top_header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 

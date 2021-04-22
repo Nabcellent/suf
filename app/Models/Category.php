@@ -32,8 +32,8 @@ class Category extends Model
         return $this->belongsTo(__CLASS__, 'section_id');
     }
 
-    public function product(): HasMany {
-        return $this->hasMany(Product::class);
+    public function products(): HasMany {
+        return $this->hasMany(Product::class, 'category_id');
     }
 
     public function category(): BelongsTo
@@ -50,7 +50,8 @@ class Category extends Model
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'category_id')->where('status', 1)->orderBy('title');
+        return $this->hasMany(__CLASS__, 'category_id')->has('products')
+            ->where('status', 1)->orderBy('title');
     }
 
 

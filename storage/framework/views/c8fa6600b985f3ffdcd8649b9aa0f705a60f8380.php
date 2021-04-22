@@ -19,6 +19,8 @@
                                     <th>email</th>
                                     <th>phone</th>
                                     <th>gender</th>
+                                    <th>Orders</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -33,9 +35,23 @@
                                         <td><?php echo e($customer['email']); ?></td>
                                         <td><?php echo e($customer['primary_phone']['phone']); ?></td>
                                         <td><?php echo e($customer['gender']); ?></td>
+                                        <td><?php echo e($customer['orders_count']); ?></td>
+                                        <td style="font-size: 14pt">
+
+                                            <?php if($customer['status']): ?>
+                                                <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                            <?php else: ?>
+                                                <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            <?php endif; ?>
+
+                                        </td>
                                         <td class="action">
                                             <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3" title="Remove"><i class="fas fa-trash text-danger"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($customer['id']); ?>" data-model="User">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -46,33 +62,25 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        <!--    Start delete modal    -->
-
-        <div class="modal fade" id="del_product_modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="#" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <div class="col-3">
+                <div class="card crud_table shadow mb-4">
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="<?php echo e(route('admin.admins')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Admins<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['admins']); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['orders']); ?></span>
+                            </a>
                         </div>
-                        <div class="modal-body">
-                            <h5>Are you sure you want to delete this product?</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="yes" value="Delete Product" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--    End delete modal    -->
+
     </div>
 
 <?php $__env->stopSection(); ?>

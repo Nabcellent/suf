@@ -14,7 +14,7 @@
                                         <div>
                                             <button class="btn btn-outline-light" data-toggle="modal" data-target="#edit_product_modal">Edit</button>
                                             <a href="#" class="ml-2 delete_product" data-toggle="modal" data-id="{{ $product['id'] }}"
-                                               data-image="{{ $product['main_image'] }}" data-target="#delete_product_modal" title="Delete this product">
+                                               data-image="{{ $product['main_image'] }}" data-target="#delete_product_modal" title="Delete This Product">
                                                 <i class="fas fa-trash text-warning"></i>
                                             </a>
                                         </div>
@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <img src="{{ asset('storage/images/products/' . $product['main_image']) }}" alt="main_image" style="width: 15rem;">
+                                                <img src="{{ asset('/images/products/' . $product['main_image']) }}" alt="main_image" style="width: 15rem;">
                                                 <h5 class="card-title pt-2">{{ $product['title'] }}</h5>
                                             </div>
                                             <div class="col">
@@ -255,7 +255,7 @@
                                             @foreach($product['images'] as $image)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td><img src="{{ asset('storage/images/products/' . $image['image']) }}" alt="image" class="img-fluid"></td>
+                                                    <td><img src="{{ asset('/images/products/' . $image['image']) }}" alt="image" class="img-fluid"></td>
                                                     <td class="action">
 
                                                         @if($image['status'])
@@ -299,7 +299,7 @@
 
                                         @foreach($product['images'] as $image)
                                             <div class="swiper-slide">
-                                                <img src="{{ asset('storage/images/products/' . $image['image']) }}" alt="Product Image">
+                                                <img src="{{ asset('/images/products/' . $image['image']) }}" alt="Product Image">
                                             </div>
                                         @endforeach
 

@@ -32,7 +32,7 @@
                                 @foreach($products as $item)
                                     <tr>
                                         <td></td>
-                                        <td><img src="{{ asset('storage/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
+                                        <td><img src="{{ asset('/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
                                         <td class="title">{{ $item['title'] }}</td>
                                         <td>{{ $item['seller']['username'] }}</td>
                                         <td class="text-nowrap">{{ date('d.m.Y', strtotime($item['created_at'])) }}</td>

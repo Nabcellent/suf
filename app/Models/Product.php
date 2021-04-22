@@ -40,7 +40,8 @@ class Product extends Model
      */
     public function subCategory(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id')->with('category');
+        return $this->belongsTo(Category::class, 'category_id', 'id')
+            ->with('category');
     }
 
     public function seller(): BelongsTo

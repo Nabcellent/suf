@@ -26,6 +26,7 @@ class Admin extends Authenticatable
         'last_name',
         'username',
         'gender',
+        'image',
         'national_id',
         'type',
         'ip_address',
@@ -55,9 +56,16 @@ class Admin extends Authenticatable
         return $this->morphOne(Phone::class, 'phoneable')->where('primary', 1);
     }
 
+    public function products(): HasMany {
+        return $this->hasMany(Product::class, 'seller_id');
+    }
+
 
 
     /**
      * STATIC FUNCTIONS
      */
+    public static function sellers() {
+        return self::where('type', 'Seller');
+    }
 }

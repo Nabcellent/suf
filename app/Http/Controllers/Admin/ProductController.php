@@ -93,10 +93,14 @@ class ProductController extends Controller
         //  getClientOriginalName()     ---Gets the name of the file
         //  getError()                  ---Check if Error
         //  isValid()                   ---Check if Valid
+        //------------------------------------------------
+        //  $path = $request->file('main_image')->storePublicly("public/images/products");
 
         $data = $request->all();
 
-        $path = $request->file('main_image')->storePublicly("public/images/products");
+        $file = $request->file('main_image');
+        $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
+        $file->move(public_path('images/products'), $imageName);
 
         if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
             $isFeatured = "Yes";
@@ -104,13 +108,13 @@ class ProductController extends Controller
             $isFeatured = "No";
         }
 
-        $product = DB::transaction(function() use ($isFeatured, $path, $data) {
+        $product = DB::transaction(function() use ($isFeatured, $imageName, $data) {
             return Product::create([
                 'category_id' => $data['sub_category'],
                 'seller_id' => $data['seller'],
                 'brand_id' => $data['brand'],
                 'title' => $data['title'],
-                'main_image' => class_basename($path),
+                'main_image' => $imageName,
                 'keywords' => $data['keywords'],
                 'description' => $data['description'],
                 'label' => $data['label'],
@@ -161,12 +165,13 @@ class ProductController extends Controller
             ]);
 
             foreach($request->file('images') as $image) {
-                $path = $image->store("public/images/products");
+                $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $image->guessClientExtension();
+                $image->move(public_path('images/products'), $imageName);
 
-                DB::transaction(function() use ($path, $id) {
+                DB::transaction(function() use ($imageName, $id) {
                     productsImage::create([
                         'product_id' => $id,
-                        'image' => class_basename($path)
+                        'image' => $imageName
                     ]);
                 });
             }

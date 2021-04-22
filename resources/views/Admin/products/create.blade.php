@@ -129,7 +129,7 @@
                                     <div class="form-group col">
                                         <label></label>
                                         <div class="custom-file">
-                                            <input type="file" name="main_image" class="custom-file-input @error('main_image') is-invalid @enderror crud_form" required>
+                                            <input type="file" name="main_image" class="custom-file-input @error('main_image') is-invalid @enderror crud_form" accept=".jpg,.png,.jpeg,image/*" required>
                                             @error('main_image')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

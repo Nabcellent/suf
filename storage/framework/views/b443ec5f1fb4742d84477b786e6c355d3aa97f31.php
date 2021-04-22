@@ -13,7 +13,7 @@
                                         <div>
                                             <button class="btn btn-outline-light" data-toggle="modal" data-target="#edit_product_modal">Edit</button>
                                             <a href="#" class="ml-2 delete_product" data-toggle="modal" data-id="<?php echo e($product['id']); ?>"
-                                               data-image="<?php echo e($product['main_image']); ?>" data-target="#delete_product_modal" title="Delete this product">
+                                               data-image="<?php echo e($product['main_image']); ?>" data-target="#delete_product_modal" title="Delete This Product">
                                                 <i class="fas fa-trash text-warning"></i>
                                             </a>
                                         </div>
@@ -21,7 +21,7 @@
                                     <div class="card-body">
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <img src="<?php echo e(asset('storage/images/products/' . $product['main_image'])); ?>" alt="main_image" style="width: 15rem;">
+                                                <img src="<?php echo e(asset('/images/products/' . $product['main_image'])); ?>" alt="main_image" style="width: 15rem;">
                                                 <h5 class="card-title pt-2"><?php echo e($product['title']); ?></h5>
                                             </div>
                                             <div class="col">
@@ -254,7 +254,7 @@
                                             <?php $__currentLoopData = $product['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td><?php echo e($loop->iteration); ?></td>
-                                                    <td><img src="<?php echo e(asset('storage/images/products/' . $image['image'])); ?>" alt="image" class="img-fluid"></td>
+                                                    <td><img src="<?php echo e(asset('/images/products/' . $image['image'])); ?>" alt="image" class="img-fluid"></td>
                                                     <td class="action">
 
                                                         <?php if($image['status']): ?>
@@ -298,7 +298,7 @@
 
                                         <?php $__currentLoopData = $product['images']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="swiper-slide">
-                                                <img src="<?php echo e(asset('storage/images/products/' . $image['image'])); ?>" alt="Product Image">
+                                                <img src="<?php echo e(asset('/images/products/' . $image['image'])); ?>" alt="Product Image">
                                             </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

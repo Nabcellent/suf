@@ -35,7 +35,7 @@ function sections() {
     return Category::sections();
 }
 function latestFour(): array {
-    return Product::products()->where('products.status', 1)
+    return Product::products()->where('products.status', 1)->where('is_featured', 'Yes')->has('variations')
         ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
 }
 function trendingCategories(): Collection|array {

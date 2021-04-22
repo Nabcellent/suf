@@ -11,11 +11,13 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\productsImage;
+use App\Models\User;
 use App\Models\Variation;
 use App\Models\VariationsOption;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use JsonException;
@@ -96,15 +98,24 @@ class AjaxController extends Controller
     }
 
     public function deleteFromTable($id, $model): JsonResponse {
-        if($model === "Product's Image") {
+        if($model === "Product's Image" || $model === "Product") {
             $imageName = $this->getModel($model)::find($id)->image;
-            Storage::delete('public/images/products/' . $imageName);
+            if(File::exists(public_path('images/products/' . $imageName))){
+                File::delete(public_path('images/products/' . $imageName));
+            }
         } else if($model === "Admin") {
             $imageName = $this->getModel($model)::find($id)->image;
-            Storage::delete('public/images/users/admins/' . $imageName);
-        } else if($model === "Product") {
-            $imageName = $this->getModel($model)::find($id)->main_image;
-            Storage::delete('public/images/products/' . $imageName);
+            if(File::exists(public_path('images/users/profile/' . $imageName))){
+                File::delete(public_path('images/users/profile/' . $imageName));
+            }
+
+            DB::transaction(function() use ($id) {
+                $admin = Admin::find($id);
+                $admin->phones()->delete();
+                $admin->delete();
+            });
+
+            return response()->json([200]);
         }
 
         DB::transaction(function() use ($id, $model) {
@@ -121,6 +132,7 @@ class AjaxController extends Controller
     private function getModel($model): string {
         return match ($model) {
             'Admin' => Admin::class,
+            'User' => User::class,
             'Attribute' => Attribute::class,
             'Banner' => Banner::class,
             'Brand' => Brand::class,

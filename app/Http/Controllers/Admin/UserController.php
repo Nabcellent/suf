@@ -21,14 +21,14 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public function showCustomers(): Factory|View|Application {
-        $customers = User::with('primaryPhone')->latest()->get()->toArray();
+        $customers = User::with('primaryPhone')->withCount('orders')->latest()->get()->toArray();
 
         return view('Admin.Users.customers')
             ->with(compact('customers'));
     }
 
     public function showSellers(): Factory|View|Application {
-        $sellers = Admin::where('type', 'Seller')->with('primaryPhone')->latest()->get()->toArray();
+        $sellers = Admin::where('type', 'Seller')->withCount('products')->with('primaryPhone')->latest()->get()->toArray();
 
         return view('Admin.Users.sellers')
             ->with(compact('sellers'));
@@ -59,22 +59,18 @@ class UserController extends Controller
 
     public function createUpdateAdmin(RegisterAdminRequest $request, $user, $id = null): RedirectResponse {
         $data = $request->all();
+        $data['type'] = ($user === 'Admin') ? 'Admin' : 'Seller';
+        $data['ip_address'] = $request->ip();
+        $data['password'] = Hash::make($data['type']);
 
-        DB::transaction(function() use ($request, $user, $data) {
-            $password = ($user === 'Admin') ? 'Admin' : 'Seller';
+        if($request->has('image')) {
+            $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $data['image']->guessClientExtension();
+            $data['image']->move(public_path('images/users/profile'), $imageName);
+            $data['image'] = $imageName;
+        }
 
-            $admin = Admin::create([
-                "first_name" => $data['first_name'],
-                "last_name" => $data['last_name'],
-                "gender" => $data['gender'],
-                "national_id" => $data['national_id'],
-                "type" => Str::ucfirst($user),
-                "email" => $data['email'],
-                "password" => Hash::make($password),
-                "ip_address" => $request->ip(),
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
-            ]);
+        DB::transaction(function() use ($data) {
+            $admin = Admin::create($data);
 
             $admin->phones()->create([
                 'phone' => $data['phone'],

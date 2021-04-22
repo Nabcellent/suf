@@ -71,7 +71,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="form-check list">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input product_check" id="seller" value="{{$item['user_id']}}">
+                                    <input type="checkbox" class="form-check-input product_check" id="seller" value="{{$item['id']}}">
                                     <span></span>
                                     <i class="indicator"></i>
                                     <strong>{{$item['username']}}</strong>

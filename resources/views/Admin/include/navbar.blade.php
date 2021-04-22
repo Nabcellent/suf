@@ -5,14 +5,14 @@
         <div class="dropdown header_image">
             {{ Str::substr(Str::upper(admin()->first_name), 0, 1) }}.
             {{ Str::ucfirst(admin()->last_name) }}
-            <img src="{{ asset('/images/users/admin/Profile/default-profile-pic.png') }}" alt="Profile image" data-toggle="dropdown">
+            <img src="{{ asset('/images/users/default-profile-pic.png') }}" alt="Profile image" data-toggle="dropdown">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Orders</a>
                 <a class="dropdown-item" href="#">Notifications</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Store</a>
+                <a class="dropdown-item" href="{{ route('home') }}">Store</a>
                 <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Exit') }}
                 </a>
@@ -94,23 +94,6 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="nav_link">
-                        <i class='bx bxs-contact nav_icon' ></i>
-                        <span class="nav_name">Contacts</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-mail-send nav_icon' ></i>
-                        <span class="nav_name">Emails</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class="fas fa-paper-plane nav_icon"></i>
-                        <span class="nav_name">Messages</span>
-                    </a>
-                </div>
-
-                <div class="nav_items">
-                    <h3 class="nav_subtitle">Apps</h3>
-                    <div class="dropdown-divider m-0"></div>
                     <div class="nav_dropdown">
                         <a href="#" class="nav_link">
                             <i class="fab fa-page4 nav_icon"></i>
@@ -119,7 +102,7 @@
                         </a>
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
-                                    <a href="{{ route('admin.banners') }}" class="nav_dropdown_item">Banners</a>
+                                <a href="{{ route('admin.banners') }}" class="nav_dropdown_item">Banners</a>
                                 <a href="{{ route('admin.ads') }}" class="nav_dropdown_item">Ads</a>
                                 <a href="{{ route('admin.policies') }}" class="nav_dropdown_item">Policies</a>
                             </div>
@@ -139,7 +122,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="nav_items">
+                    <h3 class="nav_subtitle">Apps</h3>
+                    <div class="dropdown-divider m-0"></div>
                     <a href="#" class="nav_link">
+                        <i class='bx bxs-contact nav_icon' ></i>
+                        <span class="nav_name">Contacts</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-mail-send nav_icon' ></i>
+                        <span class="nav_name">Emails</span>
+                    </a>
+                    <a href="#" class="nav_link">
+                        <i class="fas fa-paper-plane nav_icon"></i>
+                        <span class="nav_name">Messages</span>
+                    </a>
+                    <a href="{{ route('home') }}" class="nav_link">
                         <i class="fas fa-store nav_icon"></i>
                         <span class="nav_name">Suf-Store</span>
                     </a>

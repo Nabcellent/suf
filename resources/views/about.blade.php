@@ -19,31 +19,61 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     {{--    MY CSS    --}}
-    <link rel="stylesheet" href="{{url('css/app.css')}}">
-    <link rel="stylesheet" href="{{url('css/responsive.css')}}">
+    <link rel="stylesheet" href="{{url('css/about.css')}}">
 
-    <style>
-        #canvas {
-            position: absolute;
-            top: 50%;
-            left:50%;
-            transform:translateX(-50%) translateY(-50%);
-            box-shadow: 0 0 30px 0 #999;
-        }
-    </style>
 </head>
 <body>
+
+<!-- Background & animion & navbar & title -->
+<div class="container-fluid">
+    <!-- Background animtion-->
+    <div class="background">
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+    </div>
+    <!-- header -->
+    <header>
+        <!-- navbar -->
+        <nav>
+            <ul>
+                <li><a href="{{ route('home') }}">Home</a></li>
+            </ul>
+        </nav>
+        <!-- logo -->
+        <div class="logo"><a href="{{ route('home') }}"><img src="{{ asset('images/general/store_logo.jpg') }}" alt=""></a></div>
+        <!-- title & content -->
+        <div class="row vh-100 justify-content-center align-items-center">
+            <div class="col-8">
+                <canvas id="canvas" width="1178" height="587"></canvas>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <section class="header-content">
+                    <h1>HEY AWESOME</h1>
+                    <p> Welcome to our fashion store. We are a passionated group of people,<br>
+                        making high quality products designed to make your life easier.</p>
+                    <button>Know more</button>
+                    <button>Meet us</button>
+                </section>
+            </div>
+        </div>
+    </header>
+</div>
 
 <!--<div id="" class="container px-lg-5">
 
     <div class="row justify-content-center align-items-center vh-100">
         <div class="col-auto">
-            <img src="{{ asset('images/illustrations/undraw_shopping_eii3.svg') }}" width="500" alt="">
+            <img src="{{ asset('images/illustrations/undraw_gone_shopping_vwmc.svg') }}" width="500" alt="">
         </div>
     </div>
 
 </div>-->
-<canvas id="canvas" width="1178" height="587"></canvas>
+
 
     {{--    JQUERY CDN    --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -59,7 +89,7 @@
         let h = canvas.height;
 
         let bg = new Image();
-        bg.src = "images/illustrations/undraw_shopping_eii3.svg";
+        bg.src = "images/illustrations/undraw_add_to_cart_vkjp.svg";
 
         let flakes = [];
 

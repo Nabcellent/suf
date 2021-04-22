@@ -45,13 +45,25 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="">Email</label>
-                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                               placeholder="Enter email address *" value="{{ old('email') }}" aria-label required>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                        @enderror
+                                    <div class="form-row">
+                                        <div class="form-group col">
+                                            <label for="">Email</label>
+                                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                                   placeholder="Enter email address *" value="{{ old('email') }}" aria-label required>
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                        @if($user === "Seller")
+                                            <div class="form-group col">
+                                                <label for="">Username</label>
+                                                <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+                                                       placeholder="Enter username *" value="{{ old('username') }}" aria-label required>
+                                                @error('email')
+                                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                                @enderror
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
@@ -100,7 +112,8 @@
                                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                                                 </div>
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image" id="inputGroupFile01"
+                                                           aria-describedby="inputGroupFileAddon01"  accept=".jpg,.png,.jpeg,image/*">
                                                     <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
                                                 </div>
                                             </div>

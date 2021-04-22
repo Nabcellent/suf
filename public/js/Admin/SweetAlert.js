@@ -33,10 +33,12 @@ const deleteFromTable = (id, model) => {
                     500: function(responseObject, textStatus, errorThrown) {
                         console.log(errorThrown);
                         alert("Something went wrong!");
+                        return false;
                     }
                 },
                 error: () => {
                     alert("Error");
+                    return false;
                 }
             });
         }

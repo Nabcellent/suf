@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Variation;
@@ -88,7 +89,7 @@ class ProductController extends Controller
 
         $products = $products->paginate(10);
 
-        $sellers = Seller::sellers()->get()->toArray();
+        $sellers = Admin::sellers()->get()->toArray();
         $brands = Brand::brands()->get()->toArray();
 
         return View('products')

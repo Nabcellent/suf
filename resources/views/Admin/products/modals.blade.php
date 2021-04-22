@@ -243,7 +243,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" multiple="" name="images[]" class="custom-file-input crud_form" accept=".jpg, .png, .jpeg|image/*" required>
+                                <input type="file" multiple="" name="images[]" class="custom-file-input crud_form"  accept=".jpg,.png,.jpeg,image/*" required>
                                 <label class="custom-file-label crud_form file">Choose image(s)</label>
                             </div>
                         </div>

@@ -15,7 +15,7 @@
                     <?php $__currentLoopData = $banners; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $banner): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="carousel-item <?php if($loop -> first): ?> active <?php endif; ?>">
                             <a <?php if(!empty($banner['link'])): ?> href="<?php echo e(url($banner['link'])); ?>" <?php else: ?> href="javascript:void(0)" <?php endif; ?>>
-                                <img src="<?php echo e(asset('storage/images/banners/' . $banner["image"])); ?>" class='d-block w-100' alt="<?php echo e($banner['alt']); ?>" title="<?php echo e($banner['title']); ?>">
+                                <img src="<?php echo e(asset('/images/banners/' . $banner["image"])); ?>" class='d-block w-100' alt="<?php echo e($banner['alt']); ?>" title="<?php echo e($banner['title']); ?>">
                             </a>
                             <div class='carousel-caption d-none d-md-block'>
                                 <span>New Inspiration 2021</span>

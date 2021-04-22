@@ -28,7 +28,10 @@
     <link rel="stylesheet" href="{{url('css/app.css')}}">
     <link rel="stylesheet" href="{{url('css/responsive.css')}}">
 </head>
-<body>
+<body id="bg">
+<canvas></canvas>
+@include('partials.background')
+
 @include('partials.alert')
 @include('partials.top_header')
 

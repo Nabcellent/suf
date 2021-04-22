@@ -72,9 +72,10 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="">Email</label>
-                                        <input type="email" name="email" class="form-control <?php $__errorArgs = ['email'];
+                                    <div class="form-row">
+                                        <div class="form-group col">
+                                            <label for="">Email</label>
+                                            <input type="email" name="email" class="form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -82,17 +83,42 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                               placeholder="Enter email address *" value="<?php echo e(old('email')); ?>" aria-label required>
-                                        <?php $__errorArgs = ['email'];
+                                                   placeholder="Enter email address *" value="<?php echo e(old('email')); ?>" aria-label required>
+                                            <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                        <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
-                                        <?php unset($message);
+                                            <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                            <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                                        </div>
+                                        <?php if($user === "Seller"): ?>
+                                            <div class="form-group col">
+                                                <label for="">Username</label>
+                                                <input type="text" name="username" class="form-control <?php $__errorArgs = ['username'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                       placeholder="Enter username *" value="<?php echo e(old('username')); ?>" aria-label required>
+                                                <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col">
@@ -197,7 +223,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="image" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+unset($__errorArgs, $__bag); ?>" name="image" id="inputGroupFile01"
+                                                           aria-describedby="inputGroupFileAddon01"  accept=".jpg,.png,.jpeg,image/*">
                                                     <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
                                                 </div>
                                             </div>
