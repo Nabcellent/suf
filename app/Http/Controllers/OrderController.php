@@ -139,6 +139,7 @@ class OrderController extends Controller
                     Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
                 });
             } catch (Exception $e) {
+                dd($e);
                 $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
                 return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
             }
