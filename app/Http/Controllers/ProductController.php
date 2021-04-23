@@ -75,8 +75,6 @@ class ProductController extends Controller
         $productCount = Product::products()->where('products.status', 1)->count();
         $products = Product::products()->where('products.status', 1);
 
-        //$categoryId = Route::getFacadeRoot()->current()->uri();
-
         $catDetails = "";
         if($categoryId !== null) {
             $categoryCount = Category::where(['id' => $categoryId, 'status' => 1])->count();

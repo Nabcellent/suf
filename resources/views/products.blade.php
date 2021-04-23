@@ -21,19 +21,21 @@
                             <li class="breadcrumb-item active" aria-current="page">Shop</li>
                             <?php if(!empty($catDetails['breadcrumbs'])) echo $catDetails['breadcrumbs'] ?>
                         </ul>
-                        <div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="per_page">Per page</label>
+                        @if (tableCount()['products'] > 0)
+                            <div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="per_page">Per page</label>
+                                    </div>
+                                    <select class="custom-select" id="per_page">
+                                        <option selected value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                    </select>
                                 </div>
-                                <select class="custom-select" id="per_page">
-                                    <option selected value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                    <option value="40">40</option>
-                                </select>
                             </div>
-                        </div>
+                        @endif
                     </nav>
                 </div>
             </div>
@@ -53,46 +55,48 @@
                 <!--    Start ProductSeeder Section    -->
 
                 <div class="col-md-9 pr-0">
-                    <div class="row">
-                        <div class="col bg-light p-3 mb-2 rounded">
-                            <div class="d-flex justify-content-between">
-                                <h2 id="textChange">
-                                    @if(!empty($catDetails['catDetails']['title']))
-                                        {{$catDetails['catDetails']['title']}}
-                                    @else
-                                        All Products
-                                    @endif
-                                </h2>
-                                <p class="m-0 text-muted">Available products: {{count($products)}}</p>
-                            </div>
-                            <hr class="mt-0">
-                            <div class="row d-flex justify-content-between">
-                                <p class="col">
-                                    @if(!empty($catDetails['catDetails']['description']))
-                                        {{$catDetails['catDetails']['description']}}
-                                    @else
-                                        We are pleased to serve you with these products.
-                                    @endif
-                                </p>
-                                <div class="col-auto">
-                                    <form id="sort_products_form" class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <label class="input-group-text" for="sort_by">Sort By</label>
-                                        </div>
-                                        <select class="custom-select" name="sort" id="sort_by">
-                                            <option selected hidden value="">Select</option>
-                                            <option value="newest">Newest Products</option>
-                                            <option value="oldest">Oldest Products</option>
-                                            <option value="title_asc">Title Ascending</option>
-                                            <option value="title_desc">Title Descending</option>
-                                            <option value="price_asc">Price Ascending</option>
-                                            <option value="price_desc">Price Descending</option>
-                                        </select>
-                                    </form>
+                    @if(tableCount()['products'] > 0)
+                        <div class="row">
+                            <div class="col bg-light p-3 mb-2 rounded">
+                                <div class="d-flex justify-content-between">
+                                    <h2 id="textChange">
+                                        @if(!empty($catDetails['catDetails']['title']))
+                                            {{$catDetails['catDetails']['title']}}
+                                        @else
+                                            All Products
+                                        @endif
+                                    </h2>
+                                    <p class="m-0 text-muted">Available products: {{count($products)}}</p>
+                                </div>
+                                <hr class="mt-0">
+                                <div class="row d-flex justify-content-between">
+                                    <p class="col">
+                                        @if(!empty($catDetails['catDetails']['description']))
+                                            {{$catDetails['catDetails']['description']}}
+                                        @else
+                                            We are pleased to serve you with these products.
+                                        @endif
+                                    </p>
+                                    <div class="col-auto">
+                                        <form id="sort_products_form" class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="sort_by">Sort By</label>
+                                            </div>
+                                            <select class="custom-select" name="sort" id="sort_by">
+                                                <option selected hidden value="">Select</option>
+                                                <option value="newest">Newest Products</option>
+                                                <option value="oldest">Oldest Products</option>
+                                                <option value="title_asc">Title Ascending</option>
+                                                <option value="title_desc">Title Descending</option>
+                                                <option value="price_asc">Price Ascending</option>
+                                                <option value="price_desc">Price Descending</option>
+                                            </select>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="text-center">
                         <img src="{{asset('images/loaders/Infinity-1s-197px.gif')}}" alt="" id="loader" width="197" style="display:none;">

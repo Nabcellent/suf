@@ -18,21 +18,23 @@
                     </div>
                     <ul class="menu_main">
                         <li><a href="/" class="nav_link">Home</a></li>
-                        <li class="menu_item_has_children">
-                            <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
-                            <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
+                        @if(tableCount()['products'] > 7)
+                            <li class="menu_item_has_children">
+                                <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
+                                <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
-                                @foreach(latestFour() as $four)
-                                    <div class="list_item text-center">
-                                        <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
-                                            <img src="{{ asset('/images/products/' . $four['main_image']) }}" alt="new ProductSeeder">
-                                            <h4 class="title">{{$four['title']}}</h4>
-                                        </a>
-                                    </div>
-                                @endforeach
+                                    @foreach(latestFour() as $four)
+                                        <div class="list_item text-center">
+                                            <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
+                                                <img src="{{ asset('/images/products/' . $four['main_image']) }}" alt="new ProductSeeder">
+                                                <h4 class="title">{{$four['title']}}</h4>
+                                            </a>
+                                        </div>
+                                    @endforeach
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
+                        @endif
                         <li class="menu_item_has_children">
                             <a href="{{url('/products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
                             <ul class="sub_menu mega_menu mega_menu_column_4">

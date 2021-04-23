@@ -21,14 +21,30 @@ class UserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         User::truncate();
 
-        User::create([
-            "first_name" => "Michael",
-            "last_name" => "Nabangi",
-            "gender" => "Male",
-            "ip_address" => "127.0.0.1",
-            "is_admin" => "7",
-            "email" => "michael.nabangi@strathmore.edu",
-            "password" => Hash::make("mike"),
+        User::insert([
+            [
+                "first_name" => "Michael",
+                "last_name" => "Nabangi",
+                "gender" => "Male",
+                "ip_address" => "127.0.0.1",
+                "is_admin" => "7",
+                "email" => 'miguelnabz@gmail.com',
+                "password" => Hash::make("M1gu3l."),
+                "email_verified_at" => Carbon::now(),
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ],[
+                "first_name" => "Michael",
+                "last_name" => "Nabangi",
+                "gender" => "Male",
+                "ip_address" => "127.0.0.1",
+                "is_admin" => "1",
+                "email" => "michael.nabangi@strathmore.edu",
+                "password" => Hash::make("mike"),
+                "email_verified_at" => null,
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ]
         ]);
     }
 }
