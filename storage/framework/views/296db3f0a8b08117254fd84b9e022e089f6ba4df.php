@@ -2,18 +2,16 @@
 
 <footer class="main_footer">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row justify-content-center">
+            <?php if(count(trendingCategories()) > 0): ?>
             <div class="col-xl-3 col-lg-4 col-md-6">
                 <h3>Trending Categories</h3>
                 <div class="dropdown-divider"></div>
-
-                <?php if(count(trendingCategories()) > 0): ?>
-                    <?php $__currentLoopData = trendingCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <p><a href="<?php echo e(route('products', ['categoryId' => $item['id']])); ?>"><?php echo e($item['category']); ?></a></p>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                <?php endif; ?>
-
+                <?php $__currentLoopData = trendingCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <p><a href="<?php echo e(route('products', ['categoryId' => $item['id']])); ?>"><?php echo e($item['category']); ?></a></p>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
+             <?php endif; ?>
             <div class="col-xl-3 col-lg-4 col-md-6">
 
                 <!--    Start Important Links    -->
@@ -21,18 +19,17 @@
                 <h3>Important links</h3>
                 <p><a href="<?php echo e(url('cart')); ?>">Shopping Cart</a></p>
                 <p><a href="<?php echo e(route('products')); ?>">Our Products</a></p>
-                <p><a href="<?php echo e(route('profile', ['page' => 'edit'])); ?>">My Account</a></p>
                 <div class="dropdown-divider"></div>
-                <p><a href="#">Strathmore University Website</a></p>
-                <p><a href="#">e-learning System</a></p>
-                <p><a href="#">AMS Students' Module</a></p>
+                <p><a href="<?php echo e(url('https://strathmore.edu/')); ?>">Strathmore University Website</a></p>
+                <p><a href="<?php echo e(url('https://elearning.strathmore.edu/')); ?>">e-learning System</a></p>
+                <p><a href="<?php echo e(url('https://su-sso.strathmore.edu/susams')); ?>">AMS Students' Module</a></p>
                 <!--    End Important Links    -->
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
                 <h3>Find Us</h3>
                 <p>Mobile - <a href="#">+254 000 000 000</a></p>
                 <p>Email Address - <a href="#">email@gmail.com</a></p>
-                <p>Name - <a href="#"></a>Some Name</p>
+                <p>Name - <a href="#"></a>Some Developer</p>
                 <div class="dropdown-divider"></div>
                 <p><a href="<?php echo e(url('contact')); ?>">Contact Us</a></p>
             </div>
@@ -42,14 +39,14 @@
                 <h3>User Section</h3>
                 <p>
 
-                    <?php if(Auth::check()): ?>
+                    <?php if(auth()->guard()->check()): ?>
                         <a href="<?php echo e(route('checkout')); ?>">Checkout<br></a>
-                        <a href="<?php echo e(url('/account')); ?>">Edit Account<br></a>
-                        <a href="<?php echo e(url('/account/orders')); ?>">My Orders<br></a>
-                        <a href="<?php echo e(url('/logout')); ?>">Sign Out</a>
+                        <a href="<?php echo e(route('account')); ?>">My Account<br></a>
+                        <a href="<?php echo e(route('profile', ['page' => 'orders'])); ?>">My Orders<br></a>
+                        <a href="<?php echo e(route('logout')); ?>">Sign Out</a>
                     <?php else: ?>
-                        <a href="<?php echo e(url('/login')); ?>">Sign In<br></a>
-                        <a href="<?php echo e(url('/register')); ?>">Register as customer</a><br>
+                        <a href="<?php echo e(route('login')); ?>">Sign In<br></a>
+                        <a href="<?php echo e(route('register')); ?>">Register as customer</a><br>
                         <a href="<?php echo e(route('admin.register')); ?>">Register as Seller</a>
                     <?php endif; ?>
                     <br><a href="<?php echo e(route('policies')); ?>">Terms & Conditions</a>
@@ -57,7 +54,9 @@
                 </p>
                 <!--    End UserSeeder Section    -->
             </div>
-            <div class="col-lg-6 col-md-6">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
                 <!--    Start Get News Section    -->
                 <h3>Get the news</h3>
                 <p class="text-muted">
@@ -75,7 +74,7 @@
 
                 <!--    End Get News Section    -->
             </div>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-5 col-md-6">
                 <h3>Connect with us</h3>
                 <ul>
                     <li><a href="#"><i class="fab fa-facebook" onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
