@@ -31,13 +31,13 @@
 <body id="bg">
 <canvas></canvas>
 @include('partials.background')
-
 @include('partials.alert')
 @include('partials.top_header')
 
 @if(isset($pageTitle) && $pageTitle === "Index")
     @include('partials.home_banners')
 @endif
+
 @yield('content')
 
 @include('partials.footer')

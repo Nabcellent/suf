@@ -1,5 +1,4 @@
 
-
 <!--    Start Social Icons    -->
 
 <div id="social_icons">

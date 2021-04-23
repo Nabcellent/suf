@@ -2,6 +2,7 @@
 @section('title', 'Products')
 @section('content')
     @include('partials.top_nav')
+    @include('partials.social_icons')
 
 <!--    Start Sticky Header Jumbotron    -->
 

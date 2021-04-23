@@ -1,6 +1,7 @@
 <?php $__env->startSection('title', 'Products'); ?>
 <?php $__env->startSection('content'); ?>
     <?php echo $__env->make('partials.top_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('partials.social_icons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <!--    Start Sticky Header Jumbotron    -->
 
