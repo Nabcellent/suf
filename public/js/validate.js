@@ -30,12 +30,10 @@ $(() => {
             first_name: {
                 required: true,
                 minlength: 3,
-                lettersonly: true
             },
             last_name: {
                 required: true,
                 minlength: 3,
-                lettersonly: true
             },
             email: {
                 required: true,
@@ -113,12 +111,10 @@ $(() => {
             first_name: {
                 required: true,
                 minlength: 3,
-                lettersonly: true
             },
             last_name: {
                 required: true,
                 minlength: 3,
-                lettersonly: true
             },
         },
         messages: {
