@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SUF-STORE</title>
 
-    {{--    BOOTSTRAP CSS    --}}
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <style>
@@ -44,7 +44,7 @@
             width: 100%;
             height: 100%;
         }
-        @keyframes Gradient {
+        @keyframes  Gradient {
             0% {
                 background-position: 0 50%;
             }
@@ -75,7 +75,9 @@
         <div class="container">
             <div class="row">
                 <div class="col main rounded shadow-lg">
+<!--                    <h5 class="position-absolute" style="top: 1rem; right: 1rem;">Coming Soon...!🚛🚛</h5>-->
                     <h5 class="position-absolute" style="bottom: 1rem; right: 1rem;">COMING SOON...!🚛🚛</h5>
+<!--                    <h5>Coming Soon...!🚛🚛</h5>-->
                     <h1>Hey You... Good to see you!</h1>
                     <hr>
                     <div class="row">
@@ -94,10 +96,11 @@
 </section>
 
 
-{{--    JQUERY CDN    --}}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="{{ url('js/particles/particles.min.js') }}"></script>
-<script src="{{ url('js/particles/app.js') }}"></script>
+<script src="<?php echo e(url('js/particles/particles.min.js')); ?>"></script>
+<script src="<?php echo e(url('js/particles/app.js')); ?>"></script>
 
 </body>
 </html>
+<?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/temporary.blade.php ENDPATH**/ ?>
