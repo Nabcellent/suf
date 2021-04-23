@@ -41,7 +41,7 @@
 
                     <?php if(auth()->guard()->check()): ?>
                         <a href="<?php echo e(route('checkout')); ?>">Checkout<br></a>
-                        <a href="<?php echo e(route('account')); ?>">My Account<br></a>
+                        <a href="<?php echo e(route('profile')); ?>">My Account<br></a>
                         <a href="<?php echo e(route('profile', ['page' => 'orders'])); ?>">My Orders<br></a>
                         <a href="<?php echo e(route('logout')); ?>">Sign Out</a>
                     <?php else: ?>

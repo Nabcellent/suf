@@ -14,21 +14,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserSeeder::class,
-            AdminSeeder::class,
-            PhoneSeeder::class,
-            AddressSeeder::class,
-            AttributeSeeder::class,
-            CategorySeeder::class,
-            ProductSeeder::class,
-            VariationSeeder::class,
-            VariationsOptionSeeder::class,
-            ProductsImageSeeder::class,
-            BrandSeeder::class,
-            AdBoxSeeder::class,
-            BannerSeeder::class,
-            CouponSeeder::class,
-            PolicySeeder::class,
+            //UserSeeder::class,
+            //AdminSeeder::class,
+            //PhoneSeeder::class,
+            //AddressSeeder::class,
+            //AttributeSeeder::class,
+            //CategorySeeder::class,
+            //ProductSeeder::class,
+            //VariationSeeder::class,
+            //VariationsOptionSeeder::class,
+            //ProductsImageSeeder::class,
+            //BrandSeeder::class,
+            //AdBoxSeeder::class,
+            //BannerSeeder::class,
+            //CouponSeeder::class,
+            //PolicySeeder::class,
         ]);
     }
 }

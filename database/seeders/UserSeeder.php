@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
                 "email_verified_at" => Carbon::now(),
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
-            ],[
+            ]/*,[
                 "first_name" => "Michael",
                 "last_name" => "Nabangi",
                 "gender" => "Male",
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
                 "email_verified_at" => null,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
-            ]
+            ]*/
         ]);
     }
 }

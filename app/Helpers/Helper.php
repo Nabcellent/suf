@@ -74,7 +74,7 @@ function trendingCategories(): Collection|array {
         'orders' => Order::all()->count(),
         'customers' => User::where('is_admin', 0)->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
-        'admins' => Admin::where('type', 'Seller')->count(),
+        'admins' => Admin::where('type', 'Super')->count(),
         'brands' => Brand::all()->count(),
     ];
 }

@@ -41,7 +41,7 @@
 
                     @auth()
                         <a href="{{ route('checkout') }}">Checkout<br></a>
-                        <a href="{{ route('account') }}">My Account<br></a>
+                        <a href="{{ route('profile') }}">My Account<br></a>
                         <a href="{{ route('profile', ['page' => 'orders']) }}">My Orders<br></a>
                         <a href="{{ route('logout') }}">Sign Out</a>
                     @else
