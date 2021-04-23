@@ -256,7 +256,7 @@
 
                     <!--    STart Top Products    -->
 
-                    @if(count($newGentsProducts) > 0)
+                    @if(count($topProducts) > 0)
                         <div class="section_title">
                             <div class="container">
                                 <h3 class="mb-0">Top Products</h3>
