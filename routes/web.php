@@ -17,7 +17,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PolicyController;
 use Illuminate\Support\Facades\Storage;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,10 +28,10 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
-/*
+});*/
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -56,7 +55,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
     });
     Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
-    Route::middleware(['admin', 'verified'])->group(function() {
+    Route::middleware(['auth', 'admin', 'verified'])->group(function() {
         Route::get('/', function() {return redirect()->route('admin.dashboard');});
         Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
 
@@ -197,9 +196,8 @@ Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 
 
-
 Route::get('/test', function() {
     Storage::disk('google')->put('test.txt', 'Hello World');
 
     echo "done";
-});*/
+});

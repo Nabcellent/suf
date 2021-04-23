@@ -41,7 +41,7 @@
                                         <div class="d-flex justify-content-between">
                                             <h5 class="m-0">Delivery Addresses</h5>
                                             @if(count($addresses) > 0)
-                                                <a href="{{ url('/account/delivery-address') }}" class="btn btn-outline-info" style="border: none; border-bottom: 1px solid;">Add Address</a>
+                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}" class="btn btn-outline-info" style="border: none; border-bottom: 1px solid;">Add Address</a>
                                             @endif
                                         </div>
                                     </th>
@@ -81,7 +81,7 @@
                                     <tr>
                                         <td>
                                             <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
-                                                <a href="{{ url('/account/delivery-address') }}">add</a></div>
+                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>
                                             <hr class="m-0">
                                         </td>
                                     </tr>
@@ -249,6 +249,8 @@
     </div>
 
 <!--    PayPal Integration    -->
+<!--
 <script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>
+-->
 
 @endsection

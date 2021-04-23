@@ -81,7 +81,6 @@
                                                 <a href="<?php echo e(url('/products')); ?>" class="btn btn-outline-dark"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
                                             </div>
                                             <div class="float-right">
-                                                <button type="submit" name="update" value="Update Cart" class="btn btn-outline-dark"><i class="fas fa-sync-alt"></i> Update Cart</button>
                                                 <a href="<?php echo e(route('checkout')); ?>" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
                                             </div>
                                         </div>
