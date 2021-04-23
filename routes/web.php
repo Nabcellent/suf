@@ -28,10 +28,10 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-/*Route::get('/', function() {
+Route::get('/', function() {
     return view('temporary');
-});*/
-
+});
+/*
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -200,4 +200,4 @@ Route::get('/test', function() {
     Storage::disk('google')->put('test.txt', 'Hello World');
 
     echo "done";
-});
+});*/
