@@ -145,7 +145,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 //  PROTECTED ROUTES
 Route::middleware(['verified', 'auth'])->group(function() {
     //  USER PROFILE ROUTES
-    Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
+    Route::match(['GET', 'POST'], '/profile/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
     Route::patch('/add-phone', [UserController::class, 'createPhone']);
     Route::patch('/upload-profile-image', [UserController::class, 'uploadProfilePic'])->name('profile-pic');
     Route::get('/delete-phone/{id}', [UserController::class, 'deletePhone']);
@@ -165,6 +165,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
     Route::post('/check-password', [AjaxController::class, 'checkCurrentPassword']);
+    Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
 });
 
 
