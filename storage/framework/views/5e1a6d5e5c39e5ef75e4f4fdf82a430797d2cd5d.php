@@ -18,21 +18,23 @@
                     </div>
                     <ul class="menu_main">
                         <li><a href="/" class="nav_link">Home</a></li>
-                        <li class="menu_item_has_children">
-                            <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
-                            <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
+                        <?php if(tableCount()['products'] > 7): ?>
+                            <li class="menu_item_has_children">
+                                <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
+                                <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
 
-                                <?php $__currentLoopData = latestFour(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $four): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="list_item text-center">
-                                        <a href="<?php echo e(url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))); ?>">
-                                            <img src="<?php echo e(asset('/images/products/' . $four['main_image'])); ?>" alt="new ProductSeeder">
-                                            <h4 class="title"><?php echo e($four['title']); ?></h4>
-                                        </a>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = latestFour(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $four): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="list_item text-center">
+                                            <a href="<?php echo e(url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))); ?>">
+                                                <img src="<?php echo e(asset('/images/products/' . $four['main_image'])); ?>" alt="new ProductSeeder">
+                                                <h4 class="title"><?php echo e($four['title']); ?></h4>
+                                            </a>
+                                        </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
+                        <?php endif; ?>
                         <li class="menu_item_has_children">
                             <a href="<?php echo e(url('/products')); ?>" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
                             <ul class="sub_menu mega_menu mega_menu_column_4">

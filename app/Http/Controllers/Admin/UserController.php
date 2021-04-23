@@ -36,7 +36,7 @@ class UserController extends Controller
     }
 
     public function showAdmins(): Factory|View|Application {
-        $admins = Admin::where('type', 'Admin')->with('user')->latest()->get()->toArray();
+        $admins = Admin::where('type', 'Super')->with('user')->latest()->get()->toArray();
 
         return view('Admin.Users.admins')
         ->with(compact('admins'));
@@ -58,20 +58,36 @@ class UserController extends Controller
         return redirect(route('customers'));
     }
 
-    public function createUpdateAdmin(Request $request, $user, $id = null): RedirectResponse {
-        if(Auth::guard('admin')->user()->type === 'Super') {
+    public function createUpdateAdmin(Request $request, $user): RedirectResponse {
+        if(($user === "Admin") && !isRed()) {
+            return back()
+                ->with('alert', alert('danger', "Warning!", 'Unauthorized Action', 8));
+        }
+        if(!isSeller()) {
             $request->validate([
                 'first_name' => 'required|max:20|alpha',
                 'last_name' => 'required|max:20|alpha',
                 'email' => 'required|email:rfc,dns|unique:users',
                 'gender' => 'required|alpha',
-                'phone' => 'required|integer|digits:9|unique:phones',
-                'national_id' => 'required|integer|unique:admins'
+                'phone' => ['required',
+                    'numeric',
+                    'digits_between:9,12',
+                    'unique:phones',
+                    'regex:/^((?:254|\+254|0)?((?:(?:7(?:(?:3[0-9])|(?:5[0-6])|(8[5-9])))|(?:1(?:[0][0-2])))[0-9]{6})|(?:254|\+254|0)?((?:(?:7(?:(?:[01249][0-9])|(?:5[789])|(?:6[89])))|(?:1(?:[1][0-5])))[0-9]{6}))$/i'
+                ],
             ]);
 
             $data = $request->all();
-            $data['type'] = ($user === 'Admin') ? 'Admin' : 'Seller';
+
+            if($user === 'Seller') {
+                $request->validate([
+                    'username' => 'bail|required|max:30|unique:admins',
+                ]);
+            }
+
+            $data['type'] = ($user === 'Admin') ? 'Super' : 'Seller';
             $data['ip_address'] = $request->ip();
+            $data['is_admin'] = 1;
             $data['password'] = Hash::make($data['type']);
 
             if($request->has('image')) {
@@ -79,12 +95,14 @@ class UserController extends Controller
                 $data['image']->move(public_path('images/users/profile'), $imageName);
                 $data['image'] = $imageName;
             }
+            $phone = $request -> phone;
+            $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
-            DB::transaction(function() use ($data) {
+            DB::transaction(function() use ($phone, $data) {
                 $user = User::create($data);
                 $user->admin()->create($data);
                 $user->phones()->create([
-                    'phone' => $data['phone'],
+                    'phone' => $phone,
                     'primary' => 1
                 ]);
             });

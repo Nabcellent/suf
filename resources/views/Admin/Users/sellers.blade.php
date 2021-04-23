@@ -55,7 +55,7 @@
                                         </td>
                                         <td class="action">
                                             <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['id'] }}" data-model="User">
+                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['user_id'] }}" data-model="User">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </td>

@@ -101,13 +101,13 @@ class UserController extends Controller
         return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
     }
 
-    public function createPhone(Request $req): JsonResponse
-    {
-        $valid = Validator::make($req->all(), [
-            'phone' => [
-                'required','digits_between: 9, 10',
-                'regex:/^(([71])(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$/i',
+    public function createPhone(Request $request): JsonResponse {
+        $valid = Validator::make($request->all(), [
+            'phone' => ['required',
+                'numeric',
+                'digits_between:9,12',
                 'unique:phones',
+                'regex:/^((?:254|\+254|0)?((?:(?:7(?:(?:3[0-9])|(?:5[0-6])|(8[5-9])))|(?:1(?:[0][0-2])))[0-9]{6})|(?:254|\+254|0)?((?:(?:7(?:(?:[01249][0-9])|(?:5[789])|(?:6[89])))|(?:1(?:[1][0-5])))[0-9]{6}))$/i'
             ],
         ]);
 
@@ -117,12 +117,12 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => $message]);
         }
 
-        $phoneNumber = $req -> phone;
-        $phoneNumber = strlen($phoneNumber) === 10 ? substr($phoneNumber, -9) : $phoneNumber;
+        $phone = $request -> phone;
+        $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
         $user = User::find(Auth::id());
         $user->phones()->create([
-            'phone' => $phoneNumber,
+            'phone' => $phone,
             'primary' => 0
         ]);
 
@@ -190,45 +190,4 @@ class UserController extends Controller
 
 
 
-
-    /**
-     * ---------------------------------------------------------------------------------------------    DATABASE CHECKS
-    */
-
-    public function checkCurrentPassword(Request $req): bool
-    {
-        if($req->ajax() && $req->isMethod('POST')) {
-            if(Hash::check($req->current_password, Auth::user()['password'])) {
-                return true;
-            }
-
-            return false;
-        }
-
-        return false;
-    }
-
-    public function checkEmailExists(Request $req): string
-    {
-        //  Check if email exists
-        $exists = User::where('email', $req->email)->exists();
-
-        return $exists ? "false" : "true";
-    }
-
-    public function checkPhoneExists(Request $req): string
-    {
-        $phone = $req -> phone;
-        $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
-
-        $check = Phone::where('phone', $phone);
-
-        if(Auth::check()) {
-            $check->where('user_id', '<>', Auth::id());
-        }
-
-        $exists = $check->exists();
-
-        return $exists ? "false" : "true";
-    }
 }

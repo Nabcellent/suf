@@ -21,12 +21,4 @@ class AdminController extends Controller
 
         return view('Admin.profile')->with(compact('admin', 'phones', 'primaryPhone'));
     }
-
-    public function checkUsername(Request $req): string
-    {
-        //  Check if email exists
-        $exists = Admin::where('username', $req->username)->exists();
-
-        return $exists ? "false" : "true";
-    }
 }

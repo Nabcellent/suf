@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Phone;
 use App\Models\Product;
 use App\Models\SubCounty;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AjaxController extends Controller
@@ -39,5 +44,56 @@ class AjaxController extends Controller
         }
 
         return response()->json([404]);
+    }
+
+
+
+    /**
+     * ---------------------------------------------------------------------------------------------    DATABASE CHECKS
+     */
+
+    public function checkCurrentPassword(Request $req): bool
+    {
+        if($req->ajax() && $req->isMethod('POST')) {
+            if(Hash::check($req->current_password, Auth::user()['password'])) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    public function checkEmailExists(Request $req): string
+    {
+        //  Check if email exists
+        $exists = User::where('email', $req->email)->exists();
+
+        return $exists ? "false" : "true";
+    }
+
+    public function checkUsernameExists(Request $req): string
+    {
+        //  Check if email exists
+        $exists = Admin::where('username', $req->username)->exists();
+
+        return $exists ? "false" : "true";
+    }
+
+    public function checkPhoneExists(Request $req): string
+    {
+        $phone = $req -> phone;
+        $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
+
+        $check = Phone::where('phone', $phone);
+
+        if(Auth::check()) {
+            $check->where('user_id', '<>', Auth::id());
+        }
+
+        $exists = $check->exists();
+
+        return $exists ? "false" : "true";
     }
 }

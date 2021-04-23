@@ -40,14 +40,14 @@ $(() => {
             email: {
                 required: true,
                 email: true,
-                remote: 'check-email',
+                remote: '/check-email',
             },
             phone: {
                 required: true,
                 digits: true,
-                maxlength: 9,
                 minlength: 9,
-                remote: 'check-phone',
+                maxlength: 12,
+                remote: '/check-phone',
             },
             gender: 'required',
             password: {

@@ -44,21 +44,20 @@ $(() => {
             username: {
                 required: true,
                 minlength: 3,
-                remote: 'check-username',
+                remote: '/check-username',
             },
             email: {
                 required: true,
                 email: true,
-                remote: 'check-email',
+                remote: '/check-email',
             },
             phone: {
                 required: true,
                 digits: true,
-                maxlength: 10,
-                minlength: 10,
-                remote: 'check-phone',
+                minlength: 9,
+                maxlength: 12,
+                remote: '/check-phone',
             },
-            national_id: 'required',
             gender: 'required',
             password: {
                 required: true,
@@ -154,17 +153,59 @@ $(() => {
 
     $('form#create_admin').validate({
         rules: {
-            first_name: 'required',
-            last_name: 'required',
-            email: 'required',
-            phone: 'required',
-            national_id: 'required',
+            first_name: {
+                required: true,
+                minlength: 3
+            },
+            last_name: {
+                required: true,
+                minlength: 3
+            },
+            username: {
+                required: true,
+                minlength: 3,
+                remote: '/check-username',
+            },
+            email: {
+                required: true,
+                email: true,
+                remote: '/check-email',
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 9,
+                maxlength: 12,
+                remote: '/check-phone',
+            },
             gender: 'required',
         },
         messages: {
+            first_name: {
+                required: 'Please enter a first name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            last_name: {
+                required: 'Please enter a last name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            username: {
+                required: 'Please provide a username for this seller.',
+                minlength: 3,
+                remote: 'This username has been taken',
+            },
+            email: {
+                required: 'Please enter a email address',
+                email: 'Please enter a valid email address',
+                remote: 'This email is already in use.',
+            },
             phone: {
-                pattern: 'Invalid phone number'
-            }
+                required: 'Please provide a phone number.',
+                digits: 'Only numbers are allowed.',
+                pattern: 'Invalid phone number',
+                remote: 'This phone number is already in use.',
+            },
+            gender: 'Please choose a gender.',
         }
     });
 });

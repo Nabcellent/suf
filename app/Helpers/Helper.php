@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Order;
@@ -15,20 +16,33 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
 function User(): ?Authenticatable {
     return Auth::user();
 }
+function isRed(): bool {
+    return User()->is_admin === 7;
+}
 function isSeller(): bool {
-    return Auth::user()->admin['type'] === 'Seller';
+    if(isAdmin()) {
+        return Auth::user()->admin['type'] === 'Seller';
+    }
+    return false;
+}
+function isSuper(): bool {
+    if(isAdmin()) {
+        return Auth::user()->admin['type'] === 'Super';
+    }
+    return false;
 }
 function isAdmin(): bool {
-    return User()->is_admin;
+    return User()->is_admin === 1;
 }
 
 
-function alert($type, $intro, $message, $duration): array {
+#[ArrayShape(['type' => "", 'intro' => "", 'message' => "", 'duration' => ""])] function alert($type, $intro, $message, $duration): array {
     return [
         'type' => $type,
         'intro' => $intro,
@@ -54,13 +68,14 @@ function trendingCategories(): Collection|array {
 }
 
 //  COUNT FUNCTIONS
-function tableCount(): array {
+#[ArrayShape(['products' => "int", 'orders' => "int", 'customers' => "mixed", 'sellers' => "mixed", 'admins' => "mixed", 'brands' => "int"])] function tableCount(): array {
     return [
         'products' => Product::all()->count(),
         'orders' => Order::all()->count(),
         'customers' => User::where('is_admin', 0)->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
         'admins' => Admin::where('type', 'Seller')->count(),
+        'brands' => Brand::all()->count(),
     ];
 }
 

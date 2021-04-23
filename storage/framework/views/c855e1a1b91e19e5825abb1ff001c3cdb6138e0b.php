@@ -43,17 +43,17 @@
                                             <td style="font-size: 14pt">
 
                                                 <?php if($admin['user']['status']): ?>
-                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']); ?>" data-model="USer" title="Update Status"
+                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']); ?>" data-model="User" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                 <?php else: ?>
-                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']['id']); ?>" data-model="USer" title="Update Status"
+                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']['id']); ?>" data-model="User" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 <?php endif; ?>
 
                                             </td>
                                             <td class="action">
                                                 <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                                <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($admin['user_id']); ?>" data-model="USer">
+                                                <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($admin['user_id']); ?>" data-model="User">
                                                     <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             </td>

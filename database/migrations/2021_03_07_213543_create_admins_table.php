@@ -17,7 +17,6 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('username', 20)->unique()->nullable();
-            $table->integer('national_id')->unique();
             $table->enum('type', ['Seller', 'Admin', 'Super']);
             $table->integer('pin')->nullable();
             $table->timestamps();

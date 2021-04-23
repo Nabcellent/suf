@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <div id="products" class="container-fluid p-0">
         <div class="row">
-            <div class="col-10">
+            <div class="col-9">
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Products</h6>
@@ -19,7 +19,6 @@
                                     <th>Date</th>
                                     <th>Price</th>
                                     <th>Discount</th>
-                                    <th>Label</th>
                                     <th>Qty sold</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -33,11 +32,10 @@
                                         <td></td>
                                         <td><img src="<?php echo e(asset('/images/products/' . $item['main_image'])); ?>" alt="product" class="img-fluid"></td>
                                         <td class="title"><?php echo e($item['title']); ?></td>
-                                        <td><?php echo e($item['seller']['username']); ?></td>
+                                        <td><?php echo e($item['seller']['admin']['username']); ?></td>
                                         <td class="text-nowrap"><?php echo e(date('d.m.Y', strtotime($item['created_at']))); ?></td>
                                         <td class="text-center"><?php echo e($item['base_price']); ?></td>
                                         <td class="text-center"><?php echo e($item['discount']); ?>%</td>
-                                        <td><?php echo e($item['label']); ?></td>
                                         <td class="text-center"> wait </td>
                                         <td class="text-center" style="font-size: 14pt">
                                             <?php if($item['status']): ?>
@@ -61,6 +59,26 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card crud_table shadow mb-4">
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="<?php echo e(route('admin.categories')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Categories<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['admins']); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['orders']); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Brands<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['brands']); ?></span>
+                            </a>
+                            <a href="<?php echo e(route('admin.attributes')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
+                            </a>
                         </div>
                     </div>
                 </div>

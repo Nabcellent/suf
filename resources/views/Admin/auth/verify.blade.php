@@ -1,6 +1,13 @@
 @extends('Admin.layouts.app')
 @section('content')
 <div class="container">
+    <a class="position-absolute" style="right:1rem; top:1rem; color: var(--dark-gold)"
+       href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        {{ __('Exit') }}
+    </a>
+    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
     <div class="row py-3 justify-content-center align-items-center" style="height: 80vh;">
         <div class="col-md-8 py-md-5 mb-lg-5">
             <div class="card shadow-lg p-5">

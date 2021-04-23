@@ -166,34 +166,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nav_dropdown">
-                        <a href="#" class="nav_link">
-                            <i class="fas fa-user-tag nav_icon"></i>
-                            <span class="nav_name">Sellers</span>
-                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                        </a>
-                        <div class="nav_dropdown_collapse">
-                            <div class="nav_dropdown_content">
-                                <a href="{{ route('admin.sellers') }}" class="nav_dropdown_item">List</a>
-                                <a href="#" class="nav_dropdown_item">Mail</a>
-                                <a href="#" class="nav_dropdown_item">Account</a>
+                    @if(isSuper() || isRed())
+                        <div class="nav_dropdown">
+                            <a href="#" class="nav_link">
+                                <i class="fas fa-user-tag nav_icon"></i>
+                                <span class="nav_name">Sellers</span>
+                                <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                            </a>
+                            <div class="nav_dropdown_collapse">
+                                <div class="nav_dropdown_content">
+                                    <a href="{{ route('admin.sellers') }}" class="nav_dropdown_item">List</a>
+                                    <a href="#" class="nav_dropdown_item">Mail</a>
+                                    <a href="#" class="nav_dropdown_item">Account</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="nav_dropdown">
-                        <a href="#" class="nav_link">
-                            <i class="fas fa-users-cog nav_icon"></i>
-                            <span class="nav_name">Admins</span>
-                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                        </a>
-                        <div class="nav_dropdown_collapse">
-                            <div class="nav_dropdown_content">
-                                <a href="{{ route('admin.admins') }}" class="nav_dropdown_item">List</a>
-                                <a href="#" class="nav_dropdown_item">Mail</a>
-                                <a href="#" class="nav_dropdown_item">Account</a>
+                        @if(isRed())
+                            <div class="nav_dropdown">
+                                <a href="#" class="nav_link">
+                                    <i class="fas fa-users-cog nav_icon"></i>
+                                    <span class="nav_name">Admins</span>
+                                    <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                                </a>
+                                <div class="nav_dropdown_collapse">
+                                    <div class="nav_dropdown_content">
+                                        <a href="{{ route('admin.admins') }}" class="nav_dropdown_item">List</a>
+                                        <a href="#" class="nav_dropdown_item">Mail</a>
+                                        <a href="#" class="nav_dropdown_item">Account</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @endif
+                    @endif
                     <a href="#" class="nav_link">
                         <i class='bx bxs-user-account nav_icon' ></i>
                         <span class="nav_name">Account</span>

@@ -103,7 +103,7 @@ class AjaxController extends Controller
             if(File::exists(public_path('images/products/' . $imageName))){
                 File::delete(public_path('images/products/' . $imageName));
             }
-        } else if($model === "Admin") {
+        } else if($model === "User") {
             $imageName = $this->getModel($model)::find($id)->image;
             if(File::exists(public_path('images/users/profile/' . $imageName))){
                 File::delete(public_path('images/users/profile/' . $imageName));
@@ -123,7 +123,6 @@ class AjaxController extends Controller
 
     private function getModel($model): string {
         return match ($model) {
-            'Admin' => Admin::class,
             'User' => User::class,
             'Attribute' => Attribute::class,
             'Banner' => Banner::class,

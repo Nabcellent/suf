@@ -2,7 +2,7 @@
 @section('content')
     <div id="products" class="container-fluid p-0">
         <div class="row">
-            <div class="col-10">
+            <div class="col-9">
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Products</h6>
@@ -20,7 +20,6 @@
                                     <th>Date</th>
                                     <th>Price</th>
                                     <th>Discount</th>
-                                    <th>Label</th>
                                     <th>Qty sold</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -34,11 +33,10 @@
                                         <td></td>
                                         <td><img src="{{ asset('/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
                                         <td class="title">{{ $item['title'] }}</td>
-                                        <td>{{ $item['seller']['username'] }}</td>
+                                        <td>{{ $item['seller']['admin']['username'] }}</td>
                                         <td class="text-nowrap">{{ date('d.m.Y', strtotime($item['created_at'])) }}</td>
                                         <td class="text-center">{{ $item['base_price'] }}</td>
                                         <td class="text-center">{{ $item['discount'] }}%</td>
-                                        <td>{{ $item['label'] }}</td>
                                         <td class="text-center"> wait </td>
                                         <td class="text-center" style="font-size: 14pt">
                                             @if($item['status'])
@@ -62,6 +60,26 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card crud_table shadow mb-4">
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Categories<span class="badge badge-primary badge-pill">{{ tableCount()['admins'] }}</span>
+                            </a>
+                            <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
+                            </a>
+                            <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Brands<span class="badge badge-primary badge-pill">{{ tableCount()['brands'] }}</span>
+                            </a>
+                            <a href="{{ route('admin.attributes') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Sellers<span class="badge badge-primary badge-pill">{{ tableCount()['sellers'] }}</span>
+                            </a>
                         </div>
                     </div>
                 </div>

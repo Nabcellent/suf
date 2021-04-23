@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-9">
                 <div class="row">
-                    <div class="col-lg-9 col-md-12">
+                    <div class="col-lg-8 col-md-12">
                         <div class="card shadow">
                             <form id="create_admin" action="<?php echo e(url()->current()); ?>" method="POST" enctype="multipart/form-data">
                                 <?php if(isset($admin)): ?> <?php echo method_field('PUT'); ?> <?php endif; ?> <?php echo csrf_field(); ?>
@@ -120,46 +120,22 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="form-group col">
-                                            <label for="">Phone</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">+254</span>
-                                                </div>
-                                                <input type="tel" class="form-control <?php $__errorArgs = ['phone'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" name="phone" aria-label value="<?php echo e(old('phone')); ?>"
-                                                       placeholder="712345678" pattern="^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$">
-                                                <?php $__errorArgs = ['phone'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                <span class="invalid-feedback" role="alert"><strong><?php echo e($message); ?></strong></span>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                                    <div class="form-group">
+                                        <label for="">Phone</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">+254</span>
                                             </div>
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="national_id">National Id</label>
-                                            <input type="number" id="national_id" name="national_id" value="<?php echo e(old('national_id')); ?>" class="form-control <?php $__errorArgs = ['national_id'];
+                                            <input type="tel" class="form-control <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>"
-                                                   placeholder="Enter National ID number *" aria-label required>
-                                            <?php $__errorArgs = ['national_id'];
+unset($__errorArgs, $__bag); ?>" name="phone" aria-label value="<?php echo e(old('phone')); ?>" placeholder="123456789"
+                                                   pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$">
+                                            <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }

@@ -4,7 +4,7 @@ $(document).on('click', '.add-phone', () => {
     $(document).on('keyup', '.swal-input', function() {
         let value = $(this).val();
         let $phoneInput = $('#phone-form input');
-        if(!value.match(/^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$/)) {
+        if(!value.match(/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$/)) {
             $phoneInput.removeClass('is-valid');
             $phoneInput.addClass('is-invalid');
             $('#phone-form strong').text('Invalid phone number');
@@ -16,78 +16,92 @@ $(document).on('click', '.add-phone', () => {
         }
     });
 
-    Swal.fire({
-        title: 'Enter Your phone number',
-        html: '<form id="phone-form"><div class="input-group">\n' +
-            '      <div class="input-group-prepend">' +
-            '          <span class="input-group-text">+254</span>' +
-            '      </div>' +
-            '      <input type="tel" class="form-control swal-input" name="phone" aria-label ' +
-            '             placeholder="712345678" pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$">' +
-            '  <span class="invalid-feedback" role="alert"><strong></strong></span></div>' +
-            '</form>',
-        inputAttributes: {
-            autocapitalize: 'off',
-            required: true
-        },
-        showCancelButton: true,
-        confirmButtonText: 'ADD',
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-            const phone = $('#phone-form input');
-            if(!isValid) {
-                phone.addClass('is-invalid');
-                $('#phone-form strong').text('The phone number is invalid. (hint: it must be 9 digits omitt the leading 0)');
-                return false;
-            }
+    const fireSweetPhone = () => {
+        Swal.fire({
+            title: 'Enter Your phone number',
+            html: '<form id="phone-form"><div class="input-group">\n' +
+                '      <div class="input-group-prepend">' +
+                '          <span class="input-group-text">+254</span>' +
+                '      </div>' +
+                '      <input type="tel" class="form-control swal-input" name="phone" aria-label ' +
+                '             placeholder="123456789" pattern="^((?:254|\\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$">' +
+                '  <span class="invalid-feedback" role="alert"><strong></strong></span></div>' +
+                '</form>',
+            inputAttributes: {
+                autocapitalize: 'off',
+                required: true
+            },
+            showCancelButton: true,
+            confirmButtonText: 'ADD',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                const phone = $('#phone-form input');
+                if(!isValid) {
+                    phone.addClass('is-invalid');
+                    $('#phone-form strong').text('The phone number is invalid. (hint: it must be 9 digits omitt the leading 0)');
+                    return false;
+                }
 
-            return $.ajax({
-                data: {phone: phone.val()},
-                type: 'PATCH',
-                url: '/add-phone',
-                statusCode: {
-                    500: function(responseObject, textStatus, errorThrown) {
-                        //console.log(errorThrown);
+                return $.ajax({
+                    data: {phone: phone.val()},
+                    type: 'PATCH',
+                    url: '/add-phone',
+                    statusCode: {
+                        500: function(responseObject, textStatus, errorThrown) {
+                            //console.log(errorThrown);
+                        }
+                    },
+                    success: (response) => {
+                        return response;
+                    }, error: () => {
+                        Swal.fire({
+                            text: 'Something went wrong. Please contact @Lè_•Çapuchôn✓🩸',
+                            footer: '<a href="mailto:su-fashion10@gmail.com">su-fashion10@gmail.com</a>'
+                        });
                     }
-                },
-                success: (response) => {
-                    return response;
-                }, error: () => {
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if(typeof result.value !== 'undefined') {
+                    if(result.value.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: result.value.message,
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        if(result.value.message === 'The phone has already been taken.') {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Oops!',
+                                text: result.value.message,
+                            }).then(() => {
+                                fireSweetPhone();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Oops!',
+                                text: result.value.message,
+                            });
+                        }
+                    }
+                } else {
                     Swal.fire({
+                        icon: 'danger',
+                        title: 'Sorry!',
                         text: 'Something went wrong. Please contact @Lè_•Çapuchôn✓🩸',
                         footer: '<a href="mailto:su-fashion10@gmail.com">su-fashion10@gmail.com</a>'
                     });
                 }
-            });
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-        if (result.isConfirmed) {
-            if(typeof result.value !== 'undefined') {
-                if(result.value.status) {
-                    Swal.fire({
-                        icon: 'success',
-                        text: result.value.message,
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Oops!',
-                        text: result.value.message,
-                    });
-                }
-            } else {
-                Swal.fire({
-                    icon: 'danger',
-                    title: 'Sorry!',
-                    text: 'Something went wrong. Please contact @Lè_•Çapuchôn✓🩸',
-                    footer: '<a href="mailto:su-fashion10@gmail.com">su-fashion10@gmail.com</a>'
-                });
             }
-        }
-    });
+        });
+    }
+
+    fireSweetPhone();
 });
 
 

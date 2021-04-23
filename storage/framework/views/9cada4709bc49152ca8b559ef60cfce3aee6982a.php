@@ -13,20 +13,36 @@
                 <ul class="navbar-nav ml-auto">
 
                     <?php if(auth()->guard()->check()): ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                <?php echo e(Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)); ?>
+                        <?php if(User()->hasVerifiedEmail()): ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#" data-toggle="dropdown">
+                                    <?php echo e(Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)); ?>
 
-                                <i class="fas fa-user-circle"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<?php echo e(url('/checkout')); ?>">Checkout</a>
-                                <a class="dropdown-item" href="<?php echo e(url('/orders')); ?>">My Orders</a>
-                                <a class="dropdown-item" href="<?php echo e(url('/account')); ?>">My Account</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="<?php echo e(route('logout')); ?>">Sign Out</a>
-                            </div>
-                        </li>
+                                    <i class="fas fa-user-circle"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?php echo e(route('checkout')); ?>">Checkout</a>
+                                    <a class="dropdown-item" href="<?php echo e(route('orders')); ?>">My Orders</a>
+                                    <a class="dropdown-item" href="<?php echo e(route('profile')); ?>">My Account</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="<?php echo e(route('logout')); ?>">Sign Out</a>
+                                </div>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link" style="transform: scale(1);">Almost There😁</a>
+                            </li>
+                            <li class="nav-item" style="text-decoration: underline;">
+                                <a class="nav-link" style="text-decoration: underline;" href="<?php echo e(route('logout')); ?>"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <?php echo e(__('Sign Out')); ?>
+
+                                </a>
+                            </li>
+                            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                <?php echo csrf_field(); ?>
+                            </form>
+                        <?php endif; ?>
                     <?php else: ?>
                         <li class="nav-item">
                             <a class="nav-link" style="transform: scale(1);">Hey There!👋 You might wanna</a>

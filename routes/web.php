@@ -132,10 +132,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
         Route::post('/get-attribute-values', [Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
     });
-
-    Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
-    Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
-    Route::match(['get', 'post'], '/check-username', [AdminController::class, 'checkUsername']);
 });
 
 
@@ -167,7 +163,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
-    Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
+    Route::post('/check-password', [AjaxController::class, 'checkCurrentPassword']);
 });
 
 
@@ -190,8 +186,9 @@ Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-u
 //  AJAX ROUTES
 //  Get Variation price
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
-Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
-Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
+Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
+Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
+Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);
 
 //  LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');

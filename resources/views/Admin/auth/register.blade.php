@@ -63,20 +63,12 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col">
-                                        <label class="anime_input_field">
-                                            <input type="tel" id="phone" name="phone"  class="anime_input" value="{{ old('phone') }}"
-                                                   pattern="^0[71](?:(?:[123][0-9])|(?:0[0-8])|(?:9[0-2]))[0-9]{6}$" required>
-                                            <span class="placeholder">Phone number</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group col">
-                                        <label class="anime_input_field">
-                                            <input type="number" name="national_id"  class="anime_input" value="{{ old('national_id') }}" required>
-                                            <span class="placeholder">ID number</span>
-                                        </label>
-                                    </div>
+                                <div class="form-group">
+                                    <label class="anime_input_field">
+                                        <input type="tel" id="phone" name="phone"  class="anime_input" value="{{ old('phone') }}"
+                                               pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$" required>
+                                        <span class="placeholder">Phone number</span>
+                                    </label>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col">

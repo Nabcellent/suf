@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -96,7 +97,7 @@ class RegisterController extends Controller
             event(new Registered($user = $this->createUser($request->all(), $ip)));
 
             $phone = $request -> phone;
-            $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
+            $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
             $user->phones()->create([
                 'phone' => $phone,
@@ -133,6 +134,6 @@ class RegisterController extends Controller
                 ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
         }
 
-        return view('auth.verify');
+        return redirect()->route('verification.notice');
     }
 }

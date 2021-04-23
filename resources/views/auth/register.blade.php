@@ -97,20 +97,18 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">+254</span>
                                                 </div>
-                                                <input type="tel" class="form-control" name="phone" aria-label value="{{ old('phone') }}"
-                                                       placeholder="712345678" pattern="^(([71])(?:[123569][0-9]|0[0-8]|(4[081])|(3[64]))[0-9]{6})$">
+                                                <input type="tel" class="form-control" name="phone" aria-label value="{{ old('phone') }}" placeholder="123456789"
+                                                       pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label>Create password *</label>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Create password"
-                                                       aria-label required>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Create password" aria-label required>
                                             </div>
                                             <div class="form-group col">
                                                 <label>Confirm password *</label>
-                                                <input type="password" class="form-control" name="password_confirmation"
-                                                       placeholder="Confirm password" aria-label required>
+                                                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password" aria-label required>
                                             </div>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
