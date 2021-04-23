@@ -27,14 +27,14 @@ class HomeController extends Controller
             ->where('is_featured', 'Yes')->has('variations')->get()->toArray();
 
         //  Get Latest Products
-        $newGentsProducts = Product::join('admins', 'admins.id', 'seller_id')
+        $newGentsProducts = Product::join('admins', 'admins.user_id', 'seller_id')
             ->select('products.*', 'admins.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
             ->where(['section.title' => 'Gents', 'products.status' => 1])->has('variations')
             ->orderByDesc('products.id')->limit(10)->get()->toArray();
 
-        $newLadiesProducts = Product::join('admins', 'admins.id', 'seller_id')
+        $newLadiesProducts = Product::join('admins', 'admins.user_id', 'seller_id')
             ->select('products.*', 'admins.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')

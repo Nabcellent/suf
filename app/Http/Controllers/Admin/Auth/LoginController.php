@@ -187,7 +187,7 @@ class LoginController extends Controller
      * @return StatefulGuard
      */
     protected function guard(): StatefulGuard {
-        return Auth::guard('admin');
+        return Auth::guard();
     }
 
     /**
@@ -204,6 +204,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
 }

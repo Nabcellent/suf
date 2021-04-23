@@ -36,12 +36,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/Admin/style.css') }}" rel="stylesheet">
 </head>
-<body id="app" @if(Auth::guard('admin')->check()) class="nav_body" @endif>
+<body id="app" @auth() @if(User()->hasverifiedEmail()) class="nav_body" @endif @endauth>
 @include('Admin.include.alert')
 
-@if(Auth::guard('admin')->check())
-    @include('Admin.include.navbar')
-@endif
+@auth()
+    @if(User()->hasverifiedEmail())
+        @include('Admin.include.navbar')
+    @endif
+@endauth
 
 
 

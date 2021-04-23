@@ -17,8 +17,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Pure;
 
-function admin(): ?Authenticatable {
-    return Auth::guard('admin')->user();
+function User(): ?Authenticatable {
+    return Auth::user();
+}
+function isSeller(): bool {
+    return Auth::user()->admin['type'] === 'Seller';
+}
+function isAdmin(): bool {
+    return User()->is_admin;
 }
 
 
@@ -52,9 +58,9 @@ function tableCount(): array {
     return [
         'products' => Product::all()->count(),
         'orders' => Order::all()->count(),
-        'customers' => User::all()->count(),
+        'customers' => User::where('is_admin', 0)->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
-        'admins' => Admin::where('type', '<>', 'Seller')->count(),
+        'admins' => Admin::where('type', 'Seller')->count(),
     ];
 }
 

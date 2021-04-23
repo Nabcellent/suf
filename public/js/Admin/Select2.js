@@ -10,6 +10,8 @@ $('.select2').select2({
 $('.select2-multiple').select2({
     theme: 'classic',
     multiple: true,
+    tags: true,
+    tokenSeparators: [',', ' ']
 });
 
 /*_______________________________________________________________  ADD VARIATION  _____________________*/

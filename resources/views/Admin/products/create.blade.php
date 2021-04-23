@@ -52,20 +52,25 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col">
-                                        <label></label>
-                                        <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
-                                            <option selected hidden value="">Select a seller*</option>
-                                            @foreach($sellers as $seller)
-                                                <option value="{{ $seller['id'] }}">{{ $seller['username'] }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('seller')
-                                                    <span class="invalid-feedback" role="alert">
+                                    @if(isSeller())
+                                        <input type="hidden" name="seller" value="{{ Auth::id() }}">
+                                    @else
+                                        <div class="form-group col">
+                                            <label></label>
+                                            <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
+                                                <option selected hidden value="">Select a seller*</option>
+                                                @foreach($sellers as $seller)
+                                                    <option value="{{ $seller['id'] }}">{{ $seller['username'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('seller')
+                                            <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
-                                                @enderror
-                                    </div>
+                                            @enderror
+                                        </div>
+                                    @endif
+
                                     <div class="form-group col">
                                         <label></label>
                                         <select id="categories" class="form-control @error('category') is-invalid @enderror crud_form" name="category" aria-label required>

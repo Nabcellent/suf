@@ -1,6 +1,4 @@
-<?php use Illuminate\Support\Arr;
-
-$__env->startSection('title', 'Sign In'); ?>
+<?php $__env->startSection('title', 'Sign In'); ?>
 <?php $__env->startSection('content'); ?>
 
     <div class="login">
@@ -26,8 +24,8 @@ $__env->startSection('title', 'Sign In'); ?>
 
                 <!--    Start Contact Section    -->
 
-                <div class="row justify-content-center pb-5 mb-md-5">
-                    <div class="col-md-11 col-sm-12 py-md-5">
+                <div class="row justify-content-center align-items-center" style="height: 70vh; margin-bottom: 10rem">
+                    <div class="col-md-11 col-sm-12">
 
                         <!--    Start Card    -->
 
@@ -114,4 +112,4 @@ unset($__errorArgs, $__bag); ?>"
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/login.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/login.blade.php ENDPATH**/ ?>

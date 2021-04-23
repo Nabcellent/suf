@@ -7,55 +7,75 @@
                 <div class="col-7">
                     <div class="card anime_card">
                         <div class="card-body shadow-lg">
-                            <div class="card-header bg-white border-0 d-flex flex-row align-items-center">
+                            <div class="card-header bg-white border-0 pb-1">
                                 <div class="col text-center">
                                     <h5 class="m-0 font-weight-bold" style="color: #900"><i class="fas fa-tags"></i> Register</h5>
                                 </div>
-                                <div class="text-danger list-group all_errors"></div>
+                                <div class="text-danger list-group all_errors">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger py-2 m-0">
+                                            <ul class="m-0 py-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                            <form id="reg_form" >
+                            <form id="register_seller" action{{ route('admin.register') }} method="POST">
+                                @csrf
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label class="anime_input_field">
-                                            <input type="text" name="first_name" class="anime_input" required>
+                                            <input type="text" name="first_name" class="anime_input" value="{{ old('first_name') }}" required autofocus>
                                             <span class="placeholder">First name</span>
                                         </label>
                                     </div>
                                     <div class="form-group col">
                                         <label class="anime_input_field">
-                                            <input type="text" name="last_name"  class="anime_input" required>
+                                            <input type="text" name="last_name"  class="anime_input" value="{{ old('last_name') }}" required>
                                             <span class="placeholder">Last name</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="anime_input_field">
-                                        <input type="email" id="email" name="email"  class="anime_input" required>
+                                        <input type="email" id="email" name="email"  class="anime_input" value="{{ old('email') }}" required>
                                         <span class="placeholder">Email address</span>
                                     </label>
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-group col d-flex align-items-center mb-0">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="male" name="gender" class="custom-control-input" @if(old('gender')) checked @endif value="Male">
+                                            <label class="custom-control-label" for="male">Male</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="female" name="gender" class="custom-control-input" @if(old('gender')) checked @endif value="Female">
+                                            <label class="custom-control-label" for="female">Female</label>
+                                        </div>
+                                    </div>
                                     <div class="form-group col">
                                         <label class="anime_input_field">
-                                            <input type="number" id="phone" name="phone"  class="anime_input" pattern="((^0[17]+)|(^[17]+)).*" required>
+                                            <input type="text" name="username"  class="anime_input" value="{{ old('username') }}" required>
+                                            <span class="placeholder">Username</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <label class="anime_input_field">
+                                            <input type="tel" id="phone" name="phone"  class="anime_input" value="{{ old('phone') }}"
+                                                   pattern="^0[71](?:(?:[123][0-9])|(?:0[0-8])|(?:9[0-2]))[0-9]{6}$" required>
                                             <span class="placeholder">Phone number</span>
                                         </label>
                                     </div>
                                     <div class="form-group col">
                                         <label class="anime_input_field">
-                                            <input type="number" name="id_number"  class="anime_input" required>
+                                            <input type="number" name="national_id"  class="anime_input" value="{{ old('national_id') }}" required>
                                             <span class="placeholder">ID number</span>
                                         </label>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="male" name="gender" class="custom-control-input" value="M">
-                                        <label class="custom-control-label" for="male">Male</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="female" name="gender" class="custom-control-input" value="F">
-                                        <label class="custom-control-label" for="female">Female</label>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -67,17 +87,16 @@
                                     </div>
                                     <div class="form-group col">
                                         <label class="anime_input_field">
-                                            <input type="password" id="confirm_password" name="confirm_password"  class="anime_input" required>
+                                            <input type="password" id="password_confirmation" name="password_confirmation"  class="anime_input" required>
                                             <span class="placeholder">Confirm password</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <input type="hidden" name="user_type" value="seller">
                                         <div class="col d-flex justify-content-between">
-                                            <a href="/auth/sign-in" class="card-link">Sign In</a>
-                                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                                            <a href="{{ route('admin.login') }}" class="card-link">Sign In</a>
+                                            <button type="submit" class="morphic_btn morphic_btn_primary">Sign Up</button>
                                         </div>
                                     </div>
                                 </div>

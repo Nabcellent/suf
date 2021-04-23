@@ -65,6 +65,9 @@ use App\Models\Category;
                         <div class="card crud_table shadow mb-4">
                             <div class="card-body">
                                 <div class="list-group list-group-flush">
+                                    <a href="<?php echo e(route('admin.create.product')); ?>" class="list-group-item list-group-item-action">
+                                        Create Product
+                                    </a>
                                     <a href="<?php echo e(route('admin.products')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         All Products<span class="badge badge-primary badge-pill">14</span>
                                     </a>

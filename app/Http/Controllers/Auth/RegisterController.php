@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
+use App\Models\Cart;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -15,8 +16,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -115,12 +118,17 @@ class RegisterController extends Controller
     }
 
     protected function registered(Request $request, $user): Factory|View|Redirector|RedirectResponse|Application {
+        //  Update user cart with user id
+        if(!empty(Session::get('session_id'))) {
+            $sessionId = Session::get('session_id');
+            Cart::where('session_id', $sessionId)->update(['user_id' => Auth::id()]);
+        }
+
         $type = 'success';
         $intro = "Awesome! 🥳 ";
         $message = "Your account has been activated. Welcome to SU-F Store.";
 
         if($request->user()->hasVerifiedEmail()) {
-
             return redirect()->route('login')
                 ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
         }

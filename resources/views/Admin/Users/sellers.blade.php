@@ -27,39 +27,41 @@
                             </thead>
                             <tbody>
 
-                            @foreach($sellers as $seller)
-                                <tr>
-                                    <td></td>
-                                    @if(isset($seller['image']))
-                                        <td><img src="{{ asset('/images/users/profile/' . $seller['image']) }}" alt="profile" class="img-fluid"></td>
-                                    @else
-                                        <td><img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid"></td>
-                                    @endif
-                                    <td>{{ $seller['first_name'] }}</td>
-                                    <td>{{ $seller['last_name'] }}</td>
-                                    <td>{{ $seller['username'] }}</td>
-                                    <td>{{ $seller['email'] }}</td>
-                                    <td>{{ $seller['primary_phone']['phone'] }}</td>
-                                    <td class="text-primary">{{ $seller['products_count'] }}</td>
-                                    <td style="font-size: 14pt">
-
-                                        @if($seller['status'])
-                                            <a class="update_status" data-id="{{ $seller['id'] }}" data-model="Admin" title="Update Status"
-                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                            @if(tableCount()['sellers'] > 0)
+                                @foreach($sellers as $seller)
+                                    <tr>
+                                        <td></td>
+                                        @if(isset($seller['user']['image']))
+                                            <td><img src="{{ asset('/images/users/profile/' . $seller['user']['image']) }}" alt="profile" class="img-fluid"></td>
                                         @else
-                                            <a class="update_status" data-id="{{ $seller['id'] }}" data-model="Admin" title="Update Status"
-                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            <td><img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid"></td>
                                         @endif
+                                        <td>{{ $seller['user']['first_name'] }}</td>
+                                        <td>{{ $seller['user']['last_name'] }}</td>
+                                        <td>{{ $seller['username'] }}</td>
+                                        <td>{{ $seller['user']['email'] }}</td>
+                                        <td>{{ $seller['user']['primary_phone']['phone'] }}</td>
+                                        <td class="text-primary">{{ $seller['user']['products_count'] }}</td>
+                                        <td style="font-size: 14pt">
 
-                                    </td>
-                                    <td class="action">
-                                        <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['id'] }}" data-model="Admin">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                            @if($seller['user']['status'])
+                                                <a class="update_status" data-id="{{ $seller['user_id'] }}" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                            @else
+                                                <a class="update_status" data-id="{{ $seller['user_id'] }}" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            @endif
+
+                                        </td>
+                                        <td class="action">
+                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['id'] }}" data-model="User">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
 
                             </tbody>
                         </table>

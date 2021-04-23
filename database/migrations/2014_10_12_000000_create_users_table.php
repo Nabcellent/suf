@@ -20,10 +20,11 @@ class CreateUsersTable extends Migration
             $table->enum('gender', ['Male', 'Female']);
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default(1);
+            $table->ipAddress('ip_address');
+            $table->tinyInteger('is_admin')->default(0);
             $table->string('email', 50)->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
-            $table->ipAddress('ip_address');
             $table->rememberToken();
             $table->timestamps();
         });

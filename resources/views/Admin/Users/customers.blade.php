@@ -28,34 +28,36 @@
 
                                 <tbody>
 
-                                @foreach($customers as $customer)
-                                    <tr>
-                                        <td></td>
-                                        <td>{{ $customer['first_name'] }}</td>
-                                        <td>{{ $customer['last_name'] }}</td>
-                                        <td>{{ $customer['email'] }}</td>
-                                        <td>{{ $customer['primary_phone']['phone'] }}</td>
-                                        <td>{{ $customer['gender'] }}</td>
-                                        <td>{{ $customer['orders_count'] }}</td>
-                                        <td style="font-size: 14pt">
+                                @if(tableCount()['customers'] > 0)
+                                    @foreach($customers as $customer)
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ $customer['first_name'] }}</td>
+                                            <td>{{ $customer['last_name'] }}</td>
+                                            <td>{{ $customer['email'] }}</td>
+                                            <td>{{ $customer['primary_phone']['phone'] }}</td>
+                                            <td>{{ $customer['gender'] }}</td>
+                                            <td>{{ $customer['orders_count'] }}</td>
+                                            <td style="font-size: 14pt">
 
-                                            @if($customer['status'])
-                                                <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                            @else
-                                                <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                            @endif
+                                                @if($customer['status'])
+                                                    <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                @else
+                                                    <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                @endif
 
-                                        </td>
-                                        <td class="action">
-                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $customer['id'] }}" data-model="User">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            </td>
+                                            <td class="action">
+                                                <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                                <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $customer['id'] }}" data-model="User">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
 
                                 </tbody>
                             </table>

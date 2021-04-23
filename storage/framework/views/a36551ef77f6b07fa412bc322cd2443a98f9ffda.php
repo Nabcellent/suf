@@ -16,7 +16,7 @@ We will contact you using this number: +254 <?php echo e($order['phone']['phone'
 <?php endif; ?>
 <?php echo $__env->renderComponent(); ?>
 
-<?php $__env->startComponent('mail::button', ['url' => $url, 'color' => 'primary']); ?>
+<?php $__env->startComponent('mail::button', ['url' => route('profile', ['page' => 'orders']), 'color' => 'primary']); ?>
     View Order
 <?php if (isset($__componentOriginalb8f5c8a6ad1b73985c32a4b97acff83989288b9e)): ?>
 <?php $component = $__componentOriginalb8f5c8a6ad1b73985c32a4b97acff83989288b9e; ?>

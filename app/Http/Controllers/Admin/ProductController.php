@@ -43,7 +43,7 @@ class ProductController extends Controller
     public function getProduct($id): Factory|View|Application {
         $product = Product::productDetails($id)->first()->toArray();
         $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
-        $sellers = Admin::select('id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
+        $sellers = Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
         $sections = Category::sections();
         $attributes = Attribute::select('id', 'name')->orderBy('name')->get()->toArray();
 
@@ -133,7 +133,8 @@ class ProductController extends Controller
         $data = $request->all();
 
         $request->validate([
-            'attribute' => 'required|integer'
+            'attribute' => 'required|integer',
+            'variation_options' => 'required|array'
         ]);
 
         $attribute = Attribute::find($data['attribute'])->value('name');

@@ -12,7 +12,7 @@
             <div class="" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
 
-                    <?php if(Auth::check()): ?>
+                    <?php if(auth()->guard()->check()): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown">
                                 <?php echo e(Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)); ?>

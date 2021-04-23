@@ -3,10 +3,11 @@
 @section('content')
 
     <div id="login" class="container mt-4">
+        <a href="{{ route('home') }}" class="position-absolute" style="left:1rem; top:1rem; color: var(--dark-gold)">Shop</a>
         <div class="row justify-content-center align-items-center" style="height: 75vh;">
             <div class="col-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body shadow-lg">
                         <div class="card-header mb-2 bg-white border-0 d-flex flex-row align-items-center">
                             <div class="col text-center">
                                 <h5></h5>
@@ -40,10 +41,10 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col d-flex align-items-end">
-                                        <a href="/auth/register" class="card-link float-right">Register</a>
+                                        <a href="{{ route('admin.register') }}" class="card-link float-right">Register</a>
                                     </div>
                                     <div class="col text-right">
-                                        <button type="submit" class="btn btn-primary">Sign In <i class='bx bx-log-in bx-fade-right-hover'></i></button>
+                                        <button type="submit" class="morphic_btn morphic_btn_primary">Sign In <i class='bx bx-log-in bx-fade-right-hover'></i></button>
                                     </div>
                                 </div>
                             </div>

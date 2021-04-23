@@ -50,7 +50,6 @@ class UserController extends Controller
 
         if($page === 'delivery-address') {
             $btnAction = "Add";
-
             $counties = County::where('status', 1)->orderBy('name')->get()->toArray();
 
             if(url()->previous() === route('checkout')) {
@@ -96,7 +95,7 @@ class UserController extends Controller
         $address->save();
 
         if(!session()->has('url.intended')) {
-            session(['url.intended' => url(route('user-account'))]);
+            session(['url.intended' => url(route('profile'))]);
         }
 
         return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
@@ -130,7 +129,7 @@ class UserController extends Controller
         return response()->json(['status' => true, 'message' => 'Phone has been added!']);
     }
 
-    public function uploadProfilePic(Request $request) {
+    public function uploadProfilePic(Request $request): RedirectResponse {
         $file = $request->file('image');
         $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
         $file->move(public_path('images/users/profile'), $imageName);
@@ -225,7 +224,7 @@ class UserController extends Controller
         $check = Phone::where('phone', $phone);
 
         if(Auth::check()) {
-            $check->where('phoneable_id', '<>', Auth::id())->where('phoneable_type', '<>', User::class);
+            $check->where('user_id', '<>', Auth::id());
         }
 
         $exists = $check->exists();

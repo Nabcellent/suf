@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
@@ -26,6 +27,11 @@ use Illuminate\Support\Facades\Storage;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*
+Route::get('/', function() {
+    return view('temporary');
+});*/
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -39,18 +45,19 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/register', [Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
         Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('register');
 
-        /*//Forgot Password Routes
+        //Forgot Password Routes
         Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
         Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
         //Reset Password Routes
         Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');*/
+        Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
     });
+    Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
-    Route::middleware(['auth:admin'])->group(function() {
+    Route::middleware(['admin', 'verified'])->group(function() {
+        Route::get('/', function() {return redirect()->route('admin.dashboard');});
         Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
-        Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
         //  Products Routes
         Route::get('/products', [Admin\ProductController::class,'showProducts'])->name('products');
@@ -81,7 +88,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
 
         //  Admin Routes
-        Route::get('/profile', [Admin\AdminController::class, 'profile'])->name('profile');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
 
         //  MATCH ROUTES
@@ -125,9 +132,11 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
         Route::post('/get-attribute-values', [Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
     });
+
+    Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
+    Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
+    Route::match(['get', 'post'], '/check-username', [AdminController::class, 'checkUsername']);
 });
-
-
 
 
 
@@ -135,10 +144,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 //  Home Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-/**
- *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PROTECTED ROUTES
- */
 
+//  PROTECTED ROUTES
 Route::middleware(['verified', 'auth'])->group(function() {
     //  USER PROFILE ROUTES
     Route::match(['GET', 'POST'], '/account/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
@@ -163,19 +170,13 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::post('/check-password', [UserController::class, 'checkCurrentPassword']);
 });
 
-//  Check if Email Exists
-Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
-Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
 
-
-/**
- *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PRODUCT RELATED ROUTES
-*/
+//  PRODUCT ROUTES
 Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
 
 //  CART ROUTES
-Route::get('/cart', [ProductController::class, 'cart'])/*->middleware('password.confirm')*/;
+Route::get('/cart', [ProductController::class, 'cart']);    //->middleware('password.confirm');
 Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
@@ -183,12 +184,14 @@ Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 //  ABOUT / CONTACT / TERMS & CONDITIONS
 Route::get('/contact', [PolicyController::class, 'showContactUsForm'])->name('contact-us');
 Route::post('/contact', [PolicyController::class, 'sendEmail'])->name('contact-us');
-Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm']);
+Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm'])->name('policies');
 Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
 
 //  AJAX ROUTES
 //  Get Variation price
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
+Route::match(['get', 'post'], '/check-email', [UserController::class, 'checkEmailExists']);
+Route::match(['get', 'post'], '/check-phone', [UserController::class, 'checkPhoneExists']);
 
 //  LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');

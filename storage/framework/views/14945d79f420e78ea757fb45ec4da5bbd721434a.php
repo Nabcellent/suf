@@ -54,15 +54,8 @@
                                        placeholder="Title" aria-label>
                             </div>
                             <div class="form-group col">
-                                <label class="mb-0">Label</label>
-                                <input type="text" name="label" class="form-control crud_form" value="<?php echo e($product['label']); ?>"
-                                       placeholder="Label" aria-label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label class="mb-0">Seller</label>
-                                <select id="sellers" name="seller" class="form-control <?php $__errorArgs = ['seller'];
+                                <label class="mb-0">Brand</label>
+                                <select name="brand" class="mt-2 form-control <?php $__errorArgs = ['brand'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -70,12 +63,34 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
-                                    <option selected hidden value="">Select a seller*</option>
-                                    <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option <?php if($seller['id'] === $product['seller_id']): ?> selected <?php endif; ?> value="<?php echo e($seller['id']); ?>"><?php echo e($seller['username']); ?></option>
+                                    <option selected hidden value="">Select a brand*</option>
+                                    <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option <?php if($brand['id'] === $product['brand_id']): ?> selected <?php endif; ?> value="<?php echo e($brand['id']); ?>"><?php echo e($brand['name']); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-row">
+                            <?php if(isSeller()): ?>
+                                <input type="hidden" name="seller" value="<?php echo e(Auth::id()); ?>">
+                            <?php else: ?>
+                                <div class="form-group col">
+                                    <label class="mb-0">Seller</label>
+                                    <select id="sellers" name="seller" class="form-control <?php $__errorArgs = ['seller'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
+                                        <option selected hidden value="">Select a seller*</option>
+                                        <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option <?php if($seller['user_id'] === $product['seller_id']): ?> selected <?php endif; ?> value="<?php echo e($seller['user_id']); ?>"><?php echo e($seller['username']); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                </div>
+                            <?php endif; ?>
                             <div class="form-group col">
                                 <label class="mb-0">Category</label>
                                 <select id="categories" class="form-control <?php $__errorArgs = ['category'];
@@ -101,20 +116,9 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
                         </div>
                         <div class="form-row">
                             <div class="form-group col">
-                                <label class="mb-0">Brand</label>
-                                <select name="brand" class="mt-2 form-control <?php $__errorArgs = ['brand'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
-                                    <option selected hidden value="">Select a brand*</option>
-                                    <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option <?php if($brand['id'] === $product['brand_id']): ?> selected <?php endif; ?> value="<?php echo e($brand['id']); ?>"><?php echo e($brand['name']); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
+                                <label class="mb-0">Label</label>
+                                <input type="text" name="label" class="form-control crud_form" value="<?php echo e($product['label']); ?>"
+                                       placeholder="Label" aria-label>
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Keywords</label>
@@ -289,6 +293,7 @@ unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="<?php echo e(route('admin.create.attribute')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -301,7 +306,7 @@ unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
                         <input type="text" class="form-control" name="title" aria-label required>
                     </div>
                     <div class="form-group">
-                        <select class="form-control variation" name="values" multiple="multiple" style="width: 100%" aria-label>
+                        <select class="form-control select2-multiple" name="values" multiple="multiple" style="width: 100%" aria-label>
                             <option>orange</option>
                             <option>white</option>
                             <option>purple</option>

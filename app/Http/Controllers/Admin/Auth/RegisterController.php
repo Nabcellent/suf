@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterUserRequest;
-use App\Providers\RouteServiceProvider;
+use App\Http\Requests\RegisterAdminRequest;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,8 +16,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -35,19 +36,27 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm(): \Illuminate\View\View {
+        return view('Admin.auth.register');
+    }
+
+    /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = '/admin/dashboard';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest');
     }
 
@@ -73,24 +82,22 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return User
      */
-    protected function createUser(array $data, $ip): User {
-        return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'gender' => $data['gender'],
-            'ip_address' => $ip,
-            'password' => Hash::make($data['password']),
-        ]);
+    protected function createAdmin(array $data, $request): User {
+        $data['type'] = "Seller";
+        $data['ip_address'] = $request->ip();
+        $data['password'] = bcrypt($data['password']);
+        $data['is_admin'] = 1;
+
+        $user = User::create($data);
+        $user->admin()->create($data);
+        return $user;
     }
 
-    public function register(RegisterUserRequest $request): View|Factory|JsonResponse|Redirector|RedirectResponse|Application {
+    public function register(RegisterAdminRequest $request): View|Factory|JsonResponse|Redirector|RedirectResponse|Application {
         $user = DB::transaction(function() use($request) {
-            $ip = $request->ip();
-
-            event(new Registered($user = $this->createUser($request->all(), $ip)));
+            event(new Registered($user = $this->createAdmin($request->all(), $request)));
 
             $phone = $request -> phone;
             $phone = strlen($phone) === 10 ? substr($phone, -9) : $phone;
@@ -114,17 +121,23 @@ class RegisterController extends Controller
             : redirect($this->redirectPath());
     }
 
-    protected function registered(Request $request, $user): Factory|View|Redirector|RedirectResponse|Application {
+    /**
+     * The user has been registered.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param                          $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user): mixed {
         $type = 'success';
-        $intro = "Awesome! 🥳 ";
-        $message = "Your account has been activated. Welcome to SU-F Store.";
+        $intro = "Awesome! ⚡ ";
+        $message = "Your account has been activated. Welcome to SU-F Dashboard.";
 
         if($request->user()->hasVerifiedEmail()) {
-
-            return redirect()->route('login')
+            return redirect()->route('admin.login')
                 ->with('alert', ['type' => $type, 'intro' => $intro, 'message' => $message, 'duration' => 10]);
         }
 
-        return view('auth.verify');
+        return redirect()->route('verification.notice');
     }
 }

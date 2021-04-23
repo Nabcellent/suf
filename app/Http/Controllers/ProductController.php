@@ -111,6 +111,7 @@ class ProductController extends Controller
         return view('details')->with(compact('details', 'totalStock', 'related'));
     }
 
+    //  VIA - AJAX
     public function getProductPrice(Request $req): ?array
     {
         if($req->ajax()) {

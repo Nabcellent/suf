@@ -46,7 +46,7 @@ class Product extends Model
 
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(User::class)->with('admin');
     }
 
     public function brand(): BelongsTo {
@@ -106,7 +106,7 @@ class Product extends Model
             $discount = 0;
         }
 
-        return array('unit_price' => $newPrice, 'discount_price' => $discountPrice, 'discount' => $discount);
+        return array('unit_price' => ceil($newPrice), 'discount_price' => ceil($discountPrice), 'discount' => ceil($discount));
     }
 
 

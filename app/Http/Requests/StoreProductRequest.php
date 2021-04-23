@@ -20,7 +20,7 @@ class StoreProductRequest extends FormRequest
      * @return bool
      */
     public function authorize(): bool {
-        return Auth::guard('admin')->check();
+        return isAdmin();
     }
 
     /**

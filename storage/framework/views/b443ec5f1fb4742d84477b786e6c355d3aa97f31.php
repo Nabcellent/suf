@@ -36,7 +36,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Seller</th>
-                                                                    <td class="py-0"><?php echo e($product['seller']['username']); ?></td>
+                                                                    <td class="py-0"><?php echo e($product['seller']['admin']['username']); ?></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Brand</th>
@@ -208,7 +208,10 @@
                             <div class="card-body">
                                 <div class="list-group list-group-flush">
                                     <a href="<?php echo e(route('admin.create-product')); ?>" class="list-group-item list-group-item-action">
-                                        Add Product
+                                        Create Product
+                                    </a>
+                                    <a href="<?php echo e(route('admin.coupon')); ?>" class="list-group-item list-group-item-action">
+                                        Create Coupon
                                     </a>
                                     <a href="<?php echo e(route('admin.products')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         All Products<span class="badge badge-primary badge-pill">14</span>

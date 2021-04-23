@@ -16,16 +16,15 @@
     </div>
     <!--    End Breadcrumb    -->
 
-    <div class="row justify-content-center mb-md-5 py-md-5">
-        <div class="col-md-8 mb-md-5 pb-md-5">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
-
+    <div class="row justify-content-center py-md-5 mb-lg-5">
+        <div class="col-md-8 py-md-5 mb-lg-5">
+            <div class="card p-5">
                 <div class="card-body">
+                    <div class="card-header mb-3">{{ __('Verify Your Email Address') }}</div>
                     @if (session('resent'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show py-2" role="alert">
                             {{ __('A fresh verification link has been sent to your email address.') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close py-2" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -35,7 +34,11 @@
                     {{ __('If you did not receive the email') }},
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <button type="submit" class="morphic_btn" style="color: #fff; background-color: var(--dark-gold);"
+                                onmouseover="this.style.backgroundColor='#3b5998'"
+                                onmouseout="this.style.backgroundColor='var(--light-gold)'">
+                            {{ __('click here to request another') }}
+                        </button>
                     </form>
                 </div>
             </div>

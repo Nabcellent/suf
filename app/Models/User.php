@@ -27,7 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_type',
         'email',
         'password',
-        'ip_address'
+        'ip_address',
+        'is_admin',
     ];
 
     /**
@@ -53,17 +54,26 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * RELATIONSHIP FUNCTIONS
      */
+    public function admin(): HasOne {
+        return $this->hasOne(Admin::class);
+    }
+
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class)->with('subCounty');
     }
 
-    public function phones(): MorphMany {
-        return $this->morphMany(Phone::class, 'phoneable')->orderByDesc('primary');
+    public function phones(): hasMany {
+        return $this->hasMany(Phone::class)->orderByDesc('primary');
     }
 
-    public function primaryPhone(): MorphOne {
-        return $this->morphOne(Phone::class, 'phoneable')->where('primary', 1);
+    public function primaryPhone(): hasOne {
+        return $this->hasOne(Phone::class)->where('primary', 1);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'seller_id');
     }
 
     public function orders(): HasMany

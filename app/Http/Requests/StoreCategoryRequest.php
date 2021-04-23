@@ -13,7 +13,7 @@ class StoreCategoryRequest extends FormRequest
      * @return bool
      */
     public function authorize(): bool {
-        return Auth::guard('admin')->user()->type !== 'Seller';
+        return Auth::user()->type !== 'Seller';
     }
 
     /**

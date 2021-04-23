@@ -25,8 +25,8 @@
 
                 <!--    Start Contact Section    -->
 
-                <div class="row justify-content-center pb-5 mb-md-5">
-                    <div class="col-md-11 col-sm-12 py-md-5">
+                <div class="row justify-content-center align-items-center" style="height: 70vh; margin-bottom: 10rem">
+                    <div class="col-md-11 col-sm-12">
 
                         <!--    Start Card    -->
 

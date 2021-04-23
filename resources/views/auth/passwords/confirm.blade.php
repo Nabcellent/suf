@@ -9,7 +9,7 @@
             <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Su-F</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Forgotten Password</li>
+                    <li class="breadcrumb-item active" aria-current="page">Confirm Password</li>
                 </ul>
             </nav>
         </div>
@@ -18,20 +18,16 @@
 
     <div class="row justify-content-center py-md-5 mb-lg-5">
         <div class="col-md-8 py-md-5 mb-lg-5">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
-
+            <div class="card px-5 py-4">
                 <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
-
+                    <div class="card-header my-3">{{ __('Confirm Password') }}</div>
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
+                        <div class="form-group row justify-content-center">
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                                       name="password" placeholder="Enter password" required autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -43,18 +39,26 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="morphic_btn" style="color: #fff; background-color: var(--dark-gold);"
+                                        onmouseover="this.style.backgroundColor='#3b5998'"
+                                        onmouseout="this.style.backgroundColor='var(--light-gold)'">
                                     {{ __('Confirm Password') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>
+                </div>
+                <p class="text-center small">{{ __('Please confirm your password before proceeding.') }}</p>
+            </div>
+
+            <div class="row mt-4 justify-content-center">
+                <div class="col-md-6 text-center">
+                    @if (Route::has('password.request'))
+                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                            {{ __('Forgot Your Password?') }}
+                        </a>
+                    @endif
+                    <hr>
                 </div>
             </div>
         </div>

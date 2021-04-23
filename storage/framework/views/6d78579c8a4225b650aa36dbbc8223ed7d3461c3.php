@@ -57,7 +57,7 @@
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
                                 <h3><?php echo e($details['title']); ?></h3>
-                                <p class="small"><?php echo e($details['seller']['username']); ?></p>
+                                <p class="small"><?php echo e($details['seller']['admin']['username']); ?></p>
                             </div>
                             <h6>--> <?php echo e($details['brand']['name']); ?></h6>
                         </div>
@@ -184,7 +184,7 @@
                     <?php endif; ?>
                     <tr>
                         <th scope="row">Seller</th>
-                        <td><?php echo e($details['seller']['username']); ?></td>
+                        <td><?php echo e($details['seller']['admin']['username']); ?></td>
                     </tr>
                     </tbody>
                 </table>

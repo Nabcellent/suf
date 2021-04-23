@@ -26,38 +26,40 @@
                                 </thead>
                                 <tbody>
 
-                                <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <tr>
-                                        <td></td>
-                                        <?php if(isset($admin['image'])): ?>
-                                            <td><img src="<?php echo e(asset('/images/users/profile/' . $admin['image'])); ?>" alt="profile" class="img-fluid"></td>
-                                        <?php else: ?>
-                                            <td><img src="<?php echo e(asset('/images/general/NO-IMAGE.png')); ?>" alt="profile" class="img-fluid"></td>
-                                        <?php endif; ?>
-                                        <td><?php echo e($admin['first_name']); ?></td>
-                                        <td><?php echo e($admin['last_name']); ?></td>
-                                        <td><?php echo e($admin['email']); ?></td>
-                                        <td><?php echo e($admin['primary_phone']['phone']); ?></td>
-                                        <td><?php echo e(date('d.m.Y', strtotime($admin['created_at']))); ?></td>
-                                        <td style="font-size: 14pt">
-
-                                            <?php if($admin['status']): ?>
-                                                <a class="update_status" data-id="<?php echo e($admin['id']); ?>" data-model="Admin" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                <?php if(tableCount()['admins'] > 0): ?>
+                                    <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td></td>
+                                            <?php if(isset($admin['user']['image'])): ?>
+                                                <td><img src="<?php echo e(asset('/images/users/profile/' . $admin['user']['image'])); ?>" alt="profile" class="img-fluid"></td>
                                             <?php else: ?>
-                                                <a class="update_status" data-id="<?php echo e($admin['id']); ?>" data-model="Admin" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                <td><img src="<?php echo e(asset('/images/general/NO-IMAGE.png')); ?>" alt="profile" class="img-fluid"></td>
                                             <?php endif; ?>
+                                            <td><?php echo e($admin['user']['first_name']); ?></td>
+                                            <td><?php echo e($admin['user']['last_name']); ?></td>
+                                            <td><?php echo e($admin['user']['email']); ?></td>
+                                            <td><?php echo e($admin['user']['primary_phone']['phone']); ?></td>
+                                            <td><?php echo e(date('d.m.Y', strtotime($admin['user']['created_at']))); ?></td>
+                                            <td style="font-size: 14pt">
 
-                                        </td>
-                                        <td class="action">
-                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($admin['id']); ?>" data-model="Admin">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($admin['user']['status']): ?>
+                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']); ?>" data-model="USer" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                <?php else: ?>
+                                                    <a class="update_status" data-id="<?php echo e($admin['user_id']['id']); ?>" data-model="USer" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                <?php endif; ?>
+
+                                            </td>
+                                            <td class="action">
+                                                <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                                <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($admin['user_id']); ?>" data-model="USer">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
 
                                 </tbody>
                             </table>
@@ -75,7 +77,7 @@
                             <a href="<?php echo e(route('admin.customers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Customers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['customers']); ?></span>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="<?php echo e(route('admin.products')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['products']); ?></span>
                             </a>
                         </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterAdminRequest extends FormRequest
 {
@@ -13,7 +12,7 @@ class RegisterAdminRequest extends FormRequest
      * @return bool
      */
     public function authorize(): bool {
-        return Auth::guard('admin')->user()->type === 'Super';
+        return true;
     }
 
     /**
@@ -23,12 +22,15 @@ class RegisterAdminRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'first_name' => 'required|max:20|alpha',
-            'last_name' => 'required|max:20|alpha',
-            'email' => 'required|email:rfc,dns|unique:users',
-            'gender' => 'required|alpha',
-            'phone' => 'required|integer|digits:9|unique:phones',
-            'national_id' => 'required|integer|unique:admins'
+            'first_name' => 'bail|required|max:20|alpha',
+            'last_name' => 'bail|required|max:20|alpha',
+            'username' => 'bail|required|max:30|unique:admins',
+            'email' => 'bail|required|email:rfc,dns|unique:users',
+            'gender' => 'bail|required|alpha',
+            'phone' => 'bail|required|numeric|digits:10|unique:phones',
+            'national_id' => 'bail|required|integer|unique:admins',
+            'password' => 'bail|required|confirmed',
+            'password_confirmation' => 'bail|required',
         ];
     }
 

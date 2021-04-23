@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Phone;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,10 +15,18 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function profile(): Factory|View|Application {
-        $admin = Auth::guard('admin')->user()->toArray();
-        $phones = Auth::guard('admin')->user()->phones()->get()->toArray();
-        $primaryPhone = Auth::guard('admin')->user()->primaryPhone()->first()->toArray();
+        $admin = User::with('admin')->find(Auth::id())->toArray();
+        $phones = User()->phones()->get()->toArray();
+        $primaryPhone = User()->primaryPhone()->first();
 
         return view('Admin.profile')->with(compact('admin', 'phones', 'primaryPhone'));
+    }
+
+    public function checkUsername(Request $req): string
+    {
+        //  Check if email exists
+        $exists = Admin::where('username', $req->username)->exists();
+
+        return $exists ? "false" : "true";
     }
 }

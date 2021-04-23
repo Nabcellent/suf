@@ -26,39 +26,41 @@
                             </thead>
                             <tbody>
 
-                            <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr>
-                                    <td></td>
-                                    <?php if(isset($seller['image'])): ?>
-                                        <td><img src="<?php echo e(asset('/images/users/profile/' . $seller['image'])); ?>" alt="profile" class="img-fluid"></td>
-                                    <?php else: ?>
-                                        <td><img src="<?php echo e(asset('/images/general/NO-IMAGE.png')); ?>" alt="profile" class="img-fluid"></td>
-                                    <?php endif; ?>
-                                    <td><?php echo e($seller['first_name']); ?></td>
-                                    <td><?php echo e($seller['last_name']); ?></td>
-                                    <td><?php echo e($seller['username']); ?></td>
-                                    <td><?php echo e($seller['email']); ?></td>
-                                    <td><?php echo e($seller['primary_phone']['phone']); ?></td>
-                                    <td class="text-primary"><?php echo e($seller['products_count']); ?></td>
-                                    <td style="font-size: 14pt">
-
-                                        <?php if($seller['status']): ?>
-                                            <a class="update_status" data-id="<?php echo e($seller['id']); ?>" data-model="Admin" title="Update Status"
-                                               style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                            <?php if(tableCount()['sellers'] > 0): ?>
+                                <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr>
+                                        <td></td>
+                                        <?php if(isset($seller['user']['image'])): ?>
+                                            <td><img src="<?php echo e(asset('/images/users/profile/' . $seller['user']['image'])); ?>" alt="profile" class="img-fluid"></td>
                                         <?php else: ?>
-                                            <a class="update_status" data-id="<?php echo e($seller['id']); ?>" data-model="Admin" title="Update Status"
-                                               style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            <td><img src="<?php echo e(asset('/images/general/NO-IMAGE.png')); ?>" alt="profile" class="img-fluid"></td>
                                         <?php endif; ?>
+                                        <td><?php echo e($seller['user']['first_name']); ?></td>
+                                        <td><?php echo e($seller['user']['last_name']); ?></td>
+                                        <td><?php echo e($seller['username']); ?></td>
+                                        <td><?php echo e($seller['user']['email']); ?></td>
+                                        <td><?php echo e($seller['user']['primary_phone']['phone']); ?></td>
+                                        <td class="text-primary"><?php echo e($seller['user']['products_count']); ?></td>
+                                        <td style="font-size: 14pt">
 
-                                    </td>
-                                    <td class="action">
-                                        <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                        <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($seller['id']); ?>" data-model="Admin">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($seller['user']['status']): ?>
+                                                <a class="update_status" data-id="<?php echo e($seller['user_id']); ?>" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                            <?php else: ?>
+                                                <a class="update_status" data-id="<?php echo e($seller['user_id']); ?>" data-model="User" title="Update Status"
+                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                            <?php endif; ?>
+
+                                        </td>
+                                        <td class="action">
+                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($seller['id']); ?>" data-model="User">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
 
                             </tbody>
                         </table>

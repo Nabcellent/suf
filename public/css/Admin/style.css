@@ -716,6 +716,59 @@ label.crud_form.file::after {
 
 
 
+/*_____________________   NEUMORPHIC BUTTONS   _____________________*/
+.morphic_btn {
+    padding: .375rem .75rem;
+    position: relative;
+    display: inline-block;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: -2px -2px 4px rgba(255, 255, 255, 1),
+    -2px -2px 6px rgba(255, 255, 255, .5),
+    inset 2px 1px 4px rgba(255, 255, 255, .1),
+    2px 2px 4px rgba(0, 0, 0, .15);
+}
+.morphic_btn:focus {
+    outline: none;
+    transform: scale(.97);
+}
+.morphic_btn:hover span {
+    display: inline-block;
+    transform: scale(.98);
+}
+.morphic_btn_primary {
+    color: rgb(58, 105, 243);
+    background: transparent;
+}
+.morphic_btn_primary:hover {
+    box-shadow: inset -1px -1px 8px rgba(58, 105, 243, 1),
+    inset -1px -1px 12px rgba(58, 105, 243, .5),
+    inset 1px 1px 4px rgba(58, 105, 243, .1),
+    inset 1px 1px 8px rgba(0, 0, 0, .15);
+}
+.morphic_btn_danger {
+    color: rgb(201, 44, 59);
+    background: transparent;
+}
+.morphic_btn_danger:hover {
+    box-shadow: inset -1px -1px 8px rgba(201, 44, 59, 1),
+    inset -1px -1px 12px rgba(201, 44, 59, .5),
+    inset 1px 1px 4px rgba(201, 44, 59, .1),
+    inset 1px 1px 8px rgba(0, 0, 0, .15);
+}
+.morphic_btn_success {
+    color: rgb(28, 200, 138);
+    background: transparent;
+}
+.morphic_btn_success:hover {
+    color: rgb(28, 200, 138);
+    box-shadow: inset -1px -1px 8px rgba(28, 200, 138, 1),
+    inset -1px -1px 12px rgba(28, 200, 138, .5),
+    inset 1px 1px 4px rgba(28, 200, 138, .1),
+    inset 1px 1px 8px rgba(0, 0, 0, .15);
+}
+
 
 /*///=======================  DATATABLES  =======================///*/
 .dataTables_filter label {

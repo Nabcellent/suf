@@ -15,7 +15,7 @@ class CreatePhonesTable extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->id();
-            $table->morphs('phoneable');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('phone')->unique();
             $table->tinyInteger('primary')->default(1);
             $table->integer('status')->default(1);

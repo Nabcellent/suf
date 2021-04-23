@@ -46,13 +46,13 @@
                         <a href="{{ route('checkout') }}">Checkout<br></a>
                         <a href="{{ url('/account') }}">Edit Account<br></a>
                         <a href="{{ url('/account/orders') }}">My Orders<br></a>
-                        <a href="{{url('/logout')}}">Sign Out</a>
+                        <a href="{{ url('/logout') }}">Sign Out</a>
                     @else
-                        <a href="{{url('/login')}}">Sign In<br></a>
-                        <a href="{{url('/register')}}">Register as account</a>
+                        <a href="{{ url('/login') }}">Sign In<br></a>
+                        <a href="{{ url('/register') }}">Register as customer</a><br>
+                        <a href="{{ route('admin.register') }}">Register as Seller</a>
                     @endif
-                    <br><a href="{{url('policies')}}">Register as Seller</a>
-                    <br><a href="{{url('policies')}}">Terms & Conditions</a>
+                    <br><a href="{{ route('policies') }}">Terms & Conditions</a>
 
                 </p>
                 <!--    End UserSeeder Section    -->

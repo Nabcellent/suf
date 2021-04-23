@@ -79,9 +79,12 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col">
-                                        <label></label>
-                                        <select id="sellers" name="seller" class="form-control <?php $__errorArgs = ['seller'];
+                                    <?php if(isSeller()): ?>
+                                        <input type="hidden" name="seller" value="<?php echo e(Auth::id()); ?>">
+                                    <?php else: ?>
+                                        <div class="form-group col">
+                                            <label></label>
+                                            <select id="sellers" name="seller" class="form-control <?php $__errorArgs = ['seller'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -89,24 +92,26 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
-                                            <option selected hidden value="">Select a seller*</option>
-                                            <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($seller['id']); ?>"><?php echo e($seller['username']); ?></option>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </select>
-                                        <?php $__errorArgs = ['seller'];
+                                                <option selected hidden value="">Select a seller*</option>
+                                                <?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($seller['id']); ?>"><?php echo e($seller['username']); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </select>
+                                            <?php $__errorArgs = ['seller'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                    <span class="invalid-feedback" role="alert">
+                                            <span class="invalid-feedback" role="alert">
                                                         <strong><?php echo e($message); ?></strong>
                                                     </span>
-                                                <?php unset($message);
+                                            <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                    </div>
+                                        </div>
+                                    <?php endif; ?>
+
                                     <div class="form-group col">
                                         <label></label>
                                         <select id="categories" class="form-control <?php $__errorArgs = ['category'];

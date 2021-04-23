@@ -1,6 +1,4 @@
-<?php use Illuminate\Support\Arr;
-
-$__env->startSection('title', 'Forgotten Password'); ?>
+<?php $__env->startSection('title', 'Forgotten Password'); ?>
 <?php $__env->startSection('content'); ?>
 
     <div class="login">
@@ -23,7 +21,7 @@ $__env->startSection('title', 'Forgotten Password'); ?>
 
                 <!--    Start Contact Section    -->
                 <div class="row justify-content-center py-5">
-                    <div class="col-md-11 col-sm-12 py-5">
+                    <div class="col-md-8 col-sm-12 py-5">
 
                         <!--    Start Card    -->
 
@@ -95,4 +93,4 @@ unset($__errorArgs, $__bag); ?>
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/passwords/email.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views/auth/passwords/email.blade.php ENDPATH**/ ?>

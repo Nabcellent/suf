@@ -54,21 +54,29 @@
                                        placeholder="Title" aria-label>
                             </div>
                             <div class="form-group col">
-                                <label class="mb-0">Label</label>
-                                <input type="text" name="label" class="form-control crud_form" value="{{ $product['label'] }}"
-                                       placeholder="Label" aria-label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label class="mb-0">Seller</label>
-                                <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
-                                    <option selected hidden value="">Select a seller*</option>
-                                    @foreach($sellers as $seller)
-                                        <option @if($seller['id'] === $product['seller_id']) selected @endif value="{{ $seller['id'] }}">{{ $seller['username'] }}</option>
+                                <label class="mb-0">Brand</label>
+                                <select name="brand" class="mt-2 form-control @error('brand') is-invalid @enderror crud_form" aria-label required>
+                                    <option selected hidden value="">Select a brand*</option>
+                                    @foreach($brands as $brand)
+                                        <option @if($brand['id'] === $product['brand_id']) selected @endif value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-row">
+                            @if(isSeller())
+                                <input type="hidden" name="seller" value="{{ Auth::id() }}">
+                            @else
+                                <div class="form-group col">
+                                    <label class="mb-0">Seller</label>
+                                    <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
+                                        <option selected hidden value="">Select a seller*</option>
+                                        @foreach($sellers as $seller)
+                                            <option @if($seller['user_id'] === $product['seller_id']) selected @endif value="{{ $seller['user_id'] }}">{{ $seller['username'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
                             <div class="form-group col">
                                 <label class="mb-0">Category</label>
                                 <select id="categories" class="form-control @error('category') is-invalid @enderror crud_form" name="sub_category" aria-label required>
@@ -87,13 +95,9 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col">
-                                <label class="mb-0">Brand</label>
-                                <select name="brand" class="mt-2 form-control @error('brand') is-invalid @enderror crud_form" aria-label required>
-                                    <option selected hidden value="">Select a brand*</option>
-                                    @foreach($brands as $brand)
-                                        <option @if($brand['id'] === $product['brand_id']) selected @endif value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="mb-0">Label</label>
+                                <input type="text" name="label" class="form-control crud_form" value="{{ $product['label'] }}"
+                                       placeholder="Label" aria-label>
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Keywords</label>
@@ -268,6 +272,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('admin.create.attribute') }}" method="POST">
+                @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -280,7 +285,7 @@
                         <input type="text" class="form-control" name="title" aria-label required>
                     </div>
                     <div class="form-group">
-                        <select class="form-control variation" name="values" multiple="multiple" style="width: 100%" aria-label>
+                        <select class="form-control select2-multiple" name="values" multiple="multiple" style="width: 100%" aria-label>
                             <option>orange</option>
                             <option>white</option>
                             <option>purple</option>

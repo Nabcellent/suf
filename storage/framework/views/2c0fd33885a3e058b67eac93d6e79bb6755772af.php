@@ -36,11 +36,13 @@
     <!-- Styles -->
     <link href="<?php echo e(asset('css/Admin/style.css')); ?>" rel="stylesheet">
 </head>
-<body id="app" <?php if(Auth::guard('admin')->check()): ?> class="nav_body" <?php endif; ?>>
+<body id="app" <?php if(auth()->guard()->check()): ?> <?php if(User()->hasverifiedEmail()): ?> class="nav_body" <?php endif; ?> <?php endif; ?>>
 <?php echo $__env->make('Admin.include.alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-<?php if(Auth::guard('admin')->check()): ?>
-    <?php echo $__env->make('Admin.include.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php if(auth()->guard()->check()): ?>
+    <?php if(User()->hasverifiedEmail()): ?>
+        <?php echo $__env->make('Admin.include.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
 <?php endif; ?>
 
 

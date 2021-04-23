@@ -12,7 +12,7 @@
             <div class="" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
 
-                    @if(Auth::check())
+                    @auth()
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" data-toggle="dropdown">
                                 {{Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)}}
@@ -37,7 +37,7 @@
                         <li class="nav-item" style="text-decoration: underline;">
                             <a class="nav-link" href="{{url('login')}}">Sign In</a>
                         </li>
-                    @endif
+                    @endauth
 
                 </ul>
             </div>

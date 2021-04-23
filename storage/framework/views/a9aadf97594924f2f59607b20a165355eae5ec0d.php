@@ -75,7 +75,7 @@
                                                     <?php endif; ?>
                                                 </a>
                                                 <div class="supplier">
-                                                    <a href="#"><?php echo e($item['seller']['username']); ?></a>
+                                                    <a href="#"><?php echo e($item['seller']['admin']['username']); ?></a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title">

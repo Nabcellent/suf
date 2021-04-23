@@ -22,7 +22,7 @@
 
                 <!--    Start Contact Section    -->
                 <div class="row justify-content-center py-5">
-                    <div class="col-md-11 col-sm-12 py-5">
+                    <div class="col-md-8 col-sm-12 py-5">
 
                         <!--    Start Card    -->
 

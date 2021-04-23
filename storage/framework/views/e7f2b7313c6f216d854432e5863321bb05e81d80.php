@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="row">
 
-                             <?php $__currentLoopData = $ads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $ads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col-xl-4 col-md-6 card border-0 box shadow-sm">
                                 <div class="card-header">
                                     <i class="fas fa-box fa-2x text-gray-300"></i> Box <?php echo e($ad['number']); ?>: <?php echo e($ad['title']); ?>

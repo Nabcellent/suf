@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-    protected string $guard = 'admin';
+    protected string $guard = 'admins';
 
     /**
      * The attributes that are mass assignable.
@@ -22,16 +20,9 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
         'username',
-        'gender',
-        'image',
         'national_id',
         'type',
-        'ip_address',
-        'email',
-        'password',
     ];
 
     /**
@@ -40,7 +31,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'pin', 'remember_token',
+        'pin',
     ];
 
 
@@ -48,24 +39,16 @@ class Admin extends Authenticatable
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function phones(): MorphMany {
-        return $this->morphMany(Phone::class, 'phoneable')->orderByDesc('primary');
-    }
 
-    public function primaryPhone(): MorphOne {
-        return $this->morphOne(Phone::class, 'phoneable')->where('primary', 1);
+    public function user(): belongsTo {
+        return $this->belongsTo(User::class)->with('products')->withCount('products')->with('primaryPhone');
     }
-
-    public function products(): HasMany {
-        return $this->hasMany(Product::class, 'seller_id');
-    }
-
 
 
     /**
      * STATIC FUNCTIONS
      */
     public static function sellers() {
-        return self::where('type', 'Seller');
+        return self::where('type', 'Seller')->with('user');
     }
 }

@@ -31,7 +31,7 @@ $(() => {
     /**
      * *********************************************************    SIGN UP
      */
-    $('#reg_form').validate({
+    $('#register_seller').validate({
         rules: {
             first_name: {
                 required: true,
@@ -41,35 +41,68 @@ $(() => {
                 required: true,
                 minlength: 3
             },
-            email: 'required',
+            username: {
+                required: true,
+                minlength: 3,
+                remote: 'check-username',
+            },
+            email: {
+                required: true,
+                email: true,
+                remote: 'check-email',
+            },
             phone: {
                 required: true,
+                digits: true,
                 maxlength: 10,
-                minlength: 9
+                minlength: 10,
+                remote: 'check-phone',
             },
-            id_number: 'required',
+            national_id: 'required',
             gender: 'required',
-            password: 'required',
-            confirm_password: {
+            password: {
+                required: true,
+                minlength: 4
+            },
+            password_confirmation: {
+                required: true,
                 equalTo: '#password'
             }
         },
-        submitHandler(form) {
-            let data = $(form).serialize();
-
-            $.ajax({
-                data: data,
-                method: 'POST',
-                url: '/auth/register',
-                success: (response) => {
-                    if (response.errors) {
-                        $('#reg_form .err_message').html(response.errors[0].msg);
-                    } else if (response.success) {
-                        $('#reg_form .err_message').html('');
-                        location.href = '/auth/sign-in';
-                    }
-                }
-            });
+        messages: {
+            first_name: {
+                required: 'Please enter your first name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            last_name: {
+                required: 'Please enter your last name.',
+                minlength: 'Last name should be more than 3 characters long.'
+            },
+            username: {
+                required: 'Please enter a username of your choice.',
+                minlength: 3,
+                remote: 'This username has been taken',
+            },
+            email: {
+                required: 'Please enter your email address',
+                email: 'Please enter a valid email address',
+                remote: 'This email is already in use.',
+            },
+            phone: {
+                required: 'Please provide your phone number.',
+                digits: 'Only numbers are allowed.',
+                pattern: 'Invalid phone number',
+                remote: 'This phone number is already in use.',
+            },
+            gender: 'Please choose your gender.',
+            password: {
+                required: 'Please provide a password.',
+                minlength: 'Password must be at least 6 characters.',
+            },
+            password_confirmation: {
+                required: 'Kindly confirm your new password.',
+                equalTo: 'Both passwords must be the same.'
+            }
         }
     });
 

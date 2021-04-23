@@ -58,7 +58,7 @@
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
                                 <h3>{{$details['title']}}</h3>
-                                <p class="small">{{$details['seller']['username']}}</p>
+                                <p class="small">{{$details['seller']['admin']['username']}}</p>
                             </div>
                             <h6>--> {{$details['brand']['name']}}</h6>
                         </div>
@@ -90,7 +90,7 @@
                                                         <div class="form-group m-0">
                                                                 @foreach($variation['variation_options'] as $option)
                                                                     <div class="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" id="option{{$option['id']}}" name="variant{{$variationName}}"
+                                                                        <input type="radio" id="option{{$option['id']}}" name="variant{{ $variationName }}"
                                                                                class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}" required>
                                                                         <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
                                                                             {{$option['variant']}}
@@ -183,7 +183,7 @@
                     @endif
                     <tr>
                         <th scope="row">Seller</th>
-                        <td>{{$details['seller']['username']}}</td>
+                        <td>{{$details['seller']['admin']['username']}}</td>
                     </tr>
                     </tbody>
                 </table>

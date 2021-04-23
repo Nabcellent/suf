@@ -49,10 +49,10 @@
                         <a href="<?php echo e(url('/logout')); ?>">Sign Out</a>
                     <?php else: ?>
                         <a href="<?php echo e(url('/login')); ?>">Sign In<br></a>
-                        <a href="<?php echo e(url('/register')); ?>">Register as account</a>
+                        <a href="<?php echo e(url('/register')); ?>">Register as customer</a><br>
+                        <a href="<?php echo e(route('admin.register')); ?>">Register as Seller</a>
                     <?php endif; ?>
-                    <br><a href="<?php echo e(url('policies')); ?>">Register as Seller</a>
-                    <br><a href="<?php echo e(url('policies')); ?>">Terms & Conditions</a>
+                    <br><a href="<?php echo e(route('policies')); ?>">Terms & Conditions</a>
 
                 </p>
                 <!--    End UserSeeder Section    -->

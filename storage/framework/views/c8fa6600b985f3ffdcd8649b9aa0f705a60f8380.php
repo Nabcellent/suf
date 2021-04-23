@@ -27,34 +27,36 @@
 
                                 <tbody>
 
-                                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <tr>
-                                        <td></td>
-                                        <td><?php echo e($customer['first_name']); ?></td>
-                                        <td><?php echo e($customer['last_name']); ?></td>
-                                        <td><?php echo e($customer['email']); ?></td>
-                                        <td><?php echo e($customer['primary_phone']['phone']); ?></td>
-                                        <td><?php echo e($customer['gender']); ?></td>
-                                        <td><?php echo e($customer['orders_count']); ?></td>
-                                        <td style="font-size: 14pt">
+                                <?php if(tableCount()['customers'] > 0): ?>
+                                    <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td></td>
+                                            <td><?php echo e($customer['first_name']); ?></td>
+                                            <td><?php echo e($customer['last_name']); ?></td>
+                                            <td><?php echo e($customer['email']); ?></td>
+                                            <td><?php echo e($customer['primary_phone']['phone']); ?></td>
+                                            <td><?php echo e($customer['gender']); ?></td>
+                                            <td><?php echo e($customer['orders_count']); ?></td>
+                                            <td style="font-size: 14pt">
 
-                                            <?php if($customer['status']): ?>
-                                                <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                            <?php else: ?>
-                                                <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                            <?php endif; ?>
+                                                <?php if($customer['status']): ?>
+                                                    <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                <?php else: ?>
+                                                    <a class="update_status" data-id="<?php echo e($customer['id']); ?>" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                <?php endif; ?>
 
-                                        </td>
-                                        <td class="action">
-                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($customer['id']); ?>" data-model="User">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </td>
+                                            <td class="action">
+                                                <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                                <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="<?php echo e($customer['id']); ?>" data-model="User">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
 
                                 </tbody>
                             </table>
@@ -72,7 +74,7 @@
                             <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Orders<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['orders']); ?></span>
                             </a>
                         </div>

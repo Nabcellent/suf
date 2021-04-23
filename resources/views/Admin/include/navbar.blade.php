@@ -3,13 +3,13 @@
 <header class="header">
     <div class="header_container">
         <div class="dropdown header_image">
-            {{ Str::substr(Str::upper(admin()->first_name), 0, 1) }}.
-            {{ Str::ucfirst(admin()->last_name) }}
+            {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
+            {{ Str::ucfirst(User()->last_name) }}
             <img src="{{ asset('/images/users/default-profile-pic.png') }}" alt="Profile image" data-toggle="dropdown">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Orders</a>
+                <a class="dropdown-item" href="{{ route('admin.orders') }}">Orders</a>
                 <a class="dropdown-item" href="#">Notifications</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('home') }}">Store</a>
@@ -74,7 +74,9 @@
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
                                 <a href="{{ route('admin.products') }}" class="nav_dropdown_item">list</a>
-                                <a href="{{ route('admin.product', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
+                                @if(latestProductId() !== null)
+                                    <a href="{{ route('admin.product', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
+                                @endisset
                                 <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
                                 <a href="{{ route('admin.coupons') }}" class="nav_dropdown_item">Coupons</a>
                                 <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>

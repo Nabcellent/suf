@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             PhoneSeeder::class,
             AddressSeeder::class,
-            SellerSeeder::class,
             AttributeSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,

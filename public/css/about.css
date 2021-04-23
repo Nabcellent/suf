@@ -1,11 +1,5 @@
 
 :root {
-    --z-index-1: 10!important;
-    --z-index-2: 20!important;
-    --z-index-3: 30!important;
-    --z-index-4: 40!important;
-    --z-index-5: 50!important;
-
     /*""""""""""""""  COLORS  """"""""""""""*/
     --dark-red: rgba(159, 25, 16, 1);
     --dark-blue: rgb(0, 0, 208);
@@ -21,7 +15,6 @@
 }
 html, body {
     height: 100%;
-    /*font-family: 'Itim', cursive;*/
     box-sizing: border-box;
     font-family: 'Varela Round', cursive;
     overflow-x: hidden;
