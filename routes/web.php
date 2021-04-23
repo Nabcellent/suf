@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -178,8 +179,8 @@ Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQ
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 //  ABOUT / CONTACT / TERMS & CONDITIONS
-Route::get('/contact', [PolicyController::class, 'showContactUsForm'])->name('contact-us');
-Route::post('/contact', [PolicyController::class, 'sendEmail'])->name('contact-us');
+Route::get('/contact', [ContactUsController::class, 'showContactUsForm'])->name('contact-us');
+Route::post('/contact', [ContactUsController::class, 'sendEmail'])->name('contact-us');
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm'])->name('policies');
 Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
 

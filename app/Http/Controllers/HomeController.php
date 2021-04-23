@@ -27,14 +27,14 @@ class HomeController extends Controller
             ->where('is_featured', 'Yes')->has('variations')->get()->toArray();
 
         //  Get Latest Products
-        $newGentsProducts = Product::join('admins', 'admins.user_id', 'seller_id')
+        $newGents = Product::join('admins', 'admins.user_id', 'seller_id')
             ->select('products.*', 'admins.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
             ->where(['section.title' => 'Gents', 'products.status' => 1])->has('variations')
             ->orderByDesc('products.id')->limit(10)->get()->toArray();
 
-        $newLadiesProducts = Product::join('admins', 'admins.user_id', 'seller_id')
+        $newLadies = Product::join('admins', 'admins.user_id', 'seller_id')
             ->select('products.*', 'admins.username')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
@@ -51,6 +51,6 @@ class HomeController extends Controller
         //dd($newGentsProducts);
         return View('home')
             ->with(compact('pageTitle','banners', 'adBoxes', 'featuredProducts', 'featuredProductsCount'))
-            ->with(compact('newGentsProducts', 'newLadiesProducts', 'topProducts'));
+            ->with(compact('newGents', 'newLadies', 'topProducts'));
     }
 }

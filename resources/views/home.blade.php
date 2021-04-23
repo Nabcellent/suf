@@ -116,13 +116,15 @@
 
                     <!--    End Swiper 1    -->
 
-                            <div class="section_title">
-                                <div class="container">
-                                    <h3 class="mb-0">Latest Products</h3>
+                            @if(count($newLadies) > 0 || count($newGents) > 0)
+                                <div class="section_title">
+                                    <div class="container">
+                                        <h3 class="mb-0">Latest Products</h3>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
-                            @if(count($newLadiesProducts) > 0)
+                            @if(count($newLadies) > 0)
                             <!--    Start Swiper 1    -->
                                 <div class="row py-2">
                                 <div class="col">
@@ -132,7 +134,7 @@
                                             <!--    Start Slide    -->
 
 
-                                            @foreach($newLadiesProducts as $item)
+                                            @foreach($newLadies as $item)
                                                 <div class="swiper-slide">
                                                     <div class="card">
                                                         <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
@@ -188,7 +190,7 @@
 
                         <!--    Start Swiper 2 - GENTS    -->
 
-                            @if(count($newGentsProducts) > 0)
+                            @if(count($newGents) > 0)
                                 <div class="row py-2">
                                     <div class="col">
                                         <div class="swiper-container product_swiper">
@@ -196,7 +198,7 @@
 
                                                 <!--    Start Slide    -->
 
-                                                @foreach($newGentsProducts as $item)
+                                                @foreach($newGents as $item)
                                                     <div class="swiper-slide">
                                                         <div class="card">
                                                             <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">

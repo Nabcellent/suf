@@ -115,13 +115,15 @@
 
                     <!--    End Swiper 1    -->
 
-                            <div class="section_title">
-                                <div class="container">
-                                    <h3 class="mb-0">Latest Products</h3>
+                            <?php if(count($newLadies) > 0 || count($newGents) > 0): ?>
+                                <div class="section_title">
+                                    <div class="container">
+                                        <h3 class="mb-0">Latest Products</h3>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
 
-                            <?php if(count($newLadiesProducts) > 0): ?>
+                            <?php if(count($newLadies) > 0): ?>
                             <!--    Start Swiper 1    -->
                                 <div class="row py-2">
                                 <div class="col">
@@ -131,7 +133,7 @@
                                             <!--    Start Slide    -->
 
 
-                                            <?php $__currentLoopData = $newLadiesProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $newLadies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="swiper-slide">
                                                     <div class="card">
                                                         <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
@@ -187,7 +189,7 @@
 
                         <!--    Start Swiper 2 - GENTS    -->
 
-                            <?php if(count($newGentsProducts) > 0): ?>
+                            <?php if(count($newGents) > 0): ?>
                                 <div class="row py-2">
                                     <div class="col">
                                         <div class="swiper-container product_swiper">
@@ -195,7 +197,7 @@
 
                                                 <!--    Start Slide    -->
 
-                                                <?php $__currentLoopData = $newGentsProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php $__currentLoopData = $newGents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="swiper-slide">
                                                         <div class="card">
                                                             <a href="<?php echo e(url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))); ?>">
