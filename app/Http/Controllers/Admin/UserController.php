@@ -62,8 +62,8 @@ class UserController extends Controller
         }
         if(!isSeller()) {
             $request->validate([
-                'first_name' => 'required|max:20|alpha',
-                'last_name' => 'required|max:20|alpha',
+                'first_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
+                'last_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
                 'email' => 'required|email:rfc,dns|unique:users',
                 'gender' => 'required|alpha',
                 'phone' => ['required',

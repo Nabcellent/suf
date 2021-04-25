@@ -22,8 +22,8 @@ class RegisterAdminRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'first_name' => 'bail|required|max:20|alpha',
-            'last_name' => 'bail|required|max:20|alpha',
+            'first_name' => ['bail', 'required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
+            'last_name' => ['bail', 'required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
             'username' => 'bail|required|max:30|unique:admins',
             'email' => 'bail|required|email:rfc,dns|unique:users',
             'gender' => 'bail|required|alpha',
