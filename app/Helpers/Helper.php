@@ -29,7 +29,7 @@ use JetBrains\PhpStorm\Pure;
 function User(): ?Authenticatable {
     return Auth::user();
 }
-function isRed(): bool {
+function    isRed(): bool {
     return User()->is_admin === 7;
 }
 function isSeller(): bool {

@@ -7,7 +7,9 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Customers</h6>
-                        <button class="btn btn-outline-info">Add Customer</button>
+                        @if(isRed())
+                            <button class="btn btn-outline-info">Add Customer</button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
