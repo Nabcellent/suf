@@ -38,23 +38,26 @@
                                         <td class="text-center">{{ $item['base_price'] }}</td>
                                         <td class="text-center">{{ $item['discount'] }}%</td>
                                         <td class="text-center"> wait </td>
-                                        <td class="text-center" style="font-size: 14pt">
-                                            @if($item['status'])
-                                                <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                            @else
-                                                <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
-                                                   style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                            @endif
-                                        </td>
-                                        <td class="action">
-                                            <a href="{{ url('/admin/product/' . $item['id']) }}" class="ml-2" title="view">
-                                                <i class="fas fa-eye text-info"></i>
-                                            </a>
-                                            <a href="#" class="ml-2 delete-from-table" data-id="{{ $item['id'] }}" data-model="Product" title="Remove">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
+
+                                        @if($item['seller']['seller']['user_id'] === Auth::id() || isRed())
+                                            <td class="text-center" style="font-size: 14pt">
+                                                @if($item['status'])
+                                                    <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                @else
+                                                    <a class="update_status" data-id="{{ $item['id'] }}" data-model="Product" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                @endif
+                                            </td>
+                                            <td class="action">
+                                                <a href="{{ url('/admin/product/' . $item['id']) }}" class="ml-2" title="view">
+                                                    <i class="fas fa-eye text-info"></i>
+                                                </a>
+                                                <a href="#" class="ml-2 delete-from-table" data-id="{{ $item['id'] }}" data-model="Product" title="Remove">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
 

@@ -286,6 +286,12 @@ class ProductController extends Controller
     public function setStock(Request $request, $id): RedirectResponse {
         $request->validate(['stock' => 'required|integer']);
         $product = Product::where('id', $id)->with('subCategory')->first()->toArray();
+
+        if(empty($product)) {
+            return redirect()->route('admin.products')
+                ->with('alert', alert('info', 'Oops!', 'This product doesn\'t exists', 7));
+        }
+
         $categoryTitle = $product['sub_category']['category']['title'];
 
         $option = VariationsOption::find($request->variation_option_id);

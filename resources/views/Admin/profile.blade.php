@@ -24,10 +24,10 @@
                             @endif
                         </div>
                         <div class="col-lg-7 p-5 overflow-auto" style="max-height: 35rem">
-                            <label style="position: absolute; top: 0; left: 0"> {{ $admin['admin']['type'] }} </label>
+                            <label style="position: absolute; top: 0; left: 0"> {{ $admin['type'] }} </label>
                             <div class="row">
                                 <div class="col text-center">
-                                    <h3>Hello {{ $admin['first_name'] }}!</h3>
+                                    <h3>Hello {{ $admin['user']['first_name'] }}!</h3>
                                     <hr class="bg-secondary">
                                 </div>
                             </div>
@@ -37,17 +37,17 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label class="mb-0" for="first_name">First Name</label>
-                                                <input type="text" class="form-control border-0" id="first_name" name="first_name" value="{{ $admin['first_name'] }}" required>
+                                                <input type="text" class="form-control border-0" id="first_name" name="first_name" value="{{ $admin['user']['first_name'] }}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="mb-0" for="last_name">Last Name</label>
-                                                <input type="text" class="form-control border-0" id="last_name" name="last_name" value="{{ $admin['last_name'] }}" required>
+                                                <input type="text" class="form-control border-0" id="last_name" name="last_name" value="{{ $admin['user']['last_name'] }}" required>
                                             </div>
                                         </div>
                                         <div></div>
                                         <div class="form-group">
                                             <label class="mb-0" for="email_address">Email Address</label>
-                                            <input type="email" class="form-control border-0" id="email_address" name="email_address" value="{{ $admin['email'] }}" required>
+                                            <input type="email" class="form-control border-0" id="email_address" name="email_address" value="{{ $admin['user']['email'] }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-0" for="phone_number">Phone Number</label>

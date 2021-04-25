@@ -241,10 +241,10 @@
                                         Create Coupon
                                     </a>
                                     <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        All Products<span class="badge badge-primary badge-pill">14</span>
+                                        All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                                     </a>
                                     <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Orders<span class="badge badge-primary badge-pill">7</span>
+                                        Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                                     </a>
                                     <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         Quantity Sold<span class="badge badge-primary badge-pill">17</span>
@@ -253,7 +253,7 @@
                                         Remaining stock<span class="badge badge-primary badge-pill">37</span>
                                     </a>
                                     <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Categories<span class="badge badge-primary badge-pill">13</span>
+                                        Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
                                     </a>
                                 </div>
                             </div>

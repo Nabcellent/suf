@@ -77,9 +77,11 @@
                                 @if(latestProductId() !== null)
                                     <a href="{{ route('admin.product', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
                                 @endisset
-                                <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
+                                @if(isSuper())
+                                    <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
+                                    <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>
+                                @endif
                                 <a href="{{ route('admin.coupons') }}" class="nav_dropdown_item">Coupons</a>
-                                <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>
                             </div>
                         </div>
                     </div>
