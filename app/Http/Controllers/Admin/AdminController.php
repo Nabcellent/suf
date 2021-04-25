@@ -14,7 +14,12 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function profile(): Factory|View|Application {
-        $admin = Admin::with('user')->where('user_id', Auth::id())->first()->toArray();
+        $admin = "";
+
+        if(!isRed()) {
+            $admin = Admin::with('user')->where('user_id', Auth::id())->first()->toArray();
+        }
+
         $phones = User()->phones()->get()->toArray();
         $primaryPhone = User()->primaryPhone()->first();
 
