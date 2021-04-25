@@ -21,9 +21,15 @@ class PhoneSeeder extends Seeder
         Phone::truncate();
 
         Phone::insert([
-            'user_id' => 2,
-            'phone' => 110039315,
-            'primary' => 1
+            [
+                'user_id' => 2,
+                'phone' => 110039315,
+                'primary' => 1
+            ],[
+                'user_id' => 3,
+                'phone' => 710039315,
+                'primary' => 1
+            ]
         ]);
     }
 }

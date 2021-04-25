@@ -22,9 +22,15 @@ class AdminSeeder extends Seeder
         Admin::truncate();
 
         Admin::insert([
-            'user_id' => 2,
-            'username' => 'Majoka',
-            'type' => 'Seller'
+            [
+                'user_id' => 2,
+                'username' => 'Majoka',
+                'type' => 'Seller'
+            ],[
+                'user_id' => 3,
+                'username' => 'Cado',
+                'type' => 'Admin'
+            ]
         ]);
     }
 }

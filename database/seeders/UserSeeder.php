@@ -44,6 +44,17 @@ class UserSeeder extends Seeder
                 "email_verified_at" => Carbon::now(),
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
+            ],[
+                "first_name" => "Natasha",
+                "last_name" => "Gichuhi",
+                "gender" => "Female",
+                "ip_address" => "127.0.0.1",
+                "is_admin" => "1",
+                "email" => "natasha@yopmail.com",
+                "password" => Hash::make("mike"),
+                "email_verified_at" => Carbon::now(),
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
             ]
         ]);
     }
