@@ -28,7 +28,7 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/test', function() {
+Route::get('/', function() {
     return view('temporary');
 });
 
