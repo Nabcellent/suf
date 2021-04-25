@@ -34,13 +34,14 @@ function isRed(): bool {
 }
 function isSeller(): bool {
     if(isAdmin()) {
-        return Auth::user()->admin['type'] === 'Seller';
+        return Auth::user()->seller !== null;
     }
+
     return false;
 }
 function isSuper(): bool {
     if(isAdmin()) {
-        return Auth::user()->admin['type'] === 'Super';
+        return Auth::user()->admin !== null;
     }
     return false;
 }
@@ -78,14 +79,16 @@ function trendingCategories(): Collection|array {
 }
 
 //  COUNT FUNCTIONS
-#[ArrayShape(['products' => "int", 'orders' => "int", 'customers' => "mixed", 'sellers' => "mixed", 'admins' => "mixed", 'brands' => "int"])] function tableCount(): array {
+function tableCount(): array {
     return [
         'products' => Product::all()->count(),
+        'categories' => Category::whereNotNull('section_id')->count(),
         'orders' => Order::all()->count(),
         'customers' => User::where('is_admin', 0)->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
         'admins' => Admin::where('type', 'Super')->count(),
         'brands' => Brand::all()->count(),
+        'qtySold' => Order::where('status', 'Conpleted')->count()
     ];
 }
 

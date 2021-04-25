@@ -76,8 +76,11 @@
                             <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Brands<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['brands']); ?></span>
                             </a>
-                            <a href="<?php echo e(route('admin.attributes')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Quantity Sold<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['qtySold']); ?></span>
                             </a>
                         </div>
                     </div>

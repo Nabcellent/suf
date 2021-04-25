@@ -19,7 +19,7 @@ class Admin
         if(Auth::user()->is_admin === 7 && Auth::user()->email === env('APP_SUPER_USER_EMAIL')) {
             return $next($request);
         }
-        if(!empty(Auth::user()->admin) && Auth::check() && (Auth::user()->is_admin)) {
+        if(Auth ::check() && Auth ::user() -> is_admin) {
             return $next($request);
         }
 

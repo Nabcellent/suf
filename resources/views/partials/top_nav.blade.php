@@ -35,36 +35,38 @@
                                 </div>
                             </li>
                         @endif
-                        <li class="menu_item_has_children">
-                            <a href="{{url('/products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
-                            <ul class="sub_menu mega_menu mega_menu_column_4">
+                        @if(tableCount()['products'] > 0)
+                            <li class="menu_item_has_children">
+                                <a href="{{url('/products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
+                                <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
-                                @foreach(sections() as $section)
-                                    @if(count($section['categories']) > 0)
-                                        <li class="list_item">
-                                            <h4 class="title">
-                                                <a>{{$section['title']}}' Fashion</a>
-                                            </h4>
-                                            <div class="mt-0 dropdown-divider"></div>
-                                            <ul>
-                                                @foreach($section['categories'] as $category)
-                                                    <li><a href="{{url('/products/' . $category['id'])}}">{{$category['title']}}</a></li>
-                                                    @foreach($category['sub_categories'] as $subCategory)
-                                                        <li class="ml-2"><a href="{{url('/products/' . $subCategory['id'])}}">- {{$subCategory['title']}}</a></li>
+                                    @foreach(sections() as $section)
+                                        @if(count($section['categories']) > 0)
+                                            <li class="list_item">
+                                                <h4 class="title">
+                                                    <a>{{$section['title']}}' Fashion</a>
+                                                </h4>
+                                                <div class="mt-0 dropdown-divider"></div>
+                                                <ul>
+                                                    @foreach($section['categories'] as $category)
+                                                        <li><a href="{{url('/products/' . $category['id'])}}">{{$category['title']}}</a></li>
+                                                        @foreach($category['sub_categories'] as $subCategory)
+                                                            <li class="ml-2"><a href="{{url('/products/' . $subCategory['id'])}}">- {{$subCategory['title']}}</a></li>
+                                                        @endforeach
                                                     @endforeach
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-                                @endforeach
+                                                </ul>
+                                            </li>
+                                        @endif
+                                    @endforeach
 
-                                <li class="list_item">
-                                    <img src="{{asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
-                                    <h4 class="title"><a href="{{url('/products')}}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
-                                </li>
-                            </ul>
-                        </li>
+                                    <li class="list_item">
+                                        <img src="{{asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
+                                        <h4 class="title"><a href="{{url('/products')}}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                         <li><a href="{{ route('about-us') }}" class="nav_link">About</a></li>
                         <li><a href="{{ route('contact-us') }}" class="nav_link">Contact Us</a></li>
                     </ul>

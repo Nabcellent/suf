@@ -35,36 +35,38 @@
                                 </div>
                             </li>
                         <?php endif; ?>
-                        <li class="menu_item_has_children">
-                            <a href="<?php echo e(url('/products')); ?>" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
-                            <ul class="sub_menu mega_menu mega_menu_column_4">
+                        <?php if(tableCount()['products'] > 0): ?>
+                            <li class="menu_item_has_children">
+                                <a href="<?php echo e(url('/products')); ?>" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
+                                <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
-                                <?php $__currentLoopData = sections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php if(count($section['categories']) > 0): ?>
-                                        <li class="list_item">
-                                            <h4 class="title">
-                                                <a><?php echo e($section['title']); ?>' Fashion</a>
-                                            </h4>
-                                            <div class="mt-0 dropdown-divider"></div>
-                                            <ul>
-                                                <?php $__currentLoopData = $section['categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <li><a href="<?php echo e(url('/products/' . $category['id'])); ?>"><?php echo e($category['title']); ?></a></li>
-                                                    <?php $__currentLoopData = $category['sub_categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li class="ml-2"><a href="<?php echo e(url('/products/' . $subCategory['id'])); ?>">- <?php echo e($subCategory['title']); ?></a></li>
+                                    <?php $__currentLoopData = sections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if(count($section['categories']) > 0): ?>
+                                            <li class="list_item">
+                                                <h4 class="title">
+                                                    <a><?php echo e($section['title']); ?>' Fashion</a>
+                                                </h4>
+                                                <div class="mt-0 dropdown-divider"></div>
+                                                <ul>
+                                                    <?php $__currentLoopData = $section['categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <li><a href="<?php echo e(url('/products/' . $category['id'])); ?>"><?php echo e($category['title']); ?></a></li>
+                                                        <?php $__currentLoopData = $category['sub_categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <li class="ml-2"><a href="<?php echo e(url('/products/' . $subCategory['id'])); ?>">- <?php echo e($subCategory['title']); ?></a></li>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </ul>
-                                        </li>
-                                    <?php endif; ?>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </ul>
+                                            </li>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                <li class="list_item">
-                                    <img src="<?php echo e(asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')); ?>" alt="shop">
-                                    <h4 class="title"><a href="<?php echo e(url('/products')); ?>" class="d-block d-lg-none lead nav_link">All Products</a></h4>
-                                </li>
-                            </ul>
-                        </li>
+                                    <li class="list_item">
+                                        <img src="<?php echo e(asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')); ?>" alt="shop">
+                                        <h4 class="title"><a href="<?php echo e(url('/products')); ?>" class="d-block d-lg-none lead nav_link">All Products</a></h4>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
                         <li><a href="<?php echo e(route('about-us')); ?>" class="nav_link">About</a></li>
                         <li><a href="<?php echo e(route('contact-us')); ?>" class="nav_link">Contact Us</a></li>
                     </ul>

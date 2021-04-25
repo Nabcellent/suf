@@ -69,9 +69,11 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="{{ route('admin.admins') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Admins<span class="badge badge-primary badge-pill">{{ tableCount()['admins'] }}</span>
-                            </a>
+                            @if(isRed())
+                                <a href="{{ route('admin.admins') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Admins<span class="badge badge-primary badge-pill">{{ tableCount()['admins'] }}</span>
+                                </a>
+                            @endif
                             <a href="{{ route('admin.sellers') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Sellers<span class="badge badge-primary badge-pill">{{ tableCount()['sellers'] }}</span>
                             </a>

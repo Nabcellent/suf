@@ -56,6 +56,29 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3">
+                <div class="card crud_table shadow mb-4">
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="{{ route('admin.create.product') }}" class="list-group-item list-group-item-action">
+                                Create Product
+                            </a>
+                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Products<span class="badge badge-primary badge-pill">14</span>
+                            </a>
+                            <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill">7</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Quantity Sold<span class="badge badge-primary badge-pill">{{ tableCount()['qtySold'] }}</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Remaining stock<span class="badge badge-primary badge-pill">37</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
