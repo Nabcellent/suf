@@ -22,24 +22,21 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public function showCustomers(): Factory|View|Application {
-        $customers = User::with('primaryPhone')->withCount('orders')->latest()->get()->toArray();
+        $customers = User::getCustomers()->latest()->get()->toArray();
 
-        return view('Admin.Users.customers')
-            ->with(compact('customers'));
+        return view('Admin.Users.customers') ->with(compact('customers'));
     }
 
     public function showSellers(): Factory|View|Application {
-        $sellers = Admin::where('type', 'Seller')->with('user')->latest()->get()->toArray();
+        $sellers = Admin::getSellers()->latest()->get()->toArray();
 
-        return view('Admin.Users.sellers')
-            ->with(compact('sellers'));
+        return view('Admin.Users.sellers') ->with(compact('sellers'));
     }
 
     public function showAdmins(): Factory|View|Application {
-        $admins = Admin::where('type', 'Super')->with('user')->latest()->get()->toArray();
+        $admins = Admin::getAdmins()->latest()->get()->toArray();
 
-        return view('Admin.Users.admins')
-        ->with(compact('admins'));
+        return view('Admin.Users.admins')->with(compact('admins'));
     }
 
 
@@ -73,7 +70,7 @@ class UserController extends Controller
                     'numeric',
                     'digits_between:9,12',
                     'unique:phones',
-                    'regex:/^((?:254|\+254|0)?((?:(?:7(?:(?:3[0-9])|(?:5[0-6])|(8[5-9])))|(?:1(?:[0][0-2])))[0-9]{6})|(?:254|\+254|0)?((?:(?:7(?:(?:[01249][0-9])|(?:5[789])|(?:6[89])))|(?:1(?:[1][0-5])))[0-9]{6}))$/i'
+                    'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
                 ],
             ]);
 

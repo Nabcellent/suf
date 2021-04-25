@@ -16,6 +16,8 @@ class VariationsOption extends Model
     protected $fillable = [
         'variation_id',
         'variant',
+        'stock',
+        'extra_price',
     ];
 
     /**

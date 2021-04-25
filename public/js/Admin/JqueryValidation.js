@@ -1,33 +1,4 @@
-
 $(() => {
-    /**
-     * *********************************************************    VALIDATION CONFIGS
-     */
-    jQuery.validator.setDefaults({
-        errorPlacement: function (error, element) {
-            error.addClass('error');
-            if(element.prop('type') === 'radio') {
-                error.insertAfter(element.closest('.form-group'));
-            } else if(element.prop('type') === 'file') {
-                error.insertAfter(element.closest('div'));
-            } else if(element.is('textarea')) {
-                error.insertAfter(element.next());
-            } else if(element.closest('.input-group').length > 0) {
-                error.insertAfter(element.parent('.input-group'));
-            } else if(element.hasClass('anime_input')) {
-                error.insertAfter(element.closest('label'));
-            } else if(element.hasClass('crud_form')) {
-                error.insertAfter(element);
-            } else if(element.prop('type') === 'checkbox') {
-                error.insertAfter(element.closest('.form-group'));
-            } else {
-                error.insertAfter(element);
-            }
-        }
-    });
-
-
-
     /**
      * *********************************************************    SIGN UP
      */
@@ -35,11 +6,13 @@ $(() => {
         rules: {
             first_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                alphaSpecial: true
             },
             last_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                alphaSpecial: true
             },
             username: {
                 required: true,
@@ -71,11 +44,13 @@ $(() => {
         messages: {
             first_name: {
                 required: 'Please enter your first name.',
-                minlength: 'Last name should be more than 3 characters long.'
+                minlength: 'Last name should be more than 3 characters long.',
+                alphaSpecial: true
             },
             last_name: {
                 required: 'Please enter your last name.',
-                minlength: 'Last name should be more than 3 characters long.'
+                minlength: 'Last name should be more than 3 characters long.',
+                alphaSpecial: true
             },
             username: {
                 required: 'Please enter a username of your choice.',
@@ -90,7 +65,7 @@ $(() => {
             phone: {
                 required: 'Please provide your phone number.',
                 digits: 'Only numbers are allowed.',
-                pattern: 'Invalid phone number',
+                pattern: 'Invalid phone number. (Only Safaricom and Airtel allowed).🤒',
                 remote: 'This phone number is already in use.',
             },
             gender: 'Please choose your gender.',
@@ -106,20 +81,128 @@ $(() => {
     });
 
     /**
-     * *********************************************************    ADD PRODUCT
+     * *********************************************************    CREATE PRODUCT
      */
 
-    $('#frm_add_product').validate({
+    $('form#create_product').validate({
         rules: {
             title: 'required',
             brand_id: 'required',
             seller: 'required',
             category: 'required',
             sub_category: 'required',
-            base_price: 'required',
+            base_price: {
+                required: true,
+                digits: true
+            },
             main_image: 'required',
+            discount: {
+                digits: true
+            },
+            label: {
+                lettersonly: true
+            },
+        },
+        messages: {
+            main_image: {
+                accept: 'Only .jpg, .png and .jpeg are allowed',
+            }
         }
     });
+
+    /**
+     * *********************************************************    UPDATE PRODUCT
+     */
+
+    $('form#update_product').validate({
+        rules: {
+            title: 'required',
+            brand_id: 'required',
+            seller: 'required',
+            category: 'required',
+            sub_category: 'required',
+            base_price: {
+                required: true,
+                digits: true
+            },
+            discount: {
+                digits: true
+            },
+            label: {
+                lettersonly: true
+            },
+        },
+        messages: {
+            image: {
+                accept: 'Only .jpg, .png and .jpeg are allowed',
+            }
+        }
+    });
+
+    $('form#create_variation').validate({
+        rules: {
+            attribute: {
+                required: true,
+                remote: {
+                    url: '/admin/check-variation',
+                    type: 'POST',
+                    data: {
+                        productId: () => {
+                            return $('form#create_variation .product_id').val();
+                        },
+                    }
+                }
+            },
+            variation_options: 'required',
+        },
+        messages: {
+            attribute: {
+                remote: 'This attribute already exists.',
+            }
+        }
+    })
+
+    $('form#create_variation_option').validate({
+        rules: {
+            variation_id: 'required',
+            variant: {
+                required: true,
+                lettersonly: true,
+                remote: {
+                    url: '/admin/check-variation-option',
+                    type: 'POST',
+                    data: {
+                        variationId: () => {
+                            return $('form#create_variation_option #variation_id').val();
+                        },
+                    }
+                }
+            },
+            stock: {
+                digits: true
+            },
+            extra_price: {
+                digits: true
+            }
+        },
+        messages: {
+            variant: {
+                lettersonly: 'Provide one word containing letters only please.',
+                remote: 'This option already exists.',
+            }
+        }
+    })
+
+    $('form#create_product_image').validate({
+        rules: {
+            images: 'required',
+        },
+        messages: {
+            images: {
+                accept: 'Only .jpg, .png and .jpeg are allowed',
+            }
+        }
+    })
 
     /**
      * *********************************************************    ADD CATEGORY
@@ -155,11 +238,13 @@ $(() => {
         rules: {
             first_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                alphaSpecial: true
             },
             last_name: {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                alphaSpecial: true
             },
             username: {
                 required: true,

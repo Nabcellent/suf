@@ -81,6 +81,36 @@
             </div>
         </div>
 
+        <div class="row mb-4">
+            <div class="col">
+                <div class="row justify-content-end">
+                    <div class="col-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Chart</label>
+                            </div>
+                            <select class="custom-select" id="selectChart">
+                                <option selected hidden value="">Choose...</option>
+                                <option value="products">Products</option>
+                                <option value="customers">Customers</option>
+                                <option value="orders">Orders</option>
+                                <option value="sellers">Sellers</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row chart">
+                    <div class="col">
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                                <canvas id="myChart" width="100%" height="30"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-7 col-lg-6 col-md-12">
                 <div class="card shadow mb-4">

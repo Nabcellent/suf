@@ -89,6 +89,10 @@ label.error {
     box-shadow: 1px 1px 1rem rgba(0, 0, 0, .1);
 }
 
+#loader {
+    display: none;
+}
+
 
 
 /*********==========================++++++++++  HEADER / NAVIGATION  ++++++++++==========================**********/
@@ -626,9 +630,6 @@ select.crud_form {
     padding: 0 .7rem;
     border: none;
     font-size: 10.5pt;
-}
-input[type="radio"].crud_form {
-
 }
 select.crud_form {
     padding: 0 .3rem;

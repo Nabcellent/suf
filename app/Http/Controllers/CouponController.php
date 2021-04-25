@@ -61,7 +61,7 @@ class CouponController extends Controller
             $cartItems = Cart::cartItems();
 
             foreach($cartItems as $item) {
-                if(!in_array($item['product']['category_id'], $categories, true)) {
+                if(!in_array($item['product']['category_id'], $categories, true) && !in_array($item['product']['sub_category']['category']['id'], $categories, true)) {
                     $message = "This Coupon isn't applicable to the items in your cart. ☹";
                     return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
                 }

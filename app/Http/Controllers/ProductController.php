@@ -87,7 +87,7 @@ class ProductController extends Controller
 
         $products = $products->paginate(10);
 
-        $sellers = Admin::sellers()->get()->toArray();
+        $sellers = Admin::getSellers()->get()->toArray();
         $brands = Brand::brands()->get()->toArray();
 
         return View('products')
@@ -149,8 +149,9 @@ class ProductController extends Controller
                     ->whereIn('variant', $details)->min('stock');
 
                 if($productStock < $data['quantity']) {
-                    $message = "Required quantity is not available for this combination🤧";
-                    return back()->with('alert', ['type' => 'danger', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+                    $message = "That quantity is not available for this combination🤧";
+                    return back()->withInput()
+                        ->with('alert', ['type' => 'danger', 'intro' => 'Sorryy!', 'message' => $message, 'duration' => 7]);
                 }
             }
 
@@ -169,7 +170,8 @@ class ProductController extends Controller
             }
             if($countProducts > 0) {
                 $message = "Product already exists in Cart😁";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+                return back()->withInput()
+                    ->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
             }
 
             //  Convert Details to JSON for storage

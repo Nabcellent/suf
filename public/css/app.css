@@ -1176,7 +1176,7 @@ nav ul.pagination {
 }
 #profile .profile-image span {
     position: absolute;
-    right: -.7rem;
+    right: -1rem;
     top: -.7rem;
     font-size: 10pt;
     color: var(--dark-gold);

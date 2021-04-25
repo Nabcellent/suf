@@ -57,7 +57,7 @@
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
                                 <h3><?php echo e($details['title']); ?></h3>
-                                <p class="small"><?php echo e($details['seller']['admin']['username']); ?></p>
+                                <p class="small"><?php echo e($details['seller']['seller']['username']); ?></p>
                             </div>
                             <h6>--> <?php echo e($details['brand']['name']); ?></h6>
                         </div>
@@ -71,7 +71,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">Quantity</span>
                                         </div>
-                                        <input type="number" name="quantity" class="form-control" min="0" step="1" placeholder="Quantity" aria-label required>
+                                        <input type="number" name="quantity" class="form-control" min="0" step="1" value="<?php echo e(old('quantity')); ?>" placeholder="Quantity" aria-label required>
                                     </div>
                                 </div>
                             </div>
@@ -91,6 +91,7 @@
                                                                 <?php $__currentLoopData = $variation['variation_options']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="option<?php echo e($option['id']); ?>" name="variant<?php echo e($variationName); ?>"
+                                                                               <?php if(old("variant$variationName") === $option['variant']): ?> checked <?php endif; ?>
                                                                                class="custom-control-input" value="<?php echo e($option['variant']); ?>" data-id="<?php echo e($details['id']); ?>" required>
                                                                         <label class="custom-control-label" for="option<?php echo e($option['id']); ?>" data-id="<?php echo e($details['id']); ?>">
                                                                             <?php echo e($option['variant']); ?>
@@ -184,7 +185,7 @@
                     <?php endif; ?>
                     <tr>
                         <th scope="row">Seller</th>
-                        <td><?php echo e($details['seller']['admin']['username']); ?></td>
+                        <td><?php echo e($details['seller']['seller']['username']); ?></td>
                     </tr>
                     </tbody>
                 </table>

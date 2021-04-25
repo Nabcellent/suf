@@ -200,7 +200,7 @@
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <a href="#" class="nav_link">
+                    <a href="<?php echo e(route('admin.profile')); ?>" class="nav_link">
                         <i class='bx bxs-user-account nav_icon' ></i>
                         <span class="nav_name">Account</span>
                     </a>

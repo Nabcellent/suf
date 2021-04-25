@@ -32,7 +32,7 @@
                                         <td></td>
                                         <td><img src="<?php echo e(asset('/images/products/' . $item['main_image'])); ?>" alt="product" class="img-fluid"></td>
                                         <td class="title"><?php echo e($item['title']); ?></td>
-                                        <td><?php echo e($item['seller']['admin']['username']); ?></td>
+                                        <td><?php echo e($item['seller']['seller']['username']); ?></td>
                                         <td class="text-nowrap"><?php echo e(date('d.m.Y', strtotime($item['created_at']))); ?></td>
                                         <td class="text-center"><?php echo e($item['base_price']); ?></td>
                                         <td class="text-center"><?php echo e($item['discount']); ?>%</td>

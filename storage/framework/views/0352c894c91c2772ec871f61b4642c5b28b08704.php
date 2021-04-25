@@ -88,7 +88,6 @@ unset($__errorArgs, $__bag); ?>
                 <button type="submit" class="morphic_btn morphic_btn_primary">
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
-                <img id="update_profile_gif" class="d-none loader_gif" src="<?php echo e(asset('/images/loaders/Infinity-1s-197px.gif')); ?>" alt="loader.gif">
             </div>
 
             <div class="form-group">
@@ -141,7 +140,7 @@ unset($__errorArgs, $__bag); ?>
                 <div class="form-group">
                     <label class="d-flex justify-content-between">
                         <span>Address(es)</span>
-                        <a href="<?php echo e(url('/account/delivery-address/')); ?>" class="input-group-text border-primary text-info">
+                        <a href="<?php echo e(route('profile', ['page', 'delivery-address'])); ?>" class="input-group-text border-primary text-info">
                             <i class='bx bx-plus' ></i>
                         </a>
                     </label>
@@ -167,7 +166,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             <?php else: ?>
                 <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
-                    <a href="<?php echo e(url('/account/delivery-address')); ?>">add</a></div>
+                    <a href="<?php echo e(route('profile', ['page' => 'delivery-address'])); ?>">add</a></div>
                 <hr class="m-0">
             <?php endif; ?>
         </form>

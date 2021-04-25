@@ -47,7 +47,11 @@ class Admin extends Authenticatable implements MustVerifyEmail
     /**
      * STATIC FUNCTIONS
      */
-    public static function sellers() {
+    public static function getSellers() {
         return self::where('type', 'Seller')->with('user');
+    }
+
+    public static function getAdmins() {
+        return self::where('type', 'Super')->with('user');
     }
 }

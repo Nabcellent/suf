@@ -58,7 +58,7 @@
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
                                 <h3>{{$details['title']}}</h3>
-                                <p class="small">{{$details['seller']['admin']['username']}}</p>
+                                <p class="small">{{$details['seller']['seller']['username']}}</p>
                             </div>
                             <h6>--> {{$details['brand']['name']}}</h6>
                         </div>
@@ -72,7 +72,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">Quantity</span>
                                         </div>
-                                        <input type="number" name="quantity" class="form-control" min="0" step="1" placeholder="Quantity" aria-label required>
+                                        <input type="number" name="quantity" class="form-control" min="0" step="1" value="{{ old('quantity') }}" placeholder="Quantity" aria-label required>
                                     </div>
                                 </div>
                             </div>
@@ -91,6 +91,7 @@
                                                                 @foreach($variation['variation_options'] as $option)
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="option{{$option['id']}}" name="variant{{ $variationName }}"
+                                                                               @if(old("variant$variationName") === $option['variant']) checked @endif
                                                                                class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}" required>
                                                                         <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
                                                                             {{$option['variant']}}
@@ -183,7 +184,7 @@
                     @endif
                     <tr>
                         <th scope="row">Seller</th>
-                        <td>{{$details['seller']['admin']['username']}}</td>
+                        <td>{{$details['seller']['seller']['username']}}</td>
                     </tr>
                     </tbody>
                 </table>

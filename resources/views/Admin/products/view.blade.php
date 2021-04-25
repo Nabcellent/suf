@@ -8,6 +8,21 @@
                     <div class="col">
                         <div class="row">
                             <div class="col">
+                                <div class="text-danger list-group all_errors">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger py-2">
+                                            <ul class="m-0 py-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <div class="card bg-primary text-white crud_table shadow mb-4">
                                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Product Details</h6>
@@ -37,7 +52,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Seller</th>
-                                                                    <td class="py-0">{{ $product['seller']['admin']['username'] }}</td>
+                                                                    <td class="py-0">{{ $product['seller']['seller']['username'] }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Brand</th>
@@ -100,7 +115,7 @@
                                 <div class="card crud_table shadow mb-4">
                                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold text-primary"><i class="fab fa-opencart"></i> Product Variations</h6>
-                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#add_variation">Add Variation</button>
+                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create_variation">Add Variation</button>
                                     </div>
                                     <div class="card-body pb-0">
 
@@ -115,12 +130,13 @@
                                                 <tbody>
 
                                                 @foreach($product['variations'] as $variant)
+                                                    @php $attribute = key(json_decode($variant['variation'], true, 512, JSON_THROW_ON_ERROR)); @endphp
                                                     <tr>
                                                         <td class="pb-0 pt-1">
                                                             <table class="table table-sm">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th scope="col">{{ key(json_decode($variant['variation'], true, 512, JSON_THROW_ON_ERROR)) }}</th>
+                                                                    <th scope="col">{{ $attribute }}</th>
                                                                     <th scope="col">Stock</th>
                                                                     <th scope="col">Extra Cost</th>
                                                                     <th scope="col" colspan="2">Actions</th>
@@ -130,7 +146,15 @@
 
                                                                 @foreach($variant['variation_options'] as $option)
                                                                     <tr>
-                                                                        <td>{{ $option['variant'] }}</td>
+                                                                        <td class="d-flex">
+                                                                            <div>
+                                                                                <input type="text" name="variation_option" value="{{ $option['variant'] }}" class="form-control"
+                                                                                       data-variation-id="{{ $variant['id'] }}" data-id="{{ $option['id'] }}" style="max-width: 7rem">
+                                                                                <input type="hidden" id="current_variant_name" value="{{ $option['variant'] }}">
+                                                                                <span class="invalid-feedback"></span>
+                                                                            </div>
+                                                                            <img id="loader" src="{{ asset('images/loaders/Gear-0.2s-200px.gif') }}" alt="" width="30" height="30">
+                                                                        </td>
                                                                         <td>
                                                                             <div class="row">
                                                                                 <div class="col-4">{{ $option['stock'] }}</div>
@@ -182,7 +206,9 @@
                                                                 </h5>
                                                             @endif
 
-                                                            <a href="#"><h5><i class="fas fa-pen pl-3"></i></h5></a>
+                                                            <a href="#" class="attribute" data-id="{{ $variant['id'] }}" data-toggle="modal" data-target="#create_variation_option" title="Add A {{ Str::singular($attribute) }}">
+                                                                <h5><i class="fas fa-plus-circle pl-3"></i></h5>
+                                                            </a>
                                                             <a href="#" class="delete-from-table" data-id="{{ $variant['id'] }}" data-model="Variation"><h5><i class="fas fa-trash pl-3"></i></h5></a>
                                                         </td>
                                                     </tr>

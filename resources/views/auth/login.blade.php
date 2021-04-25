@@ -51,7 +51,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"
-                                               placeholder="Email or Phone number *" aria-label required autocomplete="email" autofocus>
+                                               placeholder="Email address *" aria-label required autocomplete="email" autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control @error('email') is-invalid @enderror"

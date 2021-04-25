@@ -27,18 +27,18 @@
 
                 <div class="col-md-3 px-1">
                     <div class="card mb-2 sidebar_menu">
-                        <div class="card-header">
-                            <div class="profile-image">
+                        <div class="card-header d-flex justify-content-center">
+                            <figure class="figure m-0 profile-image">
                                 @if(!empty(Auth::user()->image) && file_exists(public_path('/images/users/profile/' . Auth::user()->image)))
-                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="img-fluid card-img-top" alt="...">
+                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="figure-img img-fluid rounded" alt="Profile Picture">
                                 @else
-                                    <img src="{{asset('/images/users/630728-200.png')}}" class="card-img-top" alt="...">
+                                    <img src="{{asset('/images/users/630728-200.png')}}" class="figure-img img-fluid rounded" alt="Profile Picture">
                                 @endif
+                                <figcaption class="figure-caption">
+                                    <h5 class="card-title" style="text-decoration: underline">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                </figcaption>
                                 <span data-toggle="modal" data-target="#image_modal">Change picture</span>
-                            </div>
-                            <h5 class="card-title" style="text-decoration: underline">
-                                {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
-                            </h5>
+                            </figure>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush category_menu profile_links">

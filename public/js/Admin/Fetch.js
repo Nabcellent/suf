@@ -59,7 +59,7 @@ $(() => {
      * */
     const section = $('select#section');
 
-    if(section.val().trim()) {
+    if(typeof section.val() !== 'undefined' && section.val().trim()) {
         fetchCategoriesBySectionId({
             id:section.val(),
             categoryId: $('select#section :selected').attr('data-categoryId')

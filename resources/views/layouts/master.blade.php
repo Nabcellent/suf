@@ -62,13 +62,14 @@
 
 
 {{--    MY JS    --}}
-<script src="{{url('js/jquery.nice-number.js')}}"></script>
 <script src="{{url('js/main.js')}}"></script>
-<script src="{{url('js/validate.js')}}"></script>
+<script src="{{ url('js/Global.js') }}"></script>
+<script src="{{url('js/JqueryValidation.js')}}"></script>
 <script src="{{url('js/swiper.js')}}"></script>
 <script src="{{url('js/search.js')}}"></script>
 <script src="{{url('js/fetch.js')}}"></script>
 <script src="{{url('js/sweetAlert.js')}}"></script>
 <script src="{{url('js/payment.js')}}"></script>
+<script src="{{url('js/jquery.nice-number.js')}}"></script>
 </body>
 </html>

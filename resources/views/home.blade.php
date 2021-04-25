@@ -77,7 +77,7 @@
                                                             @endif
                                                         </a>
                                                         <div class="supplier">
-                                                            <a href="#">{{$item['seller']['admin']['username']}}</a>
+                                                            <a href="#">{{$item['seller']['seller']['username']}}</a>
                                                         </div>
                                                         <div class="card-body">
                                                             <h6 class="card-title">

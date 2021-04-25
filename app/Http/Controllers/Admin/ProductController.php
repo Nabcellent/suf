@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreVariationOptionRequest;
 use App\Models\Admin;
 use App\Models\Attribute;
 use App\Models\Brand;
@@ -15,11 +17,15 @@ use App\Models\VariationsOption;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use JsonException;
 use Psy\Util\Json;
 
 class ProductController extends Controller
@@ -33,7 +39,7 @@ class ProductController extends Controller
 
     public function showProductForm(): Factory|View|Application {
         $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
-        $sellers = Admin::select('id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
+        $sellers = Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
         $sections = Category::sections();
 
         return view('Admin.products.create')
@@ -51,35 +57,7 @@ class ProductController extends Controller
             ->with(compact('product', 'brands', 'sellers', 'sections', 'attributes'));
     }
 
-    public function updateProduct(StoreProductRequest $request, $id): RedirectResponse {
-        $data = $request->all();
-        if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
-            $isFeatured = "Yes";
-        } else {
-            $isFeatured = "No";
-        }
-
-        DB::transaction(function() use ($id, $isFeatured, $data) {
-            $product = Product::find($id);
-            $product->update([
-                'category_id' => $data['sub_category'],
-                'seller_id' => $data['seller'],
-                'brand_id' => $data['brand'],
-                'title' => $data['title'],
-                'keywords' => $data['keywords'],
-                'description' => $data['description'],
-                'label' => $data['label'],
-                'base_price' => $data['base_price'],
-                'discount' => $data['discount'],
-                'is_featured' => $isFeatured,
-            ]);
-        });
-
-        $message = "Product Updated.";
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
-    }
-
-    public function getCreateProduct(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
+    public function createProduct(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
         //  METHODS THAT CAN BE USED ON FILE REQUESTS
         //  guessExtension()            ---Gets the file extension
         //  guessClientExtension()      ---Similar to guessExtension
@@ -129,6 +107,51 @@ class ProductController extends Controller
             ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 10]);
     }
 
+    public function updateProduct(StoreProductRequest $request, $id): RedirectResponse {
+        $data = $request->all();
+        if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
+            $isFeatured = "Yes";
+        } else {
+            $isFeatured = "No";
+        }
+
+        $product = Product::find($id);
+
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+            $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
+            $file->move(public_path('images/products'), $imageName);
+
+            if(File::exists(public_path('images/products/' . $product->main_image))){
+                File::delete(public_path('images/products/' . $product->main_image));
+            }
+
+            $product->main_image = $imageName;
+            $product->save();
+        }
+
+        DB::transaction(function() use ($product, $isFeatured, $data) {
+            $product->update([
+                'category_id' => $data['sub_category'],
+                'seller_id' => $data['seller'],
+                'brand_id' => $data['brand'],
+                'title' => $data['title'],
+                'keywords' => $data['keywords'],
+                'description' => $data['description'],
+                'label' => $data['label'],
+                'base_price' => $data['base_price'],
+                'discount' => $data['discount'],
+                'is_featured' => $isFeatured,
+            ]);
+        });
+
+        $message = "Product Updated.";
+        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+    }
+
+    /**
+     * @throws JsonException
+     */
     public function createVariation(Request $request, $id): RedirectResponse {
         $data = $request->all();
 
@@ -137,7 +160,19 @@ class ProductController extends Controller
             'variation_options' => 'required|array'
         ]);
 
-        $attribute = Attribute::find($data['attribute'])->value('name');
+        $attribute = Attribute::find($data['attribute'])->name;
+
+        //  Check if variation already exists
+        $variations = Variation::where('product_id', $id);
+        if($variations->exists()) {
+            $variations = $variations->pluck('variation')->toArray();
+            foreach($variations as $variation) {
+                if(key(json_decode($variation, true, 512, JSON_THROW_ON_ERROR)) === $attribute) {
+                    return back()->withErrors(['The attribute you chose already exists.']);
+                }
+            }
+        }
+
         $variation = Json::encode([$attribute => $data['variation_options']]);
 
         DB::transaction(function() use ($variation, $id, $data) {
@@ -156,6 +191,56 @@ class ProductController extends Controller
 
         $message = "Variation Created.";
         return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function addVariationOption(StoreVariationOptionRequest $request): RedirectResponse {
+        $data = $request->all();
+
+        $variation = Variation::find($data['variation_id']);
+
+        $variationJson = json_decode($variation['variation'], false, 512, JSON_THROW_ON_ERROR);
+        $variationValues = array_values(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR))[0];
+        $newValues = Arr::prepend($variationValues, Str::ucfirst($data['variant']));
+        $newVariation = Json::encode([key($variationJson) => $newValues]);
+
+        $variation->variation = $newVariation;
+        $variation->save();
+
+        try {
+            DB::transaction(function() use ($data) {
+                VariationsOption::create($data);
+            });
+        } catch(Exception $e) {
+            $message = "Something went wrong! Please contact Lil Nabz.";
+            return back()->with('alert', ['type' => 'danger', 'intro' => 'Oof!', 'message' => $message, 'duration' => 7]);
+        }
+
+        $message = "Product Image Created.";
+        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+    }
+
+    public function updateVariant(Request $request): JsonResponse|Redirector|Application|RedirectResponse {
+        if($request->ajax()) {
+            $exists = VariationsOption::where([
+                'variation_id' => $request->variationId,
+                'variant' => $request->variant
+            ])->exists();
+
+            if($exists) {
+                return response()->json(['status' => false, 'message' => 'Already exists!']);
+            }
+
+            $option = VariationsOption::find($request->optionId);
+            $option->variant = Str::ucfirst($request->variant);
+            $option->save();
+
+            return response()->json(['status' => true, 'newValue' => $option->variant, 200]);
+        }
+
+        return accessDenied();
     }
 
     public function createImage(Request $request, $id): RedirectResponse {

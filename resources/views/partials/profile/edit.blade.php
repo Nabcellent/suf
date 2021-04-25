@@ -60,7 +60,6 @@ if($user['gender'] ==='Male') {
                 <button type="submit" class="morphic_btn morphic_btn_primary">
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
-                <img id="update_profile_gif" class="d-none loader_gif" src="{{asset('/images/loaders/Infinity-1s-197px.gif')}}" alt="loader.gif">
             </div>
 
             <div class="form-group">
@@ -99,7 +98,7 @@ if($user['gender'] ==='Male') {
                 <div class="form-group">
                     <label class="d-flex justify-content-between">
                         <span>Address(es)</span>
-                        <a href="{{url('/account/delivery-address/')}}" class="input-group-text border-primary text-info">
+                        <a href="{{ route('profile', ['page', 'delivery-address']) }}" class="input-group-text border-primary text-info">
                             <i class='bx bx-plus' ></i>
                         </a>
                     </label>
@@ -124,7 +123,7 @@ if($user['gender'] ==='Male') {
                 </div>
             @else
                 <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
-                    <a href="{{ url('/account/delivery-address') }}">add</a></div>
+                    <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>
                 <hr class="m-0">
             @endif
         </form>

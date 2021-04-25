@@ -140,7 +140,7 @@
                                             <td><img src="{{ asset('storage/images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
                                             <td><a href="{{ route('admin.product', ['id' => $item['id']]) }}">{{ $item['product']['title'] }}</a></td>
                                             <td>{{ $item['product']['brand']['name'] }}</td>
-                                            <td>{{ $item['product']['seller']['admin']['username'] }}</td>
+                                            <td>{{ $item['product']['seller']['seller']['username'] }}</td>
                                             <td>
                                                 <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
                                                 @foreach($detailsArr as $key => $value)

@@ -57,7 +57,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" name="email" value="<?php echo e(old('email')); ?>"
-                                               placeholder="Email or Phone number *" aria-label required autocomplete="email" autofocus>
+                                               placeholder="Email address *" aria-label required autocomplete="email" autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control <?php $__errorArgs = ['email'];

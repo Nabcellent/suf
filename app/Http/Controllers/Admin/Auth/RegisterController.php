@@ -73,7 +73,12 @@ class RegisterController extends Controller
             'last_name' => 'required|max:20|alpha',
             'email' => 'required|email:rfc,dns|unique:users',
             'gender' => 'required',
-            'phone' => 'required|integer|digits_between: 9, 10|unique:phones',
+            'phone' => ['required',
+                'numeric',
+                'digits_between:9,12',
+                'unique:phones',
+                'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
+            ],
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
         ]);

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Phone;
 use App\Models\Product;
 use App\Models\SubCounty;
 use App\Models\User;
+use App\Models\Variation;
+use App\Models\VariationsOption;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +96,33 @@ class AjaxController extends Controller
         }
 
         $exists = $check->exists();
+
+        return $exists ? "false" : "true";
+    }
+
+    public function checkVariationExists(Request $request): string
+    {
+        $attribute = Attribute::find($request->attribute)->name;
+        $variations = Variation::where('product_id', $request->productId);
+
+        if($variations->exists()) {
+            $variations = $variations->pluck('variation')->toArray();
+            foreach($variations as $variation) {
+                if(key(json_decode($variation, true, 512, JSON_THROW_ON_ERROR)) === $attribute) {
+                    return "false";
+                }
+            }
+        }
+
+        return "true";
+    }
+
+    public function checkVariationOptionExists(Request $request): string
+    {
+        $exists = VariationsOption::where([
+            'variation_id' => $request->variationId,
+            'variant' => $request->variant
+        ])->exists();
 
         return $exists ? "false" : "true";
     }

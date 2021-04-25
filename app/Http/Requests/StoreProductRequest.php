@@ -20,7 +20,7 @@ class StoreProductRequest extends FormRequest
      * @return bool
      */
     public function authorize(): bool {
-        return isAdmin();
+        return isAdmin() || isRed();
     }
 
     /**
@@ -50,6 +50,7 @@ class StoreProductRequest extends FormRequest
         return [
             'title.required' => 'A title is required',
             'brand.required' => 'A brand is required',
+            'main_image.mimes' => 'Only .jpg, .png, .jpeg are allowed for images'
         ];
     }
 }

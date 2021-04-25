@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\{Address, Cart, Order, OrdersProduct};
 use App\Mail\OrderPlaced;
 use Carbon\Carbon;
-use Dompdf\Dompdf;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;

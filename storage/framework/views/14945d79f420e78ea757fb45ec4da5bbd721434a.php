@@ -19,7 +19,6 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="product_id" name="product_id">
-                    <input type="hidden" id="image_name" name="image_name">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-outline-danger">Delete</button>
                 </div>
@@ -37,7 +36,7 @@
     <div class="modal fade" id="edit_product_modal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form action="<?php echo e(url()->current()); ?>" method="POST">
+                <form id="update_product" action="<?php echo e(url()->current()); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <?php echo method_field('PUT'); ?>
                     <div class="modal-header">
@@ -55,7 +54,7 @@
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Brand</label>
-                                <select name="brand" class="mt-2 form-control <?php $__errorArgs = ['brand'];
+                                <select name="brand" class="form-control <?php $__errorArgs = ['brand'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -114,6 +113,13 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="mb-0">Main image</label>
+                            <div class="custom-file">
+                                <input type="file" name="image" class="custom-file-input crud_form" accept="image/png,image/jpg,image/jpeg">
+                                <label class="custom-file-label crud_form file">Choose image</label>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="form-group col">
                                 <label class="mb-0">Label</label>
@@ -141,7 +147,7 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
                         <div class="form-group">
                             <label class="mb-0">Description</label>
                             <textarea  name="description" class="form-control crud_form"
-                                       rows="4" placeholder="Description..." aria-label><?php echo e($product['description']); ?>"</textarea>
+                                       rows="4" placeholder="Description..." aria-label><?php echo e($product['description']); ?></textarea>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
@@ -162,10 +168,10 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
 
 
     <!--&&&===    ADD VARIATION MODAL    ===&&&-->
-    <div class="modal fade" id="add_variation" aria-hidden="true">
+    <div class="modal fade" id="create_variation" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="<?php echo e(route('admin.create.variation', ['id' => $product['id']])); ?>" method="POST">
+                <form id="create_variation" action="<?php echo e(route('admin.create.variation', ['id' => $product['id']])); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Create Variation</h5>
@@ -185,11 +191,51 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
                         </div>
                         <div class="form-group">
                             Value(s)
-                            <select class="variation form-control" id="values_s2" name="variation_options[]" style="width: 100%" aria-label>
+                            <select class="variation form-control" id="values_s2" name="variation_options[]" style="width: 100%" aria-label required>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" class="product_id" name="product_id" value="<?php echo e($product['id']); ?>">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!--&&&===    ADD VARIATION MODAL    ===&&&-->
+    <div class="modal fade" id="create_variation_option" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="create_variation_option" action="<?php echo e(route('admin.create.variation-option')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Another Variation Option</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">Option name</label>
+                            <input type="text" name="variant" class="form-control" placeholder="Enter Option" aria-label autofocus required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="">Stock</label>
+                                <input type="number" name="stock" step="1" class="form-control" placeholder="Enter Stock" aria-label required>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Extra Price(if any)</label>
+                                <input type="number" name="extra_price" class="form-control" placeholder="Enter extra price" aria-label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="variation_id" id="variation_id">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
@@ -257,7 +303,7 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
     <div class="modal fade" id="add_image_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form action="<?php echo e(route('admin.create.product-image', ['id' => $product['id']])); ?>" method="POST" enctype="multipart/form-data">
+                <form id="create_product_image" action="<?php echo e(route('admin.create.product-image', ['id' => $product['id']])); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Upload Image(s)</h5>
@@ -268,13 +314,12 @@ unset($__errorArgs, $__bag); ?> crud_form" name="sub_category" aria-label requir
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" multiple="" name="images[]" class="custom-file-input crud_form"  accept=".jpg,.png,.jpeg,image/*" required>
+                                <input type="file" multiple="" name="images[]" class="custom-file-input crud_form" accept="image/png,image/jpg,image/jpeg" required>
                                 <label class="custom-file-label crud_form file">Choose image(s)</label>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="product_id" value="<?php echo e($product['id']); ?>">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Insert</button>
                     </div>

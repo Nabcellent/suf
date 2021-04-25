@@ -1,27 +1,4 @@
 $(() => {
-    jQuery.validator.setDefaults({
-        errorPlacement: function (error, element) {
-            error.addClass('error');
-            if(element.prop('type') === 'radio') {
-                error.insertAfter(element.closest('.form-group'));
-            } else if(element.prop('type') === 'file') {
-                error.insertAfter(element.closest('div'));
-            } else if(element.closest('.input-group').length > 0) {
-                error.insertAfter(element.parent('.input-group'));
-            } else if(element.hasClass('anime_input')) {
-                error.insertAfter(element.closest('label'));
-            } else if(element.hasClass('crud_form')) {
-                error.insertAfter(element);
-            } else if(element.prop('type') === 'checkbox') {
-                error.insertAfter(element.closest('.form-group'));
-            } else {
-                error.insertAfter(element);
-            }
-        }
-    });
-
-
-
     /**
      * *********************************************************    SIGN UP
      */
@@ -30,10 +7,12 @@ $(() => {
             first_name: {
                 required: true,
                 minlength: 3,
+                alphaSpecial: true
             },
             last_name: {
                 required: true,
                 minlength: 3,
+                alphaSpecial: true
             },
             email: {
                 required: true,
@@ -89,19 +68,45 @@ $(() => {
         }
     });
 
+
+
     /**
      * *********************************************************    SIGN IN
      */
     $('#login_form').validate({
         rules: {
-            email: 'required',
+            email: {
+                required: true,
+                email: true
+            },
             password: 'required'
         },
         messages: {
-            email: 'Your email or phone number is required.',
+            email: 'Your email address is required.',
             password: 'Your password is required.',
         }
     });
+
+
+
+    /**
+     * *********************************************************    CONTACT US
+     */
+    $('form#contact_us').validate({
+        rules: {
+            first_name: 'required',
+            last_name: 'required',
+            email: 'required',
+            subject: 'required',
+            message: 'required',
+        },
+        messages: {
+            first_name: 'Your email or phone number is required.',
+            last_name: 'Your password is required.',
+        }
+    });
+
+
 
     /**
      * *********************************************************    UPDATE PERSONAL DETAILS

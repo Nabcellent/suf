@@ -3,6 +3,7 @@
 
     <div id="register" class="container mt-4">
         <section class="container">
+            <a href="{{ route('home') }}" class="position-absolute" style="left:1rem; top:1rem; color: var(--dark-gold)">Shop</a>
             <div class="row py-3 justify-content-center align-items-center" style="height: 75vh;">
                 <div class="col-7">
                     <div class="card anime_card">
@@ -66,7 +67,7 @@
                                 <div class="form-group">
                                     <label class="anime_input_field">
                                         <input type="tel" id="phone" name="phone"  class="anime_input" value="{{ old('phone') }}"
-                                               pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$" required>
+                                               pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$" required>
                                         <span class="placeholder">Phone number</span>
                                     </label>
                                 </div>

@@ -17,10 +17,10 @@ class CreateVariationsOptionsTable extends Migration
             $table->id();
             $table->foreignId('variation_id')->constrained()->onDelete('cascade');
             $table->string('variant');
+            $table->float('extra_price')->default(0);
             $table->integer('stock')->default(1);
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default(1);
-            $table->float('extra_price')->default(0);
         });
     }
 

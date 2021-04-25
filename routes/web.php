@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PolicyController;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,7 +90,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  Admin Routes
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
-
         //  MATCH ROUTES
         Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('category');
         Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
@@ -98,9 +97,10 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
-            Route::post('/products/create', [Admin\ProductController::class, 'getCreateProduct'])->name('product');
+            Route::post('/products/create', [Admin\ProductController::class, 'createProduct'])->name('product');
             Route::post('/product/variation/{id}', [Admin\ProductController::class, 'createVariation'])->name('variation');
             Route::post('/product/image/{id}', [Admin\ProductController::class, 'createImage'])->name('product-image');
+            Route::post('/product/variation-option', [Admin\ProductController::class, 'addVariationOption'])->name('variation-option');
 
             Route::post('/attribute')->name('attribute');
             Route::post('/brand', [Admin\AttributeController::class, 'createUpdateBrand'])->name('brand');
@@ -113,6 +113,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::put('/product/{id}', [Admin\ProductController::class, 'updateProduct'])->name('product');
             Route::patch('/product/stock/{id}', [Admin\ProductController::class, 'setStock'])->name('stock');
             Route::patch('/product/extra-price/{id}', [Admin\ProductController::class, 'setPrice'])->name('extra-price');
+
+            Route::put('/variation-option', [Admin\ProductController::class, 'updateVariant']);
 
             Route::patch('/order/{id}', [Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
 
@@ -131,6 +133,11 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/get-categories', [Admin\AjaxController::class, 'getCategoriesBySectionId']);
         Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
         Route::post('/get-attribute-values', [Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
+        //  Database Checks
+        Route::post('/check-variation', [AjaxController::class, 'checkVariationExists']);
+        Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
+        //  CHARTS ROUTE
+        Route::post('/chart', [ChartController::class, 'getTimelyOrderData']);
     });
 });
 
@@ -184,19 +191,20 @@ Route::post('/contact', [ContactUsController::class, 'sendEmail'])->name('contac
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm'])->name('policies');
 Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
 
-//  AJAX ROUTES
-//  Get Variation price
-Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);
-Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
-Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
-Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);
-
 //  LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
+//  AJAX ROUTES
+Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
+//  Database Checks
+Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
+Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
+Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);*/
 
 
-Route::get('/test', function() {
+
+
+/*Route::get('/test', function() {
     Storage::disk('google')->put('test.txt', 'Hello World');
 
     echo "done";

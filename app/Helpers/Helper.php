@@ -1,13 +1,19 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\Attribute;
+use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrdersProduct;
 use App\Models\Product;
+use App\Models\productsImage;
 use App\Models\User;
+use App\Models\Variation;
+use App\Models\VariationsOption;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +22,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
@@ -57,6 +64,9 @@ function sections() {
 function latestFour(): array {
     return Product::products()->where('products.status', 1)->where('is_featured', 'Yes')->has('variations')
         ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
+}
+function latestProductId() {
+    return Product::latest('id')->value('id');
 }
 function trendingCategories(): Collection|array {
     return OrdersProduct::select('cat.id', 'cat.title AS category', DB::raw('COUNT(cat.title) as count'))
@@ -107,15 +117,17 @@ function cartTotal(): string {
     return currencyFormat($total);
 }
 
+
+
 #[Pure] function currencyFormat($number): string {
     return number_format((float)$number, 2);
 }
 
-function currencyToFloat($currency): float
-{ return (float)preg_replace('/[^\d.]/', '', $currency); }
+function currencyToFloat($currency): float {
+    return (float)preg_replace('/[^\d.]/', '', $currency);
+}
 
-function mapped_implode($glue, $array, $symbol = '='): string
-{
+function mapped_implode($glue, $array, $symbol = '='): string {
     return implode($glue, array_map(
             static function($k, $v) use($symbol) {
                 return $k . $symbol . $v;
@@ -126,6 +138,28 @@ function mapped_implode($glue, $array, $symbol = '='): string
     );
 }
 
+
+
+
+
+function getModel($model): string {
+    $model = Str::ucfirst(Str::lower($model));
+
+    return match ($model) {
+        'User' => User::class,
+        'Attribute' => Attribute::class,
+        'Banner' => Banner::class,
+        'Brand' => Brand::class,
+        'Category' => Category::class,
+        'Product' => Product::class,
+        'Order' => Order::class,
+        'Coupon' => Coupon::class,
+        'Variation' => Variation::class,
+        'Variation\'s Option' => VariationsOption::class,
+        'Product\'s Image' => productsImage::class,
+    };
+}
+
 function accessDenied(): Redirector|Application|RedirectResponse {
     return back()->with('alert', [
         'type' => 'danger',
@@ -133,10 +167,4 @@ function accessDenied(): Redirector|Application|RedirectResponse {
         'message' => "Access Denied",
         'duration' => 7
     ]);
-}
-
-
-
-function latestProductId() {
-    return Product::latest('id')->value('id');
 }

@@ -72,7 +72,7 @@
                                                 <span class="input-group-text">+254</span>
                                             </div>
                                             <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" aria-label value="{{ old('phone') }}" placeholder="123456789"
-                                                   pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$">
+                                                   pattern="^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$">
                                             @error('phone')
                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                             @enderror

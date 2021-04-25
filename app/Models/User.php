@@ -55,7 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * RELATIONSHIP FUNCTIONS
      */
     public function admin(): HasOne {
-        return $this->hasOne(Admin::class);
+        return $this->hasOne(Admin::class)->where('type', 'Super');
+    }
+
+    public function seller(): HasOne {
+        return $this->hasOne(Admin::class)->where('type', 'Seller');
     }
 
     public function addresses(): HasMany {
@@ -70,13 +74,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Phone::class)->where('primary', 1);
     }
 
-    public function products(): HasMany
-    {
+    public function products(): HasMany {
         return $this->hasMany(Product::class, 'seller_id');
     }
 
-    public function orders(): HasMany
-    {
+    public function orders(): HasMany {
         return $this->hasMany(Order::class);
     }
 
@@ -84,4 +86,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * STATIC FUNCTIONS
      */
+    public static function getCustomers() {
+        return self::where('is_admin', 0)->with('phones', 'primaryPhone')->withCount('orders');
+    }
 }

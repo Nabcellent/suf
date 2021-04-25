@@ -62,14 +62,15 @@
 
 
 
-<script src="<?php echo e(url('js/jquery.nice-number.js')); ?>"></script>
 <script src="<?php echo e(url('js/main.js')); ?>"></script>
-<script src="<?php echo e(url('js/validate.js')); ?>"></script>
+<script src="<?php echo e(url('js/Global.js')); ?>"></script>
+<script src="<?php echo e(url('js/JqueryValidation.js')); ?>"></script>
 <script src="<?php echo e(url('js/swiper.js')); ?>"></script>
 <script src="<?php echo e(url('js/search.js')); ?>"></script>
 <script src="<?php echo e(url('js/fetch.js')); ?>"></script>
 <script src="<?php echo e(url('js/sweetAlert.js')); ?>"></script>
 <script src="<?php echo e(url('js/payment.js')); ?>"></script>
+<script src="<?php echo e(url('js/jquery.nice-number.js')); ?>"></script>
 </body>
 </html>
 <?php /**PATH /home/nabcellent-7/Desktop/PHP/My Projects/suf-laravel/resources/views//layouts/master.blade.php ENDPATH**/ ?>

@@ -46,7 +46,7 @@ class Product extends Model
 
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(User::class)->with('admin');
+        return $this->belongsTo(User::class)->with('seller');
     }
 
     public function brand(): BelongsTo {

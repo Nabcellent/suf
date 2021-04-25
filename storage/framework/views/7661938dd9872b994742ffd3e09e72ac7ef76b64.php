@@ -75,9 +75,7 @@
         <div class="container">
             <div class="row">
                 <div class="col main rounded shadow-lg">
-<!--                    <h5 class="position-absolute" style="top: 1rem; right: 1rem;">Coming Soon...!🚛🚛</h5>-->
                     <h5 class="position-absolute" style="bottom: 1rem; right: 1rem;">COMING SOON...!🚛🚛</h5>
-<!--                    <h5>Coming Soon...!🚛🚛</h5>-->
                     <h1>Hey You... Good to see you!</h1>
                     <hr>
                     <div class="row">

@@ -139,7 +139,7 @@
                                             <td><img src="<?php echo e(asset('storage/images/products/' . $item['product']['main_image'])); ?>" alt="product" class="img-fluid"></td>
                                             <td><a href="<?php echo e(route('admin.product', ['id' => $item['id']])); ?>"><?php echo e($item['product']['title']); ?></a></td>
                                             <td><?php echo e($item['product']['brand']['name']); ?></td>
-                                            <td><?php echo e($item['product']['seller']['admin']['username']); ?></td>
+                                            <td><?php echo e($item['product']['seller']['seller']['username']); ?></td>
                                             <td>
                                                 <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
                                                 <?php $__currentLoopData = $detailsArr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

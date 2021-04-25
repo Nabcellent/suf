@@ -65,6 +65,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
 
+<!--    CHART JS CDN    -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js" integrity="sha256-lISRn4x2bHaafBiAb0H5C7mqJli7N0SH+vrapxjIz3k=" crossorigin="anonymous" defer></script>
+
 <!--    DataTables CDN    -->
 <script type="text/javascript" src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
@@ -82,8 +85,10 @@
 <!-- Scripts -->
 <!--<script src="<?php echo e(asset('js/app.js')); ?>" defer></script>-->
 <script src="<?php echo e(asset('js/Admin/Main.js')); ?>"></script>
+<script src="<?php echo e(asset('js/Admin/chart.js')); ?>" defer></script>
+<script src="<?php echo e(asset('js/Global.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Fetch.js')); ?>"></script>
-<script src="<?php echo e(asset('js/Admin/Validations.js')); ?>"></script>
+<script src="<?php echo e(asset('js/Admin/JqueryValidation.js')); ?>"></script>
 <script src="<?php echo e(asset('js/Admin/Dynamic.js')); ?>" defer></script>
 <script src="<?php echo e(asset('js/Admin/SweetAlert.js')); ?>" defer></script>
 <script src="<?php echo e(asset('js/Admin/Select2.js')); ?>" defer></script>

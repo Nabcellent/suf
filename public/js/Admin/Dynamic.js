@@ -1,4 +1,11 @@
 $(() => {
+    /*_______   SET VARIATION ID    _______*/
+    $(document).on('click', 'a.attribute', function() {
+        const id = $(this).data('id');
+
+        $('input[name="variation_id"]').val(id);
+    });
+
     /*_______   SET PRICE ID    _______*/
     $(document).on('click', 'a.stock', function() {
         const $id = $(this).data('id');
@@ -11,6 +18,44 @@ $(() => {
         const $id = $(this).data('id');
 
         $('input[name="variation_option_id"]').val($id);
+    });
+
+    /*_______   CHANGE VARIANT NAME    _______*/
+    $(document).on('change', '#details td input[name="variation_option"]', function() {
+        const optionId = $(this).data('id');
+        const variationId = $(this).data('variationId');
+        const variant = $(this).val();
+        const loader = $(this).closest('td.d-flex').find($('img')).hide();
+
+        $.ajax({
+            data: {optionId, variant, variationId},
+            url: '/admin/variation-option',
+            type: 'PUT',
+            beforeSend:() => {
+                loader.show();
+            },
+            statusCode: {
+                200: (responseObject) => {
+                    if(responseObject.status) {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                        $(this).val(responseObject.newValue);
+                    } else {
+                        if($(this).val() === $('#current_variant_name').val()) {
+                            $(this).removeClass('is-invalid').addClass('is-valid');
+                        } else {
+                            $(this).removeClass('is-valid').addClass('is-invalid');
+                            $('#details td span.invalid-feedback').html(responseObject.message);
+                        }
+                    }
+                },
+            },
+            complete: () => {
+                loader.hide();
+            },
+            error: () => {
+                alert('Error: Something went wrong!');
+            },
+        });
     });
 
 

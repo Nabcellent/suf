@@ -4,7 +4,7 @@ $(document).on('click', '.add-phone', () => {
     $(document).on('keyup', '.swal-input', function() {
         let value = $(this).val();
         let $phoneInput = $('#phone-form input');
-        if(!value.match(/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$/)) {
+        if(!value.match(/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/)) {
             $phoneInput.removeClass('is-valid');
             $phoneInput.addClass('is-invalid');
             $('#phone-form strong').text('Invalid phone number');
@@ -24,7 +24,7 @@ $(document).on('click', '.add-phone', () => {
                 '          <span class="input-group-text">+254</span>' +
                 '      </div>' +
                 '      <input type="tel" class="form-control swal-input" name="phone" aria-label ' +
-                '             placeholder="123456789" pattern="^((?:254|\\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$">' +
+                '             placeholder="123456789" pattern="^((?:254|\\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\\+254|0)?(77[0-6][0-9]{6})$)$">' +
                 '  <span class="invalid-feedback" role="alert"><strong></strong></span></div>' +
                 '</form>',
             inputAttributes: {
@@ -73,7 +73,7 @@ $(document).on('click', '.add-phone', () => {
                             location.reload();
                         });
                     } else {
-                        if(result.value.message === 'The phone has already been taken.') {
+                        if(result.value.message === 'The phone has already been taken.' || 'The phone format is invalid.') {
                             Swal.fire({
                                 icon: 'info',
                                 title: 'Oops!',

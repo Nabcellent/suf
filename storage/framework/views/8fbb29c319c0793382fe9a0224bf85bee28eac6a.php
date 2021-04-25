@@ -2,6 +2,7 @@
 
     <div id="register" class="container mt-4">
         <section class="container">
+            <a href="<?php echo e(route('home')); ?>" class="position-absolute" style="left:1rem; top:1rem; color: var(--dark-gold)">Shop</a>
             <div class="row py-3 justify-content-center align-items-center" style="height: 75vh;">
                 <div class="col-7">
                     <div class="card anime_card">
