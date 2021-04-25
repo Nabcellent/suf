@@ -28,7 +28,7 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+Route::get('/test', function() {
     return view('temporary');
 });
 
@@ -200,8 +200,8 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 //  Database Checks
 Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
-Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);*/
-
+Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);
+*/
 
 
 
