@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\STKPushController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactUsController;
@@ -28,11 +29,10 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
+});*/
 
-/*
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -45,14 +45,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //Register Routes
         Route::get('/register', [Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
         Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('register');
-
-        //Forgot Password Routes
-        Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-
-        //Reset Password Routes
-        Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
     });
     Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
@@ -201,7 +193,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);
-*/
+
 
 
 
