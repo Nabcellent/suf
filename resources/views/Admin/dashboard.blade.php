@@ -83,29 +83,59 @@
             </div>
         </div>
 
-        <div class="row mb-4">
+        <div class="row chart mb-4">
             <div class="col">
-                <div class="row justify-content-end">
-                    <div class="col-3">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Chart</label>
+                <div class="card p-2 shadow-lg">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days" role="tab" aria-controls="nav-days" aria-selected="true">Days</a>
+                            <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" role="tab" aria-controls="nav-months" aria-selected="false">Months</a>
+                            <div class="position-absolute" style="right: 1rem;">
+                                <div class="row justify-content-end">
+                                    <div class="col-auto d-flex align-items-center">
+                                        <div>
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="products" name="Product" value="Product" checked>
+                                                <label class="custom-control-label" for="products">Products</label>
+                                            </div>
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="orders" name="Order" value="Order" checked>
+                                                <label class="custom-control-label" for="orders">Orders</label>
+                                            </div>
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="customers" name="Customer" value="Customer" checked>
+                                                <label class="custom-control-label" for="customers">Customers</label>
+                                            </div>
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="sellers" name="Seller" value="Seller">
+                                                <label class="custom-control-label" for="sellers">Sellers</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Chart</label>
+                                            </div>
+                                            <select class="custom-select" id="chart_type">
+                                                <option selected value="line">Line Graph</option>
+                                                <option value="bar">Bar Graph</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <select class="custom-select" id="selectChart">
-                                <option selected hidden value="">Choose...</option>
-                                <option value="products">Products</option>
-                                <option value="customers">Customers</option>
-                                <option value="orders">Orders</option>
-                                <option value="sellers">Sellers</option>
-                            </select>
                         </div>
-                    </div>
-                </div>
-                <div class="row chart">
-                    <div class="col">
-                        <div class="card shadow-lg">
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-days" role="tabpanel" aria-labelledby="nav-days-tab">
                             <div class="card-body">
-                                <canvas id="myChart" width="100%" height="30"></canvas>
+                                <canvas id="dayChart" width="100%" height="30"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-months" role="tabpanel" aria-labelledby="nav-months-tab">
+                            <div class="card-body">
+                                <canvas id="monthChart" width="100%" height="30"></canvas>
                             </div>
                         </div>
                     </div>

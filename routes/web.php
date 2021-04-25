@@ -28,11 +28,14 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
-/*
+});*/
+
+
 Auth::routes(['verify' => true]);
+
+//Route::get('/admin/chart', [ChartController::class, 'getTimelyOrderData']);
 
 //  ADMIN ROUTES
 Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
@@ -137,7 +140,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/check-variation', [AjaxController::class, 'checkVariationExists']);
         Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
         //  CHARTS ROUTE
-        Route::post('/chart', [ChartController::class, 'getTimelyOrderData']);
+        Route::post('/chart', [ChartController::class, 'getTimelyData']);
     });
 });
 
@@ -199,7 +202,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 //  Database Checks
 Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
-Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);*/
+Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);
 
 
 
