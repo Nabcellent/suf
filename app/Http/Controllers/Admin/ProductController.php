@@ -22,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -31,7 +32,13 @@ use Psy\Util\Json;
 class ProductController extends Controller
 {
     public function showProducts(): Factory|View|Application {
-        $products = Product::with('seller')->orderByDesc('id')->get()->toArray();
+        $products = Product::with('seller')->orderByDesc('id');
+
+        if(isSeller()) {
+            $products->where('seller_id', Auth::id());
+        }
+
+        $products->get()->toArray();
 
         return view('Admin.products.list')
             ->with(compact('products'));
