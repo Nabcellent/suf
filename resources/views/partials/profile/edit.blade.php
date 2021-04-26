@@ -45,14 +45,14 @@ if($user['gender'] ==='Male') {
                     <label>Email address</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-envelope"></i></span></div>
-                        <input type="email" class="form-control" name="email" value="{{$user['email']}}" readonly>
+                        <input type="text" class="form-control" value="{{$user['email']}}" disabled>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label>Gender</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend"><span class="input-group-text"><?= $genderIcon ?></span></div>
-                        <input type="text" class="form-control" name="gender" value="{{ $gender }}" readonly>
+                        <input type="text" class="form-control" value="{{ $gender }}" disabled>
                     </div>
                 </div>
             </div>
@@ -61,48 +61,48 @@ if($user['gender'] ==='Male') {
                     <span><i class="fas fa-pen"></i> Update Profile</span>
                 </button>
             </div>
-
+        </form>
+        <div class="form-group">
+            <label class="d-flex justify-content-between">
+                <span>Phone Number(s) *</span>
+                <a href="#" class="input-group-text border-primary text-info add-phone">
+                    <i class='bx bx-plus' ></i>
+                </a>
+            </label>
+            @foreach($user['phones'] as $phone)
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-mobile"></i></span>
+                        <span class="input-group-text">+254</span>
+                    </div>
+                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}"
+                           pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
+                    <div class="input-group-append">
+                        @if($phone['primary'])
+                            <span class="input-group-text">primary</span>
+                        @endif
+                        <a href="#" class="input-group-text border-primary text-info"><i class='bx bx-edit-alt'></i></a>
+                        <a href="#" class="input-group-text border-danger text-danger delete-phone" data-id="{{ $phone['id'] }}">
+                            <i class='bx bx-trash-alt'></i>
+                        </a>
+                    </div>
+                    @error('phone')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            @endforeach
+        </div>
+        @if(count($user['addresses']) > 0)
             <div class="form-group">
                 <label class="d-flex justify-content-between">
-                    <span>Phone Number(s) *</span>
-                    <a href="#" class="input-group-text border-primary text-info add-phone">
+                    <span>Address(es)</span>
+                    <a href="{{ route('profile', ['page', 'delivery-address']) }}" class="input-group-text border-primary text-info">
                         <i class='bx bx-plus' ></i>
                     </a>
                 </label>
-                @foreach($user['phones'] as $phone)
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-mobile"></i></span>
-                            <span class="input-group-text">+254</span>
-                        </div>
-                        <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}"
-                               pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
-                        <div class="input-group-append">
-                            @if($phone['primary'])
-                                <span class="input-group-text">primary</span>
-                            @endif
-                            <a href="#" class="input-group-text border-primary text-info"><i class='bx bx-edit-alt'></i></a>
-                            <a href="#" class="input-group-text border-danger text-danger delete-phone" data-id="{{ $phone['id'] }}">
-                                <i class='bx bx-trash-alt'></i>
-                            </a>
-                        </div>
-                        @error('phone')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                @endforeach
-            </div>
-            @if(count($user['addresses']) > 0)
-                <div class="form-group">
-                    <label class="d-flex justify-content-between">
-                        <span>Address(es)</span>
-                        <a href="{{ route('profile', ['page', 'delivery-address']) }}" class="input-group-text border-primary text-info">
-                            <i class='bx bx-plus' ></i>
-                        </a>
-                    </label>
-                    @foreach($user['addresses'] as $address)
+                @foreach($user['addresses'] as $address)
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-address-card"></i></span>
@@ -119,14 +119,13 @@ if($user['gender'] ==='Male') {
                             </a>
                         </div>
                     </div>
-                    @endforeach
-                </div>
-            @else
-                <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
-                    <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>
-                <hr class="m-0">
-            @endif
-        </form>
+                @endforeach
+            </div>
+        @else
+            <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
+                <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>
+            <hr class="m-0">
+        @endif
     </div>
     <!--    End Update Profile    -->
 
@@ -206,11 +205,11 @@ if($user['gender'] ==='Male') {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h5>Deleting your account is irreversible!</h5>
+                        <h6>Deleting your account is irreversible!</h6>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="yes" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Delete Account</button>
+                        <a type="submit" name="yes" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Delete Account</a>
                     </div>
                 </form>
             </div>

@@ -100,34 +100,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="nav_dropdown">
-                        <a href="#" class="nav_link">
-                            <i class="fab fa-page4 nav_icon"></i>
-                            <span class="nav_name">Page Content</span>
-                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                        </a>
-                        <div class="nav_dropdown_collapse">
-                            <div class="nav_dropdown_content">
-                                <a href="<?php echo e(route('admin.banners')); ?>" class="nav_dropdown_item">Banners</a>
-                                <a href="<?php echo e(route('admin.ads')); ?>" class="nav_dropdown_item">Ads</a>
-                                <a href="<?php echo e(route('admin.policies')); ?>" class="nav_dropdown_item">Policies</a>
+                    <?php if(isRed() || isSuper()): ?>
+                        <div class="nav_dropdown">
+                            <a href="#" class="nav_link">
+                                <i class="fab fa-page4 nav_icon"></i>
+                                <span class="nav_name">Page Content</span>
+                                <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                            </a>
+                            <div class="nav_dropdown_collapse">
+                                <div class="nav_dropdown_content">
+                                    <a href="<?php echo e(route('admin.banners')); ?>" class="nav_dropdown_item">Banners</a>
+                                    <a href="<?php echo e(route('admin.ads')); ?>" class="nav_dropdown_item">Ads</a>
+                                    <a href="<?php echo e(route('admin.policies')); ?>" class="nav_dropdown_item">Policies</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="nav_dropdown">
-                        <a href="#" class="nav_link">
-                            <i class="fas fa-address-card nav_icon"></i>
-                            <span class="nav_name">Profile</span>
-                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                        </a>
-                        <div class="nav_dropdown_collapse">
-                            <div class="nav_dropdown_content">
-                                <a href="#" class="nav_dropdown_item">Passwords</a>
-                                <a href="#" class="nav_dropdown_item">Mail</a>
-                                <a href="#" class="nav_dropdown_item">Account</a>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="nav_items">
@@ -137,14 +125,16 @@
                         <i class='bx bxs-contact nav_icon' ></i>
                         <span class="nav_name">Contacts</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-mail-send nav_icon' ></i>
-                        <span class="nav_name">Emails</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class="fas fa-paper-plane nav_icon"></i>
-                        <span class="nav_name">Messages</span>
-                    </a>
+                    <?php if(isRed() || isSuper()): ?>
+                        <a href="#" class="nav_link">
+                            <i class='bx bx-mail-send nav_icon' ></i>
+                            <span class="nav_name">Emails</span>
+                        </a>
+                        <a href="#" class="nav_link">
+                            <i class="fas fa-paper-plane nav_icon"></i>
+                            <span class="nav_name">Messages</span>
+                        </a>
+                    <?php endif; ?>
                     <a href="<?php echo e(route('home')); ?>" class="nav_link">
                         <i class="fas fa-store nav_icon"></i>
                         <span class="nav_name">Suf-Store</span>
@@ -200,11 +190,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="nav_dropdown">
+                                <a href="#" class="nav_link">
+                                    <i class='bx bxs-user-account nav_icon' ></i>
+                                    <span class="nav_name">Accounts</span>
+                                    <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                                </a>
+                                <div class="nav_dropdown_collapse">
+                                    <div class="nav_dropdown_content">
+                                        <a href="#" class="nav_dropdown_item">Passwords</a>
+                                        <a href="#" class="nav_dropdown_item">Mail</a>
+                                        <a href="#" class="nav_dropdown_item">Account</a>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endif; ?>
                     <?php endif; ?>
                     <a href="<?php echo e(route('admin.profile')); ?>" class="nav_link">
-                        <i class='bx bxs-user-account nav_icon' ></i>
-                        <span class="nav_name">Account</span>
+                        <i class="fas fa-address-card nav_icon"></i>
+                        <span class="nav_name">Profile</span>
                     </a>
                 </div>
 

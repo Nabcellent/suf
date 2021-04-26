@@ -102,14 +102,16 @@ class ChartController extends Controller
                 $monthlyCountArr[] = $monthlyCount;
             }
 
-            $maxDay = round((max($dailyCountArr) + 5) / 10) * 10;
-            $maxMonth = round((max($monthlyCountArr) + 5) / 10) * 10;
+            $maxDay = round((max($dailyCountArr) + 5), -1);
+            $maxMonth = round((max($monthlyCountArr) + 5), -1);
 
             if($maxDay > $maxD) {
                 $response['maxDay'] = $maxDay;
+                $maxD = $maxDay;
             }
             if($maxMonth > $maxM) {
                 $response['maxMonth'] = $maxMonth;
+                $maxM = $maxMonth;
             }
 
             $response['tables'][] = [
@@ -123,7 +125,7 @@ class ChartController extends Controller
     }
 
     public function getLastSevenDays(): array {
-        $period = CarbonPeriod::create(now()->subDays(7), now());
+        $period = CarbonPeriod::create(now()->subDays(6), now());
         $dates = [
             'byNum' => [],
             'byName' => [],

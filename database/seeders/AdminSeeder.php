@@ -25,11 +25,17 @@ class AdminSeeder extends Seeder
             [
                 'user_id' => 2,
                 'username' => 'Majoka',
-                'type' => 'Seller'
+                'national_id' => 39876542,
+                'type' => 'Seller',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],[
                 'user_id' => 3,
                 'username' => 'Cado',
-                'type' => 'Admin'
+                'national_id' => 39876543,
+                'type' => 'Super',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]
         ]);
     }

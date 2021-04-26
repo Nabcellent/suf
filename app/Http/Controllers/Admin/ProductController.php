@@ -32,13 +32,13 @@ use Psy\Util\Json;
 class ProductController extends Controller
 {
     public function showProducts(): Factory|View|Application {
-        $products = Product::with('seller')->orderByDesc('id');
+        $products = Product::with('seller');
 
         if(isSeller()) {
             $products->where('seller_id', Auth::id());
         }
 
-        $products->get()->toArray();
+        $products = $products->orderByDesc('id')->get()->toArray();
 
         return view('Admin.products.list')
             ->with(compact('products'));

@@ -477,6 +477,17 @@ label.error {
 }
 
 
+/*  CHART JS  */
+#chart .chart_frame {
+    background-color: #252429;
+}
+#chart .nav-link {
+    color: rgb(100,100,255);
+}
+#chart .nav-link.active {
+    color: #900;
+    background-color: var(--body-color);
+}
 
 
 
@@ -806,4 +817,6 @@ label.crud_form.file::after {
 footer {
     position: fixed;
     bottom: 0;
+    right: 0;
+    font-size: 7pt;
 }

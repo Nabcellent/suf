@@ -164,10 +164,16 @@ function getModel($model): string {
 }
 
 function accessDenied(): Redirector|Application|RedirectResponse {
+    if(Auth::check()) {
+        $intro = Auth::user()->gender === "Male" ? 'Iza Bro!' : 'Sorryyy!';
+    } else {
+        $intro = "!";
+    }
+
     return back()->with('alert', [
         'type' => 'danger',
-        'intro' => 'Sorry!',
-        'message' => "Access Denied",
+        'intro' => $intro,
+        'message' => "Access Denied.",
         'duration' => 7
     ]);
 }

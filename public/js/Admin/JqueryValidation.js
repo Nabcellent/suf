@@ -31,6 +31,13 @@ $(() => {
                 maxlength: 12,
                 remote: '/check-phone',
             },
+            national_id: {
+                required: true,
+                digits: true,
+                minlength: 8,
+                maxlength: 8,
+                remote: '/check-national-id',
+            },
             gender: 'required',
             password: {
                 required: true,
@@ -54,8 +61,13 @@ $(() => {
             },
             username: {
                 required: 'Please enter a username of your choice.',
-                minlength: 3,
+                minlength: 'minimum required length is 3',
                 remote: 'This username has been taken',
+            },
+            national_id: {
+                required: 'Please enter your ID number.',
+                minlength: 'Please enter no less than 8 numbers.',
+                remote: 'This ID number is already in use.',
             },
             email: {
                 required: 'Please enter your email address',
@@ -65,7 +77,7 @@ $(() => {
             phone: {
                 required: 'Please provide your phone number.',
                 digits: 'Only numbers are allowed.',
-                pattern: 'Invalid phone number. (Only Safaricom and Airtel allowed).🤒',
+                pattern: 'Invalid phone number.🤒',
                 remote: 'This phone number is already in use.',
             },
             gender: 'Please choose your gender.',
@@ -263,6 +275,13 @@ $(() => {
                 maxlength: 12,
                 remote: '/check-phone',
             },
+            national_id: {
+                required: true,
+                digits: true,
+                minlength: 8,
+                maxlength: 8,
+                remote: '/check-national-id',
+            },
             gender: 'required',
         },
         messages: {
@@ -289,6 +308,11 @@ $(() => {
                 digits: 'Only numbers are allowed.',
                 pattern: 'Invalid phone number',
                 remote: 'This phone number is already in use.',
+            },
+            national_id: {
+                required: 'Please provide a valid ID number.',
+                minlength: 'Please enter no less than 8 numbers.',
+                remote: 'This ID number is already in use.',
             },
             gender: 'Please choose a gender.',
         }

@@ -14,9 +14,9 @@ class SubCounty extends Model
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function deliveryAddresses(): HasMany
+    public function addresses(): HasMany
     {
-        return $this->hasMany(DeliveryAddress::class);
+        return $this->hasMany(Address::class);
     }
 
     public function county(): BelongsTo

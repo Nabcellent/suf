@@ -84,6 +84,14 @@ class AjaxController extends Controller
         return $exists ? "false" : "true";
     }
 
+    public function checkNationalIdExists(Request $req): string
+    {
+        //  Check if email exists
+        $exists = Admin::where('national_id', $req->national_id)->exists();
+
+        return $exists ? "false" : "true";
+    }
+
     public function checkPhoneExists(Request $req): string
     {
         $phone = $req -> phone;

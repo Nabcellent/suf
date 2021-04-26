@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
-use App\Http\Controllers\Admin\STKPushController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactUsController;
@@ -29,9 +28,10 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
+});*/
+
 /*
 Auth::routes(['verify' => true]);
 
@@ -76,8 +76,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  Users Routes
         Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
-        Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers');
-        Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins');
+        Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers')->middleware('super');
+        Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins')->middleware('red');
         Route::get('/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
 
         //  Admin Routes
@@ -170,7 +170,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
 //  PRODUCT ROUTES
 Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
-Route::get('/product/{id}/{title}', [ProductController::class, 'details']);
+Route::get('/product/{id}/{title}', [ProductController::class, 'details'])->name('product-details');
 
 //  CART ROUTES
 Route::get('/cart', [ProductController::class, 'cart']);    //->middleware('password.confirm');
@@ -190,10 +190,11 @@ Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 //  AJAX ROUTES
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
 //  Database Checks
-Route::match(['get', 'post'], '/check-email', [AjaxController::class, 'checkEmailExists']);
-Route::match(['get', 'post'], '/check-username', [AjaxController::class, 'checkUsernameExists']);
-Route::match(['get', 'post'], '/check-phone', [AjaxController::class, 'checkPhoneExists']);*/
-
+Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
+Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
+Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
+*/
 
 
 

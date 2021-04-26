@@ -25,6 +25,7 @@ class RegisterAdminRequest extends FormRequest
             'first_name' => ['bail', 'required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
             'last_name' => ['bail', 'required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
             'username' => 'bail|required|max:30|unique:admins',
+            'national_id' => 'bail|required|digits:8|unique:admins',
             'email' => 'bail|required|email:rfc,dns|unique:users',
             'gender' => 'bail|required|alpha',
             'phone' => ['required',

@@ -54,12 +54,20 @@
                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                             @enderror
                                         </div>
+                                        <div class="form-group col">
+                                            <label for="">National ID</label>
+                                            <input type="number" name="national_id" class="form-control @error('national_id') is-invalid @enderror"
+                                                   placeholder="Enter National Id *" value="{{ old('national_id') }}" aria-label required>
+                                            @error('national_id')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
                                         @if($user === "Seller")
                                             <div class="form-group col">
                                                 <label for="">Username</label>
                                                 <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
                                                        placeholder="Enter username *" value="{{ old('username') }}" aria-label required>
-                                                @error('email')
+                                                @error('username')
                                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                                 @enderror
                                             </div>

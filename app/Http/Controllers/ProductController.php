@@ -129,8 +129,7 @@ class ProductController extends Controller
         return null;
     }
 
-    public function addToCart(Request $req): Redirector|RedirectResponse|Application
-    {
+    public function addToCart(Request $req): Redirector|RedirectResponse|Application {
         if($req->isMethod('POST')) {
             $data = $req->all();
             $details = array();
@@ -195,7 +194,7 @@ class ProductController extends Controller
         }
 
         $message = "Item Added to Cart!";
-        return redirect('/cart')->with('alert', [
+        return back()->with('alert', [
             'type' => 'success',
             'intro' => 'Success! ',
             'message' => $message,

@@ -94,7 +94,7 @@
                                                                     @endif
                                                                 </div>
                                                                 <div class="col button">
-                                                                    <a href="#" class='btn btn-block btn-outline-primary add'>
+                                                                    <a href="{{ route('product-details', ['id' => $item['id'], 'title' => preg_replace("/\s+/", "", $item['title'])]) }}" class='btn btn-block btn-outline-primary add'>
                                                                         <i class='fas fa-cart-plus'></i> Add
                                                                     </a>
                                                                 </div>
@@ -167,7 +167,7 @@
                                                                     @endif
                                                                 </div>
                                                                 <div class="col button">
-                                                                    <a href='' class='btn btn-block btn-outline-primary add'>
+                                                                    <a href="{{ route('product-details', ['id' => $item['id'], 'title' => preg_replace("/\s+/", "", $item['title'])]) }}" class='btn btn-block btn-outline-primary add'>
                                                                         <i class='fas fa-cart-plus'></i> Add
                                                                     </a>
                                                                 </div>
@@ -231,7 +231,7 @@
                                                                         @endif
                                                                     </div>
                                                                     <div class="col button">
-                                                                        <a href='' class='btn btn-block btn-outline-primary add'>
+                                                                        <a href="{{ route('product-details', ['id' => $item['id'], 'title' => preg_replace("/\s+/", "", $item['title'])]) }}" class='btn btn-block btn-outline-primary add'>
                                                                             <i class='fas fa-cart-plus'></i> Add
                                                                         </a>
                                                                     </div>
@@ -303,7 +303,7 @@
                                                                     @endif
                                                                 </div>
                                                                 <div class="col button">
-                                                                    <a href='' class='btn btn-block btn-outline-primary add'>
+                                                                    <a href="{{ route('product-details', ['id' => $item['id'], 'title' => preg_replace("/\s+/", "", $item['title'])]) }}" class='btn btn-block btn-outline-primary add'>
                                                                         <i class='fas fa-cart-plus'></i> Add
                                                                     </a>
                                                                 </div>

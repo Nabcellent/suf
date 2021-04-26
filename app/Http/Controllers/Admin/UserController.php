@@ -64,6 +64,7 @@ class UserController extends Controller
             $request->validate([
                 'first_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
                 'last_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
+                'national_id' => 'bail|required|digits:8|unique:admins',
                 'email' => 'required|email:rfc,dns|unique:users',
                 'gender' => 'required|alpha',
                 'phone' => ['required',

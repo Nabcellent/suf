@@ -4,7 +4,7 @@
 
     <div class="container-fluid p-0">
         <div class="row">
-            <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+            <div class="col-md col-sm-12 mb-4">
                 <a href="{{ route('admin.products') }}" class="card-link">
                     <div class="card-body shadow">
                         <div class="row no-gutters align-items-center">
@@ -24,7 +24,27 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+            <div class="col-md col-sm-12 mb-4">
+                <a href="{{ route('admin.orders') }}" class="card-link text-danger">
+                    <div class="card-body shadow">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Orders</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <span class="badge badge-pill badge-danger">{{ tableCount()['orders'] }}</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-tasks fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="card border-danger">
+                </div>
+            </div>
+
+            <div class="col-md col-sm-12 mb-4">
                 <a href="{{ route('admin.customers') }}" class="text-success card-link">
                     <div class="card-body shadow">
                         <div class="row no-gutters align-items-center">
@@ -43,54 +63,38 @@
                 <div class="card border-success shadow">
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
-                <a href="{{ route('admin.orders') }}" class="card-link text-warning">
-                    <div class="card-body shadow">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orders</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-warning">{{ tableCount()['orders'] }}</span>
+
+            @if(isSuper() || isRed())
+                <div class="col-md col-sm-12 mb-4">
+                    <a href="{{ route('admin.sellers') }}" class="card-link text-info">
+                        <div class="card-body shadow">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <span class="badge badge-pill badge-info">{{ tableCount()['sellers'] }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-tag fa-2x text-gray-300"></i>
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-tasks fa-2x text-gray-300"></i>
-                            </div>
                         </div>
+                    </a>
+                    <div class="card border-info shadow">
                     </div>
-                </a>
-                <div class="card border-warning">
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
-                <a href="{{ route('admin.sellers') }}" class="card-link text-info">
-                    <div class="card-body shadow">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-info">{{ tableCount()['sellers'] }}</span>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user-tag fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <div class="card border-info shadow">
-                </div>
-            </div>
+            @endif
         </div>
 
-        <div class="row chart mb-4">
+        <div id="chart" class="row mb-4">
             <div class="col">
-                <div class="card p-2 shadow-lg">
+                <div class="card text-light p-3 chart_frame">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days" role="tab" aria-controls="nav-days" aria-selected="true">Days</a>
-                            <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" role="tab" aria-controls="nav-months" aria-selected="false">Months</a>
-                            <div class="position-absolute" style="right: 1rem;">
+                            <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days"  aria-controls="nav-days" aria-selected="true">Per Day</a>
+                            <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" aria-controls="nav-months" aria-selected="false">Per Month</a>
+                            <div class="position-absolute" style="right: 2rem;">
                                 <div class="row justify-content-end">
                                     <div class="col-auto d-flex align-items-center">
                                         <div>
@@ -103,13 +107,15 @@
                                                 <label class="custom-control-label" for="orders">Orders</label>
                                             </div>
                                             <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input chart-toggle" id="customers" name="Customer" value="Customer" checked>
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="customers" name="Customer" value="Customer">
                                                 <label class="custom-control-label" for="customers">Customers</label>
                                             </div>
-                                            <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input chart-toggle" id="sellers" name="Seller" value="Seller">
-                                                <label class="custom-control-label" for="sellers">Sellers</label>
-                                            </div>
+                                            @if(isSuper() || isRed())
+                                                <div class="custom-control custom-switch custom-control-inline">
+                                                    <input type="checkbox" class="custom-control-input chart-toggle" id="sellers" name="Seller" value="Seller">
+                                                    <label class="custom-control-label" for="sellers">Sellers</label>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -131,6 +137,7 @@
                         <div class="tab-pane fade show active" id="nav-days" role="tabpanel" aria-labelledby="nav-days-tab">
                             <div class="card-body">
                                 <canvas id="dayChart" width="100%" height="30"></canvas>
+                                <canvas id="blank" style="display:none"></canvas>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-months" role="tabpanel" aria-labelledby="nav-months-tab">
@@ -145,8 +152,8 @@
 
         <div class="row">
             <div class="col-xl-7 col-lg-6 col-md-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card crud_card shadow mb-4">
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-danger">New Orders</h6>
                         <div class="dropdown no-arrow">
                             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -201,9 +208,9 @@
             </div>
 
             <div class="col-xl-5 col-lg-6 col-md-12">
-                <div class="card shadow mb-4">
+                <div class="card crud_card shadow mb-4">
                     <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

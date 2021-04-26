@@ -79,6 +79,10 @@
                                                     <td colspan="3">{{ currencyFormat($order['discount']) }}/=</td>
                                                 </tr>
                                             @endif
+                                            <tr class="border-0">
+                                                <th colspan="4" class="text-right">GRAND TOTAL:</th>
+                                                <td colspan="3">{{ currencyFormat($order['total']) }}/=</td>
+                                            </tr>
 
                                             </tbody>
                                         </table>

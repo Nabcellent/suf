@@ -6,7 +6,9 @@ use App\Http\Middleware\Admin;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use App\Http\Middleware\Red;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\Super;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
@@ -85,6 +87,8 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
 
-        'admin' => Admin::class
+        'red' => Red::class,
+        'super' => Super::class,
+        'admin' => Admin::class,
     ];
 }
