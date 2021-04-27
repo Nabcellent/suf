@@ -46,7 +46,11 @@ function isSuper(): bool {
     return false;
 }
 function isAdmin(): bool {
-    return User()->is_admin === 1;
+    if(Auth::check()) {
+        return User()->is_admin === 1;
+    }
+
+    return false;
 }
 
 

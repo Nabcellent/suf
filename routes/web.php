@@ -28,11 +28,11 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-/*Route::get('/', function() {
+Route::get('/', function() {
     return view('temporary');
-});*/
+});
 
-
+/*
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -193,7 +193,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
 
 
 
