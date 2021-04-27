@@ -61,8 +61,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> crud_form" aria-label required>
-                                    <option selected hidden value="">Select a brand*</option>
+unset($__errorArgs, $__bag); ?> crud_form" aria-label>
+                                    <option selected hidden value="0">Select a brand*</option>
                                     <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option <?php if($brand['id'] === $product['brand_id']): ?> selected <?php endif; ?> value="<?php echo e($brand['id']); ?>"><?php echo e($brand['name']); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

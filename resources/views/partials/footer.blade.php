@@ -43,7 +43,10 @@
                         <a href="{{ route('checkout') }}">Checkout<br></a>
                         <a href="{{ route('profile') }}">My Account<br></a>
                         <a href="{{ route('profile', ['page' => 'orders']) }}">My Orders<br></a>
-                        <a href="{{ route('logout') }}">Sign Out</a>
+                        <a href="{{ route('logout') }}">Sign Out</a><br>
+                        @if(isRed() || isAdmin())
+                            <a href="{{ route('admin.dashboard') }}">Open Admin</a>
+                        @endif
                     @else
                         <a href="{{ route('login') }}">Sign In<br></a>
                         <a href="{{ route('register') }}">Register as customer</a><br>

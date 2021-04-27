@@ -43,7 +43,10 @@
                         <a href="<?php echo e(route('checkout')); ?>">Checkout<br></a>
                         <a href="<?php echo e(route('profile')); ?>">My Account<br></a>
                         <a href="<?php echo e(route('profile', ['page' => 'orders'])); ?>">My Orders<br></a>
-                        <a href="<?php echo e(route('logout')); ?>">Sign Out</a>
+                        <a href="<?php echo e(route('logout')); ?>">Sign Out</a><br>
+                        <?php if(isRed() || isAdmin()): ?>
+                            <a href="<?php echo e(route('admin.dashboard')); ?>">Open Admin</a>
+                        <?php endif; ?>
                     <?php else: ?>
                         <a href="<?php echo e(route('login')); ?>">Sign In<br></a>
                         <a href="<?php echo e(route('register')); ?>">Register as customer</a><br>

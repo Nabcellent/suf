@@ -86,14 +86,16 @@ function trendingCategories(): Collection|array {
 function tableCount(): array {
     if(isSeller()) {
         $products = Product::where('seller_id', Auth::id())->count();
+        $orders = Order::getSellerOrders()->count();
     } else {
         $products = Product::all()->count();
+        $orders = Order::all()->count();
     }
 
     return [
         'products' => $products,
         'categories' => Category::whereNotNull('section_id')->count(),
-        'orders' => Order::all()->count(),
+        'orders' => $orders,
         'customers' => User::where('is_admin', 0)->count(),
         'sellers' => Admin::where('type', 'Seller')->count(),
         'admins' => Admin::where('type', 'Super')->count(),

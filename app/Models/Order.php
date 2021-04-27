@@ -60,6 +60,11 @@ class Order extends Model
         return $this->hasMany(OrdersLog::class);
     }
 
+    public function sellersOrders(): HasMany
+    {
+        return $this->hasMany(OrdersProduct::class)->has('loggedSeller');
+    }
+
 
 
     /**
@@ -70,5 +75,8 @@ class Order extends Model
     }
     public static function usersOrders() {
         return self::where('user_id', Auth::id())->with('orderProducts');
+    }
+    public static function getSellerOrders() {
+        return self::whereHas('sellersOrders')->with('sellersOrders', 'user', 'phone');
     }
 }

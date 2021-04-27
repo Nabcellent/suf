@@ -40,6 +40,7 @@
 
                                         <?php if($item['seller']['seller']['user_id'] === Auth::id() || isRed()): ?>
                                             <td class="text-center" style="font-size: 14pt">
+                                                <h5>
                                                 <?php if($item['status']): ?>
                                                     <a class="update_status" data-id="<?php echo e($item['id']); ?>" data-model="Product" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
@@ -47,6 +48,7 @@
                                                     <a class="update_status" data-id="<?php echo e($item['id']); ?>" data-model="Product" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 <?php endif; ?>
+                                                </h5>
                                             </td>
                                             <td class="action">
                                                 <a href="<?php echo e(url('/admin/product/' . $item['id'])); ?>" class="ml-2" title="view">
@@ -70,18 +72,20 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="<?php echo e(route('admin.categories')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Categories<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['admins']); ?></span>
-                            </a>
                             <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Orders<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['orders']); ?></span>
                             </a>
-                            <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Brands<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['brands']); ?></span>
-                            </a>
-                            <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
-                            </a>
+                            <?php if(isRed() || isSuper()): ?>
+                                <a href="<?php echo e(route('admin.orders')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Brands<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['brands']); ?></span>
+                                </a>
+                                <a href="<?php echo e(route('admin.categories')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Categories<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['admins']); ?></span>
+                                </a>
+                                <a href="<?php echo e(route('admin.sellers')); ?>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Sellers<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['sellers']); ?></span>
+                                </a>
+                            <?php endif; ?>
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Quantity Sold<span class="badge badge-primary badge-pill"><?php echo e(tableCount()['qtySold']); ?></span>
                             </a>

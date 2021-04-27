@@ -13,56 +13,38 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class ChartController extends Controller
-{
+class ChartController extends Controller {
     public string $model;
 
-    /**
-     * @throws \Exception
-     */
-    function getAllDates(): array {
-        $daysArr = [];
-        $monthsArr = [];
-
-        $Dates = $this->model::orderBy('created_at')->pluck('created_at')->toArray();
-
-        if(!empty($Dates)) {
-            foreach($Dates as $date) {
-                $day = Carbon::parse($date)->format('D');
-                $dayNo = Carbon::parse($date)->format('d');
-                $month = Carbon::parse($date)->format('M');
-                $monthNo = Carbon::parse($date)->format('m');
-
-                $daysArr[$dayNo] = $day;
-                $monthsArr[$monthNo] = $month;
-            }
-        }
-
-        return array('days' => $daysArr, 'months' => $monthsArr);
-    }
-
-
     function getCount($day = null, $month = null): array {
-        //  Where Day/Month/Year/Time/Date --- --- --- --- --- --- --- --- --- --- LARAVEL WHERE FUNCTIONS
         $day = (!$day) ? Carbon::now()->format('d') : $day;
         $month = (!$month) ? Carbon::now()->format('m') : $month;
 
         if($this->model === "Customer") {
-            $dailyCount = User::where('is_admin', 0)->whereDay('created_at', $day)->count();
-            $monthlyCount = User::where('is_admin', 0)->whereMonth('created_at', $month)->count();
+            $dailyCount = User::where('is_admin', 0);
+            $monthlyCount = User::where('is_admin', 0);
         } else if($this->model === "Seller") {
-            $dailyCount = Admin::where('type', "Seller")->whereDay('created_at', $day)->count();
-            $monthlyCount = Admin::where('type', "Seller")->whereMonth('created_at', $month)->count();
+            $dailyCount = Admin::where('type', "Seller");
+            $monthlyCount = Admin::where('type', "Seller");
+        } else if(isSeller()) {
+            if($this->model === Order::class) {
+                $dailyCount = Order::getSellerOrders();
+                $monthlyCount = Order::getSellerOrders();
+            } else if($this->model === Product::class) {
+                $dailyCount = Product::where('seller_id', Auth::id());
+                $monthlyCount = Product::where('seller_id', Auth::id());
+            }
         } else {
-            $dailyCount = $this->model::whereDay('created_at', $day)->count();
-            $monthlyCount = $this->model::whereMonth('created_at', $month)->count();
+            $dailyCount = $this->model::query();
+            $monthlyCount = $this->model::query();
         }
 
         return [
-            'dailyCount' => $dailyCount,
-            'monthlyCount' => $monthlyCount
+            'dailyCount' => $dailyCount->whereDay('created_at', $day)->count(),
+            'monthlyCount' => $monthlyCount->whereMonth('created_at', $month)->count()
         ];
     }
 
@@ -126,25 +108,19 @@ class ChartController extends Controller
 
     public function getLastSevenDays(): array {
         $period = CarbonPeriod::create(now()->subDays(6), now());
-        $dates = [
-            'byNum' => [],
-            'byName' => [],
-        ];
+        $days = [];
 
         foreach ($period as $date) {
-            $dates['byNum'][] = $date->format('d');
-            $dates['byName'][] = $date->format('D');
+            $days['byNum'][] = $date->format('d');
+            $days['byName'][] = $date->format('D');
         }
 
-        return $dates;
+        return $days;
     }
 
     public function getLastThreeMonths(): array {
         $period = CarbonPeriod::create(now()->subMonths(2), '1 month', now());
-        $dates = [
-            'byNum' => [],
-            'byName' => [],
-        ];
+        $dates = [];
 
         foreach ($period as $date) {
             $dates['byNum'][] = $date->format('m');

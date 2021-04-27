@@ -54,8 +54,8 @@
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Brand</label>
-                                <select name="brand" class="form-control @error('brand') is-invalid @enderror crud_form" aria-label required>
-                                    <option selected hidden value="">Select a brand*</option>
+                                <select name="brand" class="form-control @error('brand') is-invalid @enderror crud_form" aria-label>
+                                    <option selected hidden value="0">Select a brand*</option>
                                     @foreach($brands as $brand)
                                         <option @if($brand['id'] === $product['brand_id']) selected @endif value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
                                     @endforeach

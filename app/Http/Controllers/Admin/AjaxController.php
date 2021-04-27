@@ -89,7 +89,7 @@ class AjaxController extends Controller
     public function updateStatus(Request $request): JsonResponse {
         $data = $request->all();
 
-        $table = $this->getModel($data['model']);
+        $table = getModel($data['model']);
         $model = $table::find($data['id']);
         $model->status = (Str::lower($data['status']) === "active") ? 0 : 1;
         $model->save();

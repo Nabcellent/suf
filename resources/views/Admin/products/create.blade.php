@@ -38,8 +38,8 @@
                                         </div>
                                         <div class="form-group col">
                                             <label for="" class="m-0">Brand</label>
-                                            <select name="brand" class="form-control @error('brand') is-invalid @enderror " aria-label required>
-                                                <option selected hidden value="">Select a brand*</option>
+                                            <select name="brand" class="form-control @error('brand') is-invalid @enderror " aria-label>
+                                                <option selected hidden value="0">Select a brand*</option>
                                                 @foreach($brands as $brand)
                                                     <option value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
                                                 @endforeach

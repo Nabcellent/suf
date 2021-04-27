@@ -15,7 +15,11 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function showOrders(): Factory|View|Application {
-        $orders = Order::orders()->get()->toArray();
+        if(isSeller()) {
+            $orders = Order::getSellerOrders()->get()->toArray();
+        } else {
+            $orders = Order::orders()->get()->toArray();
+        }
 
         return view('Admin.Orders.list')->with(compact('orders'));
     }
