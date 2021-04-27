@@ -52,7 +52,7 @@ class ProductController extends Controller
             }
 
             if(isset($_GET['sort']) && !empty($_GET['sort'])) {
-                if($_GET['sort'] === "newest") {//
+                if($_GET['sort'] === "newest") {
                     $query->orderByDesc('products.id');
                 } elseif($_GET['sort'] === "oldest") {
                     $query->orderBy('products.id');
