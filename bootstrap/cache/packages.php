@@ -77,13 +77,6 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-  'renatomarinho/laravel-page-speed' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'RenatoMarinho\\LaravelPageSpeed\\ServiceProvider',
-    ),
-  ),
   'spatie/laravel-query-builder' => 
   array (
     'providers' => 

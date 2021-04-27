@@ -27,13 +27,6 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace;
-use RenatoMarinho\LaravelPageSpeed\Middleware\DeferJavascript;
-use RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes;
-use RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss;
-use RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch;
-use RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes;
-use RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls;
 
 class Kernel extends HttpKernel
 {
@@ -68,15 +61,6 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-
-            //  LARAVEL PAGE SPEED MIDDLEWARE
-            InlineCss::class,
-            ElideAttributes::class,
-            InsertDNSPrefetch::class,
-            CollapseWhitespace::class,
-            //TrimUrls::class,
-            //RemoveQuotes::class,
-            DeferJavascript::class,
         ],
 
         'api' => [

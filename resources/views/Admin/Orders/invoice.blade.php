@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('/css/font-awesome/css/all.min.css') }}">
 
     <link href="{{ asset('css/Admin/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/Admin/invoice.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/invoice.css') }}" rel="stylesheet">
 </head>
 <body class="nav_body">
 
