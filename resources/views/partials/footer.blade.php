@@ -31,7 +31,7 @@
                 <p>Email Address - <a href="#">email@gmail.com</a></p>
                 <p>Name - <a href="#"></a>Some Developer</p>
                 <div class="dropdown-divider"></div>
-                <p><a href="{{url('contact')}}">Contact Us</a></p>
+                <p><a href="{{ route('contact_us') }}">Contact Us</a></p>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <!--    Start UserSeeder Section    -->

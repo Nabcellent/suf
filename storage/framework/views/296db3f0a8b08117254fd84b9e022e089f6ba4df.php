@@ -21,7 +21,7 @@
                 <p><a href="<?php echo e(route('products')); ?>">Our Products</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="<?php echo e(url('https://strathmore.edu/')); ?>">Strathmore University Website</a></p>
-                <p><a href="<?php echo e(url('https://elearning.strathmore.edu/')); ?>">e-learning System</a></p>
+                <p><a href="<?php echo e(url('https://elearning.strathmore.edu/')); ?>">E-learning System</a></p>
                 <p><a href="<?php echo e(url('https://su-sso.strathmore.edu/susams')); ?>">AMS Students' Module</a></p>
                 <!--    End Important Links    -->
             </div>
@@ -31,7 +31,7 @@
                 <p>Email Address - <a href="#">email@gmail.com</a></p>
                 <p>Name - <a href="#"></a>Some Developer</p>
                 <div class="dropdown-divider"></div>
-                <p><a href="<?php echo e(url('contact')); ?>">Contact Us</a></p>
+                <p><a href="<?php echo e(route('contact_us')); ?>">Contact Us</a></p>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <!--    Start UserSeeder Section    -->

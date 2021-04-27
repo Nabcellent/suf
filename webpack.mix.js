@@ -11,6 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+/*mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+    .sourceMaps();*/
+
+mix.styles([
+    'public/css/app.css',
+    'public/css/responsive.css',
+    'public/css/about.css',
+    'public/css/invoice.css'
+], 'public/css/all.css')
+    .js([
+        'public/js/main.js',
+        'public/js/Global.js',
+        'public/js/swiper.js',
+        'public/js/fetch.js',
+        'public/js/JqueryValidation.js',
+        'public/js/sweetAlert.js',
+        'public/js/search.js',
+        'public/js/jquery.nice-number.js'
+    ], 'public/js/all.js')
+

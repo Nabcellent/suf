@@ -163,6 +163,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+        RenatoMarinho\LaravelPageSpeed\ServiceProvider::class,
         GoogleDriveServiceProvider::class,
 
         /*

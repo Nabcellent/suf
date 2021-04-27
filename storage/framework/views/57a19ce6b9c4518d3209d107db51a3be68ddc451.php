@@ -68,7 +68,7 @@
                             </li>
                         <?php endif; ?>
                         <li><a href="<?php echo e(route('about-us')); ?>" class="nav_link">About</a></li>
-                        <li><a href="<?php echo e(route('contact-us')); ?>" class="nav_link">Contact Us</a></li>
+                        <li><a href="<?php echo e(route('contact_us')); ?>" class="nav_link">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>

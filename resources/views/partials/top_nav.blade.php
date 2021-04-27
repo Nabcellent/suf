@@ -68,7 +68,7 @@
                             </li>
                         @endif
                         <li><a href="{{ route('about-us') }}" class="nav_link">About</a></li>
-                        <li><a href="{{ route('contact-us') }}" class="nav_link">Contact Us</a></li>
+                        <li><a href="{{ route('contact_us') }}" class="nav_link">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>

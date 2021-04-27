@@ -28,11 +28,11 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
+});*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -41,10 +41,10 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
     Route::namespace('Auth')->group(function(){
         //Login Routes
         Route::get('/sign-in', [Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('login');
+        Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('post_login');
         //Register Routes
         Route::get('/register', [Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-        Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('register');
+        Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('post_register');
     });
     Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
@@ -84,7 +84,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
         //  MATCH ROUTES
-        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('category');
+        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('put_post_category');
         Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
         Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
 
@@ -179,8 +179,8 @@ Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQ
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
 //  ABOUT / CONTACT / TERMS & CONDITIONS
-Route::get('/contact', [ContactUsController::class, 'showContactUsForm'])->name('contact-us');
-Route::post('/contact', [ContactUsController::class, 'sendEmail'])->name('contact-us');
+Route::get('/contact-us', [ContactUsController::class, 'showContactUsForm'])->name('contact_us');
+Route::post('/contact-us', [ContactUsController::class, 'sendEmail'])->name('post_contact_us');
 Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm'])->name('policies');
 Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
 
@@ -193,7 +193,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 

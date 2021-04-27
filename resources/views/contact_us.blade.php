@@ -104,7 +104,7 @@
                 <div class="col-lg-7 col-md-12">
                     <div class="card">
                         <div class="card-body anime_card">
-                            <form id="contact_us" class="anime_form" action="{{ route('contact-us') }}" method="POST">
+                            <form id="contact_us" class="anime_form" action="{{ route('post_contact_us') }}" method="POST">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 col-sm-12">
