@@ -36,7 +36,7 @@ class ProductController extends Controller
             if(isset($data['categoryId'])) {
                 $catDetails = Category::categoryDetails($data['categoryId']);
                 $query->whereIn('products.category_id', $catDetails['catIds']);
-            }//
+            }
 
             if($req->has('category')) {
                 $query->whereIn('categories.category_id', $data['category']);
