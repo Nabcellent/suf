@@ -305,7 +305,7 @@ class ProductController extends Controller
         $option->stock = $request->stock;
         $option->save();
 
-        $message = "Your $option->variant $categoryTitle stock has been Set.";
+        $message = "Your $option->variant $categoryTitle stock has been Set to $option->stock.";
         return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 }

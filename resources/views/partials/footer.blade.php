@@ -21,7 +21,7 @@
                 <p><a href="{{route('products')}}">Our Products</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="{{ url('https://strathmore.edu/') }}">Strathmore University Website</a></p>
-                <p><a href="{{ url('https://elearning.strathmore.edu/') }}">e-learning System</a></p>
+                <p><a href="{{ url('https://elearning.strathmore.edu/') }}">E-learning System</a></p>
                 <p><a href="{{ url('https://su-sso.strathmore.edu/susams') }}">AMS Students' Module</a></p>
                 <!--    End Important Links    -->
             </div>

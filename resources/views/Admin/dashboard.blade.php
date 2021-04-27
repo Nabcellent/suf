@@ -168,7 +168,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pt-0">
                         <div class="table-responsive">
                             <table class="table table-striped table-borderless table-hover">
                                 <thead>

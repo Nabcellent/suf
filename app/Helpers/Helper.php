@@ -80,8 +80,14 @@ function trendingCategories(): Collection|array {
 
 //  COUNT FUNCTIONS
 function tableCount(): array {
+    if(isSeller()) {
+        $products = Product::where('seller_id', Auth::id())->count();
+    } else {
+        $products = Product::all()->count();
+    }
+
     return [
-        'products' => Product::all()->count(),
+        'products' => $products,
         'categories' => Category::whereNotNull('section_id')->count(),
         'orders' => Order::all()->count(),
         'customers' => User::where('is_admin', 0)->count(),
