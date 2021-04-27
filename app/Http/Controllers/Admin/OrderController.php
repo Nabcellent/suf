@@ -57,7 +57,7 @@ class OrderController extends Controller
 
     public function showInvoice($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
-
+//
         return view('Admin.Orders.invoice')->with(compact('order'));
     }
 
