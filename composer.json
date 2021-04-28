@@ -22,8 +22,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "nexmo/laravel": "^2.4",
-        "spatie/laravel-query-builder": "^3.3"
+        "nexmo/laravel": "^2.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
@@ -65,9 +64,7 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan optimize",
-            "@php artisan config:cache",
-            "@php artisan view:clear"
+            "@php artisan optimize:clear"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
