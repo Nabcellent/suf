@@ -1000,7 +1000,7 @@ nav ul.pagination {
     background-color: rgba(0, 0, 0, 1);
 }
 #cart .box_footer .btn-outline-success {
-    background-color: rgba(79, 170, 90, .8);
+    background-color: rgba(100, 255, 150, .9);
     color: rgb(0, 0, 0);
 }
 #cart .box_footer .btn-outline-success:hover {

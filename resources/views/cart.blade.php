@@ -82,7 +82,7 @@
                                                 <a href="{{url('/products')}}" class="btn btn-outline-dark"><i class="fas fa-chevron-left"></i> Continue Shopping</a>
                                             </div>
                                             <div class="float-right">
-                                                <a href="{{route('checkout')}}" class="btn btn-outline-success">Checkout <i class="fas fa-chevron-right"></i></a>
+                                                <a href="{{route('checkout')}}" class="btn btn-outline-success shadow">Checkout <i class="fas fa-chevron-right"></i></a>
                                             </div>
                                         </div>
                                         <!--    End Box Footer    -->
