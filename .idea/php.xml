@@ -138,7 +138,6 @@
       <path value="$PROJECT_DIR$/vendor/league/flysystem-cached-adapter" />
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-query-builder" />
-      <path value="$PROJECT_DIR$/vendor/renatomarinho/laravel-page-speed" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
