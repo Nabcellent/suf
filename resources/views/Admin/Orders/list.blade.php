@@ -17,7 +17,6 @@
                                     <th scope="col">Phone</th>
                                     <th scope="col">Pay Method</th>
                                     <th scope="col">Pay Type</th>
-                                    <th scope="col">Discount</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Order Date</th>
@@ -32,7 +31,6 @@
                                     <td>{{ $order['phone']['phone'] }}</td>
                                     <td>{{ $order['payment_method'] }}</td>
                                     <td>{{ $order['payment_type'] }}</td>
-                                    <td>{{ $order['discount'] }}</td>
                                     <td>{{ $order['total'] }}</td>
                                     <td>{{ $order['status'] }}</td>
                                     <td>{{ date('d~m~y', strtotime($order['created_at'])) }}</td>
