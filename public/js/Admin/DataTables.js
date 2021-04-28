@@ -21,7 +21,7 @@ const productDataTable = $('#products_table').DataTable({
     }, {
         searchable: false,
         orderable: false,
-        targets: 9
+        targets: 8 || 9
     }],
     createdRow: function(row, data) {
         if(data[5].replace(/[$,]/g, '') * 1 > 1000) {
@@ -34,7 +34,7 @@ const productDataTable = $('#products_table').DataTable({
 productDataTable.on( 'order.dt search.dt', function () {
     productDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
         cell["innerHTML"] = i+1;
-    } );
+    });
 }).draw();
 
 

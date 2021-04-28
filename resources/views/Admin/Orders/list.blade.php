@@ -66,16 +66,15 @@
                                 Create Product
                             </a>
                             <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Products<span class="badge badge-primary badge-pill">14</span>
+                                Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
-                            <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
-                            </a>
+                            @if(isRed() || isSuper())
+                                <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
+                                </a>
+                            @endif
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Quantity Sold<span class="badge badge-primary badge-pill">{{ tableCount()['qtySold'] }}</span>
-                            </a>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Remaining stock<span class="badge badge-primary badge-pill">37</span>
                             </a>
                         </div>
                     </div>

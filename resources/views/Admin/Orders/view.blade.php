@@ -143,9 +143,13 @@
                                             <td>{{ $item['product']['seller']['seller']['username'] }}</td>
                                             <td>
                                                 <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
-                                                @foreach($detailsArr as $key => $value)
-                                                    <p class="m-0">{{ $key }}: {{ $value }}</p>
-                                                @endforeach
+                                                @empty($detailsArr)
+                                                        <p class="m-0">---</p>
+                                                @else
+                                                        @foreach($detailsArr as $key => $value)
+                                                            <p class="m-0">{{ $key }}: {{ $value }}</p>
+                                                        @endforeach
+                                                @endif
                                             </td>
                                             <td>{{ $item['quantity'] }}</td>
                                             <td>{{ $item['final_unit_price'] }}</td>

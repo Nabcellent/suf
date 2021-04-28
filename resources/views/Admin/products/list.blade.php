@@ -16,7 +16,9 @@
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Title</th>
-                                    <th>Seller</th>
+                                    @if(!isSeller())
+                                        <th>Seller</th>
+                                    @endif
                                     <th>Date</th>
                                     <th>Price</th>
                                     <th>Discount</th>
@@ -33,7 +35,9 @@
                                         <td></td>
                                         <td><img src="{{ asset('/images/products/' . $item['main_image']) }}" alt="product" class="img-fluid"></td>
                                         <td class="title">{{ $item['title'] }}</td>
-                                        <td>{{ $item['seller']['seller']['username'] }}</td>
+                                        @if(!isSeller())
+                                            <td>{{ $item['seller']['seller']['username'] }}</td>
+                                        @endif
                                         <td class="text-nowrap">{{ date('d.m.Y', strtotime($item['created_at'])) }}</td>
                                         <td class="text-center">{{ $item['base_price'] }}</td>
                                         <td class="text-center">{{ $item['discount'] }}%</td>
