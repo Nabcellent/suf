@@ -28,9 +28,13 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+Route::any('/', function() {
     return view('temporary');
-});
+})->name('suspended');
+
+Route::get('{anyExceptRoot}', function() {
+    return redirect()->route('suspended');
+})->where('anyExceptRoot', '.*');
 
 /*
 Auth::routes(['verify' => true]);
