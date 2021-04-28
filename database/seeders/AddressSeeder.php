@@ -29,6 +29,9 @@ class AddressSeeder extends Seeder
             ],[
                 'user_id' => 2,
                 'sub_county_id' => 317,
+            ],[
+                'user_id' => 3,
+                'sub_county_id' => 313,
             ]
         ]);
     }
