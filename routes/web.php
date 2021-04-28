@@ -28,9 +28,9 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::get('/', function() {
+/*Route::get('/', function() {
     return view('temporary');
-});
+});*/
 
 
 Auth::routes(['verify' => true]);
