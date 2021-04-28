@@ -3,26 +3,24 @@
 
     <div class="container-fluid p-0">
         <div class="row">
-            <div class="col-9">
+            <div class="col-6">
                 <div class="card crud_table shadow mb-4">
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Customers</h6>
+                        <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> SU-F Contacts</h6>
                         @if(isRed())
-                            <button class="btn btn-outline-info">Add Customer</button>
+                            <button class="btn btn-outline-info">Add Phone</button>
                         @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-borderless table-hover crud_table" id="customers_table">
+                            <table class="table table-striped table-borderless table-hover crud_table" id="phones_table">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
-                                    <th>email</th>
                                     <th>phone</th>
-                                    <th>gender</th>
-                                    <th>Orders</th>
+                                    <th>provider</th>
+                                    <th>Owner</th>
+                                    <th>Role</th>
                                     @if(!isSeller())
                                         <th>Status</th>
                                     @endif
@@ -32,35 +30,42 @@
 
                                 <tbody>
 
-                                @if(tableCount()['customers'] > 0)
-                                    @foreach($customers as $customer)
+                                @if(tableCount()['phones'] > 0)
+                                    @foreach($phones as $phone)
                                         <tr>
                                             <td></td>
-                                            <td>{{ $customer['first_name'] }}</td>
-                                            <td>{{ $customer['last_name'] }}</td>
-                                            <td>{{ $customer['email'] }}</td>
-                                            <td>{{ $customer['primary_phone']['phone'] }}</td>
-                                            <td>{{ $customer['gender'] }}</td>
-                                            <td>{{ $customer['orders_count'] }}</td>
+                                            <td>{{ $phone['phone'] }}</td>
+                                            <td class="bg-dark">
+                                                @if(preg_match('/^(0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})$/i', $phone['phone']))
+                                                    Safaricom
+                                                @elseif(preg_match('/^(0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})$/i', $phone['phone']))
+                                                    Airtel
+                                                @elseif(preg_match('/^(0)?(77[0-6][0-9]{6})$/', $phone['phone']))
+                                                    Orange
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
+                                            <td>{{ $phone['user']['last_name'] }} {{ $phone['user']['first_name'] }}</td>
+                                            <td>{{ ($phone['user']['is_admin'] === 1) ? 'Admin' : 'Customer' }}</td>
                                             @if(!isSeller())
-                                                <td style="font-size: 14pt">
+                                                <td class="text-center" style="font-size: 14pt">
 
-                                                    @if($customer['status'])
-                                                        <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
+                                                    @if($phone['status'])
+                                                        <a class="update_status" data-id="{{ $phone['id'] }}" data-model="User" title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
+                                                        <a class="update_status" data-id="{{ $phone['id'] }}" data-model="User" title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
 
                                                 </td>
                                             @endif
                                             <td class="action">
-                                                <a href="#" class="mx-2" title="Modify"><i class="fas fa-envelope text-light"></i></a>
                                                 <a href="#" class="mx-2" title="Modify"><i class="fas fa-paper-plane text-primary"></i></a>
                                                 @if(!isSeller())
                                                     <a href="#" class="mx-2" title="Modify"><i class="fas fa-pen text-success"></i></a>
-                                                    <a href="#" class="mx-2 delete-from-table" title="Remove" data-id="{{ $customer['id'] }}" data-model="User">
+                                                    <a href="#" class="mx-2 delete-from-table" title="Remove" data-id="{{ $phone['id'] }}" data-model="User">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 @endif

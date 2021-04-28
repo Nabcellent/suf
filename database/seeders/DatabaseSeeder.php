@@ -23,14 +23,13 @@ class DatabaseSeeder extends Seeder
             PhoneSeeder::class,
             AddressSeeder::class,
             /*AttributeSeeder::class,
+            BannerSeeder::class,
             CategorySeeder::class,*/
             ProductSeeder::class,
             /*VariationSeeder::class,
             VariationsOptionSeeder::class,
             ProductsImageSeeder::class,
             BrandSeeder::class,
-            AdBoxSeeder::class,
-            BannerSeeder::class,
             CouponSeeder::class,*/
             OrderSeeder::class,
             /*PolicySeeder::class,*/

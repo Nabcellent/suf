@@ -41,7 +41,8 @@ class Admin extends Authenticatable implements MustVerifyEmail
      */
 
     public function user(): belongsTo {
-        return $this->belongsTo(User::class)->with('products')->withCount('products')->with('primaryPhone');
+        return $this->belongsTo(User::class)
+            ->with('products')->withCount('products', 'orders')->with('primaryPhone');
     }
 
 

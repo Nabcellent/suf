@@ -483,11 +483,45 @@ label.error {
 }
 #chart .nav-link {
     color: rgb(100,100,255);
+    padding: .2rem .5rem;
 }
 #chart .nav-link.active {
     color: #900;
     background-color: var(--body-color);
 }
+#chart .data_options {
+    position: absolute;
+    right: 2rem;
+}
+#chart .data_options .input-group select,
+#chart .data_options label {
+    font-size: var(--small-font-size);
+}
+#chart .custom-switch.custom-control-inline {
+    padding: 0 0 0 2rem;
+}
+#chart .data_options label.custom-control-label::before {
+    transform: scale(.8);
+}
+#chart .data_options label.custom-control-label::before {
+    left: -2rem;
+}
+#chart .data_options label.custom-control-label::after {
+    left: calc(-2rem + 2px);
+}
+#chart .data_options .input-group select,
+#chart .data_options .input-group label,
+#chart .data_options .input-group-append {
+    height: 1.7rem;
+}
+#chart .data_options .input-group label.input-group-text {
+    padding: .5rem .5rem;
+}
+#chart .data_options .input-group select {
+    padding: 0 .5rem;
+    min-width: 7rem;
+}
+
 
 
 
@@ -602,7 +636,7 @@ table.crud_table tr td img {
 table.crud_table tr td.action {
     font-size: 1rem;
     height: 100%;
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .8);
 }
 table.crud_table tr td.action i:hover {
     color: rgba(120, 120, 120, 1)!important;
@@ -709,7 +743,7 @@ label.crud_form.file::after {
 }
 .card.crud_box .box .card-header .action {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: .7rem;
 }
 .card.crud_box .box .card-header .action i {
@@ -724,6 +758,18 @@ label.crud_form.file::after {
             'image'
             'desc';
     padding: .5rem .7rem;
+}
+.text_orange {
+    color: rgb(255, 150, 0);
+}
+.btn_orange {
+    color: #000;
+    border-color: rgb(255, 150, 0);
+    background-color: rgb(255, 150, 0);
+}
+.btn_outline_orange {
+    color: rgb(255, 150, 0);
+    border-color: rgb(255, 150, 0);
 }
 
 

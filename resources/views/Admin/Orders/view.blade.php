@@ -13,12 +13,15 @@
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Order Details</h6>
                                         <div>
                                             <span class="m-0" >#{{ $order['id'] }}</span>
-                                            <a href="{{ route('admin.invoice', ['id' => $order['id']]) }}" class="ml-2 btn btn-outline-light" title="View Invoice" target="_blank">
-                                                <i class="fas fa-file-invoice"></i> Invoice
-                                            </a>
-                                            <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-outline-light">
-                                                <i class="fa fa-file-pdf"></i> Generate PDF
-                                            </a>
+
+                                            @if(!isSeller())
+                                                <a href="{{ route('admin.invoice', ['id' => $order['id']]) }}" class="ml-2 btn btn-outline-light" title="View Invoice" target="_blank">
+                                                    <i class="fas fa-file-invoice"></i> Invoice
+                                                </a>
+                                                <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-outline-light">
+                                                    <i class="fa fa-file-pdf"></i> Generate PDF
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -125,11 +128,14 @@
                                             <th scope="col">Image</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Brand</th>
-                                            <th scope="col">Seller</th>
+                                            @if(!isSeller())
+                                                <th scope="col">Seller</th>
+                                            @endif
                                             <th scope="col">Details</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Unit Price</th>
                                             <th scope="col">Sub-Total</th>
+                                            <th scope="col">Ready?</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -137,10 +143,12 @@
                                         @foreach($order['order_products'] as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('storage/images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
+                                            <td><img src="{{ asset('images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
                                             <td><a href="{{ route('admin.product', ['id' => $item['id']]) }}">{{ $item['product']['title'] }}</a></td>
                                             <td>{{ $item['product']['brand']['name'] }}</td>
-                                            <td>{{ $item['product']['seller']['seller']['username'] }}</td>
+                                            @if(!isSeller())
+                                                <td>{{ $item['product']['seller']['seller']['username'] }}</td>
+                                            @endif
                                             <td>
                                                 <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
                                                 @empty($detailsArr)
@@ -154,6 +162,12 @@
                                             <td>{{ $item['quantity'] }}</td>
                                             <td>{{ $item['final_unit_price'] }}</td>
                                             <td>{{ $item['final_unit_price'] * $item['quantity'] }}</td>
+                                            <td class="action">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item['id'] }}">
+                                                    <label class="custom-control-label" for="ready{{ $item['id'] }}"></label>
+                                                </div>
+                                            </td>
                                         </tr>
                                         @endforeach
 
@@ -173,20 +187,16 @@
                             <div class="card-body">
                                 <div class="list-group list-group-flush">
                                     <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        All Orders<span class="badge badge-primary badge-pill">7</span>
+                                        All Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                                     </a>
                                     <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Products<span class="badge badge-primary badge-pill">14</span>
+                                        Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                                     </a>
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Quantity Sold<span class="badge badge-primary badge-pill">17</span>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Remaining stock<span class="badge badge-primary badge-pill">37</span>
-                                    </a>
-                                    <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Categories<span class="badge badge-primary badge-pill">13</span>
-                                    </a>
+                                    @if(!isSeller())
+                                        <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

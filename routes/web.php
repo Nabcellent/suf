@@ -28,15 +28,15 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::any('/', function() {
+/*Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -56,6 +56,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/', function() {return redirect()->route('admin.dashboard');});
         Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
 
+        ///////  E-COMMERCE
         //  Products Routes
         Route::get('/products', [Admin\ProductController::class,'showProducts'])->name('products');
         Route::get('/products/create', [Admin\ProductController::class, 'showProductForm'])->name('create-product');
@@ -63,7 +64,11 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         Route::get('/categories', [Admin\CategoryController::class, 'showCategories'])->name('categories');
         Route::get('/category/{id?}', [Admin\CategoryController::class, 'showCategoryForms'])->name('category');
+        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('post_put_category');
+        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
+
         Route::get('/coupons', [Admin\CouponController::class, 'showCoupons'])->name('coupons');
+        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
         Route::get('/attributes', [Admin\AttributeController::class, 'showAttributes'])->name('attributes');
 
         //  Overview Routes
@@ -74,11 +79,14 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/payments')->name('payments');
 
         //  Content Routes
-        Route::match(['GET', 'POST', 'PUT'],'/banners/{id?}', [Admin\PageContentController::class, 'getCreateUpdateBanners'])->name('banners');
-        Route::match(['GET', 'POST', 'PUT'],'/ads/{id?}', [Admin\PageContentController::class, 'getCreateUpdateAds'])->name('ads');
+        Route::match(['GET', 'POST', 'PUT'],'/banners', [Admin\PageContentController::class, 'getCreateUpdateBanners'])->name('banners');
         Route::match(['GET', 'POST', 'PUT'],'/policies/{id?}', [Admin\PageContentController::class, 'getCreateUpdatePolicies'])->name('policies');
 
-        //  Users Routes
+        ///////  APPS
+        /// Contacts
+        Route::get('/contacts', [Admin\AppController::class, 'showContacts'])->name('contacts');
+
+        ///////  USERS
         Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
         Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers')->middleware('super');
         Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins')->middleware('red');
@@ -86,11 +94,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  Admin Routes
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
-
-        //  MATCH ROUTES
-        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('post_put_category');
-        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
-        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
 
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
@@ -198,7 +201,7 @@ Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
 Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
-*/
+
 
 
 

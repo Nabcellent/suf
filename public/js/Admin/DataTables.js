@@ -267,6 +267,42 @@ brandDataTable.on( 'order.dt search.dt', function () {
 }).draw();
 
 
+/*_____________________  PHONES  _____________________*/
+
+const phoneDataTable = $('#phones_table').DataTable({
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    order: [[0, 'ASC']],
+    language: {
+        info: 'Number of phones: _MAX_',
+        infoFiltered:   "(filtered _TOTAL_ brands)",
+        search: "_INPUT_",
+        searchPlaceholder: "Search phone"
+    },
+    columnDefs: [
+        { searchable: false, orderable: false, targets: 0 },
+        { searchable: false, orderable: false, targets: 2 }
+    ],
+    createdRow: function(row, data) {
+        const provider = data[2];
+        if(provider.toLowerCase() === 'safaricom') {
+            $('td', row).eq(2).addClass('text-success');
+        } else if(provider.toLowerCase() === 'airtel') {
+            $('td', row).eq(2).addClass('text-danger');
+        } else if(provider.toLowerCase() === 'orange') {
+            $('td', row).eq(2).addClass('text_orange');
+        } else {
+            $('td', row).eq(2).addClass('text-light');
+        }
+    }
+});
+phoneDataTable.on( 'order.dt search.dt', function () {
+    phoneDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell["innerHTML"] = i+1;
+    } );
+}).draw();
+
+
 /*_____________________  PAYMENTS  _____________________*/
 
 const paymentDataTable = $('#payments_table').DataTable({

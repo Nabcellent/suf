@@ -139,124 +139,128 @@
 
         <!--    Start Product Info    -->
 
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Product Details</a>
-                @if(count($related) > 0)
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Related Products</a>
-                @endif
-            </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div id="products_like">
-                    <div class="row like_title">
-                        <div class="col">
-                            <h3>Product Information</h3>
-                            <hr class="bg-light my-0">
-                        </div>
+        <div class="row">
+            <div class="col">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Product Details</a>
+                        @if(count($related) > 0)
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Related Products</a>
+                        @endif
                     </div>
-                </div>
-                <table class="table table-dark table-hover">
-                    <thead>
-                    <tr><th scope="col" colspan="2">Details</th></tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">Brand</th>
-                        <td>{{$details['brand']['name']}}</td>
-                    </tr>
-                    @if(count($details['variations']) > 0)
-                        @foreach($details['variations'] as  $variation)
-                            <?php
-                            $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR));
-                            $variationOption = json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)[$variationName];
-                            ?>
-                            <tr>
-                                <th scope="row">{{$variationName}}</th>
-                                @if(is_array($variationOption))
-                                <td>{{implode(', ', $variationOption)}}</td>
-                                @else
-                                    <td>{{$variationOption}}</td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    @endif
-                    <tr>
-                        <th scope="row">Seller</th>
-                        <td>{{$details['seller']['seller']['username']}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            @if(count($related) > 0)
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <!--    Start Products you may Like    -->
-
-                    <div id="products_like" class="row">
-                        <div class="col">
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div id="products_like">
                             <div class="row like_title">
                                 <div class="col">
-                                    <h3>Products you may Like</h3>
+                                    <h3>Product Information</h3>
                                     <hr class="bg-light my-0">
                                 </div>
                             </div>
+                        </div>
+                        <table class="table table-dark table-hover">
+                            <thead>
+                            <tr><th scope="col" colspan="2">Details</th></tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">Brand</th>
+                                <td>{{$details['brand']['name']}}</td>
+                            </tr>
+                            @if(count($details['variations']) > 0)
+                                @foreach($details['variations'] as  $variation)
+                                    <?php
+                                    $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR));
+                                    $variationOption = json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)[$variationName];
+                                    ?>
+                                    <tr>
+                                        <th scope="row">{{$variationName}}</th>
+                                        @if(is_array($variationOption))
+                                            <td>{{implode(', ', $variationOption)}}</td>
+                                        @else
+                                            <td>{{$variationOption}}</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            @endif
+                            <tr>
+                                <th scope="row">Seller</th>
+                                <td>{{$details['seller']['seller']['username']}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                            <div class="row mb-2">
-                                <div id="results" class="col column">
+                    @if(count($related) > 0)
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <!--    Start Products you may Like    -->
 
-                                    <!--    Start Single ProductSeeder    -->
-                                    @foreach($related as $item)
-                                        <div class="card">
-                                            <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
-                                                @if(isset($item['main_image']))
-                                                    <?php $image_path = 'images/products/' . $item['main_image']; ?>
-                                                @else
-                                                    <?php $image_path = ''; ?>
-                                                @endif
-                                                @if(!empty($item['main_image']) && file_exists($image_path))
-                                                    <img src="{{asset($image_path)}}" alt="Product image">
-                                                @else
-                                                    <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
-                                                @endif
-                                            </a>
-                                            <div class="card-body">
-                                                <h6 class="card-title"><a href="">{{$item['title']}}</a></h6>
-                                                <div class="d-flex justify-content-center">
-                                                    <hr class="col-7 m-0">
-                                                </div>
-                                                <p class="m-0 text-center text-secondary">{{$item['brand']['name']}}</p>
-                                                <div class="row">
-                                                    <div class="col prices">
-                                                        <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
-                                                        @if($discountPrice > 0)
-                                                            <p>{{$discountPrice}}/=</p><br>
-                                                            <del class="text-secondary">{{$item['base_price']}}/=</del>
-                                                        @else
-                                                            <p>{{$item['base_price']}}/=</p>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col button">
-                                                        <a href="" class="btn btn-block btn-outline-primary add">
-                                                            <i class="fas fa-cart-plus"></i> +
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="product_label {{strtolower($item['label'])}}">
-                                                <span class="label">{{$item['label']}}</span>
-                                            </a>
+                            <div id="products_like" class="row">
+                                <div class="col">
+                                    <div class="row like_title">
+                                        <div class="col">
+                                            <h3>Products you may Like</h3>
+                                            <hr class="bg-light my-0">
                                         </div>
-                                    @endforeach
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div id="results" class="col column">
+
+                                            <!--    Start Single ProductSeeder    -->
+                                            @foreach($related as $item)
+                                                <div class="card">
+                                                    <a href="{{url('/product/' . $item['id'] . '/' . preg_replace("/\s+/", "", $item['title']))}}">
+                                                        @if(isset($item['main_image']))
+                                                            <?php $image_path = 'images/products/' . $item['main_image']; ?>
+                                                        @else
+                                                            <?php $image_path = ''; ?>
+                                                        @endif
+                                                        @if(!empty($item['main_image']) && file_exists($image_path))
+                                                            <img src="{{asset($image_path)}}" alt="Product image">
+                                                        @else
+                                                            <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                        @endif
+                                                    </a>
+                                                    <div class="card-body">
+                                                        <h6 class="card-title"><a href="">{{$item['title']}}</a></h6>
+                                                        <div class="d-flex justify-content-center">
+                                                            <hr class="col-7 m-0">
+                                                        </div>
+                                                        <p class="m-0 text-center text-secondary">{{$item['brand']['name']}}</p>
+                                                        <div class="row">
+                                                            <div class="col prices">
+                                                                <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                                                @if($discountPrice > 0)
+                                                                    <p>{{$discountPrice}}/=</p><br>
+                                                                    <del class="text-secondary">{{$item['base_price']}}/=</del>
+                                                                @else
+                                                                    <p>{{$item['base_price']}}/=</p>
+                                                                @endif
+                                                            </div>
+                                                            <div class="col button">
+                                                                <a href="" class="btn btn-block btn-outline-primary add">
+                                                                    <i class="fas fa-cart-plus"></i> +
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" class="product_label {{strtolower($item['label'])}}">
+                                                        <span class="label">{{$item['label']}}</span>
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!--    End Products you may Like    -->
                         </div>
-                    </div>
-                    <!--    End Products you may Like    -->
-                </div>
-            @endif
+                    @endif
 
+                </div>
+            </div>
         </div>
         <!--    End Product Info    -->
 

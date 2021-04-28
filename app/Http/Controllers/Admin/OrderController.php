@@ -25,7 +25,8 @@ class OrderController extends Controller
     }
 
     public function showOrder($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('user', 'phone', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
+        $order = Order::where('id', $id)
+            ->with('user', 'phone', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
 
         return view('Admin.Orders.view')->with(compact('order'));
     }

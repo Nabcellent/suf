@@ -5,14 +5,14 @@
             <div id="carousel_indicators" class="carousel slide header_carousel" data-ride="carousel" data-interval="2000">
                 <ol class="carousel-indicators">
 
-                    @foreach($banners as $key => $item)
+                    @foreach($banners['sliders'] as $key => $item)
                         <li data-target="#carousel_indicators" data-slide-to="{{$key}}" @if($loop -> first) class="active" @endif></li>
                     @endforeach
 
                 </ol>
                 <div class="carousel-inner">
 
-                    @foreach($banners as $banner)
+                    @foreach($banners['sliders'] as $banner)
                         <div class="carousel-item @if($loop -> first) active @endif">
                             <a @if(!empty($banner['link'])) href="{{url($banner['link'])}}" @else href="javascript:void(0)" @endif>
                                 <img src="{{asset('/images/banners/' . $banner["image"])}}" class='d-block w-100' alt="{{$banner['alt']}}" title="{{$banner['title']}}">

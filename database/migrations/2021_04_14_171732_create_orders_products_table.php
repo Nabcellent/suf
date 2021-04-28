@@ -20,6 +20,7 @@ class CreateOrdersProductsTable extends Migration
             $table->json('details');
             $table->integer('quantity');
             $table->float('final_unit_price');
+            $table->tinyInteger('is_ready')->default(0);
             $table->timestamps();
         });
     }

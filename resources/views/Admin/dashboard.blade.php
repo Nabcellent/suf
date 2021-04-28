@@ -88,15 +88,15 @@
         </div>
 
         <div id="chart" class="row mb-4">
-            <div class="col">
+            <div class="col-9">
                 <div class="card text-light p-3 chart_frame">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days"  aria-controls="nav-days" aria-selected="true">Per Day</a>
                             <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" aria-controls="nav-months" aria-selected="false">Per Month</a>
-                            <div class="position-absolute" style="right: 2rem;">
+                            <div class="data_options">
                                 <div class="row justify-content-end">
-                                    <div class="col-auto d-flex align-items-center">
+                                    <div class="col-auto pr-0 d-flex align-items-center">
                                         <div>
                                             <div class="custom-control custom-switch custom-control-inline">
                                                 <input type="checkbox" class="custom-control-input chart-toggle" id="products" name="Product" value="Product" checked>
@@ -118,7 +118,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-auto">
+                                    <div class="col-auto pl-0">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="inputGroupSelect01">Chart</label>
@@ -148,64 +148,70 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3 d-flex align-items-center">
+                <img src="{{ asset('images/illustrations/undraw_statistic_chart_38b6.svg') }}" alt="">
+            </div>
         </div>
 
         <div class="row">
-            <div class="col-xl-7 col-lg-6 col-md-12">
-                <div class="card crud_card shadow mb-4">
-                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-danger">New Orders</h6>
-                        <div class="dropdown no-arrow">
-                            <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v text-danger"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
-                                <div class="dropdown-header">Order Options</div>
-                                <a class="dropdown-item" href="{{ route('admin.orders') }}">View All Orders</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+            @if(count($newOrders) > 0)
+                <div class="col-xl-7 col-lg-6 col-md-12">
+                    <div class="card crud_card shadow mb-4">
+                        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-danger">New Orders</h6>
+                            <div class="dropdown no-arrow">
+                                <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v text-danger"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                                    <div class="dropdown-header">Order Options</div>
+                                    <a class="dropdown-item" href="{{ route('admin.orders') }}">View All Orders</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-borderless table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Customer Email</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Payment Method</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Order Date</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                @foreach($newOrders as $order)
-                                    <?php $statusColor = ($order['status'] === 'pending') ? 'danger' : 'success' ?>
+                        <div class="card-body pt-0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-borderless table-hover">
+                                    <thead>
                                     <tr>
-                                        <td>{{ $order['id'] }}</td>
-                                        <td>{{ $order['user']['email'] }}</td>
-                                        <td>{{ $order['phone']['phone'] }}</td>
-                                        <td>{{ $order['payment_method'] }}</td>
-                                        <td>{{ $order['total'] }}</td>
-                                        <td>
-                                            <span class="badge badge-pill badge-{{ $statusColor }}">{{ $order['status'] }}</span>
-                                        </td>
-                                        <td>{{ date('M d, Y', strtotime($order['created_at'])) }}</td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Customer Email</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Order Date</th>
                                     </tr>
-                                @endforeach
+                                    </thead>
 
-                                </tbody>
-                            </table>
+                                    <tbody>
+
+                                    @foreach($newOrders as $order)
+                                        <?php $statusColor = ($order['status'] === 'pending') ? 'danger' : 'success' ?>
+                                        <tr>
+                                            <td>{{ $order['id'] }}</td>
+                                            <td>{{ $order['user']['email'] }}</td>
+                                            <td>{{ $order['phone']['phone'] }}</td>
+                                            <td>{{ $order['payment_method'] }}</td>
+                                            <td>{{ $order['total'] }}</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-{{ $statusColor }}">{{ $order['status'] }}</span>
+                                            </td>
+                                            <td>{{ date('M d, Y', strtotime($order['created_at'])) }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a href="{{ route('admin.orders') }}" class="nav-link text-right pb-0"> view all</a>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <div class="col-xl-5 col-lg-6 col-md-12">
                 <div class="card crud_card shadow mb-4">

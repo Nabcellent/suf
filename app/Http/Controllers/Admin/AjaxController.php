@@ -108,6 +108,11 @@ class AjaxController extends Controller
             if(File::exists(public_path('images/users/profile/' . $imageName))){
                 File::delete(public_path('images/users/profile/' . $imageName));
             }
+        } else if($model === 'Banner') {
+            $imageName = getModel($model)::find($id)->image;
+            if(File::exists(public_path('images/banners/' . $imageName))){
+                File::delete(public_path('images/banners/' . $imageName));
+            }
         }
 
         DB::transaction(function() use ($id, $model) {

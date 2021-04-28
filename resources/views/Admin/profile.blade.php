@@ -44,10 +44,17 @@
                                                 <input type="text" class="form-control border-0" id="last_name" name="last_name" value="{{ $admin['user']['last_name'] }}" required>
                                             </div>
                                         </div>
-                                        <div></div>
-                                        <div class="form-group">
-                                            <label class="mb-0" for="email_address">Email Address</label>
-                                            <input type="email" class="form-control border-0" id="email_address" name="email_address" value="{{ $admin['user']['email'] }}" required>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label class="mb-0" for="email_address">Email Address</label>
+                                                <input type="email" class="form-control border-0" name="email_address" value="{{ $admin['user']['email'] }}" required>
+                                            </div>
+                                            @if(isSeller())
+                                                <div class="form-group col">
+                                                    <label class="mb-0" for="email_address">Username</label>
+                                                    <input type="text" class="form-control border-0" name="username" value="{{ $admin['username'] }}" required>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="form-group">
                                             <label class="mb-0" for="phone_number">Phone Number</label>

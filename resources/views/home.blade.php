@@ -13,11 +13,11 @@
                 <div class="container">
                     <div class="row">
 
-                        @foreach($adBoxes as $item)
+                        @foreach($banners['ads'] as $item)
                             <div class="col p-3 box_section">
                                 <div class="card mb-2 text-black rounded shadow" style="max-width:25rem">
-                                    <a href="{{ $item['url'] }}">
-                                        <img class="card-img" src="{{ asset('/images/box_section/' . $item['image']) }}" alt="Image">
+                                    <a href="{{ $item['link'] }}">
+                                        <img class="card-img" src="{{ asset('/images/banners/' . $item['image']) }}" alt="Image">
                                         <div class="card-img-overlay text-left">
                                             <h2 class="card-title">{{$item['title']}}</h2>
                                             <p class="card-text">{{$item['description']}}</p>

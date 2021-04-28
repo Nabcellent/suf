@@ -108,7 +108,6 @@
                             <div class="nav_dropdown_collapse">
                                 <div class="nav_dropdown_content">
                                     <a href="{{ route('admin.banners') }}" class="nav_dropdown_item">Banners</a>
-                                    <a href="{{ route('admin.ads') }}" class="nav_dropdown_item">Ads</a>
                                     <a href="{{ route('admin.policies') }}" class="nav_dropdown_item">Policies</a>
                                 </div>
                             </div>
@@ -119,7 +118,7 @@
                 <div class="nav_items">
                     <h3 class="nav_subtitle">Apps</h3>
                     <div class="dropdown-divider m-0"></div>
-                    <a href="#" class="nav_link">
+                    <a href="{{ route('admin.contacts') }}" class="nav_link">
                         <i class='bx bxs-contact nav_icon' ></i>
                         <span class="nav_name">Contacts</span>
                     </a>

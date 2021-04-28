@@ -24,4 +24,14 @@ class Coupon extends Model
         'amount',
         'expiry',
     ];
+
+    /**
+     * RELATIONSHIP FUNCTIONS
+     */
+
+
+
+    /**
+     * STATIC FUNCTIONS
+     */
 }

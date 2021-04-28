@@ -77,20 +77,35 @@ $(() => {
     });
 
     /*__________________________________________  Set Banner To Create/Update  _____________________*/
-    let $bannerForm = $('#add_banner_modal form');
+    let $bannerForm = $('form.create_banner');
 
-    $(document).on('click', '#btn_add_banner', () => {
-        $bannerForm.attr('action', '/content/banners');
+    $(document).on('click', '.btn_add_banner', function() {
+        $('input[name="_method"]').remove();
+
+        $bannerForm.trigger('reset');
+        $('.create_banner input[name="image"]').attr('required', true)
+            .next('.custom-file-label').html("Choose Image");
+        $('.create_banner img').attr('src', '');
+        $('.create_banner textarea[name="description"]').html('');
+
+        $('.modal-title').html('Create ' + $(this).attr('data-modal-title'));
+        $('button.submit').html('Create');
     });
     $(document).on('click', '#banners .update_banner', function() {
-        $('#update_banner_modal #banner_id').val($(this).attr('data-id'));
-        $('#update_banner_modal #current_image').val($(this).attr('data-image'));
-        $('#update_banner_modal input[name="title"]').val($(this).attr('data-title'));
-        $('#update_banner_modal input[name="link"]').val($(this).attr('data-link'));
-        $('#update_banner_modal input[name="alt"]').val($(this).attr('data-alt'));
-        $('#update_banner_modal input[name="description"]').val($(this).attr('data-description'));
+        $bannerForm.prepend('<input type="hidden" name="_method" value="PUT">');
 
-        $('#update_banner_modal img').attr('src', '/images/banners/' + $(this).attr('data-image'));
+        $('.create_banner .banner_id').val($(this).attr('data-id'));
+        $('.create_banner input[name="image"]').attr('required', false)
+            .next('.custom-file-label').html($(this).attr('data-image'));
+        $('.create_banner input[name="title"]').val($(this).attr('data-title'));
+        $('.create_banner input[name="link"]').val($(this).attr('data-link'));
+        $('.create_banner input[name="alt"]').val($(this).attr('data-alt'));
+        $('.create_banner textarea[name="description"]').html($(this).attr('data-description'));
+
+        $('.create_banner img').attr('src', '/images/banners/' + $(this).attr('data-image'));
+
+        $('.modal-title').html('Update ' + $(this).attr('data-modal-title'));
+        $('button.submit').html('Update');
     });
 
 

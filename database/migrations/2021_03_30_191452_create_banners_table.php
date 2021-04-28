@@ -20,6 +20,7 @@ class CreateBannersTable extends Migration
             $table->string('link')->nullable();
             $table->string('alt')->nullable()->default('banner-image');
             $table->string('description')->nullable();
+            $table->enum('type', ['Slider', 'Box']);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

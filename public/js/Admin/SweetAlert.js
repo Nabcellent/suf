@@ -44,3 +44,42 @@ const deleteFromTable = (id, model) => {
         }
     });
 }
+
+
+$(document).on('click', '#order-view .is_ready', function() {
+    if(this.checked) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Is this product ready?',
+            text: "Please confirm this action!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, it is!',
+            cancelButtonText: 'No, not yet!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                this.checked = false;
+
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Action aborted :)',
+                    'error'
+                )
+            }
+        })
+    }
+})

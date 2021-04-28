@@ -30,7 +30,7 @@ $(() => {
 
             $(response.data.tables).each(function () {
                 let bgColor, borderColor;
-                let gradient = dayChartCanvas.getContext('2d').createLinearGradient(0, 0, 0, 500);
+                let gradient = dayChartCanvas.getContext('2d').createLinearGradient(0, 0, 0, 400);
                 switch(this.modelName) {
                     case 'Products': {
                         borderColor = 'rgba(0,123,255, 7)'

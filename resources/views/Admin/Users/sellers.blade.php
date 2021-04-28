@@ -22,6 +22,8 @@
                                 <th>email</th>
                                 <th>Phone</th>
                                 <th>Products</th>
+                                <th>Orders</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -42,6 +44,7 @@
                                         <td>{{ $seller['user']['email'] }}</td>
                                         <td>{{ $seller['user']['primary_phone']['phone'] }}</td>
                                         <td class="text-primary">{{ $seller['user']['products_count'] }}</td>
+                                        <td>{{ $seller['user']['orders_count'] }}</td>
                                         <td style="font-size: 14pt">
 
                                             @if($seller['user']['status'])

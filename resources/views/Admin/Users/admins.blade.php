@@ -20,6 +20,7 @@
                                     <th>Last name</th>
                                     <th>email</th>
                                     <th>Phone</th>
+                                    <th>Orders</th>
                                     <th>Date Created</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -40,6 +41,7 @@
                                             <td>{{ $admin['user']['last_name'] }}</td>
                                             <td>{{ $admin['user']['email'] }}</td>
                                             <td>{{ $admin['user']['primary_phone']['phone'] }}</td>
+                                            <td>{{ $admin['user']['orders_count'] }}</td>
                                             <td>{{ date('d.m.Y', strtotime($admin['user']['created_at'])) }}</td>
                                             <td style="font-size: 14pt">
 
@@ -53,7 +55,7 @@
 
                                             </td>
                                             <td class="action">
-                                                <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                                <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-success"></i></a>
                                                 <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $admin['user_id'] }}" data-model="User">
                                                     <i class="fas fa-trash text-danger"></i>
                                                 </a>

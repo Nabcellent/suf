@@ -53,7 +53,19 @@ class Order extends Model
 
     public function orderProducts(): HasMany
     {
-        return $this->hasMany(OrdersProduct::class)->with('product');
+        $orderProducts = $this->hasMany(OrdersProduct::class);
+
+        if(isSeller()) {
+            $orderProducts->whereHas('product', function($query) {
+                $query->where('seller_id', Auth::id());
+            })->with(['product' => function($query) {
+                $query->where('seller_id', Auth::id());
+            }]);
+        } else {
+            $orderProducts->with('product');
+        }
+
+        return $orderProducts;
     }
 
     public function orderLogs(): HasMany {

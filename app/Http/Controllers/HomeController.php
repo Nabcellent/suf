@@ -46,11 +46,10 @@ class HomeController extends Controller
 
         //  Get banners & Ad boxes
         $banners = Banner::getBanners();
-        $adBoxes = AdBox::all();
 
         //dd($newGentsProducts);
         return View('home')
-            ->with(compact('pageTitle','banners', 'adBoxes', 'featuredProducts', 'featuredProductsCount'))
+            ->with(compact('pageTitle','banners', 'featuredProducts', 'featuredProductsCount'))
             ->with(compact('newGents', 'newLadies', 'topProducts'));
     }
 }

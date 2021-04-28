@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrdersProduct;
+use App\Models\Phone;
 use App\Models\Product;
 use App\Models\productsImage;
 use App\Models\User;
@@ -100,6 +101,7 @@ function tableCount(): array {
         'sellers' => Admin::where('type', 'Seller')->count(),
         'admins' => Admin::where('type', 'Super')->count(),
         'brands' => Brand::all()->count(),
+        'phones' => Phone::all()->count(),
         'qtySold' => Order::where('status', 'Conpleted')->count()
     ];
 }
