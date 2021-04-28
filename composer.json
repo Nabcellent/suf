@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "8.0.*",
-        "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
         "doctrine/dbal": "^3.0",
@@ -23,8 +22,8 @@
         "laravel/ui": "^3.0",
         "nao-pon/flysystem-google-drive": "~1.1",
         "nexmo/laravel": "^2.4",
-        "renatomarinho/laravel-page-speed": "^2.0",
-        "spatie/laravel-query-builder": "^3.3"
+        "spatie/laravel-query-builder": "^3.3",
+        "ext-curl": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
@@ -66,9 +65,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan optimize",
-            "@php artisan config:cache",
-            "@php artisan view:clear"
+            "@php artisan cache:clear",
+            "@php artisan view:clear",
+            "@php artisan route:clear"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
