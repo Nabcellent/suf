@@ -46,40 +46,87 @@ const deleteFromTable = (id, model) => {
 }
 
 
+
+/**=== === === === === === === === === === === === === === === === === === === === ===  CONFIRM ORDER READY  */
+
 $(document).on('click', '#order-view .is_ready', function() {
+    const id = this.value;
+    let title, confirmBtnTxt, cancelBtnTxt;
+
     if(this.checked) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
+        title = 'Is this product ready?';
+        confirmBtnTxt = 'Yes, it is!';
+        cancelBtnTxt = 'No, not yet!';
 
-        swalWithBootstrapButtons.fire({
-            title: 'Is this product ready?',
-            text: "Please confirm this action!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, it is!',
-            cancelButtonText: 'No, not yet!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                this.checked = false;
+        fireSweet(id, true, title, confirmBtnTxt, '#28A745', cancelBtnTxt, '#900', this);
+    } else {
+        title = 'Are you sure this product isn\'t ready?';
+        confirmBtnTxt = 'Yes, I am!';
+        cancelBtnTxt = 'No, scratch that!';
 
-                swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Action aborted :)',
-                    'error'
-                )
-            }
-        })
+        fireSweet(id, false, title, confirmBtnTxt, '#3085d6', cancelBtnTxt, '#900', this);
     }
-})
+});
+
+function fireSweet(id, checked, title, confirmBtnTxt, confirmColor, cancelBtnTxt, cancelColor, element) {
+    Swal.fire({
+        title: title,
+        text: "Please confirm this action!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: confirmBtnTxt,
+        cancelButtonText: cancelBtnTxt,
+        confirmButtonColor: confirmColor,
+        cancelButtonColor: cancelColor,
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if(checked) {
+                sendOrderReadyAjax(id, 1);
+            } else {
+                sendOrderReadyAjax(id, 0);
+            }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            element.checked = !checked;
+
+            Swal.fire(
+                'Cancelled',
+                'Action aborted :)',
+                'error'
+            )
+        }
+    })
+}
+
+function sendOrderReadyAjax(id, ready) {
+    $.ajax({
+        url: '/admin/order-ready/' + id + '/' + ready,
+        type: 'PATCH',
+        statusCode: {
+            200: function(responseObject, textStatus, errorThrown) {
+                if(responseObject.status) {
+                    Swal.fire(
+                        'Done!',
+                        responseObject.message,
+                        'success'
+                    );
+                } else {
+                    Swal.fire(
+                        'Sorry!',
+                        'Something went wrong.',
+                        'error'
+                    );
+                }
+            },
+            500: function(responseObject, textStatus, errorThrown) {
+                console.log(errorThrown);
+                alert("Something went wrong!");
+                return false;
+            }
+        },
+        error: () => {
+            alert("Error");
+            return false;
+        }
+    });
+}

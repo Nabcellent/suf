@@ -164,7 +164,7 @@
                                             <td>{{ $item['final_unit_price'] * $item['quantity'] }}</td>
                                             <td class="action">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item['id'] }}">
+                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item['id'] }}" value="{{ $item['id'] }}" @if($item['is_ready']) checked @endif>
                                                     <label class="custom-control-label" for="ready{{ $item['id'] }}"></label>
                                                 </div>
                                             </td>

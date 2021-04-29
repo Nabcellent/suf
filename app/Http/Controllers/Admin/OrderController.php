@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrdersLog;
+use App\Models\OrdersProduct;
 use Dompdf\Dompdf;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -83,5 +84,24 @@ class OrderController extends Controller
         $dompdf->stream();
 
         return view('Admin.invoice')->with(compact('order'));
+    }
+
+
+    public function orderReady(Request $request, $id, $checked) {
+        if($request->ajax()) {
+            $orderProduct = OrdersProduct::find($id);
+
+            $orderProduct->is_ready = $checked;
+            $orderProduct->save();
+
+            if($orderProduct->is_ready) {
+                $message = 'Your order is now ready.';
+            } else {
+                $message = 'Your order is no longer ready.';
+            }
+            return response()->json(['status' => true, 'message' => $message]);
+        }
+
+        return accessDenied();
     }
 }

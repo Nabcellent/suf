@@ -91,4 +91,16 @@ class Order extends Model
     public static function getSellerOrders() {
         return self::whereHas('sellersOrders')->with('sellersOrders', 'user', 'phone');
     }
+
+    public static function orderProductsReady($orderId): bool {
+        $orderCollection = collect(Order::find($orderId)->orderProducts()->get()->toArray());
+
+        if($orderCollection->isEmpty()) {
+            return false;
+        }
+
+        return $orderCollection->every(function($value) {
+            return $value['is_ready'] === 1;
+        });
+    }
 }

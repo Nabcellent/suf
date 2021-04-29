@@ -1,5 +1,6 @@
 @extends('Admin.layouts.app')
 @section('content')
+    <?php use App\Models\Order ?>
 
     <div class="container-fluid p-0">
         <div class="row">
@@ -19,6 +20,9 @@
                                     <th scope="col">Pay Type</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
+                                    @if(!isSeller())
+                                        <th scope="col">Ready?</th>
+                                    @endif
                                     <th scope="col">Order Date</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -33,6 +37,15 @@
                                     <td>{{ $order['payment_type'] }}</td>
                                     <td>{{ $order['total'] }}</td>
                                     <td>{{ $order['status'] }}</td>
+                                    @if(!isSeller())
+                                        <td>
+                                            @if((Order::orderProductsReady($order['id'])))
+                                                <h5 class="text-success"><i class="fas fa-thumbs-up"></i></h5>
+                                            @else
+                                                <h5 class="text-info"><i class="far fa-thumbs-down"></i></h5>
+                                            @endif
+                                        </td>
+                                    @endif
                                     <td>{{ date('d~m~y', strtotime($order['created_at'])) }}</td>
                                     <td class="action" style="background-color: #1a202c">
                                         <a href="{{ route('admin.order', ['id' => $order['id']]) }}" class="ml-2" title="view Order">

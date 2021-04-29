@@ -27,16 +27,16 @@ use App\Http\Controllers\PolicyController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -74,6 +74,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  Overview Routes
         Route::get('/orders', [Admin\OrderController::class, 'showOrders'])->name('orders');
         Route::get('/order/{id}', [Admin\OrderController::class, 'showOrder'])->name('order');
+        Route::patch('/order-ready/{id}/{checked}', [Admin\OrderController::class, 'orderReady']);
         Route::get('/invoice/{id}', [Admin\OrderController::class, 'showInvoice'])->name('invoice');
         Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'processInvoicePDF'])->name('invoice-pdf');
         Route::get('/payments')->name('payments');
@@ -200,7 +201,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 
