@@ -1,14 +1,3 @@
-<?php
-
-if($user['gender'] ==='Male') {
-    $gender = 'Male';
-    $genderIcon = '<i class="bx bx-male-sign"></i>';
-}else {
-    $gender = 'Female';
-    $genderIcon = "<i class='bx bx-female-sign'></i>";
-}
-
-?>
 
 <div id="edit-profile" class="card">
 
@@ -51,8 +40,8 @@ if($user['gender'] ==='Male') {
                 <div class="form-group col">
                     <label>Gender</label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend"><span class="input-group-text"><?= $genderIcon ?></span></div>
-                        <input type="text" class="form-control" value="{{ $gender }}" disabled>
+                        <div class="input-group-prepend"><span class="input-group-text"><?= getGenderIcon($user['gender']) ?></span></div>
+                        <input type="text" class="form-control" value="{{ $user['gender'] }}" disabled>
                     </div>
                 </div>
             </div>
@@ -65,7 +54,7 @@ if($user['gender'] ==='Male') {
         <div class="form-group">
             <label class="d-flex justify-content-between">
                 <span>Phone Number(s) *</span>
-                <a href="#" class="input-group-text border-primary text-info add-phone">
+                <a href="#" class="input-group-text border-primary text-info user-phone" title="Add Phone">
                     <i class='bx bx-plus' ></i>
                 </a>
             </label>
@@ -75,13 +64,14 @@ if($user['gender'] ==='Male') {
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}"
-                           pattern="^((7|1)(?:(?:[12569][0-9])|(?:0[0-8])|(4[081])|(3[64]))[0-9]{6})$" aria-label required>
+                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}" required>
                     <div class="input-group-append">
                         @if($phone['primary'])
                             <span class="input-group-text">primary</span>
                         @endif
-                        <a href="#" class="input-group-text border-primary text-info"><i class='bx bx-edit-alt'></i></a>
+                        <a href="#" class="input-group-text border-primary text-info user-phone" data-id="{{ $phone['id'] }}">
+                            <i class='bx bx-edit-alt'></i>
+                        </a>
                         <a href="#" class="input-group-text border-danger text-danger delete-phone" data-id="{{ $phone['id'] }}">
                             <i class='bx bx-trash-alt'></i>
                         </a>
@@ -136,8 +126,9 @@ if($user['gender'] ==='Male') {
         <hr>
     </div>
     <div class="card-body">
-        <form id="change-password" class="anime_form" action="{{route('change-password')}}" method="POST">
+        <form class="change-password" class="anime_form" action="{{route('change-password')}}" method="POST">
             @csrf
+            @method('PATCH')
             <div class="form-group">
                 <label for="current_password">Current password *</label>
                 <input type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" placeholder="Enter current password *" required>

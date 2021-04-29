@@ -56,13 +56,13 @@ class Order extends Model
         $orderProducts = $this->hasMany(OrdersProduct::class);
 
         if(isSeller()) {
-            $orderProducts->whereHas('product', function($query) {
+            $orderProducts = $orderProducts->whereHas('product', function($query) {
                 $query->where('seller_id', Auth::id());
             })->with(['product' => function($query) {
                 $query->where('seller_id', Auth::id());
             }]);
         } else {
-            $orderProducts->with('product');
+            $orderProducts = $orderProducts->with('product');
         }
 
         return $orderProducts;

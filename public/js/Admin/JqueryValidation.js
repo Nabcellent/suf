@@ -317,4 +317,77 @@ $(() => {
             gender: 'Please choose a gender.',
         }
     });
+
+
+
+    /**
+     * *********************************************************    UPDATE ADMIN
+     */
+    $('form#update_profile').validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 3,
+                alphaSpecial: true
+            },
+            last_name: {
+                required: true,
+                minlength: 3,
+                alphaSpecial: true
+            },
+            username: {
+                minlength: 3,
+                remote: '/check-username',
+            },
+        },
+        messages: {
+            username: {
+                required: 'Please provide a username for this seller.',
+                minlength: 3,
+                remote: 'This username has been taken',
+            },
+        },
+        submitHandler: function() {
+            let data = $($(this)[0].currentForm).serialize();
+
+            $.ajax({
+                data,
+                type: 'PUT',
+                url: 'profile',
+                beforeSend: () => {
+                    $('#loader').show();
+                },
+                statusCode: {
+                    200: (responseObject, textStatus) => {
+                        if(responseObject.status) {
+                            $('#profile .alert').hide(30);
+
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: responseObject.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        } else {
+                            let errors = '';
+
+                            responseObject.messages.forEach(error => {
+                                errors += '<li>' + error + '</li>'
+                            });
+
+                            $('#profile .alert').show(30);
+                            $('#profile .alert ul').html(errors);
+                        }
+                    }
+                },
+                error: () => {
+                    alert('something went wrong');
+                },
+                complete: () => {
+                    $('#loader').hide();
+                }
+            })
+        }
+    });
 });

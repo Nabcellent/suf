@@ -20,10 +20,8 @@
                                 <th>Last name</th>
                                 <th>username</th>
                                 <th>email</th>
-                                <th>Phone</th>
                                 <th>Products</th>
                                 <th>Orders</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -42,11 +40,9 @@
                                         <td>{{ $seller['user']['last_name'] }}</td>
                                         <td>{{ $seller['username'] }}</td>
                                         <td>{{ $seller['user']['email'] }}</td>
-                                        <td>{{ $seller['user']['primary_phone']['phone'] }}</td>
                                         <td class="text-primary">{{ $seller['user']['products_count'] }}</td>
                                         <td>{{ $seller['user']['orders_count'] }}</td>
-                                        <td style="font-size: 14pt">
-
+                                        <td class="action">
                                             @if($seller['user']['status'])
                                                 <a class="update_status" data-id="{{ $seller['user_id'] }}" data-model="User" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
@@ -54,11 +50,8 @@
                                                 <a class="update_status" data-id="{{ $seller['user_id'] }}" data-model="User" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             @endif
-
-                                        </td>
-                                        <td class="action">
-                                            <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
-                                            <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $seller['user_id'] }}" data-model="User">
+                                            <a href="#" class="mx-2" title="Modify"><i class="fas fa-pen text-light"></i></a>
+                                            <a href="#" class="delete-from-table" title="Remove" data-id="{{ $seller['user_id'] }}" data-model="User">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </td>

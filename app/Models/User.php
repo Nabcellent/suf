@@ -55,11 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * RELATIONSHIP FUNCTIONS
      */
     public function admin(): HasOne {
-        return $this->hasOne(Admin::class)->where('type', 'Super');
-    }
-
-    public function seller(): HasOne {
-        return $this->hasOne(Admin::class)->where('type', 'Seller');
+        return $this->hasOne(Admin::class);
     }
 
     public function addresses(): HasMany {

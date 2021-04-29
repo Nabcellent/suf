@@ -35,14 +35,14 @@ function    isRed(): bool {
 }
 function isSeller(): bool {
     if(isAdmin()) {
-        return Auth::user()->seller !== null;
+        return Admin::where('user_id', Auth::id())->first()->type === 'Seller';
     }
 
     return false;
 }
 function isSuper(): bool {
     if(isAdmin()) {
-        return Auth::user()->admin !== null;
+        return Admin::where('user_id', Auth::id())->first()->type === "Super";
     }
     return false;
 }
@@ -155,6 +155,13 @@ function mapped_implode($glue, $array, $symbol = '='): string {
     );
 }
 
+function getGenderIcon($gender): string {
+    if($gender ==='Male') {
+        return '<i class="bx bx-male-sign"></i>';
+    }
+
+    return "<i class='bx bx-female-sign'></i>";
+}
 
 
 
@@ -164,6 +171,7 @@ function getModel($model): string {
 
     return match ($model) {
         'User' => User::class,
+        'Phone' => Phone::class,
         'Attribute' => Attribute::class,
         'Banner' => Banner::class,
         'Brand' => Brand::class,

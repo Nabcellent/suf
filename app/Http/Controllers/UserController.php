@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Notifications\Notifiable;
@@ -101,15 +102,25 @@ class UserController extends Controller
         return redirect(session('url.intended'))->with('alert', ['type' => 'success', 'intro' => 'Prilliant! ', 'message' => $message, 'duration' => 7]);
     }
 
-    public function createPhone(Request $request): JsonResponse {
-        $valid = Validator::make($request->all(), [
-            'phone' => ['required',
-                'numeric',
-                'digits_between:9,12',
-                'unique:phones',
-                'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
-            ],
-        ]);
+    public function createUpdatePhone(Request $request): JsonResponse {
+        $data = $request->all();
+        $rules = [
+            'required',
+            'numeric',
+            'digits_between:9,12',
+            'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
+        ];
+
+        if($request->id) {
+            $rules[] = Rule ::unique('phones') -> ignore($request -> id);
+        } else {
+            $rules[] = 'unique:phones';
+        }
+
+        $phone = $request -> phone;
+        $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
+        $data['phone'] = $phone;
+        $valid = Validator::make($data, ['phone' => $rules]);
 
         if($valid->fails()) {
             $message = $valid->errors()->messages()['phone'][0];
@@ -117,16 +128,24 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => $message]);
         }
 
-        $phone = $request -> phone;
-        $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
-
         $user = User::find(Auth::id());
-        $user->phones()->create([
-            'phone' => $phone,
-            'primary' => 0
-        ]);
 
-        return response()->json(['status' => true, 'message' => 'Phone has been added!']);
+        if(!$request->id) {
+            $user->phones()->create([
+                'phone' => $phone,
+                'primary' => 0
+            ]);
+
+            $message = 'Phone has been added!';
+        } else {
+            $updatePhone = Phone::find($request->id);
+            $updatePhone->phone = $phone;
+            $updatePhone->save();
+
+            $message = 'Phone has been updated!';
+        }
+
+        return response()->json(['status' => true, 'message' => $message]);
     }
 
     public function uploadProfilePic(Request $request): RedirectResponse {
@@ -145,7 +164,7 @@ class UserController extends Controller
     {
         $req->validate([
             'current_password' => 'password',
-            'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'password' => ['required', 'string', 'min:7', 'confirmed'],
             'password_confirmation' => 'required',
         ]);
 

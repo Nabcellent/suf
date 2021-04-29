@@ -52,7 +52,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Seller</th>
-                                                                    <td class="py-0">{{ $product['seller']['seller']['username'] }}</td>
+                                                                    <td class="py-0">{{ $product['seller']['admin']['username'] }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Brand</th>

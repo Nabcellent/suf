@@ -31,7 +31,7 @@
                                         {{ $attribute['values'] }}
                                     </td>
                                     <td class="action">
-                                        <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                        <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-light"></i></a>
                                         <a href="#" class="ml-3" title="Remove"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
@@ -43,6 +43,36 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3">
+                <div class="card crud_table shadow mb-4">
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="{{ route('admin.create-product') }}" class="list-group-item list-group-item-action">
+                                Create Product
+                            </a>
+                            <a href="{{ route('admin.coupon') }}" class="list-group-item list-group-item-action">
+                                Create Coupon
+                            </a>
+                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
+                            </a>
+                            <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Quantity Sold<span class="badge badge-primary badge-pill">17</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Remaining stock<span class="badge badge-primary badge-pill">37</span>
+                            </a>
+                            <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
         <div class="row">
@@ -80,7 +110,7 @@
                                             @endif
 
                                             <a href="#" class="mx-2 update_brand" title="Modify" data-toggle="modal" data-target="#brand" data-id="{{ $brand['id'] }}" data-name="{{ $brand['name'] }}">
-                                                <i class="fas fa-pen text-dark"></i>
+                                                <i class="fas fa-pen text-light"></i>
                                             </a>
                                             <a href="#" class="mx-1 delete-from-table" data-id="{{ $brand['id'] }}" data-model="Brand" title="Remove">
                                                 <i class="fas fa-trash text-danger"></i>

@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -118,7 +119,7 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
-        if ($response = $this->authenticated()) {
+        if ($response = $this->authenticated($request)) {
             return $response;
         }
 
@@ -130,10 +131,19 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Client\Response|RedirectResponse
      */
-    protected function authenticated(): RedirectResponse {
-        return redirect()->intended(route('admin.dashboard'));
+    protected function authenticated($request): \Illuminate\Http\Client\Response|RedirectResponse {
+        if(Auth::user()->status) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return back()->withErrors(['message' => 'Your account is inactive.']);
     }
 
     /**

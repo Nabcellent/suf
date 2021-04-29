@@ -5,7 +5,11 @@
         <div class="dropdown header_image">
             {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
             {{ Str::ucfirst(User()->last_name) }}
-            <img src="{{ asset('/images/users/default-profile-pic.png') }}" alt="Profile image" data-toggle="dropdown">
+            @if(empty(User()->image))
+                <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid" alt="" data-toggle="dropdown">
+            @else
+                <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown">
+            @endif
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
                 <div class="dropdown-divider"></div>

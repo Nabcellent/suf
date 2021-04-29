@@ -140,57 +140,6 @@ $(() => {
         }
     });
 
-    /**
-     * *********************************************************    UPDATE PASSWORD
-     */
-    $('#change-password').validate({
-        rules: {
-            current_password: 'required',
-            password: {
-                required: true,
-                minlength: 4
-            },
-            password_confirmation: {
-                required: true,
-                equalTo: '#password'
-            }
-        },
-        messages: {
-            current_password: 'Please confirm your current password',
-            password: {
-                required: 'Please provide a new password.',
-                minlength: 'Password must be at least 6 characters.',
-            },
-            password_confirmation: {
-                required: 'Kindly confirm your new password.',
-                equalTo: 'Your new passwords do not match.'
-            }
-        }
-    });
-
-    $('#edit-profile #change-password input[name="current_password"]').keyup(function() {
-        const $inputValue = $(this).val();
-
-        $.ajax({
-            data: {current_password: $inputValue},
-            type: 'POST',
-            url: '/check-password',
-            success: (response) => {
-                if(response) {
-                    $(this).addClass('is-valid');
-                    $(this).removeClass('is-invalid');
-                } else {
-                    $(this).addClass('is-invalid');
-                    $(this).removeClass('is-valid');
-                }
-                console.log(response);
-            },
-            error: () => {
-                alert("Error");
-            }
-        })
-    });
-
 
 
     $('#delivery-address-form').validate({

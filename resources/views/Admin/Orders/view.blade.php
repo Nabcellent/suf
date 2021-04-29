@@ -147,7 +147,7 @@
                                             <td><a href="{{ route('admin.product', ['id' => $item['id']]) }}">{{ $item['product']['title'] }}</a></td>
                                             <td>{{ $item['product']['brand']['name'] }}</td>
                                             @if(!isSeller())
-                                                <td>{{ $item['product']['seller']['seller']['username'] }}</td>
+                                                <td>{{ $item['product']['seller']['admin']['username'] }}</td>
                                             @endif
                                             <td>
                                                 <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
