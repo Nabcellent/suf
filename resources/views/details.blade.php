@@ -58,7 +58,7 @@
                         <div class="card-title m-0">
                             <div class="d-flex justify-content-between">
                                 <h3>{{$details['title']}}</h3>
-                                <p class="small">{{$details['seller']['seller']['username']}}</p>
+                                <p class="small">{{$details['seller']['admin']['username']}}</p>
                             </div>
                             <h6>--> {{$details['brand']['name']}}</h6>
                         </div>
@@ -186,7 +186,7 @@
                             @endif
                             <tr>
                                 <th scope="row">Seller</th>
-                                <td>{{$details['seller']['seller']['username']}}</td>
+                                <td>{{$details['seller']['admin']['username']}}</td>
                             </tr>
                             </tbody>
                         </table>

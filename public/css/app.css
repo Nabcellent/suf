@@ -638,6 +638,9 @@ nav .nav-link:hover {
 
 
 /*=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======*/
+#categories_sidebar .filters-header {
+    color: var(--dark-red);
+}
 #categories_sidebar .form-check.sub_list,
 #categories_sidebar .form-check.list {
     padding-left: 0;
@@ -837,7 +840,7 @@ nav ul.pagination {
     padding: 0;
 }
 
-/*+++++++*+++++++*+++++++  ProductSeeder Label  +++++++*/
+/*+++++++*+++++++*+++++++  Product Label  +++++++*/
 #products_like .product_label,
 #products .product_label {
     position: absolute;

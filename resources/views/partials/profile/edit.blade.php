@@ -64,7 +64,7 @@
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}" required>
+                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}" readonly required>
                     <div class="input-group-append">
                         @if($phone['primary'])
                             <span class="input-group-text">primary</span>

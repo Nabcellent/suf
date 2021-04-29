@@ -3,14 +3,12 @@
 @section('content')
 
     <div class="login">
-
         <!--    Start Content Area    -->
 
         <div id="content">
             <div class="container registration_page_container">
 
                 <!--    Start Breadcrumb    -->
-
                 <div class="row">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb">
@@ -33,11 +31,6 @@
                         <div class="card shadow mx-auto mt-md-5" style="max-width:30rem">
                             <div class="card-header">
                                 <h4>Sign In</h4>
-                                @if(session()->has('status'))
-                                    <div class="alert alert-success py-1 px-2 mb-1" role="alert">
-                                        <ul class="m-0"><li class="list-group-flush">{{ session()->get('status') }}</li></ul>
-                                    </div>
-                                @endif
                                 @if($errors->any())
                                     <div class="alert alert-danger py-1 px-2 mb-1" role="alert">
                                         <ul class="m-0"><li>{{$errors->first()}}</li></ul>

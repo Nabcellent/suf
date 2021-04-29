@@ -19,8 +19,8 @@
                                     <a href="{{ $item['link'] }}">
                                         <img class="card-img" src="{{ asset('/images/banners/' . $item['image']) }}" alt="Image">
                                         <div class="card-img-overlay text-left">
-                                            <h2 class="card-title">{{$item['title']}}</h2>
-                                            <p class="card-text">{{$item['description']}}</p>
+                                            <h2 class="card-title m-0">{{$item['title']}}</h2>
+                                            <p class="card-text m-0">{{$item['description']}}</p>
                                         </div>
                                     </a>
                                 </div>
@@ -77,14 +77,14 @@
                                                             @endif
                                                         </a>
                                                         <div class="supplier">
-                                                            <a href="#">{{$item['seller']['seller']['username']}}</a>
+                                                            <a href="#">{{$item['seller']['admin']['username']}}</a>
                                                         </div>
                                                         <div class="card-body">
                                                             <h6 class="card-title">
                                                                 <a href=''>{{$item['title']}}</a>
                                                             </h6>
                                                             <div class="row">
-                                                                <div class="col prices">
+                                                                <div class="col-auto prices">
                                                                     <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
                                                                     @if($discountPrice > 0)
                                                                         <p>{{$discountPrice}}/=</p><br>
@@ -157,7 +157,7 @@
                                                                 <a href=''>{{$item['title']}}</a>
                                                             </h6>
                                                             <div class="row">
-                                                                <div class="col prices">
+                                                                <div class="col-auto prices">
                                                                     <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
                                                                     @if($discountPrice > 0)
                                                                         <p>{{$discountPrice}}/=</p><br>
@@ -221,7 +221,7 @@
                                                                     <a href=''>{{$item['title']}}</a>
                                                                 </h6>
                                                                 <div class="row">
-                                                                    <div class="col prices">
+                                                                    <div class="col-auto prices">
                                                                         <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
                                                                         @if($discountPrice > 0)
                                                                             <p>{{$discountPrice}}/=</p><br>
@@ -293,7 +293,7 @@
                                                                 <a href=''>{{$item['title']}}</a>
                                                             </h6>
                                                             <div class="row">
-                                                                <div class="col prices">
+                                                                <div class="col-auto prices">
                                                                     <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
                                                                     @if($discountPrice > 0)
                                                                         <p>{{$discountPrice}}/=</p><br>

@@ -7,7 +7,7 @@
     <div id="profile">
         <!--    Start Content Area    -->
 
-        <div class="container profile_container">
+        <div class="container">
 
             <!--    Start Page Header    -->
             <div class="container px-1">

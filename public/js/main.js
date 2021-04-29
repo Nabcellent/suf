@@ -87,8 +87,6 @@ $(() => {
 
     window.onresize = () => {
         if(window.innerWidth > 991.98) {
-            $('#mega_nav .nav_link.products').attr('href', '../../products.php');
-
             if($('#mega_nav .menu').hasClass('active')) {
                 toggleMenu();
             }

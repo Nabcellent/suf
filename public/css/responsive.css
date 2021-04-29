@@ -7,14 +7,7 @@
         padding: 0 7rem;
     }
 
-
-    #top_header .top_header {
-        z-index: var(--z-index-1)
-    }
-    nav .container ul.navbar-nav span {
-        padding-right: .5rem;
-    }
-
+    /*=======+++++++=======  SIDEBAR  =======+++++++=======*/
     #mega_nav {
         background-color: #fff;
         z-index: var(--z-index-1);
@@ -27,8 +20,8 @@
         flex: 0 0 25%;
     }
     #mega_nav .item_right {
-        flex: 0 0 75%;
-        align-items: center;
+        flex: 0 0 100%;
+        align-items: flex-end;
     }
 
     #mega_nav .v_center {
@@ -44,6 +37,7 @@
         overflow: hidden;
         transform: translate(-100%);
         transition: all .3s ease;
+        z-index: var(--z-index-1);
     }
     #mega_nav .menu.active {
         transform: translate(0%);
@@ -229,10 +223,10 @@
         margin-bottom: 1rem;
     }
     #mega_nav .menu ul li .sub_menu.mega_menu_column_4 > .list_item ul li a {
-        font-size: 1rem;
+        font-size: var(--font-size-small);
     }
     #mega_nav .menu > ul > li .sub_menu.mega_menu_column_4 > .list_item {
-        flex: 0 0 100%;
+        display: block;
         padding: 0;
     }
     #mega_nav .menu ul li .sub_menu.mega_menu > .list_item > ul > li a {
@@ -285,20 +279,228 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%  Extra small devices (portrait phones, less than 576px)  %%%%%%%%%%%%%%%%%%%%%*/
 @media (max-width: 576px) {
-    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+    /*=======+++++++=======  GENERAL  =======+++++++=======*/
+    .breadcrumb {
+        height: 1.7rem;
+        margin-bottom: .5rem;
+        padding: .3rem .7rem;
+        font-size: var(--font-size-tiny);
+    }
 
+    .carousel-indicators {
+        z-index: 1;
+    }
+
+    /*=======+++++++=======  HEADER  =======+++++++=======*/
+    #top_header .top_header {
+        padding: 0 1rem;
+        z-index: var(--z-index-1);
+    }
+
+    /*=======+++++++=======  HEADER CAROUSEL  =======+++++++=======*/
+    #header_carousel .header_carousel {
+        padding: 0 1rem;
+        height: 20vh;
+    }
+    #header_carousel .header_carousel img {
+        height: 20vh;
+    }
+
+
+    /*=======+++++++=======  HOME  =======+++++++=======*/
     #index .product_container {
         padding: 0 .5rem;
+    }
+
+    /*=======+++++++=======  BOX SECTION  =======+++++++=======*/
+    .box_section {
+        margin-bottom: 0;
+        padding: .7rem .3rem!important;
+    }
+    .box_section a {
+        height: 5rem;
+    }
+    .box_section .card-title {
+        font-size: var(--font-size-normal);
+    }
+    .box_section .card-text {
+        font-size: var(--font-size-tiny);
+    }
+
+    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+    #index .product_container {
+        padding: 0 .5rem;
+    }
+    #index .section_title {
+        padding: .5rem 1rem;
+        margin: 0;
+        background: linear-gradient(to bottom left, rgb(110, 135, 246) , rgba(241, 241, 241, .7));
+    }
+    #index .section_title h3 {
+        font-size: var(--font-size-normal);
+    }
+    #index .section_title p {
+        font-size: var(--font-size-small);
+    }
+    #index .swiper-slide {
+        width: 10rem!important;
+    }
+    #index .products .card img {
+        height: 10rem;
+    }
+    #index .card-body {
+        height: 4.5rem;
+    }
+    #index .products .card .supplier {
+        opacity: .7;
+        font-size: var(--font-size-tiny);
+    }
+    #index h6.card-title {
+        font-size: var(--font-size-normal);
+    }
+    #products .prices,
+    #index .prices {
+        font-size: var(--font-size-small);
+    }
+
+    #index .card-body .button {
+        padding-left: 0;
+    }
+    #index .card-body .button .add {
+        font-size: var(--font-size-tiny);
+    }
+
+    /***  INDEX PRODUCT LABEL  ***/
+    #index .product_label {
+        font-size: 7pt;
+        font-weight: 300;
+    }
+
+    .rotating-img {
+        padding: 0;
+    }
+    .rotating-img img {
+        width: 10rem;
+        height: 10rem;
     }
 
 
     /*=======+++++++=======  PRODUCTS  =======+++++++=======*/
 
     #products .products_container {
-        padding: 0 1rem;
+        padding: 0 2rem;
     }
+    #products .input-group label {
+        font-size: var(--font-size-tiny);
+    }
+    #products .input-group .input-group-prepend,
+    #products .input-group .custom-select {
+        height: 1.7rem;
+        font-size: var(--font-size-tiny);
+    }
+    #products .input-group .custom-select {
+        padding: .2rem 1.7rem .2rem .5rem;
+    }
+    #products #textChange {
+        font-size: var(--font-size-normal);
+    }
+    #products .top-info .col.bg-light {
+        padding: .5rem!important;
+    }
+    #products .top-info p.text-muted {
+        font-size: var(--font-size-small);
+    }
+    #products .top-info hr {
+        margin: 0;
+    }
+    #products .top-info p.col {
+        font-size: var(--font-size-small);
+        margin-bottom: 2rem;
+    }
+    #products .sort {
+        position: absolute;
+        display: flex;
+        bottom: -.7rem;
+        right: -.7rem;
+    }
+
     #products #product_section #results {
         grid-template-columns: 1fr 1fr;
+    }
+    #products_like .card img,
+    #products .card img {
+        height: 10rem;
+    }
+    #products_like .card-body,
+    #products #product_section .card-body {
+        height: 6rem;
+    }
+    #products .card-body h6 {
+        font-size: var(--font-size-small);
+        height: 2rem;
+    }
+    #products .card-body .brand-name {
+        font-size: var(--font-size-tiny);
+    }
+    #products .prices del {
+        font-size: 7pt;
+        position: absolute;
+        right: 0;
+    }
+    #products .card-body .button .add {
+        font-size: var(--font-size-tiny);
+    }
+
+    /*+++++++*+++++++*+++++++  Product Label  +++++++*/
+    #products_like .product_label,
+    #products .product_label {
+        font-size: 7pt;
+        font-weight: 300;
+    }
+
+    /*=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======*/
+    #categories_sidebar {
+        position: fixed;
+        left: 1rem;
+        top: 4rem;
+        width: 80%;
+        z-index: var(--z-index-1);
+    }
+    #categories_sidebar .filters-header .fa-filter {
+        margin-bottom: .5rem;
+    }
+    #categories_sidebar .form-check.sub_list label,
+    #categories_sidebar .form-check.list label {
+        font-size: var(--font-size-small);
+    }
+    #categories_sidebar li a.btn-block {
+        font-size: var(--font-size-normal);
+    }
+    /*+++++++*+++++++*+++++++  Search  +++++++*/
+    #categories_sidebar .search_text {
+        font-size: var(--font-size-small);
+    }
+
+    /*=======+++++++=======  SOCIAL ICONS  =======+++++++=======*/
+
+    #social_icons {
+        z-index: 5;
+        transform: translate(-8rem, 0);
+    }
+    #social_icons a {
+        width: 10rem;
+        font-size: .7rem;
+        font-weight: 300;
+        padding: .3rem;
+    }
+    #social_icons a:hover {
+        transform: translate(4rem, 0);
+    }
+    #social_icons i {
+        padding-top: .1rem;
+        font-size: 1rem;
+        width: 1.2rem;
+        height: 1.2rem;
     }
 
 

@@ -42,16 +42,19 @@
                             </form>
                         @endif
                     @else
-                        <li class="nav-item">
+                        <li class="nav-item d-none d-md-block">
                             <a class="nav-link" style="transform: scale(1);">Hey There!👋 You might wanna</a>
                         </li>
-                        <li class="nav-item" style="text-decoration: underline;">
+                        <li class="nav-item d-none d-md-block" style="text-decoration: underline;">
                             <a class="nav-link" href="{{url('register')}}">Register</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link">or</a></li>
-                        <li class="nav-item" style="text-decoration: underline;">
+                        <li class="nav-item d-none d-md-block"><a class="nav-link">or</a></li>
+                        <li class="nav-item d-none d-md-block" style="text-decoration: underline;">
                             <a class="nav-link" href="{{url('login')}}">Sign In</a>
                         </li>
+                        <div class="d-flex align-items-center d-md-none text-light">
+                            <a class="nav-link" href="{{url('register')}}">Register</a> <span class="px-1">/</span> <a class="nav-link" href="{{url('login')}}">Sign In</a>
+                        </div>
                     @endauth
 
                 </ul>

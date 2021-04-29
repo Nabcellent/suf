@@ -1,10 +1,9 @@
 
 <div id="categories_sidebar">
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between">
-            <h4 class="m-0">FILTERS</h4><i class="fas fa-filter"></i>
-        </li>
-
+    <div class="d-flex justify-content-between filters-header"  data-toggle="collapse" data-target="#filters">
+        <h4 class="m-0 d-none d-md-block">FILTERS</h4><i class="fas fa-filter"></i>
+    </div>
+    <ul id="filters" class="list-group list-group-flush">
         <?php $sections = sections(); ?>
         @foreach($sections as $section)
             @if(count($section['categories']) > 0)

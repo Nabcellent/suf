@@ -27,7 +27,7 @@
                             <div class="d-flex justify-content-center">
                                 <hr class="col-7 m-0">
                             </div>
-                            <p class="m-0 text-center text-secondary">{{$item['brand']['name']}}</p>
+                            <p class="m-0 text-center text-secondary brand-name">{{$item['brand']['name']}}</p>
                             <div class="row">
                                 <div class="col prices">
                                     <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>

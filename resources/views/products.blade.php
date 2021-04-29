@@ -15,7 +15,7 @@
             <!--    Start Breadcrumb    -->
 
             <div class="row">
-                <div class="col">
+                <div class="col p-0">
                     <nav class="d-flex justify-content-between" aria-label="breadcrumb">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
@@ -24,7 +24,7 @@
                         </ul>
                         @if (tableCount()['products'] > 0)
                             <div>
-                                <div class="input-group mb-3">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" for="per_page">Per page</label>
                                     </div>
@@ -46,7 +46,7 @@
 
                 <!--    Start SideBar Categories    -->
 
-                <div class="col-md-3 pl-0">
+                <div class="col-md-3 pl-md-0">
 
                     @include('partials.products.sidebar')
 
@@ -55,9 +55,9 @@
 
                 <!--    Start ProductSeeder Section    -->
 
-                <div class="col-md-9 pr-0">
+                <div class="col-md-9 pr-md-0">
                     @if(tableCount()['products'] > 0)
-                        <div class="row">
+                        <div class="row top-info">
                             <div class="col bg-light p-3 mb-2 rounded">
                                 <div class="d-flex justify-content-between">
                                     <h2 id="textChange">
@@ -78,7 +78,7 @@
                                             We are pleased to serve you with these products.
                                         @endif
                                     </p>
-                                    <div class="col-auto">
+                                    <div class="col-auto sort">
                                         <form id="sort_products_form" class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="sort_by">Sort By</label>
