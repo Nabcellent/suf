@@ -62,9 +62,7 @@
                                                     <td>
                                                         @if(count($details) > 0)
                                                             {{ mapped_implode(', ', $details, ': ') }}
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        @else - @endif
                                                     </td>
                                                     <td>{{ $item['quantity'] }}</td>
                                                     <td>{{ currencyFormat($item['final_unit_price']) }}/-</td>

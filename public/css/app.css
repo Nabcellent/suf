@@ -30,6 +30,8 @@ Theme Versions      :   1.1
     --font-size-tiny: 9pt;
     --font-size-small: 10pt;
     --font-size-normal: 11pt;
+    --font-size-big: 12pt;
+    --font-size-bigger: 13pt;
 }
 
 /*=======+++++++=======  COMMON STYLING  =======+++++++=======*/

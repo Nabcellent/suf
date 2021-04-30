@@ -9,7 +9,7 @@
                 <img src="{{asset('/images/general/store_logo.jpg')}}" alt="SU-F logo" class="img-fluid main_logo">
             </a>
 
-            <div class="" id="navbarSupportedContent">
+            <div id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
 
                     @auth()

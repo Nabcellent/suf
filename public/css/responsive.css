@@ -280,6 +280,20 @@
 /*%%%%%%%%%%%%%%%%%%%%%  Extra small devices (portrait phones, less than 576px)  %%%%%%%%%%%%%%%%%%%%%*/
 @media (max-width: 576px) {
     /*=======+++++++=======+++++++=======  GENERAL  =======+++++++=======+++++++=======*/
+    #global_alert {
+        right: .3rem;
+        font-size: var(--font-size-tiny);
+        padding: .5rem 1.5rem .5rem .5rem;
+    }
+    #global_alert strong {
+        font-size: var(--font-size-small);
+    }
+    #global_alert button {
+        padding: .5rem;
+        font-size: var(--font-size-big);
+    }
+
+
     .breadcrumb {
         height: 1.7rem;
         margin-bottom: .5rem;
@@ -295,6 +309,11 @@
     #top_header .top_header {
         padding: 0 1rem;
         z-index: var(--z-index-1);
+    }
+    #top_header .top_header div.dropdown-menu {
+        position: absolute;
+        top: 0;
+        z-index: var(--z-index-5);
     }
 
     /*=======+++++++=======+++++++=======  HEADER CAROUSEL  =======+++++++=======+++++++=======*/
@@ -336,9 +355,12 @@
         margin: 0;
         background: linear-gradient(to bottom left, rgb(110, 135, 246) , rgba(241, 241, 241, .7));
     }
+    #index h6.card-title,
     #index .section_title h3 {
         font-size: var(--font-size-normal);
     }
+    #products .prices,
+    #index .prices,
     #index .section_title p {
         font-size: var(--font-size-small);
     }
@@ -351,23 +373,14 @@
     #index .card-body {
         height: 4.5rem;
     }
+    #index .card-body .button .add,
     #index .products .card .supplier {
         opacity: .7;
         font-size: var(--font-size-tiny);
     }
-    #index h6.card-title {
-        font-size: var(--font-size-normal);
-    }
-    #products .prices,
-    #index .prices {
-        font-size: var(--font-size-small);
-    }
 
     #index .card-body .button {
         padding-left: 0;
-    }
-    #index .card-body .button .add {
-        font-size: var(--font-size-tiny);
     }
 
     /***  INDEX PRODUCT LABEL  ***/
@@ -390,9 +403,8 @@
     #products .products_container {
         padding: 0 2rem;
     }
-    #products .input-group label {
-        font-size: var(--font-size-tiny);
-    }
+    #products .card-body .button .add,
+    #products .input-group label,
     #details .quantity span,
     #details .quantity input,
     #products .input-group .input-group-prepend,
@@ -451,9 +463,6 @@
         position: absolute;
         right: 0;
     }
-    #products .card-body .button .add {
-        font-size: var(--font-size-tiny);
-    }
 
     /*+++++++*+++++++*+++++++  Product Label  +++++++*/
     #products_like .product_label,
@@ -473,16 +482,13 @@
     #categories_sidebar .filters-header .fa-filter {
         margin-bottom: .5rem;
     }
+    #categories_sidebar .search_text.
     #categories_sidebar .form-check.sub_list label,
     #categories_sidebar .form-check.list label {
         font-size: var(--font-size-small);
     }
     #categories_sidebar li a.btn-block {
         font-size: var(--font-size-normal);
-    }
-    /*+++++++*+++++++*+++++++  Search  +++++++*/
-    #categories_sidebar .search_text {
-        font-size: var(--font-size-small);
     }
 
     /*=======+++++++=======+++++++=======  DETAILS  =======+++++++=======+++++++=======*/
@@ -491,6 +497,7 @@
     #details .details .price,
     #details .details button.btn-success,
     #details .details .card-footer h4,
+    #products_like .like_title h3,
     #details .details .card-title h3 {
         font-size: var(--font-size-normal);
     }
@@ -525,14 +532,51 @@
     #products_like .like_title .col {
         margin-bottom: 0;
     }
-    #products_like .like_title h3 {
-        font-size: var(--font-size-normal);
-    }
     #products_like #results {
         grid-template-columns: 1fr 1fr;
     }
     #products_like .card {
         margin: .3rem;
+    }
+
+    /*=======+++++++=======+++++++=======  CART  =======+++++++=======+++++++=======*/
+    #cart .cart_page_container {
+        padding: 0 1rem;
+    }
+    #cart .cart_table h1 {
+        font-size: var(--font-size-big);
+        margin-bottom: 0;
+    }
+    #cart .cart_table p.text-muted {
+        font-size: var(--font-size-tiny);
+        margin-bottom: .5rem;
+    }
+    #cart .cart_table .table_fixed thead > tr > th {
+        font-size: var(--font-size-tiny);
+    }
+    #cart .cart_table .table tbody tr td {
+        font-size: var(--font-size-tiny);
+    }
+    #cart .cart_table .table tr td img {
+        width: 1.5rem;
+        max-height: 1.7rem
+    }
+    #cart .cart_table .table tbody tr td.quantity input {
+        padding: 0 0;
+        width: 2rem;
+        height: 1rem;
+        font-size: var(--font-size-tiny);
+    }
+    #cart .cart_table .table tbody tr td.quantity button {
+        width: 1rem;
+        height: 1rem;
+    }
+    #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus,
+    #cart .cart_table .table tbody tr td.quantity button.nice-number-button-minus {
+        font-size: var(--font-size-tiny);
+    }
+    #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus {
+        padding: 0;
     }
 
 
