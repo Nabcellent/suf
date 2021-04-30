@@ -441,9 +441,11 @@
         font-size: var(--font-size-small);
         height: 2rem;
     }
+    #products_like .card-body .brand-name,
     #products .card-body .brand-name {
         font-size: var(--font-size-tiny);
     }
+    #products_like .card-body .prices del,
     #products .prices del {
         font-size: 7pt;
         position: absolute;
@@ -484,14 +486,53 @@
     }
 
     /*=======+++++++=======+++++++=======  DETAILS  =======+++++++=======+++++++=======*/
+    #details .details .variations h5,
+    #details .details .variations ul li,
+    #details .details .price,
+    #details .details button.btn-success,
+    #details .details .card-footer h4,
     #details .details .card-title h3 {
         font-size: var(--font-size-normal);
     }
+    #details .details .brand-name,
     #details .details .card-title p {
         font-size: var(--font-size-tiny);
     }
-    #details .details .brand-name {
+    #details .details .variations ul li .custom-radio {
+        transform: scale(.9);
+    }
+    #details .details .variations {
+        min-height: 0;
+    }
+    #details .details .price del {
+        position: absolute;
+        right: 5rem;
+        top: 1rem;
         font-size: var(--font-size-tiny);
+    }
+    #details .details .card-footer {
+        height: 100%;
+    }
+    #details .details .card-footer p {
+        font-size: var(--font-size-small);
+    }
+
+    /*  Products you may like  */
+    #details .product-info nav a {
+        font-size: var(--font-size-small);
+        padding: .3rem .5rem;
+    }
+    #products_like .like_title .col {
+        margin-bottom: 0;
+    }
+    #products_like .like_title h3 {
+        font-size: var(--font-size-normal);
+    }
+    #products_like #results {
+        grid-template-columns: 1fr 1fr;
+    }
+    #products_like .card {
+        margin: .3rem;
     }
 
 

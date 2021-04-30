@@ -872,7 +872,7 @@ nav ul.pagination {
 /*=======+++++++=======+++++++=======  DETAILS  =======+++++++=======+++++++=======*/
 
 
-/*+++++++*+++++++*+++++++  ProductSeeder Label  +++++++*/
+/*+++++++*+++++++*+++++++  Product Label  +++++++*/
 #details .product_label {
     position: absolute;
     top: 0;
@@ -926,6 +926,16 @@ nav ul.pagination {
 }
 #details .gallery-thumbs .swiper-slide-thumb-active {
     opacity: 1;
+}
+
+#details .details .variations {
+    min-height: 10rem;
+}
+#details .details .variations h5 {
+    color: var(--dark-red);
+}
+#details .details label.custom-control-label::before {
+    border-color: var(--dark-blue);: none!important;
 }
 
 
@@ -1025,7 +1035,10 @@ nav ul.pagination {
     border: 1px solid darkred;
 }
 #products_like .like_title {
-    margin-bottom: 1rem;
+    padding: 0 1rem .3rem 1rem;
+}
+#products_like .like_title .col {
+    margin-bottom: .7rem;
     padding: .3rem;
     text-align: center;
     background-color: navy;
@@ -1034,7 +1047,6 @@ nav ul.pagination {
     color: var(--light-gold);
     font-size: 21pt;
 }
-
 #products_like #results {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

@@ -64,7 +64,7 @@
                                 <h6 class="brand-name">--> {{$details['brand']['name']}}</h6>
                             </div>
                             <hr class="my-1 my-md-2">
-                            <form action="{{url('/add-to-cart')}}" method="POST" class="card-body py-1">
+                            <form action="{{url('/add-to-cart')}}" method="POST" class="card-body py-md-1">
                                 @csrf
                                 <div class="row justify-content-end">
                                     <div class="col"><p class="small m-0">{{$totalStock}} in stock</p></div>
@@ -77,8 +77,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="min-height: 10rem">
-                                    <div class="col variations">
+                                <div class="row variations">
+                                    <div class="col">
 
                                         @if(count($details['variations']) > 0)
                                             <h5>Variations</h5>
@@ -87,7 +87,7 @@
                                                 @foreach($details['variations'] as  $variation)
                                                     <?php $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)) ?>
                                                     @if(count($variation['variation_options']) > 0)
-                                                        <li class="list-group-item">{{$variationName}}
+                                                        <li class="list-group-item py-2 py-md-3">{{$variationName}}
                                                             <div class="form-group m-0">
                                                                 @foreach($variation['variation_options'] as $option)
                                                                     <div class="custom-control custom-radio custom-control-inline">
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col">
+                                    <div class="col price">
                                         <?php $discountPrice = Product::getDiscountPrice($details['id']); ?>
                                         @if($discountPrice > 0)
                                             <p class="font-weight-bold m-0">
@@ -141,7 +141,7 @@
 
         <!--    Start Product Info    -->
 
-        <div class="row">
+        <div class="row product-info">
             <div class="col">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -152,7 +152,7 @@
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div id="products_like">
                             <div class="row like_title">
                                 <div class="col">
@@ -195,7 +195,7 @@
                     </div>
 
                     @if(count($related) > 0)
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <!--    Start Products you may Like    -->
 
                             <div id="products_like" class="row">
@@ -208,7 +208,7 @@
                                     </div>
 
                                     <div class="row mb-2">
-                                        <div id="results" class="col column">
+                                        <div id="results" class="col">
 
                                             <!--    Start Single ProductSeeder    -->
                                             @foreach($related as $item)
@@ -230,7 +230,7 @@
                                                         <div class="d-flex justify-content-center">
                                                             <hr class="col-7 m-0">
                                                         </div>
-                                                        <p class="m-0 text-center text-secondary">{{$item['brand']['name']}}</p>
+                                                        <p class="m-0 text-center text-secondary brand-name">{{$item['brand']['name']}}</p>
                                                         <div class="row">
                                                             <div class="col prices">
                                                                 <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
