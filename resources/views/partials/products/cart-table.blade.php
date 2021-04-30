@@ -70,6 +70,7 @@ use App\Models\Cart;
                 </div>
             </td>
         </tr>
+        <?php $totalPrice += ($discountPrice * $item['quantity'])?>
     @endforeach
 
     </tbody>

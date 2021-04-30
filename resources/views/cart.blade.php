@@ -61,14 +61,20 @@
 
                                         <!--    Start Coupon Section    -->
 
-                                        <div class="row">
+                                        <div class="row coupon">
                                             <div class="col">
-                                                <div class="form-inline float-right pb-3">
+                                                <div class="form-inline float-right pb-md-3">
                                                     <form action="{{route('apply-coupon')}}" method="POST" class="form-group">
                                                         @csrf
-                                                        <label for="code">Coupon Code: </label>
-                                                        <input type="text" name="code" id="code" class="form-control-sm mx-2" placeholder="Enter Code" required>
-                                                        <button type="submit" class="btn-sm btn-warning">Apply</button>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text" id="basic-addon1">Coupon Code: </span>
+                                                            </div>
+                                                            <input type="text" name="code" class="form-control" value="{{ old('code') }}" placeholder="Enter Code" aria-label required>
+                                                            <div class="input-group-append">
+                                                                <button type="submit" class="btn btn-warning">Apply</button>
+                                                            </div>
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -96,10 +102,12 @@
 
                     <!--    Start Products you may like -->
 
-                    <div id="products_like" class="row">
-                        <div class="col like_title">
-                            <h3>Luku Kali ni Setoka !</h3>
-                            <hr class="bg-light my-0">
+                    <div id="products_like">
+                        <div class="row like_title">
+                            <div class="col">
+                                <h3>Luku Kali ni Setoka !</h3>
+                                <hr class="bg-light my-0">
+                            </div>
                         </div>
                     </div>
                     <!--    End Products you may like -->
@@ -116,7 +124,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="box_header">
-                                    <h3>Order Summary</h3>
+                                    <h3>Something Here💀</h3>
                                 </div>
                             </div>
                         </div>

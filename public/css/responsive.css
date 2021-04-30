@@ -32,7 +32,7 @@
         width: 320px;
         height: 100%;
         left: 0;
-        top: 0;
+        top: 45px;
         background: rgba(0, 0, 0, .9);
         overflow: hidden;
         transform: translate(-100%);
@@ -308,12 +308,11 @@
     /*=======+++++++=======+++++++=======  HEADER  =======+++++++=======+++++++=======*/
     #top_header .top_header {
         padding: 0 1rem;
-        z-index: var(--z-index-1);
+        z-index: var(--z-index-2);
     }
     #top_header .top_header div.dropdown-menu {
         position: absolute;
-        top: 0;
-        z-index: var(--z-index-5);
+        font-size: var(--font-size-small);
     }
 
     /*=======+++++++=======+++++++=======  HEADER CAROUSEL  =======+++++++=======+++++++=======*/
@@ -405,6 +404,9 @@
     }
     #products .card-body .button .add,
     #products .input-group label,
+    #cart .coupon span,
+    #cart .coupon input,
+    #cart .coupon button,
     #details .quantity span,
     #details .quantity input,
     #products .input-group .input-group-prepend,
@@ -554,6 +556,7 @@
     #cart .cart_table .table_fixed thead > tr > th {
         font-size: var(--font-size-tiny);
     }
+    #cart .cart_table .table tbody tr th,
     #cart .cart_table .table tbody tr td {
         font-size: var(--font-size-tiny);
     }
@@ -577,6 +580,24 @@
     }
     #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus {
         padding: 0;
+    }
+    #cart .cart_table .table tfoot th {
+        font-size: var(--font-size-tiny);
+        font-weight: 300;
+    }
+    #cart .coupon form {
+        margin: 0;
+    }
+    #cart .coupon button {
+        padding: .2rem .7rem;
+    }
+    #order_summary p,
+    #cart .box_footer .btn-outline-success,
+    #cart .box_footer .btn-outline-dark {
+        font-size: var(--font-size-small);
+    }
+    #order_summary h3 {
+        font-size: var(--font-size-bigger);
     }
 
 
