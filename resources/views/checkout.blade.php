@@ -27,7 +27,7 @@
         <div class="row justify-content-center pb-4">
             <form id="checkout-form" action="{{ route('place-order') }}" method="POST" class="col-md-11 col-sm-12">
                 @csrf
-                <div class="card">
+                <div class="card address">
                     <div class="card-header py-sm-0 pb-1">
                         <h3 class="m-0 text-right">Checkout</h3>
                         <hr class="my-1">
@@ -56,7 +56,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text custom">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" id="address{{ $address['id'] }}" name="address" @if((int)old('address') === $address['id']) checked @endif
+                                                                <input type="radio" id="address{{ $address['id'] }}" name="address" @if($loop->iteration === 1 || (int)old('address') === $address['id']) checked @endif
                                                                 class="custom-control-input @error('address') is-invalid @enderror" value="{{ $address['id'] }}" required>
                                                                 <label class="custom-control-label" for="address{{ $address['id'] }}"></label>
                                                             </div>
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card cart">
                     <div class="card-header py-1">
                         <h5 class="m-0">Your Order</h5>
                     </div>
@@ -118,37 +118,60 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col" colspan="2">Product Description</th>
+                                    <th scope="col">Product</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Unit Price</th>
-                                    <th scope="col">Discount</th>
-                                    <th scope="col" colspan="2">Sub-Total</th>
+                                    <th scope="col">Sub-Total</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="accordion">
 
                                 <?php $totalPrice = 0; ?>
                                 @foreach($cart as $item)
-                                    <tr>
+                                    <?php
+                                    $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
+                                    $unitPrice = Cart::getVariationPrice($item['product_id'], $details)['unit_price'];
+                                    $discountPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
+                                    $discount = Cart::getVariationPrice($item['product_id'], $details)['discount'];
+                                    ?>
+                                    <tr data-toggle="collapse" data-target="#cart-item{{ $item['id'] }}" style="cursor: pointer">
                                         <th scope="row">{{$loop -> iteration}}</th>
                                         <td>
                                             <a href="{{url('/product/' . $item['product']['id'] . '/' . preg_replace("/\s+/", "", $item['product']['title']))}}">
                                                 {{$item['product']['title']}}
-                                            </a><br>
-                                            <?php
-                                            $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-                                            $unitPrice = Cart::getVariationPrice($item['product_id'], $details)['unit_price'];
-                                            $discountPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
-                                            $discount = Cart::getVariationPrice($item['product_id'], $details)['discount'];
-                                            ?>
-                                        </td>
-                                        <td>
-                                            @if(count($details) > 0) {{mapped_implode(', ', $details, ": ")}} @else - @endif
+                                            </a>
                                         </td>
                                         <td>{{$item['quantity']}}</td>
                                         <td>KES.{{ $unitPrice  }}/-</td>
-                                        <td> - KES.{{ $discount * $item['quantity'] }}/-</td>
                                         <td class="border-left">KES {{ $discountPrice * $item['quantity'] }}/-</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="p-0">
+                                            <div class="ml-3 collapse" data-parent="#accordion" id="cart-item{{ $item['id'] }}">
+                                                <table class="table table-sm table-bordered small">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Image</th>
+                                                        <th>Details</th>
+                                                        <th>Discount</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
+                                                        <td>
+                                                            @if(count($details) > 0)
+                                                                @foreach($details as $key => $value)
+                                                                    {{ $key }}: {{ $value }} <br>
+                                                                @endforeach
+                                                            @else N / A @endif
+                                                        </td>
+                                                        <td>- {{ $discount * $item['quantity'] }}/-</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <?php $totalPrice += ($discountPrice * $item['quantity'])?>
                                 @endforeach
@@ -156,17 +179,17 @@
                                 </tbody>
                                 <tfoot class=" text-info">
                                 <tr>
-                                    <th colspan="6" class="text-right">Sub Total : </th>
+                                    <th colspan="4" class="text-right">Sub Total : </th>
                                     <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
                                 </tr>
                                 <tr>
-                                    <th colspan="6" class="text-right">Coupon Discount : </th>
+                                    <th colspan="4" class="text-right">Coupon Discount : </th>
                                     <th colspan="3" class="border-left">
                                         KES @if(session('couponDiscount')) {{ session('couponDiscount') }} @else 0.0 @endif/-
                                     </th>
                                 </tr>
                                 <tr class="total">
-                                    <th colspan="6" class="text-right">
+                                    <th colspan="4" class="text-right">
                                         GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponDiscount')) {{ session('couponDiscount') }}) @else 0.0) @endif =
                                     </th>
                                     <th colspan="3" class="border-left">
@@ -178,9 +201,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card payment">
                     <div class="card-header py-1">
-                        <h4 class="m-0">Payment Options</h4>
+                        <h5 class="m-0">Payment Options</h5>
                     </div>
                     <div class="card-body pt-2">
                         <div class="row">
@@ -219,25 +242,23 @@
                             </span>
                         @enderror
                         <hr class="bg-success">
-                        <div class="row text-center">
+                        <div class="row text-center pay-buttons">
                             <div class="col">
-                                <img src="{{ asset('images/general/1200px-M-PESA_LOGO-01.svg.png') }}" alt="PayPal" class="img-fluid" style="width: 10rem; height: 5rem; object-fit: cover">
-                                <button class="btn btn-block btn-success" style="border-radius: 2.5rem; height: 2.7rem">
-                                    <a class="text-white">
-                                        <h4 class="font-weight-bold"><i class="fas fa-hand-holding-usd"></i> Offline Payment</h4>
-                                    </a>
-                                </button>
+                                <img src="{{ asset('images/general/1200px-M-PESA_LOGO-01.svg.png') }}" alt="PayPal" class="img-fluid">
+                                <a class="btn btn-block btn-success text-white">
+                                    <i class="fas fa-hand-holding-usd"></i> Offline Payment
+                                </a>
                             </div>
                             <div class="col">
-                                <img src="{{ asset('images/general/paypal-784404_1280-1.png') }}" alt="PayPal" class="img-fluid" style="width: 10rem; height: 5rem; object-fit: cover">
-                                <div id="paypal_payment_button"></div>
+                                <img src="{{ asset('images/general/paypal-784404_1280-1.png') }}" alt="PayPal" class="img-fluid">
+                                <div id="paypal_payment_button">Coming soon!</div>
                             </div>
                         </div>
                         <hr class="bg-primary">
-                        <div class="row">
+                        <div class="row place">
                             <div class="col d-flex justify-content-between">
-                                <a href="{{ url('/cart') }}" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i> Back to Cart</a>
-                                <button type="submit" class="btn btn-dark">Place Order <i class="bx bxs-send"></i></button>
+                                <a href="{{ url('/cart') }}" class="btn btn-outline-dark"><i class="fa fa-arrow-circle-left"></i> Back to Cart</a>
+                                <button type="submit" class="btn btn-success">Place Order <i class="bx bxs-send"></i></button>
                             </div>
                         </div>
                     </div>
@@ -249,8 +270,6 @@
     </div>
 
 <!--    PayPal Integration    -->
-<!--
-<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>
--->
+<!--<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>-->
 
 @endsection

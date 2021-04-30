@@ -404,6 +404,9 @@
     }
     #products .card-body .button .add,
     #products .input-group label,
+    #checkout .card.address .input-group-append a,
+    #checkout .card.address .input-group label,
+    #checkout .card.address .input-group .custom-select,
     #cart .coupon span,
     #cart .coupon input,
     #cart .coupon button,
@@ -484,7 +487,7 @@
     #categories_sidebar .filters-header .fa-filter {
         margin-bottom: .5rem;
     }
-    #categories_sidebar .search_text.
+    #categories_sidebar .search_text,
     #categories_sidebar .form-check.sub_list label,
     #categories_sidebar .form-check.list label {
         font-size: var(--font-size-small);
@@ -507,6 +510,7 @@
     #details .details .card-title p {
         font-size: var(--font-size-tiny);
     }
+    #checkout .custom-radio,
     #details .details .variations ul li .custom-radio {
         transform: scale(.9);
     }
@@ -553,13 +557,17 @@
         font-size: var(--font-size-tiny);
         margin-bottom: .5rem;
     }
+    #checkout .card.cart .table thead > tr > th,
     #cart .cart_table .table_fixed thead > tr > th {
         font-size: var(--font-size-tiny);
     }
+    #checkout .card.cart .table tbody tr th,
+    #checkout .card.cart .table tbody tr td,
     #cart .cart_table .table tbody tr th,
     #cart .cart_table .table tbody tr td {
         font-size: var(--font-size-tiny);
     }
+    #checkout .card.cart .table tr td img,
     #cart .cart_table .table tr td img {
         width: 1.5rem;
         max-height: 1.7rem
@@ -581,6 +589,7 @@
     #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus {
         padding: 0;
     }
+    #checkout .card.cart .table tfoot th,
     #cart .cart_table .table tfoot th {
         font-size: var(--font-size-tiny);
         font-weight: 300;
@@ -598,6 +607,44 @@
     }
     #order_summary h3 {
         font-size: var(--font-size-bigger);
+    }
+
+    /*=======+++++++=======+++++++=======  CHECKOUT  =======+++++++=======+++++++=======*/
+    #checkout .card.address h3 {
+        font-size: var(--font-size-bigger);
+    }
+    #checkout .card.payment .card-header h5,
+    #checkout .card.cart .card-header h5,
+    #checkout .card.address th h5 {
+        font-size: var(--font-size-normal);
+    }
+    #checkout .card.address th a {
+        padding: .3rem .5rem;
+        font-size: var(--font-size-tiny);
+    }
+    #checkout .card.address td {
+        padding: .3rem 0;
+    }
+    #checkout .card.address .custom {
+        height: 1.7rem;
+        font-size: var(--font-size-tiny);
+        padding: .5rem;
+    }
+    #checkout .card.payment .col {
+        font-size: var(--font-size-small);
+    }
+    #checkout .card.payment img {
+        width: 7rem;
+        height: 3rem;
+    }
+    #checkout .card.payment .pay-buttons a {
+        display: flex;
+        align-items: center;
+        height: 2rem;
+        font-size: var(--font-size-small);
+    }
+    #checkout .card.payment .place .btn {
+        font-size: var(--font-size-small);
     }
 
 

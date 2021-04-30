@@ -954,6 +954,7 @@ nav ul.pagination {
 #cart .cart_table .table tbody tr td {
     vertical-align: middle;
 }
+#checkout .card.cart .table tr td img,
 #cart .cart_table .table tr td img {
     width: 3.7rem;
     max-height: 4rem
@@ -1077,6 +1078,19 @@ nav ul.pagination {
     padding: 0;
 }
 
+
+
+/*=======+++++++=======+++++++=======  CHECKOUT  =======+++++++=======+++++++=======*/
+#checkout .card.payment img {
+    width: 10rem;
+    height: 5rem;
+    object-fit: cover
+}
+#checkout .card.payment .pay-buttons a{
+    font-size: var(--font-size-bigger);
+    border-radius: 2.5rem;
+    height: 2.7rem
+}
 
 
 
