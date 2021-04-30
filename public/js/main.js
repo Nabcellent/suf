@@ -98,6 +98,7 @@ $(() => {
     if(window.innerWidth > 991.98) {
         $('#mega_nav .nav_link.products').attr('href', '/products');
     } else {
+        $('#filters').addClass('collapse');
         $('#mega_nav .nav_link.products').attr('href', '#');
     }
 

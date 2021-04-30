@@ -62,7 +62,7 @@
 
                                     <li class="list_item">
                                         <img src="{{asset('/images/general/meganav/174-1744463_beard-men-in-suit.jpg')}}" alt="shop">
-                                        <h4 class="title"><a href="{{url('/products')}}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
+                                        <h4 class="title"><a href="{{ route('products') }}" class="d-block d-lg-none lead nav_link">All Products</a></h4>
                                     </li>
                                 </ul>
                             </li>

@@ -279,7 +279,7 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%  Extra small devices (portrait phones, less than 576px)  %%%%%%%%%%%%%%%%%%%%%*/
 @media (max-width: 576px) {
-    /*=======+++++++=======  GENERAL  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  GENERAL  =======+++++++=======+++++++=======*/
     .breadcrumb {
         height: 1.7rem;
         margin-bottom: .5rem;
@@ -291,13 +291,13 @@
         z-index: 1;
     }
 
-    /*=======+++++++=======  HEADER  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  HEADER  =======+++++++=======+++++++=======*/
     #top_header .top_header {
         padding: 0 1rem;
         z-index: var(--z-index-1);
     }
 
-    /*=======+++++++=======  HEADER CAROUSEL  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  HEADER CAROUSEL  =======+++++++=======+++++++=======*/
     #header_carousel .header_carousel {
         padding: 0 1rem;
         height: 20vh;
@@ -307,12 +307,12 @@
     }
 
 
-    /*=======+++++++=======  HOME  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  HOME  =======+++++++=======+++++++=======*/
     #index .product_container {
         padding: 0 .5rem;
     }
 
-    /*=======+++++++=======  BOX SECTION  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  BOX SECTION  =======+++++++=======+++++++=======*/
     .box_section {
         margin-bottom: 0;
         padding: .7rem .3rem!important;
@@ -327,7 +327,7 @@
         font-size: var(--font-size-tiny);
     }
 
-    /*=======+++++++=======  INDEX PRODUCTS  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  INDEX PRODUCTS  =======+++++++=======+++++++=======*/
     #index .product_container {
         padding: 0 .5rem;
     }
@@ -385,7 +385,7 @@
     }
 
 
-    /*=======+++++++=======  PRODUCTS  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  PRODUCTS  =======+++++++=======+++++++=======*/
 
     #products .products_container {
         padding: 0 2rem;
@@ -393,6 +393,8 @@
     #products .input-group label {
         font-size: var(--font-size-tiny);
     }
+    #details .quantity span,
+    #details .quantity input,
     #products .input-group .input-group-prepend,
     #products .input-group .custom-select {
         height: 1.7rem;
@@ -458,7 +460,7 @@
         font-weight: 300;
     }
 
-    /*=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  CATEGORIES SIDEBAR  =======+++++++=======+++++++=======*/
     #categories_sidebar {
         position: fixed;
         left: 1rem;
@@ -480,6 +482,18 @@
     #categories_sidebar .search_text {
         font-size: var(--font-size-small);
     }
+
+    /*=======+++++++=======+++++++=======  DETAILS  =======+++++++=======+++++++=======*/
+    #details .details .card-title h3 {
+        font-size: var(--font-size-normal);
+    }
+    #details .details .card-title p {
+        font-size: var(--font-size-tiny);
+    }
+    #details .details .brand-name {
+        font-size: var(--font-size-tiny);
+    }
+
 
     /*=======+++++++=======  SOCIAL ICONS  =======+++++++=======*/
 

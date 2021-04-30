@@ -29,65 +29,66 @@
         <!--    Start Product Show Case    -->
 
         <div class="row my-2 justify-content-center">
-            <div class="col p-3 card" style="min-height: 30rem;">
-                <div class="row" style="height: 100%;">
-                    {{--    Images    --}}
-                    <div class="col-6">
-                        <div class="swiper-container gallery-top">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
+            <div class="col">
+                <div class="card">
+                    <div class="row">
+                        {{--    Images    --}}
+                        <div class="col-12 col-md-6" style="min-height: 20rem;">
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
 
-                                @foreach($details['images'] as $image)
-                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="swiper-container gallery-thumbs">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
-
-                                @foreach($details['images'] as $image)
-                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                    {{--    Details    --}}
-                    <div class="col-6">
-                        <div class="card-title m-0">
-                            <div class="d-flex justify-content-between">
-                                <h3>{{$details['title']}}</h3>
-                                <p class="small">{{$details['seller']['admin']['username']}}</p>
-                            </div>
-                            <h6>--> {{$details['brand']['name']}}</h6>
-                        </div>
-                        <hr>
-                        <form action="{{url('/add-to-cart')}}" method="POST" class="card-body py-1">
-                            @csrf
-                            <div class="row justify-content-end">
-                                <div class="col"><p class="small m-0">{{$totalStock}} in stock</p></div>
-                                <div class="col-6">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">Quantity</span>
-                                        </div>
-                                        <input type="number" name="quantity" class="form-control" min="0" step="1" value="{{ old('quantity') }}" placeholder="Quantity" aria-label required>
-                                    </div>
+                                    @foreach($details['images'] as $image)
+                                        <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                    @endforeach
                                 </div>
                             </div>
-                            <div class="row" style="min-height: 10rem">
-                                <div class="col variations">
+                            <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $details['main_image'])}}')"></div>
 
-                                    @if(count($details['variations']) > 0)
-                                        <h5>Variations</h5>
-                                        <hr class="bg-warning m-0">
-                                        <ul class="list-group list-group-flush">
-                                            @foreach($details['variations'] as  $variation)
-                                                <?php $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)) ?>
-                                                @if(count($variation['variation_options']) > 0)
-                                                    <li class="list-group-item">{{$variationName}}
-                                                        <div class="form-group m-0">
+                                    @foreach($details['images'] as $image)
+                                        <div class="swiper-slide" style="background-image:url('{{asset('/images/products/' . $image['image'])}}')"></div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        {{--    Details    --}}
+                        <div class="col-12 col-md-6 details" style="min-height: 20rem;">
+                            <div class="card-title m-0">
+                                <div class="d-flex justify-content-between align-items-start p-md-2 px-2 py-0">
+                                    <h3>{{$details['title']}}</h3>
+                                    <p class="small text-muted">{{$details['seller']['admin']['username']}}</p>
+                                </div>
+                                <h6 class="brand-name">--> {{$details['brand']['name']}}</h6>
+                            </div>
+                            <hr class="my-1 my-md-2">
+                            <form action="{{url('/add-to-cart')}}" method="POST" class="card-body py-1">
+                                @csrf
+                                <div class="row justify-content-end">
+                                    <div class="col"><p class="small m-0">{{$totalStock}} in stock</p></div>
+                                    <div class="col-6 quantity">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">Quantity</span>
+                                            </div>
+                                            <input type="number" name="quantity" class="form-control" min="0" step="1" value="{{ old('quantity') }}" placeholder="Quantity" aria-label required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="min-height: 10rem">
+                                    <div class="col variations">
+
+                                        @if(count($details['variations']) > 0)
+                                            <h5>Variations</h5>
+                                            <hr class="bg-warning m-0">
+                                            <ul class="list-group list-group-flush">
+                                                @foreach($details['variations'] as  $variation)
+                                                    <?php $variationName = key(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR)) ?>
+                                                    @if(count($variation['variation_options']) > 0)
+                                                        <li class="list-group-item">{{$variationName}}
+                                                            <div class="form-group m-0">
                                                                 @foreach($variation['variation_options'] as $option)
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="option{{$option['id']}}" name="variant{{ $variationName }}"
@@ -98,19 +99,19 @@
                                                                         </label>
                                                                     </div>
                                                                 @endforeach
-                                                        </div>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    @endif
+                                                            </div>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        @endif
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <?php $discountPrice = Product::getDiscountPrice($details['id']); ?>
-                                    @if($discountPrice > 0)
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <?php $discountPrice = Product::getDiscountPrice($details['id']); ?>
+                                        @if($discountPrice > 0)
                                             <p class="font-weight-bold m-0">
                                                 KSH <span class="variation_price">{{$discountPrice}}</span>/=
                                             </p>
@@ -120,16 +121,17 @@
                                                 KSH <span class="variation_price">{{$details['base_price']}}</span>/=
                                             </p>
                                         @endif
+                                    </div>
+                                    <div class="col text-right">
+                                        <input type="hidden" name="product_id" value="{{$details['id']}}">
+                                        <button class="btn btn-success">Add To Cart <i class="bx bxs-cart-add"></i></button>
+                                    </div>
                                 </div>
-                                <div class="col text-right">
-                                    <input type="hidden" name="product_id" value="{{$details['id']}}">
-                                    <button class="btn btn-success">Add To Cart <i class="bx bxs-cart-add"></i></button>
-                                </div>
+                            </form>
+                            <div class="card-footer">
+                                <h4>Description</h4>
+                                <p>{{$details['description']}}</p>
                             </div>
-                        </form>
-                        <div class="card-footer">
-                            <h4>Description</h4>
-                            <p>{{$details['description']}}</p>
                         </div>
                     </div>
                 </div>
