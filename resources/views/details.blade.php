@@ -152,7 +152,7 @@
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div id="products_like">
                             <div class="row like_title">
                                 <div class="col">
@@ -195,7 +195,7 @@
                     </div>
 
                     @if(count($related) > 0)
-                        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <!--    Start Products you may Like    -->
 
                             <div id="products_like" class="row">
