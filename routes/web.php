@@ -27,16 +27,16 @@ use App\Http\Controllers\PolicyController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -95,6 +95,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         //  Admin Routes
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+        Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
 
         //  CREATE ROUTES
         Route::name('create.')->group(function() {
@@ -153,13 +155,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware(['verified', 'auth'])->group(function() {
     //  USER PROFILE ROUTES
     Route::match(['GET', 'POST'], '/profile/{page?}/{id?}', [UserController::class, 'account'])->name('profile');
-    Route::patch('/add-phone', [UserController::class, 'createPhone']);
+    Route::patch('/add-phone', [UserController::class, 'createUpdatePhone']);
     Route::patch('/upload-profile-image', [UserController::class, 'uploadProfilePic'])->name('profile-pic');
     Route::get('/delete-phone/{id}', [UserController::class, 'deletePhone']);
     Route::post('/delivery-address/{id?}', [UserController::class, 'deliveryAddress'])->whereNumber('id')->name('delivery-address');
     Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
     Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
-    Route::post('/change-password', [UserController::class, 'updatePassword'])->name('change-password');
+    Route::patch('/change-password', [UserController::class, 'updatePassword'])->name('change-password');
 
     //  CART ROUTES
     Route::post('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply-coupon');
@@ -171,7 +173,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
-    Route::post('/check-password', [AjaxController::class, 'checkCurrentPassword']);
+    Route::get('/check-password', [AjaxController::class, 'checkCurrentPassword']);
     Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
 });
 
@@ -201,7 +203,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 
