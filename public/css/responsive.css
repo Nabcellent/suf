@@ -480,12 +480,18 @@
     #categories_sidebar {
         position: fixed;
         left: 1rem;
-        top: 4rem;
-        width: 80%;
-        z-index: var(--z-index-1);
+        top: 12rem;
+        width: 75%;
+        z-index: 1;
+    }
+    #categories_sidebar .filters-header {
+        display: inline!important;
     }
     #categories_sidebar .filters-header .fa-filter {
         margin-bottom: .5rem;
+        background-color: white;
+        padding: .4rem;
+        border-radius: 50%;
     }
     #categories_sidebar .search_text,
     #categories_sidebar .form-check.sub_list label,
@@ -713,6 +719,7 @@
 
     /*=======+++++++=======+++++++=======  SOCIAL ICONS  =======+++++++=======+++++++=======*/
     #social_icons {
+        top: 35%;
         z-index: 5;
         transform: translate(-8rem, 0);
     }

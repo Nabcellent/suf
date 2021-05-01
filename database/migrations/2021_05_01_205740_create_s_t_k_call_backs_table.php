@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMpesaStkPushTable extends Migration
+class CreateSTKCallBacksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateMpesaStkPushTable extends Migration
      */
     public function up()
     {
-        Schema::create('mpesa_stk_push', function (Blueprint $table) {
+        Schema::create('s_t_k_call_backs', function (Blueprint $table) {
             $table->id();
-            $table->string('merchant_request_id')->nullable();
-            $table->string('checkout_request_id')->nullable();
+            $table->foreignId('s_t_k_push_id')->constrained()->onDelete('cascade');
             $table->float('amount')->nullable();
             $table->string('receipt_number')->nullable();
-            $table->string('phone')->nullable();
+            $table->enum('status', ['Success', 'Failed', 'Cancelled']);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateMpesaStkPushTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mpesa_stk_push');
+        Schema::dropIfExists('s_t_k_call_backs');
     }
 }

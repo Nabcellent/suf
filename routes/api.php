@@ -23,6 +23,6 @@ Route::prefix('stk-push')->name('api.')->namespace('Api')->group(function() {
     Route::name('mpesa.')->group(function() {
         Route::post('v1/access/token', [MpesaController::class, 'generateAccessToken']);
         Route::post('v1/hlab/stk/push', [MpesaController::class, 'STKPush'])->name('push');
-        Route::get('/confirmation', [MpesaController::class, 'confirm'])->name('callback');
+        Route::post('/confirmation', [MpesaController::class, 'confirm'])->name('callback');
     });
 });

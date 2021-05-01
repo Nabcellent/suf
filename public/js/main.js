@@ -15,7 +15,7 @@ $(() => {
 
 
 
-    /*****************************  Header Jumbo SideNav  *****************************/
+    /*****************************  Top Nav  *****************************/
 
     const menu = $('#mega_nav .menu');
     const menuMain = $("#mega_nav .menu .menu_main");

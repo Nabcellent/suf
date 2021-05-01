@@ -122,12 +122,9 @@ $(() => {
      * *********************************************************    ANIME INPUT
      */
 
-    console.log('Page ready');
-
     let $animeInput = $('.anime_input');
 
     if($animeInput.val()) {
-        console.log('inputing');
         $animeInput.addClass('dirty_input');
     } else {
         $animeInput.removeClass('dirty_input');

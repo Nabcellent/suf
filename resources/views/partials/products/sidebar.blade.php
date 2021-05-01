@@ -1,7 +1,8 @@
 
 <div id="categories_sidebar">
-    <div class="d-flex justify-content-between filters-header"  data-toggle="collapse" data-target="#filters">
-        <h4 class="m-0 d-none d-md-block">FILTERS</h4><i class="fas fa-filter"></i>
+    <div class="d-flex justify-content-between filters-header">
+        <h4 class="m-0 d-none d-md-block" data-toggle="collapse" data-target="#filters">FILTERS</h4>
+        <i class="fas fa-filter" data-toggle="collapse" data-target="#filters"></i>
     </div>
     <ul id="filters" class="list-group list-group-flush">
         <?php $sections = sections(); ?>

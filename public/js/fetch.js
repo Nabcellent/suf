@@ -62,9 +62,12 @@ const getProducts = (url) => {
         success: function(response) {
             $('#product_section').html(response);
             $('#loader').hide();
-            /*if(changeHeading) {
+
+            if($('.product_check:checked').length > 0) {
                 $('#textChange').text('Filtered Products');
-            }*/
+            } else {
+                $('#textChange').text('All Products');
+            }
         }
     })
 }

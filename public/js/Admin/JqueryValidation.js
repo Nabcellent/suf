@@ -34,7 +34,7 @@ $(() => {
             national_id: {
                 required: true,
                 digits: true,
-                minlength: 8,
+                minlength: 7,
                 maxlength: 8,
                 remote: '/check-national-id',
             },
@@ -66,7 +66,6 @@ $(() => {
             },
             national_id: {
                 required: 'Please enter your ID number.',
-                minlength: 'Please enter no less than 8 numbers.',
                 remote: 'This ID number is already in use.',
             },
             email: {
