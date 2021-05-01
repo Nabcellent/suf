@@ -68,7 +68,7 @@
                 <form action="" method="post">
                     <div class="form-group mb-0">
                         <label>
-                            <input type="email" class="form-control" name="email">
+                            <input type="email" class="form-control" name="email" placeholder="Email address">
                         </label>
                         <input type="submit" value="subscribe" class="btn btn-outline-light">
                     </div>

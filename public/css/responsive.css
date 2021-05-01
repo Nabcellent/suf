@@ -737,6 +737,40 @@
     .main_footer .row {
         padding: 0;
     }
+    .main_footer h3 {
+        font-size: var(--font-size-bigger);
+        margin-bottom: 0;
+    }
+    .main_footer p, .main_footer p a {
+        font-size: var(--font-size-small);
+    }
+    .main_footer .dropdown-divider {
+        margin: .3rem 0;
+        width: 75%;
+    }
+    .main_footer .form-group input {
+        font-size: var(--font-size-small);
+        height: 1.5rem;
+    }
+    .main_footer .form-group input.btn {
+        padding: .2rem.5rem;
+    }
+    .main_footer h5 {
+        font-size: var(--font-size-normal);
+    }
+    .main_footer ul {
+        display: flex;
+        justify-content: space-between;
+    }
+    .main_footer li {
+        display: inline-flex;
+        margin: .7rem auto auto;
+        font-size: 1.5rem;
+    }
+
+    .socket {
+        font-size: var(--font-size-tiny);
+    }
 
 
     /*=======+++++++=======+++++++=======  NEUMORPHIC FORM  =======+++++++=======+++++++=======*/
