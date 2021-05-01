@@ -1094,7 +1094,7 @@ nav ul.pagination {
 
 
 
-/*=======+++++++=======  CONTACT  =======+++++++=======*/
+/*=======+++++++=======  CONTACT US  =======+++++++=======*/
 
 #contact_us .contact_header h2 {
     color: rgb(159, 35, 16);
@@ -1197,12 +1197,13 @@ nav ul.pagination {
 }
 #profile .profile-image {
     position: relative;
+    border-radius: 50%;
 }
 #profile .profile-image img {
     height: 15rem;
-    width: 100%;
+    width: 15rem;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 50% !important;
     margin: .4rem .2rem;
 }
 #profile .profile-image span {

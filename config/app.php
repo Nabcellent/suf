@@ -178,6 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        SmoDav\Mpesa\Laravel\ServiceProvider::class,
+
     ],
 
     /*
@@ -229,6 +231,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'STK'       => App\Overrides\Mpesa\STK::class,
+        'Simulate'  => App\Overrides\Mpesa\Simulate::class,
+        'Registrar' => App\Overrides\Mpesa\Registrar::class,
+        'Identity'  => App\Overrides\Mpesa\Identity::class,
 
     ],
 

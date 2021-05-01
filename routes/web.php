@@ -28,15 +28,15 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::any('/', function() {
+/*Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -162,6 +162,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::get('/delete-delivery-address/{id}', [UserController::class, 'deleteAddress']);
     Route::get('/orders', [OrderController::class, 'showOrders'])->name('orders');
     Route::patch('/change-password', [UserController::class, 'updatePassword'])->name('change-password');
+    Route::post('/delete-account', [UserController::class, 'deleteAccount'])->name('delete_account');
 
     //  CART ROUTES
     Route::post('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply-coupon');
@@ -203,7 +204,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 

@@ -31,7 +31,7 @@
                                 <p>If you have any queries, Please write to us. <br> We shall help.</p>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body py-0 py-md-2">
                             <div class="row info_row">
                                 <div class="col-auto">
                                     <div class="info_icon">

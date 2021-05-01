@@ -17,7 +17,12 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="#" data-toggle="dropdown">
                                     {{Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)}}
-                                    <i class="fas fa-user-circle"></i>
+                                    @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
+                                        <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown"
+                                             style="width:1.7rem; height:1.7rem; border-radius:50%; object-fit:cover;">
+                                    @else
+                                        <i class="fas fa-user-circle"></i>
+                                    @endif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('checkout') }}">Checkout</a>

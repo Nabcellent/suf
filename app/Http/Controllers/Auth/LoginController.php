@@ -57,6 +57,10 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->intended('/cart');
+        if(cartCount() > 0) {
+            return redirect()->intended('/cart');
+        }
+
+        return redirect()->intended('/products');
     }
 }

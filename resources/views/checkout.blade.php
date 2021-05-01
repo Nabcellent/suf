@@ -245,9 +245,6 @@
                         <div class="row text-center pay-buttons">
                             <div class="col">
                                 <img src="{{ asset('images/general/1200px-M-PESA_LOGO-01.svg.png') }}" alt="PayPal" class="img-fluid">
-                                <a class="btn btn-block btn-success text-white">
-                                    <i class="fas fa-hand-holding-usd"></i> Offline Payment
-                                </a>
                             </div>
                             <div class="col">
                                 <img src="{{ asset('images/general/paypal-784404_1280-1.png') }}" alt="PayPal" class="img-fluid">

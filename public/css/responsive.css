@@ -557,10 +557,13 @@
         font-size: var(--font-size-tiny);
         margin-bottom: .5rem;
     }
+    #profile .orders .table thead > tr > th,
     #checkout .card.cart .table thead > tr > th,
     #cart .cart_table .table_fixed thead > tr > th {
         font-size: var(--font-size-tiny);
     }
+    #profile .orders .table tbody tr th,
+    #profile .orders .table tbody tr td,
     #checkout .card.cart .table tbody tr th,
     #checkout .card.cart .table tbody tr td,
     #cart .cart_table .table tbody tr th,
@@ -647,9 +650,68 @@
         font-size: var(--font-size-small);
     }
 
+    /*=======+++++++=======+++++++=======  CONTACT US  =======+++++++=======+++++++=======*/
+    #profile .profile_header h2,
+    #contact_us .contact_header h2 {
+        font-size: var(--font-size-bigger);
+    }
+    #contact_us .info_card p {
+        padding: 1rem 3rem 0 2rem;
+        font-size: var(--font-size-small);
+    }
+    #contact_us .info_card .info_row {
+        font-size: var(--font-size-tiny);
+    }
+    #contact_us .info_card .info_icon {
+        width: 2rem;
+        height: 2rem;
+    }
 
-    /*=======+++++++=======  SOCIAL ICONS  =======+++++++=======*/
+    /*=======+++++++=======+++++++=======  PROFILE  =======+++++++=======+++++++=======*/
+    #profile .profile-image img {
+        height: 7rem;
+        width: 7rem;
+        margin: .4rem .2rem;
+    }
+    figcaption h5 {
+        font-size: var(--font-size-small);
+        text-align: center;
+    }
+    #profile .card-header h3 {
+        font-size: var(--font-size-big);
+    }
+    #profile .card-header hr {
+        margin: .5rem .5rem 0;
+    }
+    #profile .phones > label,
+    #profile .addresses > label {
+        margin-bottom: .5rem;
+        padding: 0!important;
+        height: 1.7rem!important;
+    }
+    #profile .addresses label a,
+    #profile .phones label a {
+        font-size: var(--font-size-tiny);
+    }
+    #profile .addresses label,
+    #profile .addresses span,
+    #profile .phones label,
+    #profile .phones span {
+        font-size: var(--font-size-tiny);
+        height: 2rem;
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
+    #profile .orders .head h1 {
+        font-size: var(--font-size-bigger);
+        margin-bottom: 0;
+    }
+    #profile .orders .head p {
+        font-size: var(--font-size-small);
+        margin-bottom: .5rem;
+    }
 
+    /*=======+++++++=======+++++++=======  SOCIAL ICONS  =======+++++++=======+++++++=======*/
     #social_icons {
         z-index: 5;
         transform: translate(-8rem, 0);
@@ -671,10 +733,58 @@
     }
 
 
-    /*=======+++++++=======  FOOTER  =======+++++++=======*/
-
+    /*=======+++++++=======+++++++=======  FOOTER  =======+++++++=======+++++++=======*/
     .main_footer .row {
         padding: 0;
+    }
+
+
+    /*=======+++++++=======+++++++=======  NEUMORPHIC FORM  =======+++++++=======+++++++=======*/
+    .anime_form label {
+        font-size: var(--font-size-small);
+    }
+    .anime_form label.error {
+        font-size: var(--font-size-tiny);
+    }
+    .anime_form input,
+    .anime_form textarea {
+        font-size: var(--font-size-tiny);
+    }
+    .anime_form input,
+    .anime_form span {
+        font-size: var(--font-size-tiny);
+        padding: .5rem;
+    }
+    .anime_form .form-group {
+        margin-bottom: .7rem;
+    }
+
+    /*=======+++++++=======  NEUMORPHIC BUTTON EFFECT  =======+++++++=======*/
+    .morphic_btn {
+        font-size: var(--font-size-small);
+    }
+
+
+    .modal .modal-header {
+        padding: .5rem 1rem;
+    }
+    .modal .modal-title {
+        font-size: var(--font-size-bigger);
+    }
+    .modal .modal-body h5 {
+        font-size: var(--font-size-big);
+    }
+    .modal .modal-body p {
+        font-size: var(--font-size-small);
+        margin-bottom: 0;
+    }
+    .modal .modal-footer {
+        padding: .5rem 1rem;
+    }
+    .modal .modal-footer button {
+        font-size: var(--font-size-small);
+        margin-bottom: 0;
+        height: 2rem;
     }
 }
 

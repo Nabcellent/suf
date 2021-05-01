@@ -3,22 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use App\Models\Attribute;
-use App\Models\Banner;
-use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Coupon;
-use App\Models\Product;
-use App\Models\productsImage;
-use App\Models\User;
-use App\Models\Variation;
-use App\Models\VariationsOption;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use JsonException;
 

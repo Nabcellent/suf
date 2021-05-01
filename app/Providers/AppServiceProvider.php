@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use SmoDav\Mpesa\C2B\STK;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+        // the original class
+            STK::class,
+            // my custom class
+            \App\Overrides\Mpesa\C2B\STK::class
+        );
     }
 
     /**

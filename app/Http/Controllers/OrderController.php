@@ -77,6 +77,7 @@ class OrderController extends Controller
                 if(Str::contains(Str::lower($data['payment_method']),'delivery')) {
                     $paymentType = 'on-delivery';
                 } else {
+
                     $paymentType = 'instant';
                 }
             } else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {

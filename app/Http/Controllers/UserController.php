@@ -208,5 +208,19 @@ class UserController extends Controller
 
 
 
+    public function deleteAccount(): RedirectResponse {
+        $user = User::find(Auth::id());
 
+        Auth::logout();
+
+        if($user->delete()) {
+            $message = "It was great having you as our customer.";
+            return redirect()->route('home')
+                ->with('alert', ['type' => 'success', 'intro' => '💔', 'message' => $message, 'duration' => 7]);
+        }
+
+        $message = "Unable to delete. Kindly contact us.";
+        return back()
+            ->with('alert', ['type' => 'warning', 'intro' => '❗ ', 'message' => $message, 'duration' => 7]);
+    }
 }

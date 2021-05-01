@@ -1,10 +1,10 @@
 
-<div class="box bg-light p-3 rounded shadow">
-    <div class="row">
+<div class="box bg-light p-3 rounded shadow orders">
+    <div class="row head">
         <div class="col">
             <h1>My Orders</h1>
-            <p class="lead">Your Orders in one place</p>
-            <p class="text-muted">If your have any Queries, please <a href="{{ url('/contact-us') }}">contact us</a></p>
+            <p class="lead">All in one place.</p>
+            <p class="text-muted">If your have any Queries, please <a href="{{ url('/contact-us') }}">contact us.</a></p>
         </div>
         <div class="dropdown-divider"></div>
     </div>
@@ -16,28 +16,22 @@
                     <table class="table table-striped table-borderless table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">Order No.</th>
+                            <th scope="col" class="pr-0">Order No.</th>
                             <th scope="col">Amount Due</th>
-                            <th scope="col">Payment Method</th>
+                            <th scope="col" class="d-none d-md-block">Payment Method</th>
                             <th scope="col">Order Date</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody id="accordion">
 
                         @foreach($orders as $order)
                             <tr data-toggle="collapse" data-target="#order-products{{ $order['id'] }}" style="cursor: pointer">
-                                <th scope="row">{{ $order['id'] }}</th>
-                                <td>KES.{{ currencyFormat($order['total']) }}/=</td>
-                                <td>{{ ucfirst($order['payment_method']) }} {{ ucfirst($order['payment_type']) }}</td>
-                                <td>{{ date('M d, Y', strtotime($order['created_at'])) }}</td>
+                                <th scope="row" class="pr-0">{{ $order['id'] }}</th>
+                                <td>{{ currencyFormat($order['total']) }}/=</td>
+                                <td class="d-none d-md-block">{{ ucfirst($order['payment_method']) }} {{ ucfirst($order['payment_type']) }}</td>
+                                <td>{{ date('M d, y', strtotime($order['created_at'])) }}</td>
                                 <td>{{ $order['status'] }}</td>
-                                <td>
-                                    <a href="{{ url('#') }}" target='_blank' class='text-nowrap morphic_btn morphic_btn_success'>
-                                        <span><i class='fas fa-clipboard-check'></i> Confirm Paid</span>
-                                    </a>
-                                </td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="p-0">
@@ -80,6 +74,10 @@
                                             <tr class="border-0">
                                                 <th colspan="4" class="text-right">GRAND TOTAL:</th>
                                                 <td colspan="3">{{ currencyFormat($order['total']) }}/=</td>
+                                            </tr>
+                                            <tr class="border-0 d-md-none">
+                                                <th colspan="4" class="text-right">Payment Method:</th>
+                                                <td colspan="3">{{ ucfirst($order['payment_method']) }} <br> {{ ucfirst($order['payment_type']) }}</td>
                                             </tr>
 
                                             </tbody>

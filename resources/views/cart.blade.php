@@ -43,7 +43,7 @@
                                             <h3>Empty Cart</h3>
                                         </div>
                                         <div class='d-flex align-items-center justify-content-center empty_cart'>
-                                            <a href="{{url('/products')}}" class='btn btn-warning'>Go Shopping <i class='fas fa-running'></i></a>
+                                            <a href="{{url('/products')}}" class='btn btn-warning'><i class='bx bx-run bx-flip-horizontal' ></i> Go Shopping</a>
                                         </div>
                                     </div>
                                 @else

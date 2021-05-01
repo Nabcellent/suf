@@ -1,11 +1,10 @@
-
 <!--=======     HEADER     =======-->
 <header class="header">
     <div class="header_container">
         <div class="dropdown header_image">
             {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
             {{ Str::ucfirst(User()->last_name) }}
-            @if(empty(User()->image))
+            @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
                 <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid" alt="" data-toggle="dropdown">
             @else
                 <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown">

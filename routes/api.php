@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\STKPushController;
+use App\Http\Controllers\API\MpesaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-/*
-Route::group(['prefix' => 'stk-push', 'as', 'stk-push'], function() {
-    Route::post('simulate', [STKPushController::class, 'simulate'])->name('simulate');
-    Route::post('confirm/{confirmationKey}', [STKPushController::class, 'confirm'])->name('mpesa.confirm');
-});*/
+
+Route::prefix('stk-push')->name('api.')->namespace('Api')->group(function() {
+    Route::name('mpesa.')->group(function() {
+        Route::post('v1/access/token', [MpesaController::class, 'generateAccessToken']);
+        Route::post('v1/hlab/stk/push', [MpesaController::class, 'STKPush'])->name('push');
+        Route::get('/confirmation', [MpesaController::class, 'confirm'])->name('callback');
+    });
+});

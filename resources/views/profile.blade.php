@@ -10,7 +10,7 @@
         <div class="container">
 
             <!--    Start Page Header    -->
-            <div class="container px-1">
+            <div class="container px-md-1">
                 <div class="row">
                     <div class="col-md-12 px-0">
                         <div class="card-header profile_header">
@@ -25,25 +25,25 @@
             <div class="row py-2">
                 <!--    Start Sidebar    -->
 
-                <div class="col-md-3 px-1">
+                <div class="col-md-3 px-md-1">
                     <div class="card mb-2 sidebar_menu">
                         <div class="card-header d-flex justify-content-center">
                             <figure class="figure m-0 profile-image">
                                 @if(!empty(Auth::user()->image) && file_exists(public_path('/images/users/profile/' . Auth::user()->image)))
-                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="figure-img img-fluid rounded" alt="Profile Picture">
+                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="figure-img img-fluid rounded" alt="Profile Picture" data-toggle="modal" data-target="#image_modal">
                                 @else
-                                    <img src="{{asset('/images/users/630728-200.png')}}" class="figure-img img-fluid rounded" alt="Profile Picture">
+                                    <img src="{{asset('/images/users/630728-200.png')}}" class="figure-img img-fluid rounded" alt="Profile Picture" data-toggle="modal" data-target="#image_modal">
                                 @endif
                                 <figcaption class="figure-caption">
                                     <h5 class="card-title" style="text-decoration: underline">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
                                 </figcaption>
-                                <span data-toggle="modal" data-target="#image_modal">Change picture</span>
+                                <span class="d-none d-md-block" data-toggle="modal" data-target="#image_modal">Change picture</span>
                             </figure>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body py-2 py-md-3">
                             <ul class="list-group list-group-flush category_menu profile_links">
                                 <li class="list-group-item">
-                                    <a href="{{url('/account')}}" class="stretched-link">
+                                    <a href="{{ route('profile') }}" class="stretched-link">
                                         <i class="fas fa-user-edit"></i><span>Your Account</span>
                                     </a>
                                 </li>
@@ -65,7 +65,7 @@
 
                 <!--    Start My Orders Section    -->
 
-                <div class="col-md-9 px-1 profile_pages">
+                <div class="col-md-9 px-md-1 profile_pages">
                     @if($page === 'edit')
                         @include('partials.profile.edit')
                     @elseif($page === 'orders')
