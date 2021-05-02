@@ -17,8 +17,8 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('address_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('phone_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('coupon_id')->nullable()->constrained();
+            $table->integer('phone');
             $table->float('discount')->default(0);
             $table->float('delivery_fee')->default(0.0);
             $table->enum('payment_method', ['cash', 'm-pesa', 'paypal']);

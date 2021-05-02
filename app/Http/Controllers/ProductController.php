@@ -102,7 +102,7 @@ class ProductController extends Controller
         }, 'images'])
             ->find($id)->toArray();
         $totalStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-            ->where(['product_id' => $id, 'variations.status' => 1, 'variations_options.status' => 1])->sum('stock');
+            ->where(['product_id' => $id, 'variations.status' => 1, 'variations_options.status' => 1])->min('stock');
         $related = Product::with('brand')->where('category_id', $details['sub_category']['id'])
             ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get()->toArray();
 

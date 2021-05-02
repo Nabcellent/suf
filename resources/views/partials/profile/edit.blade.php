@@ -6,7 +6,7 @@
         <h3><i class="fas fa-user-edit"></i> Personal Details</h3>
         <hr>
     </div>
-    <div class="card-body">
+    <div class="card-body py-2 py-md-3">
         <form id="profile-form" class="anime_form" action="{{route('profile')}}" method="POST">
             @csrf
             <div class="form-row">
@@ -30,14 +30,14 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col">
+                <div class="form-group col-12 col-md mb-0 mb-md-2">
                     <label>Email address</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-envelope"></i></span></div>
                         <input type="text" class="form-control" value="{{$user['email']}}" disabled>
                     </div>
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-12 col-md mb-0 mb-md-2">
                     <label>Gender</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend"><span class="input-group-text"><?= getGenderIcon($user['gender']) ?></span></div>
@@ -51,7 +51,7 @@
                 </button>
             </div>
         </form>
-        <div class="form-group">
+        <div class="form-group phones">
             <label class="d-flex justify-content-between">
                 <span>Phone Number(s) *</span>
                 <a href="#" class="input-group-text border-primary text-info user-phone" title="Add Phone">
@@ -64,7 +64,7 @@
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
                         <span class="input-group-text">+254</span>
                     </div>
-                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $phone['phone'] }}" readonly required>
+                    <label class="form-control">{{ $phone['phone'] }}</label>
                     <div class="input-group-append">
                         @if($phone['primary'])
                             <span class="input-group-text">primary</span>
@@ -85,7 +85,7 @@
             @endforeach
         </div>
         @if(count($user['addresses']) > 0)
-            <div class="form-group">
+            <div class="form-group addresses">
                 <label class="d-flex justify-content-between">
                     <span>Address(es)</span>
                     <a href="{{ route('profile', ['page', 'delivery-address']) }}" class="input-group-text border-primary text-info">
@@ -126,7 +126,7 @@
         <hr>
     </div>
     <div class="card-body">
-        <form class="change-password" class="anime_form" action="{{route('change-password')}}" method="POST">
+        <form class="change-password anime_form" action="{{route('change-password')}}" method="POST">
             @csrf
             @method('PATCH')
             <div class="form-group">
@@ -188,7 +188,8 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="" method="POST">
+                <form action="{{ route('delete_account') }}" method="POST">
+                    @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -196,11 +197,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h6>Deleting your account is irreversible!</h6>
+                        <h5>Are you sure?🤒</h5>
+                        <p>Deleting your account is irreversible!</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <a type="submit" name="yes" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Delete Account</a>
+                        <button type="submit" class="btn btn-outline-danger">Delete Account</button>
                     </div>
                 </form>
             </div>

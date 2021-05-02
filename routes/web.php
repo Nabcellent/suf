@@ -31,7 +31,6 @@ use App\Http\Controllers\PolicyController;
 Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
-
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
 })->where('anyExceptRoot', '.*');

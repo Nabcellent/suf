@@ -153,5 +153,25 @@ $(() => {
             sub_county: 'please select your Sub-county.',
             address: 'Please input a small description of where your stay (like; house number, street/drive, estate/court)'
         }
-    })
+    });
+
+
+
+    $('form#mpesa_stk').validate({
+        rules: {
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 9,
+                maxlength: 12,
+            },
+        },
+        messages: {
+            phone: {
+                required: 'Please provide the phone number that will pay.',
+                digits: 'Only numbers are allowed.',
+                pattern: 'Invalid M-Pesa phone number',
+            },
+        }
+    });
 });

@@ -21,7 +21,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'address_id',
-        'phone_id',
+        'phone',
         'coupon_id',
         'coupon_discount',
         'payment_type',
@@ -34,11 +34,6 @@ class Order extends Model
      */
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
-    }
-
-    public function phone(): BelongsTo
-    {
-        return $this->belongsTo(Phone::class);
     }
 
     public function address(): BelongsTo
@@ -83,13 +78,13 @@ class Order extends Model
      * STATIC FUNCTIONS
      */
     public static function orders() {
-        return self::with('user', 'orderProducts', 'phone');
+        return self::with('user', 'orderProducts');
     }
     public static function usersOrders() {
         return self::where('user_id', Auth::id())->with('orderProducts');
     }
     public static function getSellerOrders() {
-        return self::whereHas('sellersOrders')->with('sellersOrders', 'user', 'phone');
+        return self::whereHas('sellersOrders')->with('sellersOrders', 'user');
     }
 
     public static function orderProductsReady($orderId): bool {

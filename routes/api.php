@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('stk-push')->name('api.')->namespace('Api')->group(function() {
     Route::name('mpesa.')->group(function() {
         Route::post('v1/access/token', [MpesaController::class, 'generateAccessToken']);
-        Route::post('v1/hlab/stk/push', [MpesaController::class, 'STKPush'])->name('push');
-        Route::post('/confirmation', [MpesaController::class, 'confirm'])->name('callback');
+        Route::post('v1/hlab/stk/push', [MpesaController::class, 'initiatePush'])->name('push');
+        Route::post('/confirmation', [MpesaController::class, 'processStkCallback'])->name('callback');
     });
 });

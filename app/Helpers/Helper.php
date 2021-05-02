@@ -180,7 +180,7 @@ function getModel($model): string {
         'Order' => Order::class,
         'Coupon' => Coupon::class,
         'Variation' => Variation::class,
-        'Variation\'s Option' => VariationsOption::class,
+        'Variation\'s option' => VariationsOption::class,
         'Product\'s Image' => productsImage::class,
     };
 }

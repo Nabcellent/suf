@@ -19,10 +19,14 @@ class PhoneFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition(): array {
+        $phone = $this->faker->randomElement([
+            11 . $this->faker->unique()->numerify('#######'),
+            7 . $this->faker->unique()->numerify('########')
+        ]);
+
         return [
-            'phone' => $this->faker->unique()->numerify('#########'),
+            'phone' => $phone,
             'primary' => 1,
         ];
     }

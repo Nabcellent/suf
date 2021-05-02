@@ -92,7 +92,7 @@
                                                                 @foreach($variation['variation_options'] as $option)
                                                                     <div class="custom-control custom-radio custom-control-inline">
                                                                         <input type="radio" id="option{{$option['id']}}" name="variant{{ $variationName }}"
-                                                                               @if(old("variant$variationName") === $option['variant']) checked @endif
+                                                                               @if(old("variant$variationName") === $option['variant'] || count($variation['variation_options']) === 1) checked @endif
                                                                                class="custom-control-input" value="{{$option['variant']}}" data-id="{{$details['id']}}" required>
                                                                         <label class="custom-control-label" for="option{{$option['id']}}" data-id="{{$details['id']}}">
                                                                             {{$option['variant']}}

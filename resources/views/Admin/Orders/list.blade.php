@@ -32,7 +32,7 @@
                                 @foreach($orders as $order)
                                 <tr>
                                     <th>{{ $order['id'] }}</th>
-                                    <td>{{ $order['phone']['phone'] }}</td>
+                                    <td>{{ $order['phone'] }}</td>
                                     <td>{{ $order['payment_method'] }}</td>
                                     <td>{{ $order['payment_type'] }}</td>
                                     <td>{{ $order['total'] }}</td>

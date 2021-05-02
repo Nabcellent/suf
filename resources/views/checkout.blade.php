@@ -93,13 +93,10 @@
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                         <div class="row justify-content-end bd-highlight">
-                            <div class="col-lg-5 col-md-7 col-sm-9 input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text p-1">Phone Number</label>
-                                    <label class="input-group-text py-1">+254</label>
-                                </div>
-                                <select class="custom-select @error('phone') is-invalid @enderror" id="inputGroupSelect01" name="phone" required>
-                                    @foreach($phones as $phone)<option value="{{ $phone['id'] }}">{{ $phone['phone'] }}</option>@endforeach
+                            <div class="col-lg-5 col-md-7 col-sm-9 form-group">
+                                <label class="mb-0 p-1">Phone Number</label>
+                                <select class="custom-select select2-edit @error('phone') is-invalid @enderror" id="inputGroupSelect01" name="phone" required>
+                                    @foreach($phones as $phone)<option value="{{ $phone['phone'] }}">{{ $phone['phone'] }}</option>@endforeach
                                 </select>
                             </div>
                             @error('phone')
@@ -222,12 +219,12 @@
                                 <hr>
                             </div>
                             <div class="col border-left border-dark">
-                                <div class="custom-control custom-radio">
+<!--                                <div class="custom-control custom-radio">
                                     <input type="radio" id="paypal-inst" name="payment_method" value="paypal" @if(old('payment_method') === 'paypal') checked @endif
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="paypal-inst">PayPal</label>
                                 </div>
-                                <p class="small">(For PayPal, Click the button below to complete payment)</p>
+                                <p class="small">(For PayPal, Click the button below to complete payment)</p>-->
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="cash" name="payment_method" value="cash" @if(old('payment_method') === 'cash') checked @endif
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
@@ -245,6 +242,9 @@
                         <div class="row text-center pay-buttons">
                             <div class="col">
                                 <img src="{{ asset('images/general/1200px-M-PESA_LOGO-01.svg.png') }}" alt="PayPal" class="img-fluid">
+                                <span class="btn btn-block btn-success font-weight-bold" data-toggle="modal" data-target="#pay_phone" style="border-radius: 2.5rem; height: 2.5rem">
+                                    <i class="fas fa-hand-holding-usd"></i> Pay Now
+                                </span>
                             </div>
                             <div class="col">
                                 <img src="{{ asset('images/general/paypal-784404_1280-1.png') }}" alt="PayPal" class="img-fluid">
@@ -266,7 +266,32 @@
         </div>
     </div>
 
-<!--    PayPal Integration    -->
+
+    <div class="modal fade" id="pay_phone" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="mpesa_stk" class="anime_form" action="{{ route('api.mpesa.push') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Phone</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="">Phone number to make payment.</label>
+                        <input type="tel" name="phone" class="form-control" pattern="^((0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$" autofocus required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Proceed</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--    PayPal Integration    -->
 <!--<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>-->
 
 @endsection

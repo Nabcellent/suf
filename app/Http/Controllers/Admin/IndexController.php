@@ -32,7 +32,7 @@ class IndexController extends Controller
         if(isSeller()) {
             $newOrders = Order::getSellerOrders()->get()->toArray();
         } else {
-            $newOrders = Order::with('user', 'phone')->orderByDesc('id')->limit(5)->get()->toArray();
+            $newOrders = Order::with('user')->orderByDesc('id')->limit(5)->get()->toArray();
         }
 
         return view('Admin.dashboard')

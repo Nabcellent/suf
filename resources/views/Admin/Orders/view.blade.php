@@ -96,7 +96,7 @@
                                                                         <tr><th>County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order['address']['sub_county']['county']['name'] }}</td></tr>
                                                                         <tr><th>Sub-County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order['address']['sub_county']['name'] }}</td></tr>
                                                                         <tr><th>Address</th><td class="text-dark">:&nbsp;&nbsp;&nbsp;{{ $order['address']['address'] }}</td></tr>
-                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order['phone']['phone'] }}</td></tr>
+                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order['phone'] }}</td></tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>

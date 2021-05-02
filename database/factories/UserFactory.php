@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail(),
             'gender' => $this->faker->randomElement(['Male', 'Female']),
+            'image' => $this->faker->unique()->image(public_path('images/users/profile'), 500, 480, null, false),
             'ip_address' => '127.0.0.1',
             'is_admin' => $this->faker->numberBetween(0, 1),
             'email_verified_at' => now(),

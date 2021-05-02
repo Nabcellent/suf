@@ -27,10 +27,15 @@ class OrderFactory extends Factory
             $query->first('id')->get();
         }])->first()->toArray();
 
+        $phone = $this->faker->randomElement([
+            11 . $this->faker->unique()->numerify('#######'),
+            7 . $this->faker->unique()->numerify('########')
+        ]);
+
         return [
             'user_id' => $this->user['id'],
             'address_id' => $this->user['addresses'][0]['id'],
-            'phone_id' => $this->user['primary_phone']['id'],
+            'phone' => $phone,
             'payment_method' => $this->faker->randomElement(['cash', 'm-pesa', 'paypal']),
             'payment_type' => $this->faker->randomElement(['on-delivery', 'instant']),
             'total' => $this->faker->randomFloat(2, 0, 10000),

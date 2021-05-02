@@ -36,7 +36,7 @@
                     <h2 class="to">{{ $order['user']['first_name'] }} {{ $order['user']['last_name'] }}</h2>
                     <div class="address">{{ $order['address']['address'] }}, {{ $order['address']['sub_county']['name'] }}, {{ $order['address']['sub_county']['county']['name'] }}</div>
                     <div class="email"><a href="mailto:<%= order.email %>">{{ $order['user']['email'] }}</a></div>
-                    <div class="email"><a href="tel:0<%= order.phone %>">+254-{{ $order['phone']['phone'] }}</a></div>
+                    <div class="email"><a href="tel:0<%= order.phone %>">+254-{{ $order['phone'] }}</a></div>
                 </div>
                 <div class="col invoice-details">
                     <h2 class="invoice-id">INVOICE 3-2-1</h2>

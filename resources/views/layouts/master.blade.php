@@ -21,6 +21,9 @@
     {{--    BOXICONS CSS    --}}
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
+    <!--    Select 2 CSS    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
+
     {{--    NICENUMBER CSS    --}}
     <link href="{{url('css/jquery.nice-number.css')}}" rel='stylesheet'>
 
@@ -60,6 +63,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js" integrity="sha256-C7IaCo6kN3RN2EjOcM6WEMmykQV8mK72CI1jx0kqeZg=" crossorigin="anonymous"></script>
 <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
 
+<!--    Select 2 JS    -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
+
 
 {{--    MY JS    --}}
 <script src="{{url('js/main.js')}}"></script>
@@ -69,7 +75,8 @@
 <script src="{{url('js/search.js')}}"></script>
 <script src="{{url('js/fetch.js')}}"></script>
 <script src="{{url('js/sweetAlert.js')}}"></script>
-<script src="{{url('js/payment.js')}}"></script>
+<script src="{{ asset('js/Select2.js') }}"></script>
+<!--<script src="{{url('js/payment.js')}}"></script>-->
 <script src="{{url('js/jquery.nice-number.js')}}"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@ class OrderController extends Controller
 
     public function showOrder($id): Factory|View|Application {
         $order = Order::where('id', $id)
-            ->with('user', 'phone', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
+            ->with('user', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
 
         return view('Admin.Orders.view')->with(compact('order'));
     }
@@ -58,7 +58,7 @@ class OrderController extends Controller
     }
 
     public function showInvoice($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first()->toArray();
 
         return view('Admin.Orders.invoice')->with(compact('order'));
     }
@@ -66,7 +66,7 @@ class OrderController extends Controller
 
 
     public function processInvoicePDF($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address', 'phone')->first()->toArray();
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first()->toArray();
 
         $html = view('Admin.Orders.invoice_template')->with(compact('order'))->render();
 

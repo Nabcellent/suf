@@ -194,7 +194,7 @@
                                         <tr>
                                             <td>{{ $order['id'] }}</td>
                                             <td>{{ $order['user']['email'] }}</td>
-                                            <td>{{ $order['phone']['phone'] }}</td>
+                                            <td>{{ $order['phone'] }}</td>
                                             <td>{{ $order['payment_method'] }}</td>
                                             <td>{{ $order['total'] }}</td>
                                             <td>

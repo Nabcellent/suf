@@ -63,11 +63,16 @@ class OrderController extends Controller
 
             $req->validate([
                 'address' => 'bail|present|required|integer|exists:addresses,id',
-                'phone' => 'present|required|integer|exists:phones,id',
+                'phone' => ['required',
+                    'numeric',
+                    'digits_between:9,12',
+                    'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
+                ],
                 'payment_method' => 'present|required|alpha_dash',
             ], [
                 'address.required' => 'Please choose a delivery address or add one if you can\'t see the one you\'re looking for',
                 'phone.required' => 'Please Select a phone number so we can keep in touch during the order process',
+                'phone.regex' => 'The phone number is invalid.',
                 'payment_method.required' => 'Please Select a payment method.'
             ]);
 
@@ -77,22 +82,15 @@ class OrderController extends Controller
                 if(Str::contains(Str::lower($data['payment_method']),'delivery')) {
                     $paymentType = 'on-delivery';
                 } else {
-
                     $paymentType = 'instant';
                 }
-            } else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
+            }/* else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
                 $paymentMethod = 'paypal';
                 $paymentType = 'instant';
                 echo "<h2>Paypal payment Coming Soon!</h2>"; die;
-            } else {
+            }*/ else {
                 $paymentMethod = 'cash';
                 $paymentType = 'on-delivery';
-            }
-
-            //  Only allow cash payments for now    //////////////////////////
-            if($paymentMethod !== 'cash') {
-                $message = "Prepaid method coming soon!";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
             }
 
             if(!session::has('grandTotal')) {
@@ -102,12 +100,13 @@ class OrderController extends Controller
             try {
                 DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
                     $cart = Cart::cartItems();
+                    $phone = Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone'];
 
                     //  Insert Order Details
                     $orderId = Order::insertGetId([
                         'user_id' => Auth::id(),
                         'address_id' => $data['address'],
-                        'phone_id' => $data['phone'],
+                        'phone' => $phone,
                         'coupon_id' => Session::get('couponId'),
                         'discount' => currencyToFloat(Session::get('couponDiscount')),
                         'payment_method' => $paymentMethod,
