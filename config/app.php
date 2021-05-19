@@ -168,6 +168,8 @@ return [
         /*
          * Package Service Providers...
          */
+        SmoDav\Mpesa\Laravel\ServiceProvider::class,
+        Gahlawat\Slack\SlackServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -177,8 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        SmoDav\Mpesa\Laravel\ServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
     ],
 
@@ -232,10 +233,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'STK'       => App\Overrides\Mpesa\STK::class,
-        'Simulate'  => App\Overrides\Mpesa\Simulate::class,
-        'Registrar' => App\Overrides\Mpesa\Registrar::class,
-        'Identity'  => App\Overrides\Mpesa\Identity::class,
+        'STK'       => SmoDav\Mpesa\Laravel\Facades\STK::class,
+        'Simulate'  => SmoDav\Mpesa\Laravel\Facades\Simulate::class,
+        'Registrar' => SmoDav\Mpesa\Laravel\Facades\Registrar::class,
+        'Identity'  => SmoDav\Mpesa\Laravel\Facades\Identity::class,
+
+        'Slack' => Gahlawat\Slack\Facade\Slack::class,
 
     ],
 

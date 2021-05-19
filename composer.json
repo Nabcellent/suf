@@ -17,20 +17,22 @@
         "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^6.5|^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "smodav/mpesa": "^5.3"
+        "smodav/mpesa": "^5.3",
+        "jivesh/laravel-slack": "^2.1"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
         "facade/ignition": "^2.5",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.4",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "roave/security-advisories": "dev-latest"
     },
     "config": {
         "optimize-autoloader": true,
@@ -39,7 +41,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "autoload": {
@@ -49,7 +53,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Helper.php"
+            "app/Helpers/Helper.php",
+            "app/Helpers/Mpesa.php"
         ]
     },
     "autoload-dev": {

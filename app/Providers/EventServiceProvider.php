@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
-use App\Events\StkPushPaymentFailed;
-use App\Events\StkPushPaymentSuccess;
+use App\Events\StkPushFailed;
+use App\Events\StkPushSuccess;
+use App\Events\StkRequested;
+use App\Listeners\ConfirmStkRequestStatus;
+use App\Listeners\StkPushFailedNotification;
+use App\Listeners\StkPushSuccessNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +23,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        StkPushSuccess::class => [
+            StkPushSuccessNotification::class,
+        ],
+
+        StkPushFailed::class => [
+            StkPushFailedNotification::class,
+        ],
+
+        StkRequested::class => [
+            ConfirmStkRequestStatus::class,
+        ]
     ];
 
     /**
@@ -29,13 +44,16 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Event::listen(
-            StkPushPaymentSuccess::class,
-            \App\Listeners\StkPushPaymentSuccess::class
-        );
-        Event::listen(
-            StkPushPaymentFailed::class,
-            \App\Listeners\StkPushPaymentFailed::class
-        );
+        //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents(): bool
+    {
+        return true;
     }
 }

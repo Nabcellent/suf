@@ -19,6 +19,7 @@ class CreateStkRequestsTable extends Migration
             $table->bigInteger('phone');
             $table->double('amount', 10, 2);
             $table->string('reference');
+            $table->string('description', 200)->default('');
             $table->string('merchant_request_id')->unique();
             $table->string('checkout_request_id')->unique();
             $table->string('status')->default('Requested');

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\MpesaController;
+use App\Http\Controllers\API\Mpesa\MpesaController;
+use App\Http\Controllers\API\Mpesa\StkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('stk-push')->name('api.')->namespace('Api')->group(function() {
-    Route::name('mpesa.')->group(function() {
-        Route::post('v1/access/token', [MpesaController::class, 'generateAccessToken']);
-        Route::post('v1/hlab/stk/push', [MpesaController::class, 'initiatePush'])->name('push');
-        Route::post('/confirmation', [MpesaController::class, 'processStkCallback'])->name('callback');
-    });
+Route::group([
+    'prefix' => 'payments/callbacks',
+    'namespace' => 'Mpesa'
+], function () {
+    Route::any('validate', 'MpesaController@validatePayment');
+    Route::any('confirmation', 'MpesaController@confirmation');
+    Route::any('stk_callback', [MpesaController::class, 'stkCallback']);
+    Route::any('timeout_url/{section?}', [MpesaController::class, 'timeout']);
+    Route::any('result/{section?}', 'MpesaController@result');
+    Route::any('stk_request', [StkController::class, 'initiatePush']);
+    Route::get('stk_status/{id}', [StkController::class, 'stkStatus']);
 });

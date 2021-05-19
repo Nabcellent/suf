@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\API\MpesaController;
+use App\Repositories\Mpesa;
 use Illuminate\Console\Command;
 
 class StkStatus extends Command
@@ -12,7 +12,7 @@ class StkStatus extends Command
      *
      * @var string
      */
-    protected $signature = 'mpesa:query_status';
+    protected $signature = 'mpesa:stk_status';
 
     /**
      * The console command description.
@@ -20,16 +20,17 @@ class StkStatus extends Command
      * @var string
      */
     protected $description = 'Check status of all pending transactions';
-    private $mpesa;
+    private Mpesa $mpesa;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(MpesaController $registerUrl)
+    public function __construct(Mpesa $registerUrl)
     {
         parent::__construct();
+
         $this->mpesa = $registerUrl;
     }
 
