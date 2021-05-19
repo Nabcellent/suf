@@ -80,7 +80,7 @@
                                 @if(latestProductId() !== null)
                                     <a href="{{ route('admin.product', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
                                 @endisset
-                                @if(isSuper())
+                                @if(isRed() || isSuper())
                                     <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
                                     <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>
                                 @endif
@@ -135,10 +135,24 @@
                             <span class="nav_name">Messages</span>
                         </a>
                     @endif
-                    <a href="{{ route('home') }}" class="nav_link">
-                        <i class="fas fa-store nav_icon"></i>
-                        <span class="nav_name">Suf-Store</span>
-                    </a>
+                    <div class="nav_dropdown">
+                        <a href="#" class="nav_link">
+                            <i class="fas fa-store nav_icon"></i>
+                            <span class="nav_name">Suf-Store</span>
+                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                        </a>
+                        <div class="nav_dropdown_collapse">
+                            <div class="nav_dropdown_content">
+                                <a href="{{ route('home') }}" class="nav_dropdown_item">Home</a>
+                                <a href="{{ route('products') }}" class="nav_dropdown_item">Products</a>
+                                <a href="{{ route('cart') }}" class="nav_dropdown_item">Cart</a>
+                                <a href="{{ route('checkout') }}" class="nav_dropdown_item">Checkout</a>
+                                <a href="{{ route('contact-us') }}" class="nav_dropdown_item">Contact-us</a>
+                                <a href="{{ route('about-us') }}" class="nav_dropdown_item">About-us</a>
+                                <a href="{{ route('policies') }}" class="nav_dropdown_item">Terms & Conditions</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="nav_items">

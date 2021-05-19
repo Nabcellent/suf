@@ -22,10 +22,7 @@ class StoreStkRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'amount' => 'required|numeric',
             'phone' => 'required',
-            //'reference' => 'required',
-            'description' => 'required',
         ];
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -84,11 +85,10 @@ class OrderController extends Controller
                 } else {
                     $paymentType = 'instant';
                 }
-            }/* else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
+            } else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
                 $paymentMethod = 'paypal';
                 $paymentType = 'instant';
-                echo "<h2>Paypal payment Coming Soon!</h2>"; die;
-            }*/ else {
+            } else {
                 $paymentMethod = 'cash';
                 $paymentType = 'on-delivery';
             }
@@ -138,14 +138,18 @@ class OrderController extends Controller
                     Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
                 });
             } catch (Exception $e) {
-                //dd($e);
+                Log::debug(json_encode($e->getMessage()));
+
                 $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
                 return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
             }
 
-            //  Return Success
-            $message = "Your Order has been Placed ! 🥳 You shall receive an email shortly.";
-            return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+            if($paymentMethod === 'paypal') {
+                return redirect('paypal');
+            } else {
+                $message = "Your Order has been Placed ! 🥳 You shall receive an email shortly.";
+                return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+            }
         }
 
         return accessDenied();

@@ -4,7 +4,6 @@ namespace App\Misc\Overrides\Mpesa\C2B;
 
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use SmoDav\Mpesa\Repositories\Endpoint;
 use SmoDav\Mpesa\Traits\UsesCore;

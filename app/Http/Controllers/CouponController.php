@@ -23,7 +23,8 @@ class CouponController extends Controller
             //  Exists
             if(Coupon::where('code', $code)->doesntExist()) {
                 $message = "Invalid Coupon Code 🤡. Try a real one.";
-                return back()->with('alert', ['type' => 'warning', 'intro' => 'Caapp!', 'message' => $message, 'duration' => 7]);
+                return back()->with('alert', ['type' => 'warning', 'intro' => 'Caapp!', 'message' => $message, 'duration' => 7])
+                    ->withInput();
             }
 
             $coupon = Coupon::where('code', $code)->first()->toArray();
@@ -31,20 +32,23 @@ class CouponController extends Controller
             //  User has already used this coupon?
             if($coupon['coupon_type'] === 'Single' && Order::where(['user_id' => Auth::id(), 'coupon_id' => $coupon['id']])->exists()) {
                 $message = "This was a one time coupon which you have already used. 🌚";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7])
+                    ->withInput();
             }
 
             //  Active / Inactive
             if(!$coupon['status']) {
                 $message = "This Coupon is inactive. ☹";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7])
+                    ->withInput();
             }
 
             //  Expired?
             $expiryDate = $coupon['expiry'];
             if(Carbon::now()->diffInDays($expiryDate, false) < 0) {
                 $message = "This Coupon has already expired. ☹";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
+                return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7])
+                    ->withInput();
             }
 
             //  Check if Coupon is applicable to current user
@@ -52,7 +56,8 @@ class CouponController extends Controller
                 $users = explode(',', $coupon['users']);
                 if(!in_array(Auth::user()->email, $users, true)) {
                     $message = "This Coupon isn't applicable to you. 😬";
-                    return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7]);
+                    return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry!', 'message' => $message, 'duration' => 7])
+                        ->withInput();
                 }
             }
 

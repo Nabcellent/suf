@@ -44,7 +44,7 @@
                                                style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             @endif
 
-                                            <a href="{{ route('admin.coupon', ['id' => $coupon['id']]) }}" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                            <a href="{{ route('admin.coupon', ['id' => $coupon['id']]) }}" class="ml-4" title="Modify"><i class="fas fa-pen text-light"></i></a>
                                             <a href="#" class="ml-3 delete-from-table" data-model="Coupon" data-id="{{ $coupon['id'] }}" title="Remove"><i class="fas fa-trash text-danger"></i></a>
                                         </td>
                                     </tr>

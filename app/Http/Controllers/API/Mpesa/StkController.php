@@ -44,7 +44,7 @@ class StkController extends Controller
 
                 StkRequested::dispatch($stkRequest, $request);
             } else {
-                StkPushFailed::dispatch(StkCallback::class);
+                echo json_encode($stk);
             }
         } catch (Exception $exception) {
             $stk = ['ResponseCode' => 900, 'ResponseDescription' => 'Invalid request', 'extra' => $exception->getMessage()];

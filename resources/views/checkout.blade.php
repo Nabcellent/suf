@@ -3,15 +3,11 @@
 @section('content')
     @include('/partials/top_nav')
 
-    <?php
-    use App\Models\Cart;
-
-    ?>
+    <?php use App\Models\Cart; ?>
 
     <div id="checkout" class="container">
 
         <!--    Start Breadcrumb    -->
-
         <div class="row">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb">
@@ -25,6 +21,19 @@
         <!--    End Breadcrumb    -->
 
         <div class="row justify-content-center pb-4">
+            <div class="col-md-11 col-sm-12">
+                <div class="text-danger list-group all_errors">
+                    @if ($errors->any())
+                        <div class="alert alert-danger py-2 mb-1">
+                            <ul class="m-0 py-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            </div>
             <form id="checkout-form" action="{{ route('place-order') }}" method="POST" class="col-md-11 col-sm-12">
                 @csrf
                 <div class="card address">
@@ -219,12 +228,12 @@
                                 <hr>
                             </div>
                             <div class="col border-left border-dark">
-<!--                                <div class="custom-control custom-radio">
+                                <div class="custom-control custom-radio">
                                     <input type="radio" id="paypal-inst" name="payment_method" value="paypal" @if(old('payment_method') === 'paypal') checked @endif
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="paypal-inst">PayPal</label>
                                 </div>
-                                <p class="small">(For PayPal, Click the button below to complete payment)</p>-->
+                                <p class="small">(For PayPal, Click the button below to complete payment)</p>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="cash" name="payment_method" value="cash" @if(old('payment_method') === 'cash') checked @endif
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
@@ -270,8 +279,7 @@
     <div class="modal fade" id="pay_phone" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="mpesa_stk" class="anime_form" action="{{ route('api.mpesa.push') }}" method="POST">
-                    @csrf
+                <form id="mpesa_stk" class="anime_form" action="{{ route('mpesa.stk.request') }}" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Phone</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

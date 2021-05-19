@@ -119,7 +119,7 @@
                                         </div>
                                         <div class="form-group col">
                                             <label>Expiry Date</label>
-                                            <input type="date" class="form-control @error('expiry') is-invalid @enderror" name="expiry" placeholder="Enter expiry date" min="2021-01-01" max="2021-12-31" required
+                                            <input type="date" class="form-control @error('expiry') is-invalid @enderror" name="expiry" placeholder="Enter expiry date" min="2021-01-01" max="2024-12-31" required
                                                    value="@if(isset($coupon)){{ $coupon['expiry'] }}@endif">
                                         </div>
                                     </div>

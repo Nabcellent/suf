@@ -76,7 +76,7 @@
 <script src="{{url('js/fetch.js')}}"></script>
 <script src="{{url('js/sweetAlert.js')}}"></script>
 <script src="{{ asset('js/Select2.js') }}"></script>
-<!--<script src="{{url('js/payment.js')}}"></script>-->
+<script src="{{url('js/payment.js')}}"></script>
 <script src="{{url('js/jquery.nice-number.js')}}"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\API\PayPal\PaypalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CouponController;
@@ -28,14 +29,14 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::any('/', function() {
+/*Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
-/*
+
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -170,6 +171,8 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
     Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('place-order');
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
+    Route::get('/paypal', [PaypalController::class, 'show'])->name('paypal');
+    Route::get('/paypal-success', [PaypalController::class, 'showCart'])->name('paypal.success');
 
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
@@ -183,7 +186,7 @@ Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name
 Route::get('/product/{id}/{title}', [ProductController::class, 'details'])->name('product-details');
 
 //  CART ROUTES
-Route::get('/cart', [ProductController::class, 'cart']);    //->middleware('password.confirm');
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart');    //->middleware('password.confirm');
 Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
@@ -203,7 +206,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 

@@ -4,7 +4,7 @@
 Heyy {{ $user->first_name }}{{ $icons['hello'] }},<br>
 
 Your order has been placed successfully and is being processed!<br>
-We will contact you using this number: +254 {{ $order['phone']['phone'] }}.{{ $icons['relax'] }}
+We will contact you using this number: +254 {{ $order['phone'] }}.{{ $icons['relax'] }}
 
 @component('mail::panel')
     Order Total: KSH {{ currencyFormat($order['total']) }}

@@ -47,7 +47,7 @@ use App\Models\Category;
 
                                                 </td>
                                                 <td class="action">
-                                                    <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-dark"></i></a>
+                                                    <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-success"></i></a>
                                                     <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $section['id'] }}" data-model="Category">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
@@ -129,7 +129,7 @@ use App\Models\Category;
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
                                                     <a href="{{ route('admin.category', ['id' => $category['id']]) }}" class="ml-3" title="Modify">
-                                                        <i class="fas fa-pen text-dark"></i>
+                                                        <i class="fas fa-pen text-success"></i>
                                                     </a>
                                                     <a href="#" class="ml-3 delete-from-table" data-id="{{ $category['id'] }}" data-model="Category" title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
@@ -181,7 +181,7 @@ use App\Models\Category;
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                      @endif
                                                     <a href="{{ route('admin.category', ['id' => $subCategory['id']]) }}" class="ml-3 update_sub_category" title="Modify">
-                                                        <i class="fas fa-pen text-dark"></i>
+                                                        <i class="fas fa-pen text-success"></i>
                                                     </a>
                                                     <a href="#" class="ml-3 delete-from-table" data-id="{{ $subCategory['id'] }}" data-model="Category" title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
