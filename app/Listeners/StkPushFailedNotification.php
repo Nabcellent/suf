@@ -33,6 +33,7 @@ class StkPushFailedNotification
             $status = "Failed";
         }
 
-        $stk->request()->update(['status' => $status]);
+        $stk->status = $status;
+        $stk->save();
     }
 }

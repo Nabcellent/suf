@@ -25,6 +25,7 @@ Theme Versions      :   1.1
     --standard-gold: rgb(174, 124, 11);
     --light-gold: rgb(194, 144, 11);
     --body-color: rgba(230, 230, 255, .7);
+    --body-color-opaque: rgba(230, 230, 255, 1);
 
     /*""""""""""""""  FONTS  """"""""""""""*/
     --font-size-tiny: 9pt;
@@ -46,6 +47,54 @@ body#bg {
     background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.13),       transparent),
     radial-gradient(circle at 20% 80%, rgba(41, 196, 255, 0.13), transparent)
 }
+
+.loader-bg {
+    position: fixed;
+    z-index: 999999;
+    background-color: var(--body-color-opaque);
+    width: 100%;
+    height: 100%;
+}
+.loader {
+    border: 0 solid transparent;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: calc(50vh - 75px);
+    left: calc(50vw - 75px);
+}
+.loader:before, .loader:after {
+    content: '';
+    border: .5rem solid var(--dark-red);
+    border-radius: 50%;
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: loader 2s linear infinite;
+    opacity: 0;
+}
+.loader:before {
+    animation-delay: .5s;
+}
+
+@keyframes loader {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+
 body#bg canvas {
     position:fixed;
 }
@@ -59,7 +108,9 @@ a {
     right: 1rem;
     z-index: var(--z-index-4);
 }
-
+.gif-loader {
+    display: none;
+}
 
 
 
@@ -1091,6 +1142,60 @@ nav ul.pagination {
     border-radius: 2.5rem;
     height: 2.7rem
 }
+
+
+
+/*=======+++++++=======+++++++=======  MPESA  =======+++++++=======+++++++=======*/
+#mpesa-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    background: rgba(0, 0, 0, .9);
+}
+.three-loaders {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 3rem);
+    transform: translate(-50%, -50%);
+    width: 9rem;
+    height: 10px;
+    background: blue;
+    border-radius: 5px;
+    animation: load 1.8s ease-in-out infinite;
+}
+.three-loaders:before, .three-loaders:after {
+    position: absolute;
+    display: block;
+    content: "";
+    animation: load 1.8s ease-in-out infinite;
+    height: 10px;
+    border-radius: 5px;
+}
+.three-loaders:before {
+    top: -20px;
+    width: 7rem;
+    background: darkred;
+}
+.three-loaders:after {
+    bottom: -20px;
+    width: 5rem;
+    background: green;
+}
+@keyframes load {
+    0% {
+        transform: translateX(5rem);
+    }
+    50% {
+        transform: translateX(-3rem);
+    }
+    100% {
+        transform: translateX(5rem);
+    }
+}
+
 
 
 

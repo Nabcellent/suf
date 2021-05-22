@@ -225,7 +225,6 @@
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="mpesa-ondeliv">On Delivery</label>
                                 </div>
-                                <hr>
                             </div>
                             <div class="col border-left border-dark">
                                 <div class="custom-control custom-radio">
@@ -233,7 +232,7 @@
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="paypal-inst">PayPal</label>
                                 </div>
-                                <p class="small">(For PayPal, Click the button below to complete payment)</p>
+                                <hr>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="cash" name="payment_method" value="cash" @if(old('payment_method') === 'cash') checked @endif
                                     class="custom-control-input @error('payment_method') is-invalid @enderror" required>
@@ -251,13 +250,9 @@
                         <div class="row text-center pay-buttons">
                             <div class="col">
                                 <img src="{{ asset('images/general/1200px-M-PESA_LOGO-01.svg.png') }}" alt="PayPal" class="img-fluid">
-                                <span class="btn btn-block btn-success font-weight-bold" data-toggle="modal" data-target="#pay_phone" style="border-radius: 2.5rem; height: 2.5rem">
-                                    <i class="fas fa-hand-holding-usd"></i> Pay Now
-                                </span>
                             </div>
                             <div class="col">
                                 <img src="{{ asset('images/general/paypal-784404_1280-1.png') }}" alt="PayPal" class="img-fluid">
-                                <div id="paypal_payment_button">Coming soon!</div>
                             </div>
                         </div>
                         <hr class="bg-primary">
@@ -272,30 +267,6 @@
             </form>
             <!--    End Contact Section    -->
 
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="pay_phone" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="mpesa_stk" class="anime_form" action="{{ route('mpesa.stk.request') }}" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Phone</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <label for="">Phone number to make payment.</label>
-                        <input type="tel" name="phone" class="form-control" pattern="^((0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6}))$" autofocus required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Proceed</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 

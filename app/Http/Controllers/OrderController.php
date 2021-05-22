@@ -144,10 +144,13 @@ class OrderController extends Controller
                 return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
             }
 
+            //  Redirect to payment page
             if($paymentMethod === 'paypal') {
-                return redirect('paypal');
+                return redirect()->route('paypal');
+            } else if($paymentMethod === 'm-pesa' & $paymentType === 'instant') {
+                return redirect()->route('mpesa');
             } else {
-                $message = "Your Order has been Placed ! 🥳 You shall receive an email shortly.";
+                $message = "Your Order has been Placed! 🥳 You shall receive an email shortly.";
                 return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
             }
         }

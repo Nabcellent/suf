@@ -27,7 +27,7 @@ class CreateStkCallbacksTable extends Migration
             $table->string('balance')->nullable()->nullable();
             $table->string('transaction_date')->nullable();
             $table->string('phone_number')->nullable();
-            $table->enum('status', ['Success', 'Failed', 'Cancelled']);
+            $table->enum('status', ['Success', 'Paid', 'Failed', 'Cancelled']);
             $table->timestamps();
         });
     }

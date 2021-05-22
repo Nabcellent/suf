@@ -5,9 +5,8 @@ namespace App\Http\Controllers\API\PayPal;
 use AmrShawky\Currency;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
+use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -31,9 +30,9 @@ class PaypalController extends Controller
         return redirect('/cart');
     }
 
-    public function showCart(): Redirector|Application|RedirectResponse {
-        session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
-
-        return redirect('cart');
+    public function updateOrderStatus(Request $request, $id) {
+        $order = Order::find($id);
+        $order->status = $request->status;
+        $order->save();
     }
 }

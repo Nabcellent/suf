@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\StkPushSuccess;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class StkPushSuccessNotification
@@ -33,6 +34,9 @@ class StkPushSuccessNotification
             $status = "Paid";
         }
 
-        $stk->request()->update(['status' => $status]);
+        Log::debug($status);
+
+        $stk->status = $status;
+        $stk->save();
     }
 }

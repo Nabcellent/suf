@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use JsonException;
 
@@ -97,6 +99,8 @@ class ProductController extends Controller
 
     public function details($id): Factory|View|Application
     {
+        app('redirect')->setIntendedUrl(URL::previous());
+
         $details = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
             $query->where('status', 1);
         }, 'images'])
@@ -130,76 +134,70 @@ class ProductController extends Controller
     }
 
     public function addToCart(Request $req): Redirector|RedirectResponse|Application {
-        if($req->isMethod('POST')) {
-            $data = $req->all();
-            $details = array();
+        $data = $req->all();
+        $details = array();
 
-            foreach($data as $key => $value) {
-                if(str::startsWith($key, 'variant')) {
-                    $variant = Str::of(substr($key, 7))->singular()->jsonSerialize();
-                    $details = Arr::add($details, $variant, $value);
-                }
+        foreach($data as $key => $value) {
+            if(str::startsWith($key, 'variant')) {
+                $variant = Str::of(substr($key, 7))->singular()->jsonSerialize();
+                $details = Arr::add($details, $variant, $value);
             }
-
-            if(count($details) > 0) {
-                //check if stock is available
-                $productStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-                    ->where('product_id', $data['product_id'])
-                    ->whereIn('variant', $details)->min('stock');
-
-                if($productStock < $data['quantity']) {
-                    $message = "That quantity is not available for this combination🤧";
-                    return back()->withInput()
-                        ->with('alert', ['type' => 'danger', 'intro' => 'Sorryy!', 'message' => $message, 'duration' => 7]);
-                }
-            }
-
-            //  Generate Session ID if not exists
-            $sessionId = Session::get('session_id');
-            if(empty($sessionId)) {
-                $sessionId = Session::getId();
-                Session::put('session_id', $sessionId);
-            }
-
-            //  Check if Similar Product already exists
-            if(Auth::check()) {
-                $countProducts = Cart::where(['product_id' => $data['product_id'], 'user_id' => Auth::id()])->whereJsonContains('details', $details)->count();
-            } else {
-                $countProducts = Cart::where(['product_id' => $data['product_id'], 'session_id' => $sessionId])->whereJsonContains('details', $details)->count();
-            }
-            if($countProducts > 0) {
-                $message = "Product already exists in Cart😁";
-                return back()->withInput()
-                    ->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
-            }
-
-            //  Convert Details to JSON for storage
-            try {
-                $details = json_encode($details, JSON_THROW_ON_ERROR);
-            } catch (JsonException $e) {
-                $message = "Something went wrong🤧";
-                return back()->with('alert', ['type' => 'danger', 'intro' => '💔!', 'message' => $message, 'duration' => 7]);
-            }
-
-            //  Save to Cart Table
-            $cart = new Cart;
-            $cart -> user_id = (Auth::check()) ? Auth::id() : null;
-            $cart -> session_id = $sessionId;
-            $cart -> product_id = $data['product_id'];
-            $cart -> details = $details;
-            $cart -> quantity = $data['quantity'];
-            $cart -> created_at = Carbon::now();
-            $cart -> updated_at = Carbon::now();
-            $cart -> save();
         }
 
+        if(count($details) > 0) {
+            //check if stock is available
+            $productStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
+                ->where('product_id', $data['product_id'])
+                ->whereIn('variant', $details)->min('stock');
+
+            if($productStock < $data['quantity']) {
+                $message = "That quantity is not available for this combination🤧";
+                return back()->withInput()
+                    ->with('alert', ['type' => 'danger', 'intro' => 'Sorryy!', 'message' => $message, 'duration' => 7]);
+            }
+        }
+
+        //  Generate Session ID if not exists
+        $sessionId = Session::get('session_id');
+        if(empty($sessionId)) {
+            $sessionId = Session::getId();
+            Session::put('session_id', $sessionId);
+        }
+
+        //  Check if Similar Product already exists
+        if(Auth::check()) {
+            $countProducts = Cart::where(['product_id' => $data['product_id'], 'user_id' => Auth::id()])->whereJsonContains('details', $details)->count();
+        } else {
+            $countProducts = Cart::where(['product_id' => $data['product_id'], 'session_id' => $sessionId])->whereJsonContains('details', $details)->count();
+        }
+        if($countProducts > 0) {
+            $message = "Product already exists in Cart😁";
+            return back()->withInput()
+                ->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+        }
+
+        //  Convert Details to JSON for storage
+        try {
+            $details = json_encode($details, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            $message = "Something went wrong🤧";
+            return back()->with('alert', alert('danger', '💔!', $message, 7));
+        }
+
+        //  Save to Cart Table
+        $cart = new Cart;
+        $cart -> user_id = (Auth::check()) ? Auth::id() : null;
+        $cart -> session_id = $sessionId;
+        $cart -> product_id = $data['product_id'];
+        $cart -> details = $details;
+        $cart -> quantity = $data['quantity'];
+        $cart -> created_at = Carbon::now();
+        $cart -> updated_at = Carbon::now();
+        $cart -> save();
+
         $message = "Item Added to Cart!";
-        return back()->with('alert', [
-            'type' => 'success',
-            'intro' => 'Success! ',
-            'message' => $message,
-            'duration' => 7
-        ]);
+        $link = ['title' => 'View', 'url' => route('cart')];
+        return redirect()->intended()->with('alert', alert('success', 'Nice!', $message, 10, $link));
     }
 
     public function cart(): View|Factory|Redirector|RedirectResponse|Application

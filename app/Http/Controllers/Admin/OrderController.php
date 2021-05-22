@@ -17,10 +17,12 @@ class OrderController extends Controller
 {
     public function showOrders(): Factory|View|Application {
         if(isSeller()) {
-            $orders = Order::getSellerOrders()->get()->toArray();
+            $orders = Order::getSellerOrders();
         } else {
-            $orders = Order::orders()->get()->toArray();
+            $orders = Order::orders();
         }
+
+        $orders = $orders->latest()->get()->toArray();
 
         return view('Admin.Orders.list')->with(compact('orders'));
     }
@@ -29,13 +31,24 @@ class OrderController extends Controller
         $order = Order::where('id', $id)
             ->with('user', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
 
-        return view('Admin.Orders.view')->with(compact('order'));
+        $orderStatuses = [
+            'New',
+            'Pending',
+            'In Process',
+            'Hold',
+            'Paid',
+            'Completed',
+            'Cancelled',
+            'Delivered',
+        ];
+
+        return view('Admin.Orders.view')->with(compact('order', 'orderStatuses'));
     }
 
     public function updateOrderStatus(Request $request, $id): RedirectResponse {
         $order = Order::find($id);
 
-        if($request->status === 'completed') {
+        if($request->status === 'Completed') {
             $request->validate([
                 'courier' => 'required|alpha',
                 'tracking_number' => 'required|integer|unique:orders',

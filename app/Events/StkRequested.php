@@ -14,7 +14,7 @@ class StkRequested
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public StkRequest $stk;
+    public StkRequest $stkRequest;
     public Request $request;
 
     /**
@@ -22,9 +22,9 @@ class StkRequested
      *
      * @return void
      */
-    public function __construct(StkRequest $mpesaStkRequest, Request $request)
+    public function __construct(StkRequest $stkRequest, Request $request)
     {
-        $this->stk = $mpesaStkRequest;
+        $this->stkRequest = $stkRequest;
         $this->request = $request;
     }
 

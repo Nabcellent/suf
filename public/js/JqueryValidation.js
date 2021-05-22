@@ -172,6 +172,50 @@ $(() => {
                 digits: 'Only numbers are allowed.',
                 pattern: 'Invalid M-Pesa phone number',
             },
+        },
+        submitHandler: function() {
+            let data = $($(this)[0].currentForm).serialize();
+
+            $.ajax({
+                data,
+                type: 'POST',
+                url: '/api/payments/callbacks/stk_request',
+                beforeSend: () => {
+                    $('.gif-loader').show(100);
+                },
+                statusCode: {
+                    200: (responseObject, textStatus) => {
+                        if(parseInt(responseObject.stk.ResponseCode) === 0) {
+                            $('#mpesa-preloader').removeClass('d-none');
+                            $('#pay_phone').modal('hide');
+
+                            const stk = new Payment(responseObject.stk);
+
+                            stk.checkStatus();
+                        } else if(parseInt(responseObject.stk.ResponseCode) === 700) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'warning',
+                                title: responseObject.stk.extra,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                },
+                error: () => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: 'something went wrong',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                },
+                complete: () => {
+                    $('.gif-loader').hide(100);
+                }
+            })
         }
     });
 });

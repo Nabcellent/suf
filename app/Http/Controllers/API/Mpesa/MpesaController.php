@@ -4,10 +4,18 @@ namespace App\Http\Controllers\API\Mpesa;
 
 use App\Events\QueueTimeoutEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Repositories\Mpesa;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class MpesaController extends Controller
 {
@@ -23,6 +31,23 @@ class MpesaController extends Controller
     public function __construct(Mpesa $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function show(): View|Factory|Redirector|RedirectResponse|Application {
+        if(session::has('orderId')) {
+            //  Empty User Cart
+            Cart::where('user_id', Auth::id())->delete();
+
+            return view('API.mpesa');
+        }
+
+        return redirect('/cart');
+    }
+
+    public function showCart(): Redirector|Application|RedirectResponse {
+        session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
+
+        return redirect('cart');
     }
 
     /**
@@ -48,8 +73,6 @@ class MpesaController extends Controller
      * @return JsonResponse
      */
     public function stkCallback(Request $request): JsonResponse {
-        Log::info('called');
-
         $this->repository->notification('MPESA STK Callback: *STK*', true);
         $this->repository->processStkPushCallback(json_encode($request->Body));
 

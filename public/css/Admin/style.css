@@ -21,6 +21,7 @@ Theme Versions      :   1.1
     --text-color-light: #A5A1AA;
     --body-color: #F9F6FD;
     --container-color: #FFFFFF;
+    --body-color-opaque: rgba(230, 230, 255, 1);
 
     /*+++++++ Font and typography +++++++*/
     --body-font: 'Poppins', sans-serif;
@@ -44,20 +45,66 @@ Theme Versions      :   1.1
     box-sizing: border-box;
 }
 
-body,
-body.nav_body {
+body {
     font-family: 'Varela Round', sans-serif;
     font-size: var(--normal-font-size);
     background-color: var(--body-color);
 }
-body.nav_body {
+
+.page-loader-gif {
+    position: fixed;
+    z-index: 999999;
+    background-color: var(--body-color);
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+.water{
+    width:400px;
+    height: 400px;
+    background-color: skyblue;
+    border-radius: 50%;
+    box-shadow: inset 0 0 30px 0 rgba(0,0,0,.5), 0 4px 10px 0 rgba(0,0,0,.5);
+    overflow: hidden;
+    position: absolute;
+    top: calc(50vh - 200px);
+    left: calc(50vw - 200px);
+}
+.water:before, .water:after{
+    content:'';
+    position: absolute;
+    width:400px;
+    height: 400px;
+    top:-150px;
+    background-color: #fff;
+}
+.water:before{
+    border-radius: 45%;
+    background:rgba(255,255,255,.7);
+    animation:wave 5s linear infinite;
+}
+.water:after{
+    border-radius: 35%;
+    background:rgba(255,255,255,.3);
+    animation:wave 5s linear infinite;
+}
+@keyframes wave{
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+section.nav_body {
     padding: 1rem 1rem 1rem 5rem;
     margin: var(--header-height) 0 0 0;
     color: var(--text-color);
     transition: .4s ease;
 }
 .header_container.fixed,
-body.nav_body.fixed {
+section.nav_body.fixed {
     margin-left: calc(var(--nav-width) - 4rem);
 }
 

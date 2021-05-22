@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Events\StkPushFailed;
 use App\Events\StkPushSuccess;
 use App\Events\StkRequested;
-use App\Listeners\ConfirmStkRequestStatus;
+use App\Listeners\StkPushRequestedNotification;
 use App\Listeners\StkPushFailedNotification;
 use App\Listeners\StkPushSuccessNotification;
 use Illuminate\Auth\Events\Registered;
@@ -33,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         StkRequested::class => [
-            ConfirmStkRequestStatus::class,
+            StkPushRequestedNotification::class,
         ]
     ];
 

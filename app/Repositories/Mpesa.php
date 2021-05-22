@@ -11,6 +11,7 @@ use App\Models\StkRequest;
 use Exception;
 use Gahlawat\Slack\Facade\Slack;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use function config;
 
@@ -98,20 +99,21 @@ class Mpesa
                 $errors[$item->checkout_request_id] = $e->getMessage();
             }
         }
+
         return ['successful' => $success, 'errors' => $errors];
     }
 
     /**
      * @param StkCallback $stkCallback
-     * @param array $response
+     * @param array       $response
      * @return StkCallback
      */
-    private function fireStkEvent(StkCallback $stkCallback, $response): StkCallback
+    private function fireStkEvent(StkCallback $stkCallback, array $response): StkCallback
     {
-        if ($stkCallback->ResultCode === 0) {
-            event(new StkPushSuccess($stkCallback, $response));
+        if ($stkCallback->result_code === 0) {
+            StkPushSuccess::dispatch($stkCallback, $response);
         } else {
-            event(new StkPushFailed($stkCallback, $response));
+            StkPushFailed::dispatch($stkCallback, $response);
         }
 
         return $stkCallback;

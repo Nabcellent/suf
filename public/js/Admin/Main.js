@@ -24,7 +24,7 @@ $(() => {
     let lsVal = '';
 
     /*_____________________  NAV STATE  _____________________*/
-    const $hiddenElements = [$sideBar, $navLogoName, $navName, $navSubtitle, $navDropdownIcon, $headerContainer, $('body')];
+    const $hiddenElements = [$sideBar, $navLogoName, $navName, $navSubtitle, $navDropdownIcon, $headerContainer, $('section')];
 
     const fixedNavState = (state) => {
         if(state === 'toggle') {

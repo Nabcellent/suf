@@ -3,8 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\StkRequested;
+use App\Models\StkRequest;
+use Illuminate\Support\Facades\DB;
 
-class ConfirmStkRequestStatus
+class StkPushRequestedNotification
 {
     /**
      * Create the event listener.
@@ -24,6 +26,9 @@ class ConfirmStkRequestStatus
      */
     public function handle(StkRequested $event)
     {
-        //Log::alert(json_encode(STK::validate($event->stk->checkout_request_id)));
+        $stkRequest = $event->stkRequest;
+
+        $stkRequest->status = 'Requested';
+        $stkRequest->save();
     }
 }

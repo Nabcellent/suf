@@ -36,24 +36,32 @@
     <!-- Styles -->
     <link href="{{ asset('css/Admin/style.css') }}" rel="stylesheet">
 </head>
-<body id="app" @auth() @if(User()->hasverifiedEmail()) class="nav_body" @endif @endauth>
-@include('Admin.include.alert')
+<body id="app">
 
-@auth()
-    @if(User()->hasverifiedEmail())
-        @include('Admin.include.navbar')
-    @endif
-@endauth
+@if(Request::routeIs('admin.dashboard'))
+    <div class="page-loader-gif">
+        <div class="water"></div>
+    </div>
+@endif
+
+<section @auth() @if(User()->hasverifiedEmail()) class="nav_body" @endif @endauth>
+    @include('Admin.include.alert')
+
+    @auth()
+        @if(User()->hasverifiedEmail())
+            @include('Admin.include.navbar')
+        @endif
+    @endauth
 
 
+    <main id="content">
+        <section>
+            @yield('content')
+        </section>
+    </main>
 
-<main id="content">
-    <section>
-        @yield('content')
-    </section>
-</main>
-
-@include('Admin.include.footer')
+    @include('Admin.include.footer')
+</section>
 
 <!--    Jquery CDN    -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -94,6 +102,12 @@
 <script src="{{ asset('js/Select2.js') }}" defer></script>
 <script src="{{ asset('js/Admin/DataTables.js') }}" defer></script>
 <script src="{{ asset('js/Admin/Swipers.js') }}" defer></script>
+
+<script>
+    setTimeout(() => {
+        $('.page-loader-gif').fadeToggle();
+    }, 1500);
+</script>
 
 </body>
 </html>

@@ -214,12 +214,10 @@
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control" required>
-                                            <option @if($order['status'] === 'new') selected @endif value="new">New</option>
-                                            <option @if($order['status'] === 'in process') selected @endif value="in process">In Process</option>
-                                            <option @if($order['status'] === 'hold') selected @endif value="hold">Hold</option>
-                                            <option @if($order['status'] === 'pending') selected @endif value="pending">Pending</option>
-                                            <option @if($order['status'] === 'completed') selected @endif value="completed">Completed</option>
-                                            <option @if($order['status'] === 'cancelled') selected @endif value="cancelled">Cancelled</option>
+                                            @foreach($orderStatuses as $status)
+                                                <option @if($order['status'] === $status) selected @endif value="{{ $status }}">
+	                                                {{ $status }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div id="courier" class="collapse @error('courier') show @enderror @error('tracking_number') show @enderror">

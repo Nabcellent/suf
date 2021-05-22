@@ -55,12 +55,13 @@ function isAdmin(): bool {
 }
 
 
-#[ArrayShape(['type' => "", 'intro' => "", 'message' => "", 'duration' => ""])] function alert($type, $intro, $message, $duration): array {
+function alert($type, $intro, $message, $duration, $link = null): array {
     return [
         'type' => $type,
         'intro' => $intro,
         'message' => $message,
         'duration' => $duration,
+        'link' => $link
     ];
 }
 

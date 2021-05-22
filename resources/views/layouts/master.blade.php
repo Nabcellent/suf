@@ -32,6 +32,13 @@
     <link rel="stylesheet" href="{{url('css/responsive.css')}}">
 </head>
 <body id="bg">
+
+@if(Request::routeIs('home') && url()->previous() === route('login'))
+    <div class="loader-bg">
+        <div class="loader"></div>
+    </div>
+@endif
+
 <canvas></canvas>
 @include('partials.background')
 @include('partials.alert')
@@ -44,7 +51,6 @@
 @yield('content')
 
 @include('partials.footer')
-
 
 {{--    JQUERY CDN    --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -78,5 +84,11 @@
 <script src="{{ asset('js/Select2.js') }}"></script>
 <script src="{{url('js/payment.js')}}"></script>
 <script src="{{url('js/jquery.nice-number.js')}}"></script>
+
+<script>
+    setTimeout(() => {
+        $('.loader-bg').fadeToggle();
+    }, 1500);
+</script>
 </body>
 </html>

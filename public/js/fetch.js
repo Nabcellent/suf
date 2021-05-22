@@ -181,7 +181,7 @@ const updateCartQty = (cartId, newQty) => {
 /**=====================================================================================================  ACCOUNT PAGE   */
 $(() => {
     const $county = $('#delivery-address form #county');
-    if($county.val().trim()) {
+    if($county.length && $county.val().trim()) {
         const data = {
             id: $county.val(),
             subCounty: $('#delivery-address form #county :selected').attr('data-subCounty')
