@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers\API\Mpesa;
 
-use App\Events\StkPushFailed;
-use App\Events\StkRequested;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStkRequest;
 use App\Models\StkCallback;
-use App\Models\StkRequest;
 use Exception;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use SmoDav\Mpesa\Laravel\Facades\STK;
 
@@ -34,29 +27,18 @@ class StkController extends Controller
         $data['description'] = 'Payment made to SUF Web store';
 
         try {
-            $stk = STK::request($data['amount'])
+            $stkRequest = STK::request($data['amount'])
                 ->from($data['phone'])
                 ->usingReference($data['reference'], $data['description'])
                 ->push();
 
-            if(property_exists($stk, 'ResponseCode')) {
-                $data['user_id'] = 1;
-                $data['merchant_request_id'] = $stk->MerchantRequestID;
-                $data['checkout_request_id'] = $stk->CheckoutRequestID;
-
-                $stkRequest = DB::transaction(function() use ($data) {
-                    return StkRequest::create($data);
-                });
-
-                StkRequested::dispatch($stkRequest, $request);
-            } else {
-                $stk = ['ResponseCode' => 700, 'ResponseDescription' => 'Invalid request', 'extra' => 'Unable to process request at this time.'];
-            }
+            return back()->with('stk', ['checkout_request_id' => $stkRequest->checkout_request_id]);
         } catch (Exception $exception) {
-            $stk = ['ResponseCode' => 900, 'ResponseDescription' => 'Invalid request', 'extra' => $exception->getMessage()];
+            $stkRequest = ['ResponseCode' => 900, 'ResponseDescription' => 'Invalid request', 'extra' => $exception->getMessage()];
         }
 
-        return response()->json(['stk' => $stk]);
+        Log::debug($stkRequest['extra']);
+        return back()->with('alert', alert('info', 'Sorry!', 'Unable to process request at this time, please try again shortly', 7));
     }
 
     /**
@@ -69,31 +51,24 @@ class StkController extends Controller
 
         if(property_exists($stkStatus, 'errorCode')) {
             $status = 'processing';
-            $message = 'Waiting for customer approval.';
+            $message = 'Waiting for customer response...';
         } else {
             $status = 'processed';
-            $message = $stkStatus;
+            $resultCode = (int)$stkStatus->ResultCode;
 
-            //  Check Database
-            if(StkCallback::where('checkout_request_id', $reference)->exists()) {
-                $status = 'recorded';
-
-                $paymentStatus = StkCallback::where('checkout_request_id', $reference)->first()->status;
-
-                if($paymentStatus === 'Paid') {
-                    $message = 'Payment Successful!';
-                    $url = route('thank-you');
-                    $icon = 'success';
-                } else if($paymentStatus === 'Cancelled') {
-                    $message = 'Payment Cancelled.';
-                    $icon = 'info';
-                } else {
-                    $message = 'Something did not go right somewhere.';
-                    $icon = 'warning';
-                }
-
-                return response()->json(['status' => $status, 'message' => $message, 'icon' => $icon,'url' => $url]);
+            if($resultCode === 0) {
+                $message = 'Payment Successful!';
+                $icon = 'success';
+                $url = route('thank-you');
+            } else if($resultCode === 1032) {
+                $message = 'Payment Cancelled';
+                $icon = 'info';
+            } else {
+                $message = 'Something did not go right somewhere.';
+                $icon = 'warning';
             }
+
+            return response()->json(['status' => $status, 'message' => $message, 'icon' => $icon,'url' => $url]);
         }
 
         return response()->json(['status' => $status, 'message' => $message]);

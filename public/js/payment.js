@@ -1,28 +1,33 @@
 ///////////////////////////////////////////////  MPESA INTEGRATION  ///////////////////////////////////////////////
+$(() => {
+    const CHECKOUT_REQUEST_INPUT = $('input[name="checkout_id"]');
+
+    if(CHECKOUT_REQUEST_INPUT.length) {
+        const mpesaPaymentRequest = new Payment(CHECKOUT_REQUEST_INPUT.val());
+
+        setTimeout(() => { mpesaPaymentRequest.checkStatus(); }, 3000);
+    }
+});
+
 class Payment {
-    constructor(stkResponse) {
-        this.checkoutRequestId = stkResponse.CheckoutRequestID;
-        this.merchantRequestId = stkResponse.MerchantRequestID;
-        this.customerMessage = stkResponse.CustomerMessage;
-        this.responseDescription = stkResponse.ResponseDescription;
+    constructor(checkoutRequestId) {
+        this.checkoutRequestId = checkoutRequestId;
     }
 
     async validateStkStatus() {
-        return await fetch('/api/payments/callbacks/stk_status/' + this.checkoutRequestId)
+        return await fetch('/payments/callbacks/stk_status/' + this.checkoutRequestId)
             .then(response => response.json())
             .then(data => { return data; });
-
     }
 
     checkStatus() {
         this.validateStkStatus()
             .then(data => {
-                //console.log(data.status);
                 if(data.status === 'processing') {
-                    setTimeout(() => { this.checkStatus(); }, 1500);
+                    $('#mpesa-preloader h5').text(data.message);
+
+                    setTimeout(() => { this.checkStatus(); }, 5000);
                 } else if(data.status === 'processed') {
-                    setTimeout(() => { this.checkStatus(); }, 1500);
-                } else if(data.status === 'recorded') {
                     $('#mpesa-preloader').addClass('d-none');
 
                     Swal.fire({
@@ -30,18 +35,14 @@ class Payment {
                         icon: data.icon,
                         title: data.message,
                         showConfirmButton: true,
-                    }).then(() => {
-                        if(data.url !== "") {
-                            window.location = data.url;
-                        }
-                    });
+                    }).then(() => { if(data.url !== "") window.location = data.url; });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Something went wrong!',
                         footer: '<a href>Why do I have this issue?</a>'
-                    })
+                    });
                 }
             });
     }

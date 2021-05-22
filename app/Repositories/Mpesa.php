@@ -39,7 +39,6 @@ class Mpesa
         }
 
         $callback = StkCallback::create($real_data);
-
         $this->fireStkEvent($callback, get_object_vars($data));
 
         return $callback;

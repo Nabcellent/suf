@@ -1145,7 +1145,9 @@ nav ul.pagination {
 
 
 
-/*=======+++++++=======+++++++=======  MPESA  =======+++++++=======+++++++=======*/
+/*=======+++++++=======+++++++=======  PAYMENT  =======+++++++=======+++++++=======*/
+
+/*+++++++*+++++++*+++++++  MPESA  +++++++*/
 #mpesa-preloader {
     position: fixed;
     top: 0;
@@ -1155,7 +1157,19 @@ nav ul.pagination {
     z-index: 999999;
     background: rgba(0, 0, 0, .9);
 }
-.three-loaders {
+#mpesa-preloader .card {
+    background-color: rgba(230, 230, 255, .7);
+}
+#mpesa-preloader h5 {
+    color: rgb(0, 0, 208);
+}
+#mpesa-preloader .card hr {
+    background-color: rgba(159, 25, 16, 1);
+}
+#mpesa-preloader hr.col-6 {
+    background-color: rgb(194, 144, 11);
+}
+#mpesa-preloader .three-loaders {
     position: absolute;
     top: 50%;
     left: calc(50% - 3rem);
@@ -1166,7 +1180,7 @@ nav ul.pagination {
     border-radius: 5px;
     animation: load 1.8s ease-in-out infinite;
 }
-.three-loaders:before, .three-loaders:after {
+#mpesa-preloader .three-loaders:before, #mpesa-preloader .three-loaders:after {
     position: absolute;
     display: block;
     content: "";
@@ -1174,15 +1188,15 @@ nav ul.pagination {
     height: 10px;
     border-radius: 5px;
 }
-.three-loaders:before {
+#mpesa-preloader .three-loaders:before {
     top: -20px;
     width: 7rem;
     background: darkred;
 }
-.three-loaders:after {
+#mpesa-preloader .three-loaders:after {
     bottom: -20px;
     width: 5rem;
-    background: green;
+    background: rgb(194, 144, 11);
 }
 @keyframes load {
     0% {

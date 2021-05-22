@@ -2,8 +2,16 @@
 
 namespace App\Misc\Overrides\Mpesa\C2B;
 
+use App\Events\StkRequested;
+use App\Exceptions\MpesaException;
+use App\Models\StkRequest;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use SmoDav\Mpesa\Repositories\Endpoint;
 use SmoDav\Mpesa\Traits\UsesCore;
@@ -240,10 +248,44 @@ class STK
                 $this->core->configRepository()->url(Endpoint::MPESA_LNMO)
             );
 
-            return json_decode($response->getBody());
+            $response = json_decode($response->getBody());
+
+            return $this->saveStkRequest($body, (array)$response);
         } catch (RequestException $exception) {
             return json_decode($exception->getResponse()->getBody());
+        } catch(MpesaException | Exception $e) {
+            return $e->getMessage();
         }
+    }
+
+    /**
+     * @param array $body
+     * @param array $response
+     * @return StkRequest|Model
+     * @throws Exception
+     * @throws MpesaException
+     */
+    private function saveStkRequest(array $body, array $response): Model|StkRequest {
+        if ($response['ResponseCode'] == 0) {
+            $incoming = [
+                'phone' => $body['PartyA'],
+                'amount' => $body['Amount'],
+                'reference' => $body['AccountReference'],
+                'description' => $body['TransactionDesc'],
+                'merchant_request_id' => $response['MerchantRequestID'],
+                'checkout_request_id' => $response['CheckoutRequestID'],
+                'user_id' => @(Auth::id() ?: request('user_id')),
+            ];
+
+            $stk = DB::transaction(function() use ($incoming) {
+                return StkRequest::create($incoming);
+            });
+
+            StkRequested::dispatch($stk, request());
+
+            return $stk;
+        }
+        throw new MpesaException($response['ResponseDescription']);
     }
 
     /**

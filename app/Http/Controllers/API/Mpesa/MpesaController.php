@@ -73,6 +73,8 @@ class MpesaController extends Controller
      * @return JsonResponse
      */
     public function stkCallback(Request $request): JsonResponse {
+        Log::alert('Returned');
+
         $this->repository->notification('MPESA STK Callback: *STK*', true);
         $this->repository->processStkPushCallback(json_encode($request->Body));
 

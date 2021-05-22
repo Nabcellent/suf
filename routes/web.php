@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\API\Mpesa\MpesaController;
+use App\Http\Controllers\API\Mpesa\StkController;
 use App\Http\Controllers\API\PayPal\PaypalController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactUsController;
@@ -175,6 +176,13 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::get('/lipa-na-mpesa', [MpesaController::class, 'show'])->name('mpesa');
     Route::get('/paypal', [PaypalController::class, 'show'])->name('paypal');
     Route::patch('/paypal/update-order-status', [PaypalController::class, 'updateOrderStatus']);
+
+    //  MPESA ROUTES
+    Route::prefix('payments/callbacks')->name('mpesa.stk.')->namespace('Mpesa')->group(function () {
+        Route::any('stk_request', [StkController::class, 'initiatePush'])->name('request');
+        Route::any('timeout_url/{section?}', [MpesaController::class, 'timeout']);
+        Route::get('stk_status/{id}', [StkController::class, 'stkStatus']);
+    });
 
     //  AJAX ROUTES
     Route::post('/get-sub-counties', [AjaxController::class, 'getSubCountyById']);
