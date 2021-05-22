@@ -4,7 +4,7 @@
         <div class="col">
             <h1>My Orders</h1>
             <p class="lead">All in one place.</p>
-            <p class="text-muted">If your have any Queries, please <a href="{{ url('/contact-us') }}">contact us.</a></p>
+            <p class="text-muted">If your have any Queries, please <a href="{{ route('contact-us') }}">contact us.</a></p>
         </div>
         <div class="dropdown-divider"></div>
     </div>

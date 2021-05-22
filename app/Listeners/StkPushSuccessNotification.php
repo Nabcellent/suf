@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\StkPushSuccess;
+use App\Models\Order;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class StkPushSuccessNotification
@@ -32,9 +34,11 @@ class StkPushSuccessNotification
             $status = "Cancelled";
         } else {
             $status = "Paid";
-        }
 
-        Log::debug($status);
+            $order = Order::find(Session::get('orderId'));
+            $order->status = 'Paid';
+            $order->save();
+        }
 
         $stk->status = $status;
         $stk->save();
