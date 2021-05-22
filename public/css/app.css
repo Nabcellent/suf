@@ -1146,7 +1146,6 @@ nav ul.pagination {
 
 
 /*=======+++++++=======+++++++=======  PAYMENT  =======+++++++=======+++++++=======*/
-
 /*+++++++*+++++++*+++++++  MPESA  +++++++*/
 #mpesa-preloader {
     position: fixed;
@@ -1209,8 +1208,7 @@ nav ul.pagination {
         transform: translateX(5rem);
     }
 }
-
-
+/*+++++++*+++++++*+++++++  PAYPAL  +++++++*/
 
 
 /*=======+++++++=======  CONTACT US  =======+++++++=======*/

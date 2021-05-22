@@ -88,13 +88,13 @@
         </div>
 
         <div id="chart" class="row mb-4">
-            <div class="col-9">
-                <div class="card text-light p-3 chart_frame">
+            <div class="col-md-9">
+                <div class="card text-light p-1 p-md-3 chart_frame">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days"  aria-controls="nav-days" aria-selected="true">Per Day</a>
                             <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" aria-controls="nav-months" aria-selected="false">Per Month</a>
-                            <div class="data_options">
+                            <div class="data_options d-none d-md-block">
                                 <div class="row justify-content-end">
                                     <div class="col-auto pr-0 d-flex align-items-center">
                                         <div>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 d-flex align-items-center">
+            <div class="col-md-3 d-flex align-items-center">
                 <img src="{{ asset('images/illustrations/undraw_statistic_chart_38b6.svg') }}" alt="">
             </div>
         </div>

@@ -34,7 +34,9 @@
                         <div class="row justify-content-end py-2 button">
                             <div class="col-md-6">
                                 <p class="m-0 text-center">Click the button below to pay.</p>
-                                <div id="paypal_payment_button"></div>
+                                <div id="paypal_payment_button" style="position: relative; z-index: 1;"></div>
+                                <hr>
+                                <p class="mb-0 mt-3 text-right">Pay with <a href="{{ route('mpesa') }}">M-PESA</a> instead?</p>
                             </div>
                         </div>
                     </div>

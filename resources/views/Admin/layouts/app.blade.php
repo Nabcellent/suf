@@ -33,8 +33,9 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
+    <!-- My Styles -->
     <link href="{{ asset('css/Admin/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/Admin/responsive.css') }}" rel="stylesheet">
 </head>
 <body id="app">
 

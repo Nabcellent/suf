@@ -30,10 +30,12 @@ class IndexController extends Controller
 {
     public function index(): Factory|View|Application {
         if(isSeller()) {
-            $newOrders = Order::getSellerOrders()->get()->toArray();
+            $newOrders = Order::getSellerOrders();
         } else {
-            $newOrders = Order::with('user')->orderByDesc('id')->limit(5)->get()->toArray();
+            $newOrders = Order::with('user')->orderByDesc('id');
         }
+
+        $newOrders = $newOrders->limit(5)->get()->toArray();
 
         return view('Admin.dashboard')
             ->with(compact('newOrders'));

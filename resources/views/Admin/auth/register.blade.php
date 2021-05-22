@@ -5,7 +5,7 @@
         <section class="container">
             <a href="{{ route('home') }}" class="position-absolute" style="left:1rem; top:1rem; color: var(--dark-gold)">Shop</a>
             <div class="row py-3 justify-content-center align-items-center" style="height: 75vh;">
-                <div class="col-7">
+                <div class="col-md-7 p-0">
                     <div class="card anime_card">
                         <div class="card-body shadow-lg">
                             <div class="card-header bg-white border-0 pb-1">
@@ -75,7 +75,7 @@
                                     <div class="form-group col">
                                         <label class="anime_input_field">
                                             <input type="number" id="national_id" name="national_id"  class="anime_input" value="{{ old('national_id') }}" required>
-                                            <span class="placeholder">National Identification number</span>
+                                            <span class="placeholder">National ID</span>
                                         </label>
                                     </div>
                                 </div>

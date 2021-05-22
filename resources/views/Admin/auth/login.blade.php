@@ -4,7 +4,7 @@
     <div id="login" class="container mt-4">
         <a href="{{ route('home') }}" class="position-absolute" style="left:1rem; top:1rem; color: var(--dark-gold)">Shop</a>
         <div class="row justify-content-center align-items-center" style="height: 75vh;">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body shadow-lg">
                         <div class="card-header mb-2 bg-white border-0 d-flex flex-row align-items-center">

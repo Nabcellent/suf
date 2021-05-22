@@ -129,7 +129,9 @@ $(() => {
         }
     }
 
-    charts.init();
+    if($('div#chart').length) {
+        charts.init();
+    }
 
     $(document).on("click", '.chart-toggle', function() {
         charts.fetchChartData()

@@ -88,7 +88,10 @@ $(() => {
             });
         }
     }
-    showMenu('header_toggle','sidebar');
+
+    if($('#header_toggle').length && $sideBar.length) {
+        showMenu('header_toggle','sidebar');
+    }
 
 
     /*_____________________  DROPDOWN  _____________________*/
