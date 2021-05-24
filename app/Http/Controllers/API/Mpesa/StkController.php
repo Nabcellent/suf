@@ -24,7 +24,7 @@ class StkController extends Controller
         $data = $request->all();
 
         $data['phone'] = "254" . (Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone']);
-        $data['amount'] = 1/*session('grandTotal')*/;
+        $data['amount'] = 1;    //currencyToFloat(session('grandTotal'))
         $data['reference'] = 'SUF-PAYMENT';
         $data['description'] = 'Payment made to SUF Web store';
 
@@ -34,7 +34,7 @@ class StkController extends Controller
                 ->usingReference($data['reference'], $data['description'])
                 ->push();
 
-            return back()->with('stk', ['checkout_request_id' => $stkRequest->checkout_request_id]);
+            return redirect()->route('mpesa')->with('stk', ['checkout_request_id' => $stkRequest->checkout_request_id]);
         } catch (Exception $exception) {
             $stkRequest = ['ResponseCode' => 900, 'ResponseDescription' => 'Invalid request', 'extra' => $exception->getMessage()];
         }
@@ -64,6 +64,9 @@ class StkController extends Controller
                 $url = route('thank-you');
             } else if($resultCode === 1032) {
                 $message = 'Payment Cancelled';
+                $icon = 'info';
+            } else if($resultCode === 1) {
+                $message = 'Your M-PESA balance is insufficient.';
                 $icon = 'info';
             } else {
                 $message = 'Something did not go right somewhere.';

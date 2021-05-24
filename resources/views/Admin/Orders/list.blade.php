@@ -79,7 +79,10 @@
                             <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
-                            @if(isRed() || isSuper())
+                            @if(isTeamRSu())
+                                <a href="{{ route('admin.payments') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    Payments<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
+                                </a>
                                 <a href="{{ route('admin.categories') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                     Categories<span class="badge badge-primary badge-pill">{{ tableCount()['categories'] }}</span>
                                 </a>

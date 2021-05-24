@@ -80,7 +80,7 @@
                                 @if(latestProductId() !== null)
                                     <a href="{{ route('admin.product', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
                                 @endisset
-                                @if(isRed() || isSuper())
+                                @if(isTeamRSu())
                                     <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
                                     <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>
                                 @endif
@@ -97,11 +97,13 @@
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
                                 <a href="{{ route('admin.orders') }}" class="nav_dropdown_item">Orders</a>
-                                <a href="{{ route('admin.payments') }}" class="nav_dropdown_item">Payments</a>
+                                @if(isTeamRSu())
+                                    <a href="{{ route('admin.payments') }}" class="nav_dropdown_item">Payments</a>
+                                @endif
                             </div>
                         </div>
                     </div>
-                    @if(isRed() || isSuper())
+                    @if(isTeamRSu())
                         <div class="nav_dropdown">
                             <a href="#" class="nav_link">
                                 <i class="fab fa-page4 nav_icon"></i>
@@ -125,7 +127,7 @@
                         <i class='bx bxs-contact nav_icon' ></i>
                         <span class="nav_name">Contacts</span>
                     </a>
-                    @if(isRed() || isSuper())
+                    @if(isTeamRSu())
                         <a href="#" class="nav_link">
                             <i class='bx bx-mail-send nav_icon' ></i>
                             <span class="nav_name">Emails</span>
@@ -174,7 +176,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(isSuper() || isRed())
+                    @if(isTeamRSu())
                         <div class="nav_dropdown">
                             <a href="#" class="nav_link">
                                 <i class="fas fa-user-tag nav_icon"></i>

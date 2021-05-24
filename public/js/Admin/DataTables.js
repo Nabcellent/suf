@@ -162,6 +162,49 @@ const orderDataTable = $('#orders_table').DataTable({
 });
 
 
+/*_____________________  PAYMENTS  _____________________*/
+
+const mpesaDataTable = $('#mpesa_table').DataTable({
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    order: [0, 'DESC'],
+    language: {
+        info: 'Number of payments: _MAX_',
+        infoFiltered:   "(filtered _TOTAL_ payments)",
+        search: "_INPUT_",
+        searchPlaceholder: "Search payment"
+    },
+    columnDefs: [{
+        searchable: false,
+        orderable: false,
+        targets: 1
+    }, {
+        searchable: false,
+        orderable: false,
+        targets: 5
+    }],
+    createdRow: function(row, data) {
+        if(data[1].replace(/[$,]/g, '') * 1 > 1000) {
+            $('td', row).eq(0).addClass('text-success');
+        } else if(data[1].replace(/[$,]/g, '') * 1 < 1000) {
+            $('td', row).eq(0).addClass('text-danger');
+        }
+        if(data[4].toLowerCase() === 'cancelled') {
+            $('td', row).eq(2).addClass('text-warning');
+        } else if(data[4].toLowerCase() === 'failed') {
+            $('td', row).eq(2).addClass('text-danger');
+        } else if(data[4].toLowerCase() === 'paid') {
+            $('td', row).eq(2).addClass('text-success');
+        }
+    },
+});
+mpesaDataTable.on( 'order.dt search.dt', function () {
+    mpesaDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell["innerHTML"] = i+1;
+    } );
+}).draw();
+
+
 /*_____________________  CATEGORIES  _____________________*/
 
 const categoriesTable = $('#categories_table').DataTable({

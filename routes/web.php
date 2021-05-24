@@ -31,14 +31,14 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-/*Route::any('/', function() {
+Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');*/
+})->where('anyExceptRoot', '.*');
 
-
+/*
 Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
@@ -79,7 +79,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::patch('/order-ready/{id}/{checked}', [Admin\OrderController::class, 'orderReady']);
         Route::get('/invoice/{id}', [Admin\OrderController::class, 'showInvoice'])->name('invoice');
         Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'processInvoicePDF'])->name('invoice-pdf');
-        Route::get('/payments')->name('payments');
+        Route::get('/payments', [Admin\PaymentController::class, 'list'])->name('payments');
 
         //  Content Routes
         Route::match(['GET', 'POST', 'PUT'],'/banners', [Admin\PageContentController::class, 'getCreateUpdateBanners'])->name('banners');
@@ -216,7 +216,7 @@ Route::post('/get-product-price', [ProductController::class, 'getProductPrice'])
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
 
 
 

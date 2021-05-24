@@ -572,7 +572,11 @@ label.error {
 .card.crud_table .card-body {
     padding-top: .5rem;
 }
-
+table.crud_table th,
+table.crud_table tr td {
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+}
 table.crud_table th {
     font-size: 1rem;
     font-weight: 500!important;

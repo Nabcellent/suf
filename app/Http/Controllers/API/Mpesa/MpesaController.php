@@ -44,12 +44,6 @@ class MpesaController extends Controller
         return redirect('/cart');
     }
 
-    public function showCart(): Redirector|Application|RedirectResponse {
-        session::forget(['grandTotal', 'orderId', 'couponId', 'couponDiscount']);
-
-        return redirect('cart');
-    }
-
     /**
      * @param Request $request
      * @param string|null $initiator

@@ -73,7 +73,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">Quantity</span>
                                             </div>
-                                            <input type="number" name="quantity" class="form-control" min="0" step="1" value="{{ old('quantity') }}" placeholder="Quantity" aria-label required>
+                                            <input type="number" name="quantity" class="form-control" min="0" step="1" value="{{ old('quantity') }}" placeholder="Quantity" autofocus required>
                                         </div>
                                     </div>
                                 </div>
