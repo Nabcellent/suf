@@ -38,6 +38,8 @@ class Mpesa
             }
         }
 
+        Log::debug(json_encode($real_data));
+
         $callback = StkCallback::create($real_data);
         $this->fireStkEvent($callback, get_object_vars($data));
 

@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             PolicySeeder::class,*/
         ]);
 
-        User::factory()->count(20)
+        /*User::factory()->count(20)
             ->hasAddresses(1)
             ->hasPhones(1)
             ->create()->each(function($user) {
@@ -45,6 +45,6 @@ class DatabaseSeeder extends Seeder
                 }
             });
         Product::factory()->count(20)->create();
-        Order::factory()->count(13)->create();
+        Order::factory()->count(13)->create();*/
     }
 }

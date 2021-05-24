@@ -129,11 +129,11 @@
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-query-builder" />
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
       <path value="$PROJECT_DIR$/vendor/smodav/mpesa" />
-      <path value="$PROJECT_DIR$/vendor/laravel/telescope" />
       <path value="$PROJECT_DIR$/vendor/jivesh/laravel-slack" />
       <path value="$PROJECT_DIR$/vendor/accentinteractive/laravel-logcleaner" />
       <path value="$PROJECT_DIR$/vendor/amrshawky/currency" />
       <path value="$PROJECT_DIR$/vendor/amrshawky/laravel-currency" />
+      <path value="$PROJECT_DIR$/vendor/laravel/telescope" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
