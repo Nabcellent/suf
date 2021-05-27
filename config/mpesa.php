@@ -51,7 +51,7 @@ return [
                 'paybill' => env('MPESA_ONLINE_SHORTCODE'),
                 'shortcode' => env('MPESA_ONLINE_SHORTCODE'),
                 'passkey' => env('MPESA_ONLINE_PASS_KEY'),
-                'callback' => env('APP_NGROK_URL') . '/api/payments/callbacks/stk_callback',
+                'callback' => env('APP_URL') . '/api/payments/callbacks/stk_callback',
                 //'callback' => route('stk.callback'),
             ]
         ],
