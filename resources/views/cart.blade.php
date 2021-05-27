@@ -116,7 +116,7 @@
 
                 <!--    Start Order Summary    -->
 
-                <div class="col-md-3">
+                <div class="col-md-3 pl-md-0">
 
                     <!--    Start Box    -->
 

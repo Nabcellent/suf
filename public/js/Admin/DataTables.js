@@ -318,7 +318,7 @@ const phoneDataTable = $('#phones_table').DataTable({
     order: [[0, 'ASC']],
     language: {
         info: 'Number of phones: _MAX_',
-        infoFiltered:   "(filtered _TOTAL_ brands)",
+        infoFiltered:   "(filtered _TOTAL_ phones)",
         search: "_INPUT_",
         searchPlaceholder: "Search phone"
     },
@@ -343,6 +343,38 @@ phoneDataTable.on( 'order.dt search.dt', function () {
     phoneDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
         cell["innerHTML"] = i+1;
     } );
+}).draw();
+
+
+/*_____________________  EMAILS  _____________________*/
+
+const emailDataTable = $('#emails_table').DataTable({
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    order: [[0, 'ASC']],
+    language: {
+        info: 'Number of emails: _MAX_',
+        infoFiltered:   "(filtered _TOTAL_ emails)",
+        search: "_INPUT_",
+        searchPlaceholder: "Search email"
+    },
+    columnDefs: [
+        { searchable: false, orderable: false, targets: 0 },
+        { searchable: false, orderable: false, targets: 5 }
+    ],
+    createdRow: function(row, data) {
+        const role = data[4];
+        if(role.toLowerCase() === 'customer') {
+            $('td', row).eq(4).addClass('text-success').addClass('font-weight-bolder');
+        } else if(role.toLowerCase() === 'admin') {
+            $('td', row).eq(4).addClass('text-danger').addClass('font-weight-bolder');
+        }
+    }
+});
+emailDataTable.on( 'order.dt search.dt', function () {
+    emailDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell["innerHTML"] = i+1;
+    });
 }).draw();
 
 

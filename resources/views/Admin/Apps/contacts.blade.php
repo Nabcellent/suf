@@ -17,8 +17,8 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>phone</th>
-                                    <th>provider</th>
+                                    <th>Phone</th>
+                                    <th>Provider</th>
                                     <th>Owner</th>
                                     <th>Role</th>
                                     @if(!isSeller())

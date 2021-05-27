@@ -4,9 +4,9 @@
         <h4 class="m-0 d-none d-md-block" data-toggle="collapse" data-target="#filters">FILTERS</h4>
         <i class="fas fa-filter" data-toggle="collapse" data-target="#filters"></i>
     </div>
-    <ul id="filters" class="list-group list-group-flush">
-        <?php $sections = sections(); ?>
-        @foreach($sections as $section)
+    <ul id="filters" class="list-group list-group-flush collapse">
+
+        @foreach(sections() as $section)
             @if(count($section['categories']) > 0)
                 <li class="list-group-item">
                     <span class="row">

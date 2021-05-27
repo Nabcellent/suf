@@ -56,7 +56,7 @@
                                                 </td>
                                             @endif
                                             <td class="action">
-                                                <a href="#" class="mx-2" title="Modify"><i class="fas fa-envelope text-light"></i></a>
+                                                <a href="#" class="mx-2" title="Send Email"><i class="fas fa-envelope text-light"></i></a>
                                                 <a href="#" class="mx-2" title="Modify"><i class="fas fa-paper-plane text-primary"></i></a>
                                                 @if(!isSeller())
                                                     <a href="#" class="mx-2" title="Modify"><i class="fas fa-pen text-success"></i></a>

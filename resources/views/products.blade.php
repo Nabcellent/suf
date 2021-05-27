@@ -67,7 +67,7 @@
                                             All Products
                                         @endif
                                     </h2>
-                                    <p class="m-0 text-muted">Available products: {{count($products)}}</p>
+                                    <p id="productCount" class="m-0 text-muted">Available products: <span>{{count($products)}}</span></p>
                                 </div>
                                 <hr class="mt-0">
                                 <div class="row d-flex justify-content-between">

@@ -5,9 +5,9 @@
             {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
             {{ Str::ucfirst(User()->last_name) }}
             @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
-                <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid" alt="" data-toggle="dropdown">
-            @else
                 <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown">
+            @else
+                <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid" alt="" data-toggle="dropdown">
             @endif
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
@@ -103,7 +103,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(isTeamRSu())
+                    @if(isRed())
                         <div class="nav_dropdown">
                             <a href="#" class="nav_link">
                                 <i class="fab fa-page4 nav_icon"></i>
@@ -128,7 +128,7 @@
                         <span class="nav_name">Contacts</span>
                     </a>
                     @if(isTeamRSu())
-                        <a href="#" class="nav_link">
+                        <a href="{{ route('admin.emails') }}" class="nav_link">
                             <i class='bx bx-mail-send nav_icon' ></i>
                             <span class="nav_name">Emails</span>
                         </a>

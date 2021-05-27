@@ -31,10 +31,12 @@ class Banner extends Model
     /**
      * STATIC FUNCTIONS
      */
-    public static function getBanners() {
+    public static function getBanners(): array {
         return [
-            'sliders' => self::where(['status' => 1, 'type' => 'Slider'])->get()->toArray(),
-            'ads' => self::where(['status' => 1, 'type' => 'Box'])->get()->toArray()
+            'sliders' => self::select('image', 'alt', 'title', 'description')
+                ->where(['status' => 1, 'type' => 'Slider'])->get()->toArray(),
+            'ads' => self::select('image', 'link', 'title', 'description', 'alt')
+                ->where(['status' => 1, 'type' => 'Box'])->get()->toArray()
         ];
     }
 

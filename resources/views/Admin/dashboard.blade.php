@@ -180,7 +180,6 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Customer Email</th>
                                         <th scope="col">Phone</th>
-                                        <th scope="col">Payment Method</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Order Date</th>
@@ -190,17 +189,24 @@
                                     <tbody>
 
                                     @foreach($newOrders as $order)
-                                        <?php $statusColor = ($order['status'] === 'pending') ? 'danger' : 'success' ?>
+                                        <?php
+                                            if($order['status'] === 'pending') {
+                                                $statusColor = 'warning';
+                                            } else if($order['status'] === 'completed') {
+                                                $statusColor = 'success';
+                                            } else if($order['status'] === 'cancelled') {
+                                                $statusColor = 'danger';
+                                            }
+                                        ?>
                                         <tr>
                                             <td>{{ $order['id'] }}</td>
                                             <td>{{ $order['user']['email'] }}</td>
                                             <td>{{ $order['phone'] }}</td>
-                                            <td>{{ $order['payment_method'] }}</td>
                                             <td>{{ $order['total'] }}</td>
                                             <td>
                                                 <span class="badge badge-pill badge-{{ $statusColor }}">{{ $order['status'] }}</span>
                                             </td>
-                                            <td>{{ date('M d, Y', strtotime($order['created_at'])) }}</td>
+                                            <td>{{ date('M d, y', strtotime($order['created_at'])) }}</td>
                                         </tr>
                                     @endforeach
 

@@ -23,7 +23,8 @@ use App\Http\Controllers\PolicyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|-----------------------------
+---------------------------------------------
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -31,15 +32,15 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-Route::any('/', function() {
+/*Route::any('/', function() {
     return view('temporary');
 })->name('suspended');
 Route::get('{anyExceptRoot}', function() {
     return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');
+})->where('anyExceptRoot', '.*');*/
 
 
-/*Auth::routes(['verify' => true]);
+Auth::routes(['verify' => true]);
 
 //  ADMIN ROUTES
 Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
@@ -88,6 +89,7 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         ///////  APPS
         /// Contacts
         Route::get('/contacts', [Admin\AppController::class, 'showContacts'])->name('contacts');
+        Route::get('/emails', [Admin\AppController::class, 'showEmails'])->name('emails');
 
         ///////  USERS
         Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
@@ -170,7 +172,7 @@ Route::middleware(['verified', 'auth'])->group(function() {
     Route::post('/apply-coupon', [CouponController::class, 'applyCoupon'])->name('apply-coupon');
 
     //  ORDER ROUTES
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout', [OrderController::class, 'showCheckout'])->name('checkout');
     Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('place-order');
     Route::get('/thank-you', [OrderController::class, 'thankYou'])->name('thank-you');
     Route::get('/lipa-na-mpesa', [MpesaController::class, 'show'])->name('mpesa');
@@ -193,11 +195,11 @@ Route::middleware(['verified', 'auth'])->group(function() {
 
 //  PRODUCT ROUTES
 Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
-Route::get('/product/{id}/{title}', [ProductController::class, 'details'])->name('product-details');
+Route::get('/product/{id}/{title}', [ProductController::class, 'showDetails'])->name('product-details');
 
 //  CART ROUTES
 Route::get('/cart', [ProductController::class, 'cart'])->name('cart');    //->middleware('password.confirm');
-Route::post('/add-to-cart', [ProductController::class, 'addToCart']);
+Route::post('/add-to-cart', [ProductController::class, 'storeCart']);
 Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
 Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
 
@@ -211,12 +213,13 @@ Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-u
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 //  AJAX ROUTES
+Route::get('/get-filtered-products', [AjaxController::class, 'getFilteredProducts']);
 Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
 //  Database Checks
 Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
 Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
 Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);*/
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 

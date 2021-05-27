@@ -27,54 +27,8 @@ use JsonException;
 
 class ProductController extends Controller
 {
-    public function index(Request $req, $categoryId = null): View|Factory|string|Application
+    public function index($categoryId = null): View|Factory|string|Application
     {
-        if($req->ajax()) {
-            $data = $req->all();
-            $query = Product::products()->where('products.status', 1)
-                ->join('categories', 'products.category_id', 'categories.id')
-                ->select('products.*');
-
-            if(isset($data['categoryId'])) {
-                $catDetails = Category::categoryDetails($data['categoryId']);
-                $query->whereIn('products.category_id', $catDetails['catIds']);
-            }
-
-            if($req->has('category')) {
-                $query->whereIn('categories.category_id', $data['category']);
-            }
-            if($req->has('subCategory')) {
-                $query->whereIn('products.category_id', $data['subCategory']);
-            }
-            if($req->has('seller')) {
-                $query->whereIn('products.seller_id', $data['seller']);
-            }
-            if($req->has('brand')) {
-                $query->whereIn('products.brand_id', $data['brand']);
-            }
-
-            if(isset($_GET['sort']) && !empty($_GET['sort'])) {
-                if($_GET['sort'] === "newest") {
-                    $query->orderByDesc('products.id');
-                } elseif($_GET['sort'] === "oldest") {
-                    $query->orderBy('products.id');
-                } elseif($_GET['sort'] === "title_asc") {
-                    $query->orderBy('products.title');
-                } elseif($_GET['sort'] === "title_desc") {
-                    $query->orderByDesc('products.title');
-                } elseif($_GET['sort'] === "price_asc") {
-                    $query->orderBy('products.base_price');
-                } elseif($_GET['sort'] === "price_desc") {
-                    $query->orderByDesc('products.base_price');
-                }
-            }
-
-            $products = $query->paginate($data['perPage']);
-
-            return view('partials.products.products_data', compact('products'));
-        }
-
-        $productCount = Product::products()->where('products.status', 1)->count();
         $products = Product::products()->where('products.status', 1);
 
         $catDetails = "";
@@ -93,11 +47,10 @@ class ProductController extends Controller
         $brands = Brand::brands()->get()->toArray();
 
         return View('products')
-            ->with(compact('products', 'sellers', 'brands', 'catDetails'))
-            ->with(compact('productCount'));
+            ->with(compact('products', 'sellers', 'brands', 'catDetails'));
     }
 
-    public function details($id): Factory|View|Application
+    public function showDetails($id): Factory|View|Application
     {
         app('redirect')->setIntendedUrl(URL::previous());
 
@@ -133,10 +86,10 @@ class ProductController extends Controller
         return null;
     }
 
-    public function addToCart(Request $req): Redirector|RedirectResponse|Application {
+    public function storeCart(Request $req): Redirector|RedirectResponse|Application {
         $data = $req->all();
-        $details = array();
 
+        $details = array();
         foreach($data as $key => $value) {
             if(str::startsWith($key, 'variant')) {
                 $variant = Str::of(substr($key, 7))->singular()->jsonSerialize();
@@ -165,11 +118,10 @@ class ProductController extends Controller
         }
 
         //  Check if Similar Product already exists
-        if(Auth::check()) {
-            $countProducts = Cart::where(['product_id' => $data['product_id'], 'user_id' => Auth::id()])->whereJsonContains('details', $details)->count();
-        } else {
-            $countProducts = Cart::where(['product_id' => $data['product_id'], 'session_id' => $sessionId])->whereJsonContains('details', $details)->count();
-        }
+        $countProducts = Cart::where('product_id', $data['product_id'])->whereJsonContains('details', $details);
+        $countProducts = (Auth::check()) ? $countProducts->where('user_id', Auth::id()) : $countProducts->where('session_id', $sessionId);
+        $countProducts = $countProducts->count();
+
         if($countProducts > 0) {
             $message = "Product already exists in Cart😁";
             return back()->withInput()
@@ -184,16 +136,15 @@ class ProductController extends Controller
             return back()->with('alert', alert('danger', '💔!', $message, 7));
         }
 
-        //  Save to Cart Table
-        $cart = new Cart;
-        $cart -> user_id = (Auth::check()) ? Auth::id() : null;
-        $cart -> session_id = $sessionId;
-        $cart -> product_id = $data['product_id'];
-        $cart -> details = $details;
-        $cart -> quantity = $data['quantity'];
-        $cart -> created_at = Carbon::now();
-        $cart -> updated_at = Carbon::now();
-        $cart -> save();
+        $store = [
+            'user_id' => (Auth::check()) ? Auth::id() : null,
+            'session_id' => $sessionId,
+            'product_id' => $data['product_id'],
+            'details' => $details,
+            'quantity' => $data['quantity'],
+        ];
+
+        Cart::create($store);
 
         $message = "Item Added to Cart!";
         $link = ['title' => 'View', 'url' => route('cart')];

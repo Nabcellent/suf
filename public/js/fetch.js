@@ -15,24 +15,24 @@ $(() => {
 $(document).on('click', '.pagination a', function (event) {
     event.preventDefault();
     let page = $(this).attr('href').split('page=')[1];
-    let ajaxUrl = '/products?page=' + page;
+    let ajaxUrl = '/get-filtered-products?page=' + page;
     getProducts(ajaxUrl);
 });
 
 /**==============================================================================  Sorting   */
 $(document).on('change', '#products #sort_by', function() {
-    let ajaxUrl = '/products?page=1';
+    let ajaxUrl = '/get-filtered-products?page=1';
     getProducts(ajaxUrl);
 });
 
 /**==============================================================================  Filter Categories   */
 $(document).on('click','.product_check',function() {
-    getProducts('/products');
+    getProducts('/get-filtered-products');
 });
 
 /**=======================================================================  Change Products Per Page   */
 $(document).on('change', '#products nav #per_page',() => {
-    getProducts('/products', );
+    getProducts('/get-filtered-products', );
 });
 
 const getProducts = (url) => {
@@ -60,7 +60,8 @@ const getProducts = (url) => {
         type: 'GET',
         url: url,
         success: function(response) {
-            $('#product_section').html(response);
+            $('#product_section').html(response.view);
+            $('#productCount span').text(response.count);
             $('#loader').hide();
 
             if($('.product_check:checked').length > 0) {

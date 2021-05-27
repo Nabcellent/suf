@@ -694,6 +694,10 @@ nav .nav-link:hover {
 #categories_sidebar .filters-header {
     color: var(--dark-red);
 }
+#categories_sidebar > div.filters-header h4,
+#categories_sidebar > div.filters-header i {
+    cursor: pointer;
+}
 #categories_sidebar .form-check.sub_list,
 #categories_sidebar .form-check.list {
     padding-left: 0;
@@ -1001,6 +1005,9 @@ nav ul.pagination {
 #cart .cart_table .table_fixed thead > tr > th {
     color: rgb(140, 207, 150);
     border: 0!important;
+}
+#cart .cart_table .table_fixed tbody#accordion thead > tr > th {
+    color: var(--dark-red);
 }
 #cart .cart_table .table tbody tr td {
     vertical-align: middle;

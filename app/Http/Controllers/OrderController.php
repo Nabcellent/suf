@@ -25,12 +25,11 @@ class OrderController extends Controller
     /**
      * @throws JsonException
      */
-    public function checkout(): View|Factory|RedirectResponse|Application
+    public function showCheckout(): View|Factory|RedirectResponse|Application
     {
-        $cart = Cart::cartItems();
-
         if(cartCount() > 0) {
-            $addresses = Address::addresses()->get()->toArray();
+            $cart = Cart::cartItems();
+            $addresses = Auth::user()->addresses->toArray();
             $phones = Auth::user()->phones->toArray();
 
             return view('checkout')->with(compact('cart', 'addresses', 'phones'));

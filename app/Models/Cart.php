@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 
 class Cart extends Model
 {
+    protected $guarded = [];
+
     /**
      * RELATIONSHIP FUNCTIONS
      */

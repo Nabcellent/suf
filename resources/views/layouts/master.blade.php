@@ -44,7 +44,7 @@
 @include('partials.alert')
 @include('partials.top_header')
 
-@if(isset($pageTitle) && $pageTitle === "Index")
+@if(Request::routeIs('home'))
     @include('partials.home_banners')
 @endif
 

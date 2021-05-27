@@ -48,7 +48,7 @@
         <div class="logo"><a href="{{ route('home') }}"><img src="{{ asset('images/general/store_logo.jpg') }}" alt=""></a></div>
         <!-- title & content -->
         <div class="row vh-100 justify-content-center align-items-center">
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <canvas id="canvas" width="1178" height="587"></canvas>
             </div>
             <div class="col d-flex justify-content-center align-items-center">

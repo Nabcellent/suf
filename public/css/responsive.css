@@ -670,23 +670,19 @@
         font-size: var(--font-size-tiny);
     }
     #checkout .card.cart .table tr td img,
-    #cart .cart_table .table tr td img {
-        width: 1.5rem;
-        max-height: 1.7rem
-    }
     #cart .cart_table .table tbody tr td.quantity input {
         padding: 0 0;
         width: 2rem;
-        height: 1rem;
+        height: 1.3rem;
         font-size: var(--font-size-tiny);
     }
     #cart .cart_table .table tbody tr td.quantity button {
         width: 1rem;
-        height: 1rem;
+        height: 1.3rem;
     }
     #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus,
     #cart .cart_table .table tbody tr td.quantity button.nice-number-button-minus {
-        font-size: var(--font-size-tiny);
+        font-size: var(--font-size-small);
     }
     #cart .cart_table .table tbody tr td.quantity button.nice-number-button-plus {
         padding: 0;
