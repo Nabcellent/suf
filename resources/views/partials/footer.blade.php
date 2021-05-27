@@ -40,7 +40,9 @@
                 <p>
 
                     @auth()
-                        <a href="{{ route('checkout') }}">Checkout<br></a>
+                        @if(cartCount() > 0)
+                            <a href="{{ route('checkout') }}">Checkout<br></a>
+                        @endif
                         <a href="{{ route('profile') }}">My Account<br></a>
                         <a href="{{ route('profile', ['page' => 'orders']) }}">My Orders<br></a>
                         <a href="{{ route('logout') }}">Sign Out</a><br>

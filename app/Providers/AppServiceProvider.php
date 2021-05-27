@@ -17,10 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
-        // the original class
-            STK::class,
-            // my custom class
-            \App\Misc\Overrides\Mpesa\C2B\STK::class
+            STK::class,     // Original class
+            \App\Misc\Overrides\Mpesa\C2B\STK::class    // Custom class
         );
 
         if ($this->app->environment('local')) {

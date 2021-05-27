@@ -25,7 +25,9 @@
                                     @endif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('checkout') }}">Checkout</a>
+                                    @if(cartCount() > 0)
+                                        <a class="dropdown-item" href="{{ route('checkout') }}">Checkout</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('orders') }}">My Orders</a>
                                     <a class="dropdown-item" href="{{ route('profile') }}">My Account</a>
                                     <div class="dropdown-divider"></div>

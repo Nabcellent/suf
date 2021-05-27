@@ -40,7 +40,7 @@ class StkController extends Controller
         }
 
         Log::debug($stkRequest['extra']);
-        return back()->with('alert', alert('info', 'Sorry!', 'Unable to process request at this time, please try again shortly', 7));
+        return back()->with('alert', alert('info', 'Sorry!', 'Unable to process request at this time, please try again shortly.', 7));
     }
 
     /**
