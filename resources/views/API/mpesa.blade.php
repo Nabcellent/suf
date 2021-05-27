@@ -53,8 +53,10 @@
                             <div class="col-md-6">
                                 <p class="m-0 text-center">Click the button below to pay.</p>
                                 <span class="btn btn-block btn-success font-weight-bold" data-toggle="modal" data-target="#pay_phone" style="border-radius: 2.5rem; height: 2.5rem">
-                                <i class="fas fa-hand-holding-usd"></i> Pay Now
-                            </span>
+                                    <i class="fas fa-hand-holding-usd"></i> Pay Now
+                                </span>
+                                <hr>
+                                <p class="mb-0 mt-3 text-right">Pay with <a href="{{ route('paypal') }}">PAYPAL</a> instead?</p>
                             </div>
                         </div>
                     </div>
