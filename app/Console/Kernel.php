@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune')->daily()->at('01:00');
         $schedule->command('mpesa:query_status')->days([Schedule::MONDAY, Schedule::FRIDAY])->runInBackground();
         $schedule->command('logcleaner:run', ['--keeplines' => 100, '--keepfiles' => 14])->daily()->at('01:00');
+        $schedule->command('sitemap:generate')->weekly();
     }
 
     /**

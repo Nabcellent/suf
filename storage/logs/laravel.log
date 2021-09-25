@@ -7901,3 +7901,17 @@
 #48 /home/red_beard/Desktop/PHP/Apps/suf/server.php(21): require_once('...')
 #49 {main}
 "} 
+[2021-09-25 22:18:24] local.ERROR: No arguments expected for "package:discover" command, got "suggest". {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): No arguments expected for \"package:discover\" command, got \"suggest\". at /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Input/ArgvInput.php:186)
+[stacktrace]
+#0 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Input/ArgvInput.php(80): Symfony\\Component\\Console\\Input\\ArgvInput->parseArgument()
+#1 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Input/Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#2 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Command/Command.php(258): Symfony\\Component\\Console\\Input\\Input->bind()
+#3 /home/red_beard/Desktop/PHP/Apps/suf/vendor/laravel/framework/src/Illuminate/Console/Command.php(121): Symfony\\Component\\Console\\Command\\Command->run()
+#4 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Application.php(978): Illuminate\\Console\\Command->run()
+#5 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Application.php(295): Symfony\\Component\\Console\\Application->doRunCommand()
+#6 /home/red_beard/Desktop/PHP/Apps/suf/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#7 /home/red_beard/Desktop/PHP/Apps/suf/vendor/laravel/framework/src/Illuminate/Console/Application.php(92): Symfony\\Component\\Console\\Application->run()
+#8 /home/red_beard/Desktop/PHP/Apps/suf/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run()
+#9 /home/red_beard/Desktop/PHP/Apps/suf/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle()
+#10 {main}
+"} 
