@@ -1,6 +1,3 @@
-
-<?php use App\Models\Product; ?>
-
 <div class="container-fluid p-0">
     @if(tableCount()['products'] > 0)
         @if(count($products) > 0)
@@ -30,7 +27,7 @@
                             <p class="m-0 text-center text-secondary brand-name">{{$item['brand']['name']}}</p>
                             <div class="row">
                                 <div class="col prices">
-                                    <?php $discountPrice = Product::getDiscountPrice($item['id']); ?>
+                                    <?php $discountPrice = getDiscountPrice($item['id']); ?>
                                     @if($discountPrice > 0)
                                         <p>{{$discountPrice}}/=</p><br>
                                         <del class="text-secondary">{{$item['base_price']}}/=</del>
@@ -60,7 +57,7 @@
             </div>
         @else
             <div>
-                <h4>Sorryyy! No Products for this category😔</h4>
+                <h4>Sorryyy! No products match this filter😔</h4>
                 <hr class="mx-0">
                 <img src="{{ asset('images/illustrations/undraw_feeling_blue_4b7q.svg') }}" alt="">
             </div>

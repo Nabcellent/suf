@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @mixin IdeHelperOrder
+ */
 class Order extends Model
 {
     use HasFactory;
@@ -21,6 +25,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'address_id',
+        'order_no',
         'phone',
         'coupon_id',
         'coupon_discount',
@@ -77,13 +82,13 @@ class Order extends Model
     /**
      * STATIC FUNCTIONS
      */
-    public static function orders() {
+    public static function orders(): Builder {
         return self::with('user', 'orderProducts');
     }
-    public static function usersOrders() {
+    public static function usersOrders(): Order|Builder {
         return self::where('user_id', Auth::id())->with('orderProducts');
     }
-    public static function getSellerOrders() {
+    public static function getSellerOrders(): Order|Builder {
         return self::whereHas('sellersOrders')->with('sellersOrders', 'user');
     }
 

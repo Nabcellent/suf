@@ -57,7 +57,7 @@
                                 <select name="brand" class="form-control @error('brand') is-invalid @enderror crud_form" aria-label>
                                     <option selected hidden value="0">Select a brand*</option>
                                     @foreach($brands as $brand)
-                                        <option @if($brand['id'] === $product['brand_id']) selected @endif value="{{ $brand['id'] }}">{{ $brand['name'] }}</option>
+                                        <option @if($brand->id === $product->brand_id) selected @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -71,7 +71,7 @@
                                     <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror crud_form" aria-label required>
                                         <option selected hidden value="">Select a seller*</option>
                                         @foreach($sellers as $seller)
-                                            <option @if($seller['user_id'] === $product['seller_id']) selected @endif value="{{ $seller['user_id'] }}">{{ $seller['username'] }}</option>
+                                            <option @if($seller->user_id === $product->seller_id) selected @endif value="{{ $seller->user_id }}">{{ $seller->username }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -81,11 +81,11 @@
                                 <select id="categories" class="form-control @error('category') is-invalid @enderror crud_form" name="sub_category" aria-label required>
                                     <option selected hidden value="">Select a category *</option>
                                     @foreach($sections as $section)
-                                        <optgroup label="{{ $section['title'] }}"></optgroup>
-                                        @foreach($section['categories'] as $category)
-                                            <optgroup label=" &nbsp;&nbsp;&nbsp;&nbsp; {{ $category['title'] }}"></optgroup>
-                                            @foreach($category['sub_categories'] as $subCat)
-                                                <option @if($subCat['id'] === $product['category_id']) selected @endif value="{{ $subCat['id'] }}"> &nbsp;&nbsp;&nbsp;&nbsp; ------ {{ $subCat['title'] }}</option>
+                                        <optgroup label="{{ $section->title }}"></optgroup>
+                                        @foreach($section->categories as $category)
+                                            <optgroup label=" &nbsp;&nbsp;&nbsp;&nbsp; {{ $category->title }}"></optgroup>
+                                            @foreach($category->subCategories as $subCat)
+                                                <option @if($subCat->id === $product->category_id) selected @endif value="{{ $subCat->id }}"> &nbsp;&nbsp;&nbsp;&nbsp; ------ {{ $subCat->title }}</option>
                                             @endforeach
                                         @endforeach
                                     @endforeach
@@ -102,35 +102,35 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label class="mb-0">Label</label>
-                                <input type="text" name="label" class="form-control crud_form" value="{{ $product['label'] }}"
+                                <input type="text" name="label" class="form-control crud_form" value="{{ $product->label }}"
                                        placeholder="Label" aria-label>
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Keywords</label>
-                                <input type="text" name="keywords" class="form-control crud_form" value="{{ $product['keywords'] }}"
+                                <input type="text" name="keywords" class="form-control crud_form" value="{{ $product->keywords }}"
                                        placeholder="Keywords" aria-label>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col">
                                 <label class="mb-0">Base Price</label>
-                                <input type="number" name="base_price" class="form-control crud_form" value="{{ $product['base_price'] }}"
+                                <input type="number" name="base_price" class="form-control crud_form" value="{{ $product->base_price }}"
                                        placeholder="Base price" aria-label>
                             </div>
                             <div class="form-group col">
                                 <label class="mb-0">Discount (%)</label>
-                                <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="{{ $product['discount'] }}"
+                                <input type="number" name="discount" max="99" min="0" class="form-control crud_form" value="{{ $product->discount }}"
                                        placeholder="Discount" aria-label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="mb-0">Description</label>
                             <textarea  name="description" class="form-control crud_form"
-                                       rows="4" placeholder="Description..." aria-label>{{ $product['description'] }}</textarea>
+                                       rows="4" placeholder="Description..." aria-label>{{ $product->description }}</textarea>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" @if($product['is_featured'] === 'Yes') checked @endif>
+                                <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" @if($product->is_featured === 'Yes') checked @endif>
                                 <label class="custom-control-label" for="is_featured">Featured</label>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
     <div class="modal fade" id="create_variation" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="create_variation" action="{{ route('admin.create.variation', ['id' => $product['id']]) }}" method="POST">
+                <form id="create_variation" action="{{ route('admin.create.variation', ['id' => $product->id]) }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Create Variation</h5>
@@ -164,18 +164,17 @@
                             <select class="form-control" id="attribute" name="attribute" style="width: 100%" aria-label required>
                                 <option selected hidden value="">Select an attribute</option>
                                 @foreach($attributes as $attr)
-                                    <option value="{{ $attr['id'] }}">{{ $attr['name'] }}</option>
+                                    <option value="{{ $attr->id }}">{{ $attr->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             Value(s)
-                            <select class="variation form-control" id="values_s2" name="variation_options[]" style="width: 100%" aria-label required>
+                            <select class="variation form-control" id="values_s2" name="options[]" style="width: 100%" aria-label required>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" class="product_id" name="product_id" value="{{ $product['id'] }}">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
@@ -192,7 +191,7 @@
                 <form id="create_variation_option" action="{{ route('admin.create.variation-option') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Another Variation Option</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Variation Option</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -228,7 +227,7 @@
     <div class="modal fade" id="set_price" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('admin.update.extra-price', ['id' => $product['id']]) }}" method="POST">
+                <form action="{{ route('admin.update.extra-price', ['id' => $product->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="modal-header">
@@ -241,7 +240,8 @@
                         <input type="number" name="price" class="form-control" placeholder="Enter price" aria-label autofocus required>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="variation_option_id">
+                        <input type="hidden" name="variation_id">
+                        <input type="hidden" name="option">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Set</button>
                     </div>
@@ -255,7 +255,7 @@
     <div class="modal fade" id="set_stock" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('admin.update.stock', ['id' => $product['id']]) }}" method="POST">
+                <form action="{{ route('admin.update.stock', ['id' => $product->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="modal-header">
@@ -268,7 +268,8 @@
                         <input type="number" name="stock" class="form-control" placeholder="Enter stock amount" aria-label>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="variation_option_id">
+                        <input type="hidden" name="variation_id">
+                        <input type="hidden" name="option">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Set</button>
                     </div>
@@ -282,7 +283,7 @@
     <div class="modal fade" id="add_image_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="create_product_image" action="{{ route('admin.create.product-image', ['id' => $product['id']]) }}" method="POST" enctype="multipart/form-data">
+                <form id="create_product_image" action="{{ route('admin.create.product-image', ['id' => $product->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Upload Image(s)</h5>

@@ -17,34 +17,29 @@ use App\Models\Cart;
 
     <?php $totalPrice = 0; ?>
     @foreach($cart as $item)
-        <?php
-        $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-        $unitPrice = Cart::getVariationPrice($item['product_id'], $details)['unit_price'];
-        $discountPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
-        $discount = Cart::getVariationPrice($item['product_id'], $details)['discount'];
-        ?>
-        <tr data-toggle="collapse" data-target="#cart-item{{ $item['id'] }}" style="cursor: pointer">
+        <?php $price = Cart::getVariationPrice($item->product_id, $item->details); ?>
+        <tr data-toggle="collapse" data-target="#cart-item{{ $item->id }}" style="cursor: pointer">
             <th scope="row">{{$loop -> iteration}}</th>
             <td>
-                <a href="{{url('/product/' . $item['product']['id'] . '/' . preg_replace("/\s+/", "", $item['product']['title']))}}">
-                    {{$item['product']['title']}}
+                <a href="{{url('/product/' . $item->product->id . '/' . preg_replace("/\s+/", "", $item->product->title))}}">
+                    {{$item->product->title}}
                 </a>
             </td>
             <td class="quantity">
                 <div>
-                    <input type="number" name="quantity" min="1" value="{{$item['quantity']}}" data-id="{{$item['id']}}" aria-label>
+                    <input type="number" name="quantity" min="1" value="{{$item->quantity}}" data-id="{{$item->id}}" aria-label>
                     <img class="loader" src="{{asset('images/loaders/load.gif')}}" alt="loader.gif">
                 </div>
             </td>
-            <td>{{ $unitPrice }}/-</td>
-            <td class="border-left">KES {{$discountPrice * $item['quantity']}}/-</td>
+            <td>{{ $price['unit_price'] }}/-</td>
+            <td class="border-left">KES {{$price['discount_price'] * $item->quantity}}/-</td>
             <td>
-                <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart_item" data-id="{{$item['id']}}"><i class="fas fa-backspace"></i></a>
+                <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart_item" data-id="{{$item->id}}"><i class="fas fa-backspace"></i></a>
             </td>
         </tr>
         <tr>
             <td colspan="6" class="p-0">
-                <div class="ml-3 collapse" data-parent="#accordion" id="cart-item{{ $item['id'] }}">
+                <div class="ml-3 collapse" data-parent="#accordion" id="cart-item{{ $item->id }}">
                     <table class="table table-sm table-bordered small">
                         <thead>
                         <tr>
@@ -55,22 +50,22 @@ use App\Models\Cart;
                         </thead>
                         <tbody>
                             <tr>
-                                <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
+                                <td><img src="{{'/images/products/' . $item->product->main_image}}" alt="Product Image"></td>
                                 <td>
-                                    @if(count($details) > 0)
-                                        @foreach($details as $key => $value)
+                                    @if(count($item->details) > 0)
+                                        @foreach($item->details as $key => $value)
                                             {{ $key }}: {{ $value }} <br>
                                         @endforeach
                                     @else N / A @endif
                                 </td>
-                                <td>- {{ $discount * $item['quantity'] }}/-</td>
+                                <td>- {{ $price['discount'] * $item->quantity }}/-</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </td>
         </tr>
-        <?php $totalPrice += ($discountPrice * $item['quantity'])?>
+        <?php $totalPrice += ($price['discount_price'] * $item->quantity)?>
     @endforeach
 
     </tbody>

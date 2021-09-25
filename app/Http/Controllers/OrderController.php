@@ -2,170 +2,179 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Address, Cart, Order, OrdersProduct};
-use App\Mail\OrderPlaced;
+use App\Models\{Cart, Order, Product};
+use App\Http\Requests\StoreOrderRequest;
+use App\Jobs\ProcessOrder;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use JsonException;
+use Throwable;
 
 class OrderController extends Controller
 {
     /**
-     * @throws JsonException
+     * @throws Exception
      */
-    public function showCheckout(): View|Factory|RedirectResponse|Application
-    {
-        if(cartCount() > 0) {
-            $cart = Cart::cartItems();
-            $addresses = Auth::user()->addresses->toArray();
-            $phones = Auth::user()->phones->toArray();
+    public function showCheckout(): View|Factory|RedirectResponse|Application {
+        if(getCart('count') > 0) {
+            $cartItems = Cart::cartItems();
 
-            return view('checkout')->with(compact('cart', 'addresses', 'phones'));
+            $message = null;
+            foreach($cartItems as $item) {
+                // Prevent ordering of disabled products
+                $productStatus = Product::productStatus($item->product_id);
+
+                if(!$productStatus) {
+                    $message = "Sorry, {$item->product->title} is currently unavailable.";
+                }
+
+                // Prevent ordering of products out of stock
+                $stock = Product::stock($item->product_id, "min", $item->details);
+
+                if(!$stock) {
+                    $message = "Sorry, {$item->product->title} JUST ran out of stock🤧";
+                }
+
+                // Prevent order of disabled variations
+                if($item->details) {
+                    $attributesAvailable = Product::attributesAreAvailable($item->product_id, $item->details);
+
+                    if($attributesAvailable) {
+                        $message = "Sorry, $attributesAvailable {$item->product->title} is currently unavailable.🤧";
+                    }
+                }
+
+                // Prevent order of disabled categories
+                $categoryStatus = $item->product->subCategory->category->status;
+                $subCategoryStatus = $item->product->subCategory->status;
+                if(!$categoryStatus || !$subCategoryStatus) {
+                    $message = "Sorry, {$item->product->title} is currently unavailable.🤧";
+                }
+
+                if($message) {
+                    return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry😭!', 'message' => $message, 'duration' => 7]);
+                }
+            }
+
+            $data = [
+                'cart' => $cartItems,
+                'addresses' => Auth::user()->addresses,
+                'phones' => Auth::user()->phones,
+            ];
+
+            return view('checkout', $data);
         }
 
         $message = "You do not have any items in your cart yet.";
         return back()->with('alert', ['type' => 'info', 'intro' => 'Oops🤭!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function showOrders(): Factory|View|Application
-    {
-        $page = "orders";
+    public function showOrders(): Factory|View|Application {
+        $data = [
+            'page' => "orders",
+            'orders' => Order::usersOrders()->orderByDesc('created_at')->get()
+        ];
 
-        $orders = Order::usersOrders()->orderByDesc('created_at')->get()->toArray();
-
-        return view('profile')->with(compact('page', 'orders'));
+        return view('profile', $data);
     }
 
     /**
-     * @throws JsonException
+     * @throws Exception
      */
-    public function placeOrder(Request $req): Redirector|RedirectResponse|Application
-    {
-        if($req->isMethod('POST')) {
-            $data = $req->all();
+    public function placeOrder(StoreOrderRequest $req): Redirector|RedirectResponse|Application {
+        $data = $req->all();
 
-            if(!$req->has('address')) {
-                $message = "Please provide a delivery address. Add at least one if there is none.";
-                return back()->with('alert', ['type' => 'info', 'intro' => 'heyy!', 'message' => $message, 'duration' => 7]);
-            }
-
-            $req->validate([
-                'address' => 'bail|present|required|integer|exists:addresses,id',
-                'phone' => ['required',
-                    'numeric',
-                    'digits_between:9,12',
-                    'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
-                ],
-                'payment_method' => 'present|required|alpha_dash',
-            ], [
-                'address.required' => 'Please choose a delivery address or add one if you can\'t see the one you\'re looking for',
-                'phone.required' => 'Please Select a phone number so we can keep in touch during the order process',
-                'phone.regex' => 'The phone number is invalid.',
-                'payment_method.required' => 'Please Select a payment method.'
-            ]);
-
-            //  Extract Payment Method and Type
-            if(Str::contains(Str::lower($data['payment_method']),'m-pesa')) {
-                $paymentMethod = 'm-pesa';
-                if(Str::contains(Str::lower($data['payment_method']),'delivery')) {
-                    $paymentType = 'on-delivery';
-                } else {
-                    $paymentType = 'instant';
-                }
-            } else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
-                $paymentMethod = 'paypal';
-                $paymentType = 'instant';
-            } else {
-                $paymentMethod = 'cash';
-                $paymentType = 'on-delivery';
-            }
-
-            if(!session::has('grandTotal')) {
-                Session::put('grandTotal', cartTotal());
-            }
-
-            try {
-                DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
-                    $cart = Cart::cartItems();
-                    $phone = Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone'];
-
-                    //  Insert Order Details
-                    $orderId = Order::insertGetId([
-                        'user_id' => Auth::id(),
-                        'address_id' => $data['address'],
-                        'phone' => $phone,
-                        'coupon_id' => Session::get('couponId'),
-                        'discount' => currencyToFloat(Session::get('couponDiscount')),
-                        'payment_method' => $paymentMethod,
-                        'payment_type' => $paymentType,
-                        'total' => currencyToFloat(Session::get('grandTotal')),
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-
-                    //  Insert Orders Products
-                    foreach($cart as $item) {
-                        $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-                        $finalPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
-
-                        $ordersProduct = new OrdersProduct;
-                        $ordersProduct->order_id = $orderId;
-                        $ordersProduct->product_id = $item['product_id'];
-                        $ordersProduct->details = $item['details'];
-                        $ordersProduct->quantity = $item['quantity'];
-                        $ordersProduct->final_unit_price = $finalPrice;
-
-                        $ordersProduct->save();
-                    }
-
-                    //  Add orderId to session
-                    Session::put('orderId', $orderId);
-
-                    $order = Order::findOrFail($orderId);
-                    Mail::to(Auth::user()->email)->queue(new OrderPlaced($order));
-                });
-            } catch (Exception $e) {
-                Log::debug(json_encode($e->getMessage()));
-
-                $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
-                return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
-            }
-
-            //  Redirect to payment page
-            if($paymentMethod === 'paypal') {
-                return redirect()->route('paypal');
-            } else if($paymentMethod === 'm-pesa' & $paymentType === 'instant') {
-                return redirect()->route('mpesa');
-            } else {
-                $message = "Your Order has been Placed! 🥳 You shall receive an email shortly.";
-                return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
-            }
+        if(!$req->has('address')) {
+            $message = "Please provide a delivery address. Add at least one if there is none.";
+            return back()->with('alert', ['type' => 'info', 'intro' => 'heyy!', 'message' => $message, 'duration' => 7]);
         }
 
-        return accessDenied();
+        //  Extract Payment Method and Type
+        if(Str::contains(Str::lower($data['payment_method']),'m-pesa')) {
+            $paymentMethod = 'm-pesa';
+            if(Str::contains(Str::lower($data['payment_method']),'delivery')) {
+                $paymentType = 'on-delivery';
+            } else {
+                $paymentType = 'instant';
+            }
+        } else if(Str::contains(Str::lower($data['payment_method']),'paypal')) {
+            $paymentMethod = 'paypal';
+            $paymentType = 'instant';
+        } else {
+            $paymentMethod = 'cash';
+            $paymentType = 'on-delivery';
+        }
+
+        try {
+            $data['total'] = getCart('total');
+
+            $order = DB::transaction(function() use ($paymentType, $paymentMethod, $data) {
+                $phone = Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone'];
+
+                //  Insert Order Details
+                $order = Order::create([
+                    'user_id' => Auth::id(),
+                    'order_no' => mt_rand(1, 100),
+                    'address_id' => $data['address'],
+                    'phone' => $phone,
+                    'coupon_id' => Session::get('couponId'),
+                    'discount' => currencyToFloat(Session::get('couponDiscount')),
+                    'payment_method' => $paymentMethod,
+                    'payment_type' => $paymentType,
+                    'total' => currencyToFloat($data['total']),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+
+                $order->order_no = "SUF-$order->id";
+                $order->save();
+
+                return $order;
+            });
+
+            $user = [
+                'first_name' => Auth::user()->first_name,
+                'gender' => Auth::user()->gender,
+                'email' => Auth::user()->email,
+                'session_id' => Session::get('session_id'),
+            ];
+
+            ProcessOrder::dispatch($order, Cart::cartItems(), $user);
+
+            //  Add orderId and grandTotal to session
+            Session::put('grandTotal', $order->total);
+            Session::put('orderId', $order->order_no);
+        } catch (Exception | Throwable $e) {
+            Log::error($e);
+
+            $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
+            return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+        }
+
+        Session::put('cartTotal', 0.00);
+        Session::put('cartCount', 0);
+
+        //  Redirect to payment page
+        if($paymentMethod === 'paypal') {
+            return redirect()->route('paypal');
+        } else if($paymentMethod === 'm-pesa' & $paymentType === 'instant') {
+            return redirect()->route('mpesa');
+        } else {
+            $message = "Your Order has been Placed! 🥳 You shall receive an email shortly.";
+            return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+        }
     }
 
-    public function thankYou(): View|Factory|Redirector|RedirectResponse|Application
-    {
-        if(session::has('orderId')) {
-            //  Empty User Cart
-            Cart::where('user_id', Auth::id())->delete();
-
-            return view('thanks');
-        }
-
-        return redirect('/cart');
+    public function thankYou(): View|Factory|Redirector|RedirectResponse|Application {
+        return Session::has('orderId') ? view('thanks') : redirect('/cart');
     }
 }

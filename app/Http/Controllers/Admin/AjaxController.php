@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\Variation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -78,15 +79,29 @@ class AjaxController extends Controller
 
     public function updateStatus(Request $request): JsonResponse {
         $data = $request->all();
-
         $table = getModel($data['model']);
-        $model = $table::find($data['id']);
-        $model->status = (Str::lower($data['status']) === "active") ? 0 : 1;
+
+        if(strtolower($data['model']) === 'variations_option') {
+            $model = Variation::findOrFail($data['id']['id']);
+
+            $varOptions = $model->options;
+            $varOptions[$data['id']['key']]['status'] = (Str::lower($data['status']) === "active") ? 0 : 1;
+            $model->options = $varOptions;
+        } else {
+            $model = $table::find($data['id']);
+            $model->status = (Str::lower($data['status']) === "active") ? 0 : 1;
+        }
+
         $model->save();
 
-        return response()->json(['status' => $model->status, 200]);
+        $newStatus = (Str::lower($data['status']) === "active") ? 0 : 1;
+
+        return response()->json(['status' => $newStatus, 200]);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function deleteFromTable($id, $model): JsonResponse {
         if($model === "Product's Image" || $model === "Product") {
             $imageName = getModel($model)::find($id)->image;

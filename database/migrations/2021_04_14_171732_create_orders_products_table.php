@@ -19,7 +19,7 @@ class CreateOrdersProductsTable extends Migration
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
             $table->json('details');
             $table->integer('quantity');
-            $table->float('final_unit_price');
+            $table->float('price');
             $table->tinyInteger('is_ready')->default(0);
             $table->timestamps();
         });

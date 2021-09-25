@@ -10,11 +10,12 @@ use Dompdf\Dompdf;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller {
     public function showOrders(): Factory|View|Application {
         if(isSeller()) {
             $orders = Order::getSellerOrders();
@@ -22,14 +23,14 @@ class OrderController extends Controller
             $orders = Order::orders();
         }
 
-        $orders = $orders->latest()->get()->toArray();
+        $orders = $orders->latest()->get();
 
-        return view('Admin.Orders.list')->with(compact('orders'));
+        return view('Admin.Orders.list', ['orders' => $orders]);
     }
 
     public function showOrder($id): Factory|View|Application {
         $order = Order::where('id', $id)
-            ->with('user', 'address', 'coupon', 'orderProducts', 'orderLogs')->first()->toArray();
+            ->with('user', 'address', 'coupon', 'orderProducts', 'orderLogs')->first();
 
         $orderStatuses = [
             'New',
@@ -48,22 +49,22 @@ class OrderController extends Controller
     public function updateOrderStatus(Request $request, $id): RedirectResponse {
         $order = Order::find($id);
 
-        if($request->status === 'Completed') {
+        if($request->input('status') === 'Completed') {
             $request->validate([
                 'courier' => 'required|alpha',
                 'tracking_number' => 'required|integer|unique:orders',
             ]);
 
-            $order->courier = $request->courier;
-            $order->tracking_number = $request->tracking_number;
+            $order->courier = $request->input('courier');
+            $order->tracking_number = $request->input('tracking_number');
         }
 
-        $order->status = $request->status;
+        $order->status = $request->input('status');
         $order->save();
 
         OrdersLog::create([
             'order_id' => $id,
-            'status' => $request->status,
+            'status' => $request->input('status'),
         ]);
 
         $message = "Order Status Updated.";
@@ -71,7 +72,7 @@ class OrderController extends Controller
     }
 
     public function showInvoice($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first()->toArray();
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first();
 
         return view('Admin.Orders.invoice')->with(compact('order'));
     }
@@ -79,7 +80,7 @@ class OrderController extends Controller
 
 
     public function processInvoicePDF($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first()->toArray();
+        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first();
 
         $html = view('Admin.Orders.invoice_template')->with(compact('order'))->render();
 
@@ -100,7 +101,7 @@ class OrderController extends Controller
     }
 
 
-    public function orderReady(Request $request, $id, $checked) {
+    public function orderReady(Request $request, $id, $checked): JsonResponse|Redirector|Application|RedirectResponse {
         if($request->ajax()) {
             $orderProduct = OrdersProduct::find($id);
 

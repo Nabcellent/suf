@@ -77,7 +77,6 @@ $(() => {
         rules: {
             email: {
                 required: true,
-                email: true
             },
             password: 'required'
         },
@@ -95,14 +94,12 @@ $(() => {
     $('form#contact_us').validate({
         rules: {
             first_name: 'required',
-            last_name: 'required',
-            email: 'required',
-            subject: 'required',
+            email: 'required|email',
             message: 'required',
         },
         messages: {
             first_name: 'Your email or phone number is required.',
-            last_name: 'Your password is required.',
+            message: 'Please write your message before sending.',
         }
     });
 

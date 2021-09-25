@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\Searchable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,10 +11,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $array)
+ * @mixin IdeHelperProduct
  */
-class Product extends Model
-{
-    use HasFactory;
+class Product extends Model {
+    use HasFactory, Searchable;
+
+    protected array $searchable = [
+        'title',
+        'description',
+        'label',
+        'keywords',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -60,9 +67,7 @@ class Product extends Model
 
     public function variations(): hasMany
     {
-        return $this->hasMany(Variation::class)->with(['variationOptions' => function($query) {
-            $query->where('status', 1)->where('stock', '>', 0);
-        }]);
+        return $this->hasMany(Variation::class)->with('attribute');
     }
 
 
@@ -75,7 +80,7 @@ class Product extends Model
 
     public static function getDiscountPrice($productId): int
     {
-        $proDetails = self::select('base_price', 'discount', 'category_id')->where('id', $productId)->first()->toArray();
+        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
 
         if($proDetails['discount'] > 0) {
@@ -91,12 +96,11 @@ class Product extends Model
 
     public static function getVariationDiscountPrice($productId, $newPrice): array
     {
-        $proDetails = self::select('base_price', 'discount', 'category_id')->where('id', $productId)->first()->toArray();
+        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
 
         if($proDetails['discount'] > 0) {
             $discountPrice = $newPrice - ($newPrice * $proDetails['discount'] / 100);
-            //  Get Discount
             $discount = $newPrice - $discountPrice;
         } else if($catDetails['discount'] > 0) {
             $discountPrice = $newPrice - ($newPrice * $catDetails['discount'] / 100);
@@ -107,6 +111,39 @@ class Product extends Model
         }
 
         return array('unit_price' => ceil($newPrice), 'discount_price' => ceil($discountPrice), 'discount' => ceil($discount));
+    }
+
+    public static function productStatus($id) {
+        return self::findOrFail($id, ['status'])->status;
+    }
+
+    public static function stock($id, $aggregate = "min" | "sum" | "max", $attributes = null) {
+        if($attributes) {
+            $stock = Variation::where('product_id', $id)->pluck('options')
+                ->collapse()->filter(function($value, $key) use($attributes) {
+                    return in_array($key, $attributes);
+                });
+
+            return match($aggregate) {
+                "min" => $stock->min('stock'),
+                "sum" => $stock->sum('stock'),
+                "max" => $stock->max('stock'),
+            };
+        } else {
+            return self::findOrFail($id)->stock;
+        }
+    }
+
+    public static function attributesAreAvailable($id, $attributes): bool|string {
+        $options = Variation::where('product_id', $id)->pluck('options')->collapse();
+
+        foreach($options as $key => $option) {
+            if(in_array($key, $attributes) && $option['status'] === 0) {
+                return $key;
+            }
+        }
+
+        return false;
     }
 
 

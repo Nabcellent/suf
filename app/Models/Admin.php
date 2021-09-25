@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @mixin IdeHelperAdmin
+ */
 class Admin extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;

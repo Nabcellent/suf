@@ -16,11 +16,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            STK::class,     // Original class
-            \App\Misc\Overrides\Mpesa\C2B\STK::class    // Custom class
-        );
-
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);

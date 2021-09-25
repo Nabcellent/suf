@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductsTable extends Migration
-{
+class CreateProductsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table) {
+    public function up(): void {
+        Schema::create('products', function(Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->bigInteger('seller_id')->unsigned();
@@ -26,7 +24,8 @@ class CreateProductsTable extends Migration
             $table->string('label', 10)->nullable();
             $table->float('base_price');
             $table->float('discount')->nullable()->default(0);
-            $table->enum('is_featured', ['Yes', 'No']);
+            $table->integer('stock')->default(0);
+            $table->boolean('is_featured')->default(true);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
@@ -37,8 +36,7 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('products');
         Schema::enableForeignKeyConstraints();

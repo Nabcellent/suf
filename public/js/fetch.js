@@ -27,35 +27,37 @@ $(document).on('change', '#products #sort_by', function() {
 
 /**==============================================================================  Filter Categories   */
 $(document).on('click','.product_check',function() {
-    getProducts('/get-filtered-products');
+    getProducts();
 });
 
 /**=======================================================================  Change Products Per Page   */
-$(document).on('change', '#products nav #per_page',() => {
-    getProducts('/get-filtered-products', );
+$(document).on('change', '#per_page',() => {
+    getProducts();
 });
 
-const getProducts = (url) => {
+const getProducts = (url = '/get-filtered-products') => {
     $('#loader').show();
     let sort = $('#products #sort_by').val();
-    let perPage = parseInt($('#products nav #per_page').val());
+    let perPage = parseInt($('#per_page').val());
 
     let category = getFilterText('category');
     let subCategory = getFilterText('sub_category');
     let seller = getFilterText('seller');
     let brand = getFilterText('brand');
+    let priceRange = [parseInt($('#minPrice').val()), parseInt($('#maxPrice').val())];
 
     let categoryId = location.href.split('/products/')[1];
 
     $.ajax({
         data: {
-            sort:sort,
-            categoryId: categoryId,
-            perPage:perPage,
-            category:category,
-            subCategory:subCategory,
-            seller:seller,
-            brand:brand,
+            sort,
+            categoryId,
+            perPage,
+            category,
+            subCategory,
+            seller,
+            brand,
+            priceRange,
         },
         type: 'GET',
         url: url,

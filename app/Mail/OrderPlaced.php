@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -19,15 +20,16 @@ class OrderPlaced extends Mailable
      * @var Order
      */
     protected Order $order;
+    protected array $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
-    {
+    public function __construct(Order $order, array $user) {
         $this->order = $order;
+        $this->user = $user;
     }
 
     /**
@@ -35,9 +37,8 @@ class OrderPlaced extends Mailable
      *
      * @return $this
      */
-    public function build(): self
-    {
-        if(Auth::user()->gender === 'Male') {
+    public function build(): self {
+        if($this->user['gender'] === 'Male') {
             $icons = ["hello" => "😁", "relax" => "💆🏽‍♂️", "thanks" => "💪🏽"];
         } else {
             $icons = ["hello" => "✨", "relax" => "💆🏼‍♀️", "thanks" => "🤗"];
@@ -45,7 +46,7 @@ class OrderPlaced extends Mailable
 
         return $this->subject('Order Placed')->from('su.fashion10@gmail.com')
             ->markdown('emails.orders.placed', [
-                'user' =>Auth::user(),
+                'firstName' => $this->user['first_name'],
                 'order' => $this->order,
                 'url' => route('profile', ['page' => 'orders']),
                 'icons' => $icons

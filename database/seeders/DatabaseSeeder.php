@@ -26,12 +26,12 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             VariationSeeder::class,
-            VariationsOptionSeeder::class,
             ProductsImageSeeder::class,
             BrandSeeder::class,
             CouponSeeder::class,
             OrderSeeder::class,
             PolicySeeder::class,*/
+            CmsPageSeeder::class,
         ]);
 
         /*User::factory()->count(20)
@@ -43,8 +43,8 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $user->id
                     ]);
                 }
-            });
-        Product::factory()->count(20)->create();
-        Order::factory()->count(13)->create();*/
+            });*/
+        //Product::factory()->count(10)->create();
+//        Order::factory()->count(13)->create();
     }
 }

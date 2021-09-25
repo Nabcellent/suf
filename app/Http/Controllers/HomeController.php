@@ -15,8 +15,7 @@ class HomeController extends Controller
      *
      * @return Factory|View|Application
      */
-    public function index(): Factory|View|Application
-    {
+    public function index(): Factory|View|Application {
         //  Get Featured Products
         $featuredProducts = Product::products()->where('products.status', 1)
             ->where('is_featured', 'Yes')->has('variations')->get()->toArray();

@@ -16,21 +16,27 @@
         "amrshawky/laravel-currency": "^4.0",
         "doctrine/dbal": "^3.0",
         "dompdf/dompdf": "^1.0",
+        "drh/mpesa": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.5|^7.0.1",
-        "jivesh/laravel-slack": "^2.1",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "inertiajs/inertia-laravel": "^0.3.5",
         "laravel/framework": "^8.12",
+        "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
-        "nao-pon/flysystem-google-drive": "~1.1",
-        "smodav/mpesa": "^5.3"
+        "livewire/livewire": "^2.6",
+        "spatie/laravel-query-builder": "^3.6",
+        "tightenco/ziggy": "^1.0",
+        "tonysm/rich-text-laravel": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.10",
         "facade/ignition": "^2.5",
+        "laravel/breeze": "^1.4",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.4",
+        "laravel/telescope": "^4.6",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
@@ -55,8 +61,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Helper.php",
-            "app/Helpers/Mpesa.php"
+            "app/Helpers/Helper.php"
         ]
     },
     "autoload-dev": {

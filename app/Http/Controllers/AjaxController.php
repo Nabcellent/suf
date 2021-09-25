@@ -2,32 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Models\Attribute;
-use App\Models\Category;
-use App\Models\Phone;
-use App\Models\Product;
-use App\Models\SubCounty;
-use App\Models\User;
-use App\Models\Variation;
-use App\Models\VariationsOption;
+use App\Models\{Admin, Category, Phone, Product, SubCounty, User, Variation};
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class AjaxController extends Controller
-{
+class AjaxController extends Controller {
     public function getFilteredProducts(Request $request): JsonResponse {
         if($request->ajax()) {
             $data = $request->all();
+
+            $priceString = 'products.base_price - (products.base_price * (products.discount / 100))';
             $query = Product::products()->where('products.status', 1)
+                ->whereRaw("$priceString >= {$data['priceRange'][0]}")
+                ->whereRaw("$priceString <= {$data['priceRange'][1]}")
                 ->join('categories', 'products.category_id', 'categories.id')
                 ->select('products.*');
 
@@ -51,9 +45,9 @@ class AjaxController extends Controller
                 } elseif($_GET['sort'] === "title_desc") {
                     $query->orderByDesc('products.title');
                 } elseif($_GET['sort'] === "price_asc") {
-                    $query->orderBy('products.base_price');
+                    $query->orderByRaw($priceString);
                 } elseif($_GET['sort'] === "price_desc") {
-                    $query->orderByDesc('products.base_price');
+                    $query->orderByRaw("$priceString DESC");
                 }
             }
 
@@ -67,16 +61,16 @@ class AjaxController extends Controller
 
         return response()->json([404]);
     }
-    public function getSubCountyById(Request $req): JsonResponse
+    public function getSubCountyById(Request $request): JsonResponse
     {
-        if($req->ajax()) {
-            $id = $req->id;
+        if($request->ajax()) {
+            $id = $request->input('id');
 
             $subCounties = SubCounty::where(['county_id' => $id, 'status' => 1])->orderBy('name')->get(['id', 'name'])->toArray();
 
-            if($req->has('subCounty')) {
+            if($request->has('subCounty')) {
                 $options = '';
-                $subCountyId = $req->subCounty;
+                $subCountyId = $request->input('subCounty');
 
                 if(is_numeric($subCountyId)) {
                     foreach($subCounties as $subCounty) {
@@ -103,28 +97,21 @@ class AjaxController extends Controller
      * ---------------------------------------------------------------------------------------------    DATABASE CHECKS
      */
 
-    public function checkCurrentPassword(Request $req): Redirector|string|Application|RedirectResponse {
-        if($req->ajax()) {
-            if(Hash::check($req->current_password, Auth::user()['password'])) {
-                return "true";
-            }
-
-            return "false";
+    public function checkCurrentPassword(Request $request): Redirector|string|Application|RedirectResponse {
+        if(Hash::check($request->input('current_password'), Auth::user()['password'])) {
+            return "true";
         }
 
         return "false";
     }
-
-    public function checkEmailExists(Request $req): string
-    {
-        $exists = User::where('email', $req->email)->exists();
+    public function checkEmailExists(Request $request): string {
+        $exists = User::where('email', $request->input('email'))->exists();
 
         return $exists ? "false" : "true";
     }
 
-    public function checkUsernameExists(Request $req): string
-    {
-        $exists = Admin::where('username', $req->username);
+    public function checkUsernameExists(Request $request): string {
+        $exists = Admin::where('username', $request->input('username'));
         if(Auth::check()) {
             $exists = $exists->where('user_id', '<>', Auth::id());
         }
@@ -133,9 +120,8 @@ class AjaxController extends Controller
         return $exists ? "false" : "true";
     }
 
-    public function checkNationalIdExists(Request $req): string
-    {
-        $exists = Admin::where('national_id', $req->national_id);
+    public function checkNationalIdExists(Request $request): string {
+        $exists = Admin::where('national_id', $request->input('national_id'));
         if(Auth::check()) {
             $exists = $exists->where('user_id', '<>', Auth::id());
         }
@@ -144,9 +130,8 @@ class AjaxController extends Controller
         return $exists ? "false" : "true";
     }
 
-    public function checkPhoneExists(Request $req): string
-    {
-        $phone = $req -> phone;
+    public function checkPhoneExists(Request $request): string {
+        $phone = $request->input('phone');
         $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
         $check = Phone::where('phone', $phone);
@@ -160,29 +145,18 @@ class AjaxController extends Controller
         return $exists ? "false" : "true";
     }
 
-    public function checkVariationExists(Request $request): string
-    {
-        $attribute = Attribute::find($request->attribute)->name;
-        $variations = Variation::where('product_id', $request->productId);
+    public function checkVariationExists(Request $request): string {
+        $exists = Variation::where([
+            'product_id' => $request->input('productId'),
+            'attribute_id' => $request->input('attribute')
+        ])->exists();
 
-        if($variations->exists()) {
-            $variations = $variations->pluck('variation')->toArray();
-            foreach($variations as $variation) {
-                if(key(json_decode($variation, true, 512, JSON_THROW_ON_ERROR)) === $attribute) {
-                    return "false";
-                }
-            }
-        }
-
-        return "true";
+        return $exists ? "false" : "true";
     }
 
-    public function checkVariationOptionExists(Request $request): string
-    {
-        $exists = VariationsOption::where([
-            'variation_id' => $request->variationId,
-            'variant' => $request->variant
-        ])->exists();
+    public function checkVariationOptionExists(Request $request): string {
+        $variation = Variation::findOrFail($request->input('variationId'));
+        $exists = Arr::exists($variation->options, $request->input('variant'));
 
         return $exists ? "false" : "true";
     }

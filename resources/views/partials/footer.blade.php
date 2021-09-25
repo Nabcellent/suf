@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             @if(count(trendingCategories()) > 0)
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <h3>Trending Categories</h3>
+                <h6>Trending Categories</h6>
                 <div class="dropdown-divider"></div>
                 @foreach(trendingCategories() as $item)
                     <p><a href="{{ route('products', ['categoryId' => $item['id']]) }}">{{$item['category']}}</a></p>
@@ -16,9 +16,9 @@
 
                 <!--    Start Important Links    -->
 
-                <h3>Important links</h3>
-                <p><a href="{{url('cart')}}">Shopping Cart</a></p>
-                <p><a href="{{route('products')}}">Our Products</a></p>
+                <h6>Important links</h6>
+                <p><a href="{{ route('info') }}">Terms & Policies</a></p>
+                <p><a href="javascript:void(0)">FAQ</a></p>
                 <div class="dropdown-divider"></div>
                 <p><a href="{{ url('https://strathmore.edu/') }}">Strathmore University Website</a></p>
                 <p><a href="{{ url('https://elearning.strathmore.edu/') }}">E-learning System</a></p>
@@ -26,21 +26,21 @@
                 <!--    End Important Links    -->
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <h3>Find Us</h3>
+                <h6>Find Us</h6>
                 <p>Mobile - <a href="#">+254 000 000 000</a></p>
                 <p>Email Address - <a href="#">email@gmail.com</a></p>
-                <p>Name - <a href="#"></a>Some Developer</p>
                 <div class="dropdown-divider"></div>
-                <p><a href="{{url('contact')}}">Contact Us</a></p>
+                <p><a href="{{ route('contact-us') }}">Contact Us</a></p>
+                <p><a href="{{ route('about-us') }}">About Us</a></p>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <!--    Start UserSeeder Section    -->
 
-                <h3>User Section</h3>
+                <h6>User Section</h6>
                 <p>
-
+                    <a href="{{url('cart')}}">Shopping Cart</a><br>
                     @auth()
-                        @if(cartCount() > 0)
+                        @if(getCart('count') > 0)
                             <a href="{{ route('checkout') }}">Checkout<br></a>
                         @endif
                         <a href="{{ route('profile') }}">My Account<br></a>
@@ -54,8 +54,6 @@
                         <a href="{{ route('register') }}">Register as customer</a><br>
                         <a href="{{ route('admin.register') }}">Register as Seller</a>
                     @endauth
-                    <br><a href="{{ route('policies') }}">Terms & Conditions</a>
-
                 </p>
                 <!--    End UserSeeder Section    -->
             </div>
@@ -63,7 +61,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
                 <!--    Start Get News Section    -->
-                <h3>Get the news</h3>
+                <h6>Get the news</h6>
                 <p class="text-muted">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid impedit nemo non qui quidem ut. Explicabo mollitia nemo velit. Autem delectus id magni sequi ut vitae. Doloribus, ex in!
                 </p>
@@ -80,7 +78,7 @@
                 <!--    End Get News Section    -->
             </div>
             <div class="col-lg-5 col-md-6">
-                <h3>Connect with us</h3>
+                <h6>Connect with us</h6>
                 <ul>
                     <li><a href="#"><i class="fab fa-facebook" onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
                     <li><a href="#"><i class="fab fa-twitter" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>

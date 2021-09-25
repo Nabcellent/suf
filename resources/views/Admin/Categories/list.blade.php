@@ -23,7 +23,6 @@ use App\Models\Category;
                                             <th scope="col">Title</th>
                                             <th scope="col">No of Sub-Categories</th>
                                             <th scope="col">Date Created</th>
-                                            <th scope="col">Status</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                         </thead>
@@ -32,23 +31,19 @@ use App\Models\Category;
                                         @foreach($sections as $section)
                                             <tr>
                                                 <td></td>
-                                                <td>{{ $section['title'] }}</td>
-                                                <td><?= Category::where('section_id', $section['id'])->count() ?></td>
-                                                <td class="text-nowrap">{{ date('M d, Y', strtotime($section['created_at'])) }}</td>
-                                                <td style="font-size: 14pt">
-
-                                                    @if($section['status'])
-                                                        <a class="update_status" data-id="{{ $section['id'] }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                                    @else
-                                                        <a class="update_status" data-id="{{ $section['id'] }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                                    @endif
-
-                                                </td>
+                                                <td>{{ $section->title }}</td>
+                                                <td><?= Category::where('section_id', $section->id)->count() ?></td>
+                                                <td class="text-nowrap">{{ date('M d, Y', strtotime($section->created_at)) }}</td>
                                                 <td class="action">
+                                                    @if($section->status)
+                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category" title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                    @else
+                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category" title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                    @endif
                                                     <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-success"></i></a>
-                                                    <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $section['id'] }}" data-model="Category">
+                                                    <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $section->id }}" data-model="Category">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
@@ -117,21 +112,21 @@ use App\Models\Category;
                                         @foreach($categories as $category)
                                             <tr>
                                                 <td></td>
-                                                <td>{{ $category['title'] }}</td>
-                                                <td>{{ $category['section']['title'] }}</td>
-                                                <td>{{ $category['discount'] }}%</td>
+                                                <td>{{ $category->title }}</td>
+                                                <td>{{ $category->section->title }}</td>
+                                                <td>{{ $category->discount }}%</td>
                                                 <td class="action">
-                                                    @if($category['status'])
-                                                        <a class="update_status" data-id="{{ $category['id'] }}" data-model="Category" title="Update Status"
+                                                    @if($category->status)
+                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $category['id'] }}" data-model="Category" title="Update Status"
+                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
-                                                    <a href="{{ route('admin.category', ['id' => $category['id']]) }}" class="ml-3" title="Modify">
+                                                    <a href="{{ route('admin.category', ['id' => $category->id]) }}" class="ml-3" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>
-                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $category['id'] }}" data-model="Category" title="Remove">
+                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $category->id }}" data-model="Category" title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
@@ -168,22 +163,22 @@ use App\Models\Category;
                                          @foreach($subCategories as $subCategory)
                                             <tr>
                                                 <td></td>
-                                                <td>{{ $subCategory['title'] }}</td>
-                                                <td>{{ $subCategory['category']['title'] }}</td>
-                                                <td>{{ $subCategory['category']['section']['title'] }}</td>
-                                                <td>{{ $subCategory['discount'] }}%</td>
+                                                <td>{{ $subCategory->title }}</td>
+                                                <td>{{ $subCategory->category->title }}</td>
+                                                <td>{{ $subCategory->category->section->title }}</td>
+                                                <td>{{ $subCategory->discount }}%</td>
                                                 <td class="action">
-                                                    @if($subCategory['status'])
-                                                        <a class="update_status" data-id="{{ $subCategory['id'] }}" data-model="Category" title="Update Status"
+                                                    @if($subCategory->status)
+                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $subCategory['id'] }}" data-model="Category" title="Update Status"
+                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category" title="Update Status"
                                                        style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                      @endif
-                                                    <a href="{{ route('admin.category', ['id' => $subCategory['id']]) }}" class="ml-3 update_sub_category" title="Modify">
+                                                    <a href="{{ route('admin.category', ['id' => $subCategory->id]) }}" class="ml-3 update_sub_category" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>
-                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $subCategory['id'] }}" data-model="Category" title="Remove">
+                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $subCategory->id }}" data-model="Category" title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>

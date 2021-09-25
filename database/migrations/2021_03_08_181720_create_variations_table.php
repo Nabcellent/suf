@@ -11,12 +11,12 @@ class CreateVariationsTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->json('variation');
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attribute_id')->constrained()->cascadeOnUpdate();
+            $table->json('options');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

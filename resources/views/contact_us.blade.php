@@ -115,8 +115,8 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
-                                        <label for="last_name">Last name *</label>
-                                        <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" placeholder="Last name" required>
+                                        <label for="last_name">Last name</label>
+                                        <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" placeholder="Last name">
                                         @error('last_name')
                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                         @enderror
@@ -130,7 +130,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="subject">Subject *</label>
+                                    <label for="subject">Subject</label>
                                     <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject" placeholder="Your subject">
                                     @error('subject')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>

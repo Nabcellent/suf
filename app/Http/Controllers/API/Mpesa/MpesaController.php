@@ -34,14 +34,7 @@ class MpesaController extends Controller
     }
 
     public function show(): View|Factory|Redirector|RedirectResponse|Application {
-        if(session::has('orderId')) {
-            //  Empty User Cart
-            Cart::where('user_id', Auth::id())->delete();
-
-            return view('API.mpesa');
-        }
-
-        return redirect('/cart');
+        return Session::has('orderId') ? view('API.mpesa') : redirect('/cart');
     }
 
     /**

@@ -11,7 +11,7 @@ return [
      * E.g. if you set this to 10000, the 10000 last lines
      * of your laravel logs are kept.
      */
-    'log_lines_to_keep' => 5000,
+    'log_lines_to_keep' => env('LOGCLEANER_LINES_TO_KEEP', 5000),
 
     /*
      * Enables deletion of old log files.

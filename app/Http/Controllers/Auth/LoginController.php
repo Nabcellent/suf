@@ -41,23 +41,33 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
     }
 
     protected function authenticated(Request $request, $user): RedirectResponse {
+        //  Check if user has active account
+        if(!Auth::user()->status) {
+            $this->guard()->logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors(['message' => 'Your account is inactive.']);
+        }
+
+        setCartItems();
+
         //  Update user cart with user id
         if(!empty(Session::get('session_id'))) {
-            $sessionId = Session::get('session_id');
-            Cart::where('session_id', $sessionId)->update(['user_id' => Auth::id()]);
+            Cart::where('session_id', Session::get('session_id'))->update(['user_id' => Auth::id()]);
         }
 
         if(Auth::user()->user_type === 'Admin') {
             return redirect()->route('admin.dashboard');
         }
 
-        if(cartCount() > 0) {
+        if(getCart('count') > 0) {
             return redirect()->intended('/cart');
         }
 

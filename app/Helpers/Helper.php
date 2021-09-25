@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\CmsPage;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrdersProduct;
@@ -68,23 +69,29 @@ function alert($type, $intro, $message, $duration, $link = null): array {
     ];
 }
 
-function sections() {
+function sections(): Collection|array {
     return Category::sections();
 }
-function latestFour(): array {
+function latestFour(): Collection|array {
     return Product::products()->where('products.status', 1)->where('is_featured', 'Yes')->has('variations')
-        ->orderByDesc('products.created_at')->limit(4)->get()->toArray();
+        ->orderByDesc('products.created_at')->limit(4)->get();
 }
 function latestProductId() {
     return Product::latest('id')->value('id');
 }
-function trendingCategories(): Collection|array {
-    return OrdersProduct::select('cat.id', 'cat.title AS category', DB::raw('COUNT(cat.title) as count'))
-        ->join('products AS p', 'orders_products.product_id', 'p.id')
-        ->join('categories AS sub', 'p.category_id', 'sub.id')
-        ->join('categories AS cat', 'sub.category_id', 'cat.id')
-        ->groupBy('category', 'cat.id')->orderByDesc('count')->limit(5)
-        ->get()->toArray();
+function trendingCategories(): \Illuminate\Support\Collection {
+    if(!Session::has('trendingCategories')) {
+        $trendingCategories = OrdersProduct::select(['cat.id', 'cat.title AS category', DB::raw('COUNT(cat.title) as count')])
+            ->join('products AS p', 'orders_products.product_id', 'p.id')
+            ->join('categories AS sub', 'p.category_id', 'sub.id')
+            ->join('categories AS cat', 'sub.category_id', 'cat.id')
+            ->groupBy('category', 'cat.id')->orderByDesc('count')->limit(5)
+            ->get();
+
+        Session::put('trendingCategories', $trendingCategories);
+    }
+
+    return Session::get('trendingCategories');
 }
 
 //  COUNT FUNCTIONS
@@ -110,32 +117,45 @@ function tableCount(): array {
     ];
 }
 
-function cartCount(): string {
-    if(Auth::check()) {
-        $count = Cart::where('user_id', Auth::id())->sum('quantity');
-    } else if(!empty(Session::get('session_id'))) {
-        $count = Cart::where('session_id', Session::get('session_id'))->sum('quantity');
-    } else {
-        $count = 0;
-    }
+function setCartItems(): void {
+    $total = $count = 0;
 
-    return $count;
+    try {
+        $cart = Cart::cartItems();
+
+        foreach($cart as $item) {
+            $discountPrice = Cart::getVariationPrice($item['product_id'], $item['details'])['discount_price'];
+            $total += ($discountPrice * $item['quantity']);
+        }
+
+        if(Auth::check()) {
+            $count = Cart::where('user_id', Auth::id())->sum('quantity');
+        } else if(!empty(Session::get('session_id'))) {
+            $count = Cart::where('session_id', Session::get('session_id'))->sum('quantity');
+        }
+
+        Session::put('cartTotal', currencyFormat($total));
+        Session::put('cartCount', $count);
+    } catch(Exception $e) {
+        Log::error($e->getMessage());
+    }
 }
 
-/**
- * @throws JsonException
- */
-function cartTotal(): string {
-    $total = 0;
-    $cart = Cart::cartItems();
-
-    foreach($cart as $item) {
-        $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-        $discountPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
-        $total += ($discountPrice * $item['quantity']);
+function getCart($item = 'total' | 'count') {
+    if(!Session::has('cartTotal') || !Session::has('cartCount')) {
+        setCartItems();
     }
 
-    return currencyFormat($total);
+    $cartItem = match($item) {
+        'total' => 'cartTotal',
+        default => 'cartCount'
+    };
+
+    return Session::get($cartItem);
+}
+
+function getDiscountPrice($productId): int {
+    return Product::getDiscountPrice($productId);
 }
 
 
@@ -167,9 +187,6 @@ function getGenderIcon($gender): string {
     return "<i class='bx bx-female-sign'></i>";
 }
 
-
-
-
 function getModel($model): string {
     $model = Str::ucfirst(Str::lower($model));
 
@@ -183,10 +200,14 @@ function getModel($model): string {
         'Product' => Product::class,
         'Order' => Order::class,
         'Coupon' => Coupon::class,
-        'Variation' => Variation::class,
-        'Variation\'s option' => VariationsOption::class,
+        'Cmspage' => CmsPage::class,
+        'Variation', 'Variations_option' => Variation::class,
         'Product\'s Image' => productsImage::class,
     };
+}
+
+function orderProductsReady($orderId): bool {
+    return Order::orderProductsReady($orderId);
 }
 
 function accessDenied(): Redirector|Application|RedirectResponse {

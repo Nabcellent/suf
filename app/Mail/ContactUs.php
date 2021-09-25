@@ -20,8 +20,7 @@ class ContactUs extends Mailable
      * @param array $details
      * @return void
      */
-    public function __construct(array $details)
-    {
+    public function __construct(array $details) {
         $this -> details = $details;
     }
 
@@ -33,8 +32,8 @@ class ContactUs extends Mailable
     public function build(): self {
         $email = $this->details['email'];
 
-        return $this->from($email, $this->details['last_name'])
-            ->subject($this->details['subject'])
+        return $this->from($email, $this->details['last_name'] ?? $this->details['first_name'])
+            ->subject($this->details['subject'] ?? 'SUF-CONTACT')
             ->replyTo($this->details['email'])
             ->markdown('emails.contact_us');
     }

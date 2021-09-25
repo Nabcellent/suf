@@ -19,8 +19,26 @@ class VariationSeeder extends Seeder
      */
     public function run(): void
     {
-        $arr = array("Sizes" => ["S", "M", "XL"]);
-        $jsonArr = json_encode($arr, JSON_THROW_ON_ERROR);
+        $jsonArr = json_encode([
+            'S' => [
+                'stock' => 0,
+                'extra_price' => 0,
+                'image' => '',
+                'status' => 1
+            ],
+            "M" => [
+                'stock' => 0,
+                'extra_price' => 0,
+                'image' => '',
+                'status' => 1
+            ],
+            "XL" => [
+                'stock' => 0,
+                'extra_price' => 0,
+                'image' => '',
+                'status' => 1
+            ]
+        ], JSON_THROW_ON_ERROR);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Variation::truncate();
@@ -28,7 +46,8 @@ class VariationSeeder extends Seeder
         Variation::insert([
             [
                 "product_id" => 1,
-                "variation" => $jsonArr,
+                "attribute_id" => 2,
+                "options" => $jsonArr,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ]

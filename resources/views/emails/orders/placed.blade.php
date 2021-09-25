@@ -1,13 +1,13 @@
 @component('mail::message')
 # Order Placed
 
-Heyy {{ $user->first_name }}{{ $icons['hello'] }},<br>
+Heyy {{ $firstName }}{{ $icons['hello'] }},<br>
 
 Your order has been placed successfully and is being processed!<br>
-We will contact you using this number: +254 {{ $order['phone'] }}.{{ $icons['relax'] }}
+We will contact you using this number: +254 {{ $order->phone }}.{{ $icons['relax'] }}
 
 @component('mail::panel')
-    Order Total: KSH {{ currencyFormat($order['total']) }}
+    Order Total: KSH {{ currencyFormat($order->total) }}
 @endcomponent
 
 @component('mail::button', ['url' => route('profile', ['page' => 'orders']), 'color' => 'primary'])
@@ -15,7 +15,7 @@ We will contact you using this number: +254 {{ $order['phone'] }}.{{ $icons['rel
 @endcomponent
 
 @component('mail::subcopy')
-    Order No: #{{ $order['id'] }}
+    Order No: #{{ $order->order_no }}
 @endcomponent
 
 Thanks you for shopping with us{{ $icons['thanks'] }},<br>

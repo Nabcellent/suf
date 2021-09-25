@@ -168,8 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-        SmoDav\Mpesa\Laravel\ServiceProvider::class,
-        Gahlawat\Slack\SlackServiceProvider::class,
+
 
         /*
          * Application Service Providers...

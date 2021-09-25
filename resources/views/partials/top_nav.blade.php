@@ -25,9 +25,9 @@
 
                                     @foreach(latestFour() as $four)
                                         <div class="list_item text-center">
-                                            <a href="{{url('/product/' . $four['id'] . '/' . preg_replace("/\s+/", "", $four['title']))}}">
-                                                <img src="{{ asset('/images/products/' . $four['main_image']) }}" alt="new ProductSeeder">
-                                                <h4 class="title">{{$four['title']}}</h4>
+                                            <a href="{{url('/product/' . $four->id . '/' . preg_replace("/\s+/", "", $four->title))}}">
+                                                <img src="{{ asset('/images/products/' . $four->main_image) }}" alt="new ProductSeeder">
+                                                <h4 class="title">{{$four->title}}</h4>
                                             </a>
                                         </div>
                                     @endforeach
@@ -37,22 +37,22 @@
                         @endif
                         @if(tableCount()['products'] > 0)
                             <li class="menu_item_has_children">
-                                <a href="{{url('/products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
+                                <a href="{{route('products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
                                 <ul class="sub_menu mega_menu mega_menu_column_4">
 
 
                                     @foreach(sections() as $section)
-                                        @if(count($section['categories']) > 0)
+                                        @if(count($section->categories) > 0)
                                             <li class="list_item">
                                                 <h4 class="title">
-                                                    <a>{{$section['title']}}' Fashion</a>
+                                                    <a>{{$section->title}}' Fashion</a>
                                                 </h4>
                                                 <div class="mt-0 dropdown-divider"></div>
                                                 <ul>
-                                                    @foreach($section['categories'] as $category)
-                                                        <li><a href="{{url('/products/' . $category['id'])}}">{{$category['title']}}</a></li>
-                                                        @foreach($category['sub_categories'] as $subCategory)
-                                                            <li class="ml-2"><a href="{{url('/products/' . $subCategory['id'])}}">- {{$subCategory['title']}}</a></li>
+                                                    @foreach($section->categories as $category)
+                                                        <li><a href="{{route('products', ['id' => $category->id])}}">{{$category->title}}</a></li>
+                                                        @foreach($category->subCategories as $subCategory)
+                                                            <li class="ml-2"><a href="{{url('/products/' . $subCategory->id)}}">- {{$subCategory->title}}</a></li>
                                                         @endforeach
                                                     @endforeach
                                                 </ul>
@@ -67,22 +67,12 @@
                                 </ul>
                             </li>
                         @endif
-                        <li><a href="{{ route('about-us') }}" class="nav_link">About</a></li>
-                        <li><a href="{{ route('contact-us') }}" class="nav_link">Contact Us</a></li>
                     </ul>
                 </nav>
             </div>
             <!--    End Menu    -->
 
             <div class="header_item item_right">
-                <div class="icons search w-100">
-                    <form action="#">
-                        <input type="text" name="search" class="form-control">
-                        <button class="search_btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
                 <div class="icons ml-2">
                     <button class="icon_button">
                         <i class="fas fa-hand-sparkles"></i>
@@ -92,18 +82,15 @@
                 <div class="icons ml-2">
                     <a href="{{ url('/cart') }}" class="icon_button">
                         <i class="fab fa-opencart"></i>
-                        <span class="cart_count">{{ cartCount() }}</span>
+                        <span class="cart_count">{{ getCart('count') }}</span>
                     </a>
                 </div>
-                <div class="cart_total"><p class="m-0">{{ cartTotal() }}/=</p></div>
+                <div class="cart_total"><p class="m-0">{{ getCart('total') }}/=</p></div>
 
                 <!--    Start Mobile Menu Trigger    -->
 
-                <div class="mobile_menu_trigger">
-                    <span></span>
-                </div>
+                <div class="mobile_menu_trigger"><span></span></div>
                 <!--    End Mobile Menu Trigger    -->
-
             </div>
         </div>
     </div>

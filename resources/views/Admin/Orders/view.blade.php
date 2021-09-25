@@ -12,13 +12,13 @@
                                     <div class="card-header d-flex align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Order Details</h6>
                                         <div>
-                                            <span class="m-0" >#{{ $order['id'] }}</span>
+                                            <span class="m-0" >#{{ $order->id }}</span>
 
                                             @if(!isSeller())
-                                                <a href="{{ route('admin.invoice', ['id' => $order['id']]) }}" class="ml-2 btn btn-outline-light" title="View Invoice" target="_blank">
+                                                <a href="{{ route('admin.invoice', ['id' => $order->id]) }}" class="ml-2 btn btn-outline-light" title="View Invoice" target="_blank">
                                                     <i class="fas fa-file-invoice"></i> Invoice
                                                 </a>
-                                                <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-outline-light">
+                                                <a href="{{ route('admin.invoice-pdf', ['id' => $order->id]) }}" class="btn btn-outline-light">
                                                     <i class="fa fa-file-pdf"></i> Generate PDF
                                                 </a>
                                             @endif
@@ -32,39 +32,39 @@
                                                         <div class="col">
                                                             <table class="table table-sm table-borderless">
                                                                 <tbody>
-                                                                @isset($order['coupon'])
+                                                                @isset($order->coupon)
                                                                     <tr>
                                                                         <th class="py-1" scope="row">Coupon Code</th>
-                                                                        <td class="py-1" colspan="2">{{ $order['coupon']['code'] }}</td>
+                                                                        <td class="py-1" colspan="2">{{ $order->coupon->code }}</td>
                                                                     </tr>
                                                                 @endisset
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Discount</th>
-                                                                    <td class="py-1" colspan="2">{{ $order['discount'] }}/-</td>
+                                                                    <td class="py-1" colspan="2">{{ $order->discount }}/-</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Delivery Fee</th>
-                                                                    <td class="py-1" colspan="2">{{ $order['delivery_fee'] }}/-</td>
+                                                                    <td class="py-1" colspan="2">{{ $order->delivery_fee }}/-</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Payment Method</th>
-                                                                    <td class="py-1" colspan="2">{{ $order['payment_method'] }}</td>
+                                                                    <td class="py-1" colspan="2">{{ $order->payment_method }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Payment Type</th>
-                                                                    <td class="py-1" colspan="2">{{ $order['payment_type'] }}</td>
+                                                                    <td class="py-1" colspan="2">{{ $order->payment_type }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Amount Due</th>
-                                                                    <td class="py-1 font-weight-bolder text-warning" colspan="2">KSH.{{ currencyFormat($order['total']) }}/=</td>
+                                                                    <td class="py-1 font-weight-bolder text-warning" colspan="2">KSH.{{ currencyFormat($order->total) }}/=</td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                             <hr class="bg-light">
                                                             <div class="row">
                                                                 <div class="col text-light">
-                                                                    <p class="m-0">Order Date: &nbsp; {{ date('F jS, y  @g:i A', strtotime($order['created_at'])) }}</p>
-                                                                    <p class="m-0">Order Status: &nbsp; {{ $order['status'] }}</p>
+                                                                    <p class="m-0">Order Date: &nbsp; {{ date('F jS, y  @g:i A', strtotime($order->created_at)) }}</p>
+                                                                    <p class="m-0">Order Status: &nbsp; {{ $order->status }}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -77,11 +77,11 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <th>Name</th>
-                                                                            <td>:&nbsp;&nbsp;&nbsp;{{ $order['user']['first_name'] }} &nbsp; {{ $order['user']['last_name'] }}</td>
+                                                                            <td>:&nbsp;&nbsp;&nbsp;{{ $order->user->first_name }} &nbsp; {{ $order->user->last_name }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Email Address</th>
-                                                                            <td>:&nbsp;&nbsp;&nbsp;<a href="mailto:<%= order.email %>" class="text-light">{{ $order['user']['email'] }}</a></td>
+                                                                            <td>:&nbsp;&nbsp;&nbsp;<a href="mailto:<%= order.email %>" class="text-light">{{ $order->user->email }}</a></td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>
@@ -93,10 +93,10 @@
                                                                     <div class="dropdown-divider"></div>
                                                                     <table class="table-sm table-borderless">
                                                                         <tbody>
-                                                                        <tr><th>County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order['address']['sub_county']['county']['name'] }}</td></tr>
-                                                                        <tr><th>Sub-County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order['address']['sub_county']['name'] }}</td></tr>
-                                                                        <tr><th>Address</th><td class="text-dark">:&nbsp;&nbsp;&nbsp;{{ $order['address']['address'] }}</td></tr>
-                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order['phone'] }}</td></tr>
+                                                                        <tr><th>County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->county->name }}</td></tr>
+                                                                        <tr><th>Sub-County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->name }}</td></tr>
+                                                                        <tr><th>Address</th><td class="text-dark">:&nbsp;&nbsp;&nbsp;{{ $order->address->address }}</td></tr>
+                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order->phone }}</td></tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -140,32 +140,31 @@
                                         </thead>
                                         <tbody>
 
-                                        @foreach($order['order_products'] as $item)
+                                        @foreach($order->orderProducts as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('images/products/' . $item['product']['main_image']) }}" alt="product" class="img-fluid"></td>
-                                            <td><a href="{{ route('admin.product', ['id' => $item['id']]) }}">{{ $item['product']['title'] }}</a></td>
-                                            <td>{{ $item['product']['brand']['name'] }}</td>
+                                            <td><img src="{{ asset('images/products/' . $item->product->main_image) }}" alt="product" class="img-fluid"></td>
+                                            <td><a href="{{ route('admin.product', ['id' => $item->id]) }}">{{ $item->product->title }}</a></td>
+                                            <td>{{ $item->product->brand->name }}</td>
                                             @if(!isSeller())
-                                                <td>{{ $item['product']['seller']['admin']['username'] }}</td>
+                                                <td>{{ $item->product->seller->admin->username }}</td>
                                             @endif
                                             <td>
-                                                <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
-                                                @empty($detailsArr)
+                                                @empty($item->details)
                                                         <p class="m-0">---</p>
                                                 @else
-                                                        @foreach($detailsArr as $key => $value)
+                                                        @foreach($item->details as $key => $value)
                                                             <p class="m-0">{{ $key }}: {{ $value }}</p>
                                                         @endforeach
                                                 @endif
                                             </td>
-                                            <td>{{ $item['quantity'] }}</td>
-                                            <td>{{ $item['final_unit_price'] }}</td>
-                                            <td>{{ $item['final_unit_price'] * $item['quantity'] }}</td>
+                                            <td>{{ $item->quantity }}</td>
+                                            <td>{{ $item->price }}</td>
+                                            <td>{{ $item->price * $item->quantity }}</td>
                                             <td class="action">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item['id'] }}" value="{{ $item['id'] }}" @if($item['is_ready']) checked @endif>
-                                                    <label class="custom-control-label" for="ready{{ $item['id'] }}"></label>
+                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item->id }}" value="{{ $item->id }}" @if($item->is_ready) checked @endif>
+                                                    <label class="custom-control-label" for="ready{{ $item->id }}"></label>
                                                 </div>
                                             </td>
                                         </tr>
@@ -215,7 +214,7 @@
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control" required>
                                             @foreach($orderStatuses as $status)
-                                                <option @if($order['status'] === $status) selected @endif value="{{ $status }}">
+                                                <option @if($order->status === $status) selected @endif value="{{ $status }}">
 	                                                {{ $status }}</option>
                                             @endforeach
                                         </select>
@@ -241,15 +240,15 @@
                                     </div>
                                 </form>
 
-                                @if(count($order['order_logs']) > 0)
+                                @if(count($order['orderLogs']) > 0)
                                     <h5 class="mb-1">Logs</h5>
                                     <hr class="mt-0">
                                     <div>
-                                        @foreach($order['order_logs'] as $log)
+                                        @foreach($order['orderLogs'] as $log)
                                             <div class="row">
                                                 <div class="col">
-                                                    <p class="font-weight-bold m-0">{{ $log['status'] }}</p>
-                                                    <p class="mb-1">{{ date('d.m.Y - h:i A', strtotime($log['created_at'])) }}</p>
+                                                    <p class="font-weight-bold m-0">{{ $log->status }}</p>
+                                                    <p class="mb-1">{{ date('d.m.Y - h:i A', strtotime($log->created_at)) }}</p>
                                                     <hr class="col-6 mx-0 mt-0">
                                                 </div>
                                             </div>

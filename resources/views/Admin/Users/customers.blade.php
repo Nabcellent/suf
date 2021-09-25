@@ -32,42 +32,41 @@
 
                                 <tbody>
 
-                                @if(tableCount()['customers'] > 0)
-                                    @foreach($customers as $customer)
-                                        <tr>
-                                            <td></td>
-                                            <td>{{ $customer['first_name'] }}</td>
-                                            <td>{{ $customer['last_name'] }}</td>
-                                            <td>{{ $customer['email'] }}</td>
-                                            <td>{{ $customer['primary_phone']['phone'] }}</td>
-                                            <td>{{ $customer['gender'] }}</td>
-                                            <td>{{ $customer['orders_count'] }}</td>
-                                            @if(!isSeller())
-                                                <td style="font-size: 14pt">
+                                @forelse($customers as $customer)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ $customer->first_name }}</td>
+                                        <td>{{ $customer->last_name }}</td>
+                                        <td>{{ $customer->email }}</td>
+                                        <td>{{ $customer->primaryPhone->phone }}</td>
+                                        <td>{{ $customer->gender }}</td>
+                                        <td>{{ $customer->orders_count }}</td>
+                                        @if(!isSeller())
+                                            <td style="font-size: 14pt">
 
-                                                    @if($customer['status'])
-                                                        <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
-                                                           style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
-                                                    @else
-                                                        <a class="update_status" data-id="{{ $customer['id'] }}" data-model="User" title="Update Status"
-                                                           style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                                    @endif
-
-                                                </td>
-                                            @endif
-                                            <td class="action">
-                                                <a href="#" class="mx-2" title="Send Email"><i class="fas fa-envelope text-light"></i></a>
-                                                <a href="#" class="mx-2" title="Modify"><i class="fas fa-paper-plane text-primary"></i></a>
-                                                @if(!isSeller())
-                                                    <a href="#" class="mx-2" title="Modify"><i class="fas fa-pen text-success"></i></a>
-                                                    <a href="#" class="mx-2 delete-from-table" title="Remove" data-id="{{ $customer['id'] }}" data-model="User">
-                                                        <i class="fas fa-trash text-danger"></i>
-                                                    </a>
+                                                @if($customer->status)
+                                                    <a class="update_status" data-id="{{ $customer->id }}" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                @else
+                                                    <a class="update_status" data-id="{{ $customer->id }}" data-model="User" title="Update Status"
+                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                 @endif
+
                                             </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
+                                        @endif
+                                        <td class="action">
+                                            <a href="#" class="mx-2" title="Send Email"><i class="fas fa-envelope text-light"></i></a>
+                                            <a href="#" class="mx-2" title="Modify"><i class="fas fa-paper-plane text-primary"></i></a>
+                                            @if(!isSeller())
+                                                <a href="#" class="mx-2" title="Modify"><i class="fas fa-pen text-success"></i></a>
+                                                <a href="#" class="mx-2 delete-from-table" title="Remove" data-id="{{ $customer->id }}" data-model="User">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @empty
+                                @endforelse
 
                                 </tbody>
                             </table>

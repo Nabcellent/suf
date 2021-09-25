@@ -52,7 +52,7 @@
                                         <!--    Start Cart Table    -->
 
                                         <h1>Cart Items</h1>
-                                        <p class="text-muted">You currently have <span class="cart_count">{{ cartCount() }}</span> item(s) in your Cart.</p>
+                                        <p class="text-muted">You currently have <span class="cart_count">{{ getCart('count') }}</span> item(s) in your Cart.</p>
 
                                         <div id="cart_table" class="table-responsive">
                                             @include('partials.products.cart-table')

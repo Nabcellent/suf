@@ -8,9 +8,21 @@
             <div class="row justify-content-center pt-5 mt-5">
                 <div class="col-9 col-md-6">
                     <div class="card p-md-5 p-2">
-                        <h5 class="text-center font-weight-bold py-md-3 my-md-3 py-1 my-1">
-                            Kindly check your phone and ENTER YOUR MPESA PIN when prompted.
+                        <h5 class="text-center font-weight-bold py-md-2 my-md-2 py-1 my-1">
+                            Kindly check your phone and ENTER YOUR MPESA PIN when prompted. then click done.
                         </h5>
+                        <span class="text-center text-dark my-2 countDown" style="font-weight: 700">30</span>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-light" onclick="cancelPayment()">Cancel</button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-light done" onclick="queryStk()">
+                                    Done!
+                                    <img src="{{ asset('images/loaders/load.gif') }}" style="display: none" width="20px" alt="">
+                                </button>
+                            </div>
+                        </div>
                         <hr>
                     </div>
                     <hr class="col-6 mt-5">
@@ -23,7 +35,6 @@
     @endisset
 
     <div id="payment" class="container pb-md-5 px-lg-5">
-
         <div class="row justify-content-center py-md-5 my-md-5">
             <div class="col-md-9 col-sm-12 mb-md-5">
                 <div class="card shadow">
@@ -63,7 +74,6 @@
                 </div>
             </div>
             <!--    End Contact Section    -->
-
         </div>
     </div>
 
@@ -92,5 +102,11 @@
             </div>
         </div>
     </div>
+
+    @once
+        @push('scripts')
+            <script src="{{ asset('js/payment.js') }}"></script>
+        @endpush
+    @endonce
 
 @endsection

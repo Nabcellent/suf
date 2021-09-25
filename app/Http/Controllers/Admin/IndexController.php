@@ -35,9 +35,8 @@ class IndexController extends Controller
             $newOrders = Order::with('user')->orderByDesc('id');
         }
 
-        $newOrders = $newOrders->limit(5)->get()->toArray();
+        $newOrders = $newOrders->limit(5)->get();
 
-        return view('Admin.dashboard')
-            ->with(compact('newOrders'));
+        return view('Admin.dashboard', ['newOrders' => $newOrders]);
     }
 }

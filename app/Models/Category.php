@@ -3,12 +3,17 @@
 namespace App\Models;
 
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @mixin IdeHelperCategory
+ */
 class Category extends Model
 {
     /**
@@ -59,16 +64,16 @@ class Category extends Model
     /**
      * STATIC FUNCTIONS
     */
-    public static function sections(): mixed {
+    public static function sections(): array|Collection {
         $getCategories = self::where(['section_id' => null, 'category_id' => null])
             ->with('categories')->where('status', 1)->get();
 
         try {
-            $getCategories = json_decode(json_encode($getCategories, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+            return $getCategories;
         } catch (Exception $e) {
-            echo $e;
+            Log::error($e);
+            return $getCategories;
         }
-        return $getCategories;
     }
 
     #[ArrayShape(['catIds' => "array", 'catDetails' => "mixed", 'breadcrumbs' => "string"])] public static function categoryDetails($url): array

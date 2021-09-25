@@ -1,5 +1,7 @@
 ///////////////////////////////////////////////  MPESA INTEGRATION  ///////////////////////////////////////////////
-$(() => {
+function queryStk() {
+    $('button.done').children('img').first().show(100)
+
     const CHECKOUT_REQUEST_INPUT = $('input[name="checkout_id"]');
 
     if(CHECKOUT_REQUEST_INPUT.length) {
@@ -7,7 +9,26 @@ $(() => {
 
         setTimeout(() => { mpesaPaymentRequest.checkStatus(); }, 3000);
     }
-});
+}
+
+function cancelPayment() {
+    $('#mpesa-preloader').hide(500);
+}
+
+if($('.countDown').length) {
+    const countDown = () => {
+        if (timeLeft < 0) {
+            clearTimeout(timerId);
+            queryStk()
+        } else {
+            $('.countDown').html(timeLeft);
+            timeLeft--;
+        }
+    }
+
+    let timeLeft = 30;
+    let timerId = setInterval(countDown, 1000);
+}
 
 class Payment {
     constructor(checkoutRequestId) {
@@ -37,14 +58,19 @@ class Payment {
                         showConfirmButton: true,
                     }).then(() => { if(data.url !== "") window.location = data.url; });
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                        footer: '<a href>Why do I have this issue?</a>'
-                    });
+                    this.error()
                 }
-            });
+            }).catch(() => this.error());
+    }
+
+    error() {
+        cancelPayment()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href>Why do I have this issue?</a>'
+        });
     }
 }
 
@@ -81,8 +107,6 @@ if($('#paypal_payment_button').length) {
         },
         onApprove: (data, actions) => {
             return actions.order.capture().then((details) => {
-                console.log(details);
-
                 Swal.fire(
                     'Payment Successful!',
                     'SUF-STORE',

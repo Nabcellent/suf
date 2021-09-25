@@ -190,23 +190,22 @@
 
                                     @foreach($newOrders as $order)
                                         <?php
-                                            if($order['status'] === 'pending') {
-                                                $statusColor = 'warning';
-                                            } else if($order['status'] === 'completed') {
-                                                $statusColor = 'success';
-                                            } else if($order['status'] === 'cancelled') {
-                                                $statusColor = 'danger';
+                                            $statusColor = match(strtolower($order->status)) {
+                                                'pending' => 'warning',
+                                                'completed' => 'success',
+                                                'cancelled' => 'danger',
+                                                default => 'secondary',
                                             }
                                         ?>
                                         <tr>
-                                            <td>{{ $order['id'] }}</td>
-                                            <td>{{ $order['user']['email'] }}</td>
-                                            <td>{{ $order['phone'] }}</td>
-                                            <td>{{ $order['total'] }}</td>
+                                            <td>{{ $order->id }}</td>
+                                            <td>{{ $order->user->email }}</td>
+                                            <td>{{ $order->phone }}</td>
+                                            <td>{{ $order->total }}</td>
                                             <td>
-                                                <span class="badge badge-pill badge-{{ $statusColor }}">{{ $order['status'] }}</span>
+                                                <span class="badge badge-pill badge-{{ $statusColor }}">{{ $order->status }}</span>
                                             </td>
-                                            <td>{{ date('M d, y', strtotime($order['created_at'])) }}</td>
+                                            <td>{{ date('M d, y', strtotime($order->created_at)) }}</td>
                                         </tr>
                                     @endforeach
 
@@ -253,5 +252,9 @@
         </div>
 
     </div>
+
+
+    <!--    CHART JS CDN    -->
+    <script src="{{ asset('vendor/chartjs/chart.min.js') }}" crossorigin="anonymous"></script>
 
 @endsection

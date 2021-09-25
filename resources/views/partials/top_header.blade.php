@@ -1,4 +1,3 @@
-
 <header id="top_header" class="navigation-sticky">
 
     <!--    Start Sticky Header    -->
@@ -18,19 +17,21 @@
                                 <a class="nav-link" href="#" data-toggle="dropdown">
                                     {{Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)}}
                                     @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
-                                        <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown"
+                                        <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt=""
+                                             data-toggle="dropdown"
                                              style="width:1.7rem; height:1.7rem; border-radius:50%; object-fit:cover;">
                                     @else
                                         <i class="fas fa-user-circle"></i>
                                     @endif
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @if(cartCount() > 0)
+                                    @if(getCart('count') > 0)
                                         <a class="dropdown-item" href="{{ route('checkout') }}">Checkout</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('orders') }}">My Orders</a>
                                     <a class="dropdown-item" href="{{ route('profile') }}">My Account</a>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}">Sign Out</a>
                                 </div>
                             </li>
@@ -60,7 +61,9 @@
                             <a class="nav-link" href="{{url('login')}}">Sign In</a>
                         </li>
                         <div class="d-flex align-items-center d-md-none text-light">
-                            <a class="nav-link" href="{{url('register')}}">Register</a> <span class="px-1">/</span> <a class="nav-link" href="{{url('login')}}">Sign In</a>
+                            <a class="nav-link" href="{{url('register')}}">Register</a> <span class="px-1">/</span> <a class="nav-link"
+                                                                                                                       href="{{url('login')}}">Sign
+                                In</a>
                         </div>
                     @endauth
 

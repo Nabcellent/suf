@@ -112,8 +112,8 @@
                             </a>
                             <div class="nav_dropdown_collapse">
                                 <div class="nav_dropdown_content">
+                                    <a href="{{ route('admin.cms.index') }}" class="nav_dropdown_item">CMS</a>
                                     <a href="{{ route('admin.banners') }}" class="nav_dropdown_item">Banners</a>
-                                    <a href="{{ route('admin.policies') }}" class="nav_dropdown_item">Policies</a>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                                 <a href="{{ route('checkout') }}" class="nav_dropdown_item">Checkout</a>
                                 <a href="{{ route('contact-us') }}" class="nav_dropdown_item">Contact-us</a>
                                 <a href="{{ route('about-us') }}" class="nav_dropdown_item">About-us</a>
-                                <a href="{{ route('policies') }}" class="nav_dropdown_item">Terms & Conditions</a>
+                                <a href="{{ route('info') }}" class="nav_dropdown_item">Terms & Conditions</a>
                             </div>
                         </div>
                     </div>
@@ -163,64 +163,37 @@
                     <div class="nav_dropdown">
                         <a href="#" class="nav_link">
                             <i class="fas fa-users nav_icon"></i>
-                            <span class="nav_name">Customers</span>
+                            <span class="nav_name">Users</span>
                             <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
                         </a>
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
-                                <a href="{{ route('admin.customers') }}" class="nav_dropdown_item">List</a>
-                                <a href="#" class="nav_dropdown_item">View</a>
-                                <a href="#" class="nav_dropdown_item">Edit</a>
-                                <a href="#" class="nav_dropdown_item">profile</a>
-                                <a href="#" class="nav_dropdown_item">cards</a>
+                                <a href="{{ route('admin.customers') }}" class="nav_dropdown_item">Customers</a>
+                                @if(isTeamRSu())
+                                    <a href="{{ route('admin.sellers') }}" class="nav_dropdown_item">Sellers</a>
+                                    @if(isRed())
+                                        <a href="{{ route('admin.admins') }}" class="nav_dropdown_item">Admins</a>
+                                        <a href="{{ route('admin.users') }}" class="nav_dropdown_item">All</a>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
-                    @if(isTeamRSu())
+                    @if(isRed())
                         <div class="nav_dropdown">
                             <a href="#" class="nav_link">
-                                <i class="fas fa-user-tag nav_icon"></i>
-                                <span class="nav_name">Sellers</span>
+                                <i class='bx bxs-user-account nav_icon' ></i>
+                                <span class="nav_name">Accounts</span>
                                 <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
                             </a>
                             <div class="nav_dropdown_collapse">
                                 <div class="nav_dropdown_content">
-                                    <a href="{{ route('admin.sellers') }}" class="nav_dropdown_item">List</a>
+                                    <a href="#" class="nav_dropdown_item">Passwords</a>
                                     <a href="#" class="nav_dropdown_item">Mail</a>
                                     <a href="#" class="nav_dropdown_item">Account</a>
                                 </div>
                             </div>
                         </div>
-                        @if(isRed())
-                            <div class="nav_dropdown">
-                                <a href="#" class="nav_link">
-                                    <i class="fas fa-users-cog nav_icon"></i>
-                                    <span class="nav_name">Admins</span>
-                                    <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                                </a>
-                                <div class="nav_dropdown_collapse">
-                                    <div class="nav_dropdown_content">
-                                        <a href="{{ route('admin.admins') }}" class="nav_dropdown_item">List</a>
-                                        <a href="#" class="nav_dropdown_item">Mail</a>
-                                        <a href="#" class="nav_dropdown_item">Account</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nav_dropdown">
-                                <a href="#" class="nav_link">
-                                    <i class='bx bxs-user-account nav_icon' ></i>
-                                    <span class="nav_name">Accounts</span>
-                                    <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                                </a>
-                                <div class="nav_dropdown_collapse">
-                                    <div class="nav_dropdown_content">
-                                        <a href="#" class="nav_dropdown_item">Passwords</a>
-                                        <a href="#" class="nav_dropdown_item">Mail</a>
-                                        <a href="#" class="nav_dropdown_item">Account</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                     @endif
                     <a href="{{ route('admin.profile') }}" class="nav_link">
                         <i class="fas fa-address-card nav_icon"></i>

@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Variation;
-use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Product;
-use App\Models\Cart;
+use App\Models\{Product, Cart, Brand, Admin, Category, Variation};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use JsonException;
+use Throwable;
 
 class ProductController extends Controller
 {
@@ -41,42 +36,45 @@ class ProductController extends Controller
             }
         }
 
-        $products = $products->paginate(10);
+        $data = [
+            'products' => $products->paginate(10),
+            'sellers' => Admin::getSellers()->get(),
+            'brands' => Brand::brands()->get(),
+            'catDetails' => $catDetails,
+            'minPrice' => ceil($products->min('base_price')),
+            'maxPrice' => floor($products->max('base_price')),
+        ];
 
-        $sellers = Admin::getSellers()->get()->toArray();
-        $brands = Brand::brands()->get()->toArray();
-
-        return View('products')
-            ->with(compact('products', 'sellers', 'brands', 'catDetails'));
+        return View('products', $data);
     }
 
-    public function showDetails($id): Factory|View|Application
-    {
+    public function showDetails($id): Factory|View|Application {
         app('redirect')->setIntendedUrl(URL::previous());
 
-        $details = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
+        $data['details'] = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
             $query->where('status', 1);
-        }, 'images'])
-            ->find($id)->toArray();
-        $totalStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-            ->where(['product_id' => $id, 'variations.status' => 1, 'variations_options.status' => 1])->min('stock');
-        $related = Product::with('brand')->where('category_id', $details['sub_category']['id'])
-            ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get()->toArray();
+        }, 'images'])->find($id);
 
-        return view('details')->with(compact('details', 'totalStock', 'related'));
+        $attributes = $data['details']->variations->pluck('options')->collapse()->keys()->toArray();
+
+        $data['totalStock'] = Product::stock($id, "sum", $attributes);
+        $data['related'] = Product::with('brand')->where('category_id', $data['details']->subCategory->id)
+            ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get();
+
+        return view('details', $data);
     }
 
     //  VIA - AJAX
-    public function getProductPrice(Request $req): ?array
-    {
-        if($req->ajax()) {
-            $data = $req->all();
-            $productId = (int)$data['productId'];
+    public function getProductPrice(Request $request): ?array {
+        if($request->ajax()) {
+            $data = $request->all();
+            $productId = $data['productId'];
 
             $basePrice = Product::where('id', $productId)->value('base_price');
-            $extraPrice = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-                ->whereIn('variant', $data['variations'])
-                ->where('product_id', $productId)->sum('extra_price');
+            $extraPrice = Variation::where('product_id', $productId)->pluck('options')
+                ->collapse()->filter(function($value, $key) use($data) {
+                    return in_array($key, $data['variations']);
+                })->sum('extra_price');
 
             $newPrice = $basePrice + $extraPrice;
 
@@ -86,24 +84,22 @@ class ProductController extends Controller
         return null;
     }
 
-    public function storeCart(Request $req): Redirector|RedirectResponse|Application {
-        $data = $req->all();
+    public function storeCart(Request $request): Redirector|RedirectResponse|Application {
+        $data = $request->all();
 
         $details = array();
         foreach($data as $key => $value) {
             if(str::startsWith($key, 'variant')) {
                 $variant = Str::of(substr($key, 7))->singular()->jsonSerialize();
-                $details = Arr::add($details, $variant, $value);
+                $details[$variant] = $value;
             }
         }
 
         if(count($details) > 0) {
             //check if stock is available
-            $productStock = Variation::join('variations_options', 'variations.id', 'variations_options.variation_id')
-                ->where('product_id', $data['product_id'])
-                ->whereIn('variant', $details)->min('stock');
+            $availableStock = Product::stock($data['product_id'], "min", $details);
 
-            if($productStock < $data['quantity']) {
+            if($availableStock < $data['quantity']) {
                 $message = "That quantity is not available for this combination🤧";
                 return back()->withInput()
                     ->with('alert', ['type' => 'danger', 'intro' => 'Sorryy!', 'message' => $message, 'duration' => 7]);
@@ -119,10 +115,11 @@ class ProductController extends Controller
 
         //  Check if Similar Product already exists
         $countProducts = Cart::where('product_id', $data['product_id'])->whereJsonContains('details', $details);
-        $countProducts = (Auth::check()) ? $countProducts->where('user_id', Auth::id()) : $countProducts->where('session_id', $sessionId);
-        $countProducts = $countProducts->count();
+        $countProducts = (Auth::check())
+            ? $countProducts->where('user_id', Auth::id())
+            : $countProducts->where('session_id', $sessionId);
 
-        if($countProducts > 0) {
+        if($countProducts->exists()) {
             $message = "Product already exists in Cart😁";
             return back()->withInput()
                 ->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
@@ -130,41 +127,41 @@ class ProductController extends Controller
 
         //  Convert Details to JSON for storage
         try {
-            $details = json_encode($details, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
-            $message = "Something went wrong🤧";
-            return back()->with('alert', alert('danger', '💔!', $message, 7));
+            DB::transaction(function() use($sessionId, $data, $details) {
+                Cart::create([
+                    'user_id' => (Auth::check()) ? Auth::id() : null,
+                    'session_id' => $sessionId,
+                    'product_id' => $data['product_id'],
+                    'details' => $details,
+                    'quantity' => $data['quantity'] === 0 ? 1 : $data['quantity'] ,
+                ]);
+            });
+
+            setCartItems();
+
+            $message = "Item Added to Cart!";
+            $link = ['title' => 'View', 'url' => route('cart')];
+
+            return redirect()->route('products')
+                ->with('alert', alert('success', 'Nice!', $message, 10, $link));
+        } catch (Exception | Throwable $e) {
+            Log::error($e->getMessage());
+            return back()->with('alert', alert('danger', '💔!', "Something went wrong🤧", 7));
         }
-
-        $store = [
-            'user_id' => (Auth::check()) ? Auth::id() : null,
-            'session_id' => $sessionId,
-            'product_id' => $data['product_id'],
-            'details' => $details,
-            'quantity' => $data['quantity'],
-        ];
-
-        Cart::create($store);
-
-        $message = "Item Added to Cart!";
-        $link = ['title' => 'View', 'url' => route('cart')];
-        return redirect()->intended()->with('alert', alert('success', 'Nice!', $message, 10, $link));
     }
 
-    public function cart(): View|Factory|Redirector|RedirectResponse|Application
-    {
+    public function cart(): View|Factory|Redirector|RedirectResponse|Application {
         $cart = Cart::cartItems();
 
-        return view('cart', compact('cart'));
+        return view('cart', ['cart' => $cart]);
     }
 
     /**
-     * @throws JsonException
+     * @throws Exception
      */
-    public function updateCartItemQty(Request $req): JsonResponse|Redirector|RedirectResponse|Application
-    {
-        if($req->ajax()) {
-            $data = $req->all();
+    public function updateCartItemQty(Request $request): JsonResponse|Redirector|RedirectResponse|Application {
+        if($request->ajax()) {
+            $data = $request->all();
             $cartId = $data['cartId'];
             $demandedQty = $data['newQty'];
 
@@ -172,7 +169,8 @@ class ProductController extends Controller
             $details = json_decode($cartItem['details'], true, 512, JSON_THROW_ON_ERROR);
 
             //check if stock is available
-            $availableStock = Variation::checkVariations($cartItem['product_id'], $details)->select('stock')->min('stock');
+            $availableStock = Variation::checkVariations($cartItem['product_id'], $details)
+                ->select('stock')->min('stock');
             $inactiveStatus = Variation::checkVariations($cartItem['product_id'], $details)
                 ->select('variations_options.status')->where('variations_options.status', 0)->exists();
 
@@ -203,8 +201,8 @@ class ProductController extends Controller
             $cart = Cart::cartItems();
             return response()->json([
                 'status' => true,
-                'cartCount'=> cartCount(),
-                'cartTotal'=> cartTotal(),
+                'cartCount'=> getCart('count'),
+                'cartTotal'=> getCart('total'),
                 'view' => (string)view('partials.products.cart-table', compact('cart'))
             ]);
         }
@@ -212,20 +210,21 @@ class ProductController extends Controller
         return accessDenied();
     }
 
-    public function deleteCartItem(Request $req): JsonResponse|Redirector|RedirectResponse|Application
+    public function deleteCartItem(Request $request): JsonResponse|Redirector|RedirectResponse|Application
     {
-        if($req->ajax()) {
-            Cart::destroy($req->cartId);
+        if($request->ajax()) {
+            Cart::destroy($request->input('cartId'));
 
-            if(!(cartCount() > 0) && Session::has('couponId')) {
+            if(!(getCart('count') > 0) && Session::has('couponId')) {
                 Session ::forget(['couponDiscount', 'couponId', 'grandTotal']);
             }
 
+            setCartItems();
             $cart = Cart::cartItems();
             return response()->json([
                 'status' => true,
-                'cartCount'=> cartCount(),
-                'cartTotal'=> cartTotal(),
+                'cartCount'=> getCart('count'),
+                'cartTotal'=> getCart('total'),
                 'view' => (string)view('partials.products.cart-table', compact('cart'))
             ]);
         }

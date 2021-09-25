@@ -2,56 +2,57 @@ $(() => {
     /*_______   SET VARIATION ID    _______*/
     $(document).on('click', 'a.attribute', function() {
         const id = $(this).data('id');
-
         $('input[name="variation_id"]').val(id);
     });
 
     /*_______   SET PRICE ID    _______*/
     $(document).on('click', 'a.stock', function() {
-        const $id = $(this).data('id');
-
-        $('input[name="variation_option_id"]').val($id);
+        const id = $(this).data('id'),
+            option = $(this).data('option')
+        $('input[name="variation_id"]').val(id);
+        $('input[name="option"]').val(option);
     });
 
     /*_______   SET STOCK    _______*/
     $(document).on('click', 'a.extra_price', function() {
-        const $id = $(this).data('id');
-
-        $('input[name="variation_option_id"]').val($id);
+        const id = $(this).data('id'),
+            option = $(this).data('option')
+        $('input[name="variation_id"]').val(id);
+        $('input[name="option"]').val(option);
     });
 
     /*_______   CHANGE VARIANT NAME    _______*/
     $(document).on('change', '#details td input[name="variation_option"]', function() {
-        const optionId = $(this).data('id');
-        const variationId = $(this).data('variationId');
+        const option = $(this).next().val();
+        const variationId = $(this).data('id');
         const variant = $(this).val();
         const loader = $(this).closest('td.d-flex').find($('img')).hide();
+        console.log(option);
 
         $.ajax({
-            data: {optionId, variant, variationId},
+            data: {option, variant, variationId},
             url: '/admin/variation-option',
             type: 'PUT',
             beforeSend:() => {
                 loader.show();
             },
             statusCode: {
-                200: (responseObject) => {
-                    if(responseObject.status) {
+                200: (response) => {
+                    if(response.status) {
                         $(this).removeClass('is-invalid').addClass('is-valid');
-                        $(this).val(responseObject.newValue);
+                        $(this).val(response.newValue);
+                        $(this).next().val(response.newValue)
                     } else {
                         if($(this).val() === $('#current_variant_name').val()) {
                             $(this).removeClass('is-invalid').addClass('is-valid');
                         } else {
                             $(this).removeClass('is-valid').addClass('is-invalid');
-                            $('#details td span.invalid-feedback').html(responseObject.message);
+                            $('#details td span.invalid-feedback').html(response.message);
                         }
                     }
                 },
             },
-            complete: () => {
-                loader.hide();
-            },
+            complete: () => loader.hide(),
             error: () => {
                 alert('Error: Something went wrong!');
             },
@@ -178,6 +179,7 @@ $(document).on('click', '.update_status', function() {
  * ********************************************************************************/
 
 const updateStatus = (model, id, status, element) => {
+    console.log(element)
     $.ajax({
         data: {
             model:model,
@@ -196,14 +198,11 @@ const updateStatus = (model, id, status, element) => {
             },
             404: () => {
                 console.log('Not Error Found')
-            },
-            500: function(responseObject, textStatus, errorThrown) {
-                console.log(errorThrown);
-                alert("Something went wrong!");
             }
         },
-        error: () => {
-            alert("Error");
+        error: error => {
+            console.log(error);
+            alert("Something went wrong!");
         },
     });
 }

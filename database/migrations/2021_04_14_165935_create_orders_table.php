@@ -18,12 +18,15 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('address_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('coupon_id')->nullable()->constrained();
+            $table->string('order_no', 100)->unique();
             $table->integer('phone');
             $table->float('discount')->default(0);
             $table->float('delivery_fee')->default(0.0);
             $table->enum('payment_method', ['cash', 'm-pesa', 'paypal']);
             $table->enum('payment_type', ['on-delivery', 'instant']);
             $table->double('total');
+            $table->string('courier', 30)->default('');
+            $table->string('tracking_number')->default(0);
             $table->string('status', 20)->default('pending');
             $table->timestamps();
         });

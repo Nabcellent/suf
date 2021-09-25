@@ -36,8 +36,8 @@ $(() => {
 
     /*****************************  DETAILS SWIPER  *****************************/
 
-    const $swiperSlide = $('.swiper-slide');
-    let galleryThumbs = new Swiper('.gallery-thumbs', {
+    const swiperSlide = $('.swiper-slide');
+    let galleryThumbs = new Swiper('.details-swiper', {
         spaceBetween: 10,
         slidesPerView: 3,
         freeMode: true,
@@ -45,7 +45,7 @@ $(() => {
         watchSlidesVisibility: true,
         watchSlidesProgress: true,
     });
-    let galleryTop = new Swiper('.gallery-top', {
+    let galleryTop = new Swiper('.details-swiper-2', {
         spaceBetween: 10,
         loop: true,
         loopedSlides: 3, //looped slides should be the same
@@ -74,11 +74,11 @@ $(() => {
         },
     });
 
-    $swiperSlide.on('mouseover', function() {
+    swiperSlide.on('mouseover', function() {
         galleryTop.autoplay.stop();
     });
 
-    $swiperSlide.on('mouseout', function() {
+    swiperSlide.on('mouseout', function() {
         galleryTop.autoplay.start();
     });
 

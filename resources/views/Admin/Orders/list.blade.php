@@ -31,31 +31,31 @@
 
                                 @foreach($orders as $order)
                                 <tr>
-                                    <th>{{ $order['id'] }}</th>
-                                    <td>{{ $order['phone'] }}</td>
-                                    <td>{{ $order['payment_method'] }}</td>
-                                    <td>{{ $order['payment_type'] }}</td>
-                                    <td>{{ $order['total'] }}</td>
-                                    <td>{{ $order['status'] }}</td>
+                                    <th>{{ $order->order_no }}</th>
+                                    <td>{{ $order->phone }}</td>
+                                    <td>{{ $order->payment_method }}</td>
+                                    <td>{{ $order->payment_type }}</td>
+                                    <td>{{ $order->total }}</td>
+                                    <td>{{ $order->status }}</td>
                                     @if(!isSeller())
                                         <td>
-                                            @if((Order::orderProductsReady($order['id'])))
+                                            @if((orderProductsReady($order->id)))
                                                 <h5 class="text-success"><i class="fas fa-thumbs-up"></i></h5>
                                             @else
                                                 <h5 class="text-info"><i class="far fa-thumbs-down"></i></h5>
                                             @endif
                                         </td>
                                     @endif
-                                    <td>{{ date('d~m~y', strtotime($order['created_at'])) }}</td>
-                                    <td class="action" style="background-color: #1a202c">
-                                        <a href="{{ route('admin.order', ['id' => $order['id']]) }}" class="ml-2" title="view Order">
+                                    <td>{{ date('d~m~y', strtotime($order->created_at)) }}</td>
+                                    <td class="action">
+                                        <a href="{{ route('admin.order', ['id' => $order->id]) }}" title="view Order">
                                             <i class="fas fa-eye text-info"></i>
                                         </a>
-                                        @if($order['tracking_number'])
-                                            <a href="{{ route('admin.invoice', ['id' => $order['id']]) }}" class="ml-2" title="View Invoice" target="_blank">
+                                        @if($order->tracking_number)
+                                            <a href="{{ route('admin.invoice', ['id' => $order->id]) }}" title="View Invoice" target="_blank">
                                                 <i class="fas fa-file-invoice text-warning"></i>
                                             </a>
-                                            <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="ml-2" title="GENERATE PDF">
+                                            <a href="{{ route('admin.invoice-pdf', ['id' => $order->id]) }}" title="GENERATE PDF">
                                                 <i class='fas fa-file-pdf text-white'></i>
                                             </a>
                                         @endif

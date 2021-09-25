@@ -17,9 +17,9 @@ class CategoryController extends Controller
     public function showCategories(): Factory|View|Application {
         $sections = Category::sections();
         $categories = Category::whereNotNull('section_id')->whereNull('category_id')->with('section')
-            ->orderByDesc('id')->get()->toArray();
+            ->orderByDesc('id')->get();
         $subCategories = Category::with('category')->whereNotNull(['section_id', 'category_id'])
-        ->orderByDesc('id')->get()->toArray();
+        ->orderByDesc('id')->get();
 
         return view('Admin.Categories.list')
             ->with(compact('sections', 'categories', 'subCategories'));
@@ -28,12 +28,12 @@ class CategoryController extends Controller
     public function showCategoryForms(Request $request, $id = null): Factory|View|Application {
         $title = "CREATE";
         $sections = Category::sections();
-        $categories = Category::whereNotNull('section_id')->whereNull('category_id')->with('section')->get()->toArray();
+        $categories = Category::whereNotNull('section_id')->whereNull('category_id')->with('section')->get();
 
         if($id) {
             $title = "UPDATE";
 
-            $category = Category::find($id)->toArray();
+            $category = Category::find($id);
 
             $view = view('Admin.Categories.create')
                 ->with(compact('title', 'sections', 'categories'));

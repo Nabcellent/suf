@@ -2,37 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\County;
-use App\Models\Phone;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\{County, Phone, User, Address};
+use Illuminate\Contracts\View\{Factory, View};
+use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Notifications\Notifiable;
 
-use App\Models\User;
-use App\Models\Address;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
-class UserController extends Controller
-{
-    use Notifiable;
-    //
-    public function account(Request $req, $page = 'edit', $id = null): View|Factory|RedirectResponse|Application
-    {
-        if($req->isMethod('POST')) {
-            $req->validate([
+class UserController extends Controller {
+    public function account(Request $request, $page = 'edit', $id = null): View|Factory|RedirectResponse|Application {
+        if($request->isMethod('POST')) {
+            $request->validate([
                 'first_name' => 'required|max:20|alpha',
                 'last_name' => 'required|max:20|alpha',
                 'address' => 'nullable|min:5'
@@ -40,8 +24,8 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            $user -> first_name = $req -> first_name;
-            $user -> last_name = $req -> last_name;
+            $user -> first_name = $request->input('first_name');
+            $user -> last_name = $request->input('last_name');
             $user -> save();
 
             $message = "Your account has been Updated. 😌";
@@ -72,9 +56,9 @@ class UserController extends Controller
         return view('profile')->with(compact('page', 'user'));
     }
 
-    public function deliveryAddress(Request $req, $id = null): Redirector|Application|RedirectResponse
+    public function deliveryAddress(Request $request, $id = null): Redirector|Application|RedirectResponse
     {
-        $req->validate([
+        $request->validate([
             'sub_county' => 'required',
             'address' => 'required',
         ], [
@@ -90,8 +74,8 @@ class UserController extends Controller
         }
 
         $address->user_id = Auth::id();
-        $address->sub_county_id = $req->sub_county;
-        $address->address = $req->address;
+        $address->sub_county_id = $request->input('sub_county');
+        $address->address = $request->input('address');
 
         $address->save();
 
@@ -111,13 +95,13 @@ class UserController extends Controller
             'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
         ];
 
-        if($request->id) {
-            $rules[] = Rule ::unique('phones') -> ignore($request -> id);
+        if($request->input('id')) {
+            $rules[] = Rule ::unique('phones')->ignore($request->input('id'));
         } else {
             $rules[] = 'unique:phones';
         }
 
-        $phone = $request -> phone;
+        $phone = $request->input('phone');
         $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
         $data['phone'] = $phone;
         $valid = Validator::make($data, ['phone' => $rules]);
@@ -130,7 +114,7 @@ class UserController extends Controller
 
         $user = User::find(Auth::id());
 
-        if(!$request->id) {
+        if(!$request->input('id')) {
             $user->phones()->create([
                 'phone' => $phone,
                 'primary' => 0
@@ -138,7 +122,7 @@ class UserController extends Controller
 
             $message = 'Phone has been added!';
         } else {
-            $updatePhone = Phone::find($request->id);
+            $updatePhone = Phone::find($request->input('id'));
             $updatePhone->phone = $phone;
             $updatePhone->save();
 
@@ -160,16 +144,16 @@ class UserController extends Controller
         return back()->with('alert', alert('success', 'Success', 'Profile picture saved', 7));
     }
 
-    public function updatePassword(Request $req): RedirectResponse
+    public function updatePassword(Request $request): RedirectResponse
     {
-        $req->validate([
+        $request->validate([
             'current_password' => 'password',
             'password' => ['required', 'string', 'min:7', 'confirmed'],
             'password_confirmation' => 'required',
         ]);
 
         $user = Auth::user();
-        $user->password = bcrypt($req->password);
+        $user->password = bcrypt($request->input('password'));
         $user->save();
 
         $message = "Your password has been Updated. 😌";

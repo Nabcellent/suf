@@ -22,8 +22,7 @@ class ProductFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition(): array {
         $categories = Category::whereNotNull('category_id')->pluck('id')->toArray();
         $sellers = Admin::where('type', 'Seller')->pluck('user_id')->toArray();
         $brands = Brand::pluck('id')->toArray();
@@ -39,7 +38,8 @@ class ProductFactory extends Factory
             'label' => $this->faker->randomElement(['New', 'Sale']),
             'base_price' => $this->faker->randomFloat(2, 0, 5000),
             'is_featured' => $this->faker->randomElement(['Yes', 'No']),
-            'discount' => $this->faker->numberBetween(0, 99),
+            'discount' => $this->faker->numberBetween(0, 5),
+            'stock' => $this->faker->numberBetween(0, 70),
             'created_at' => $this->faker->dateTimeBetween(now()->subDays(6), now())
         ];
     }

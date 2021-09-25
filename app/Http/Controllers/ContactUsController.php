@@ -20,13 +20,13 @@ class ContactUsController extends Controller
         $request->validate([
             'email' => 'required|email:rfc,dns',
             'first_name' => 'required|alpha',
-            'last_name' => 'required|alpha',
             'message' => 'required',
         ]);
 
-        Mail::to(env('MAIL_USERNAME', 'su.fashion10@gmail.com'))->send(new ContactUs($request->all()));
+        Mail::to(env('MAIL_USERNAME', 'su.fashion10@gmail.com'))
+            ->later(now()->addSeconds(7), new ContactUs($request->all()));
 
         return back()
-            ->with('alert', alert('success', 'Email Sent!', 'Thank you for contacting us. We will get back to you promptly.', 7));
+            ->with('alert', alert('success', 'Email Sent!', 'Thank you. We will get back to you promptly.', 7));
     }
 }

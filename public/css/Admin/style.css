@@ -51,6 +51,10 @@ body {
     background-color: var(--body-color);
 }
 
+label {
+    margin: 0;
+}
+
 .page-loader-gif {
     position: fixed;
     z-index: 999999;
@@ -595,9 +599,11 @@ table.crud_table tr td img {
     border-radius: 2.5rem;
 }
 table.crud_table tr td.action {
+    display: flex;
+    justify-content: space-evenly;
     font-size: 1rem;
     height: 100%;
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(26, 32, 44);
 }
 table.crud_table tr td.action i:hover {
     color: rgba(120, 120, 120, 1)!important;
@@ -813,11 +819,22 @@ label.crud_form.file::after {
 }
 
 
-
-
-
-
-
+.toastify {
+    font-weight: bolder;
+}
+.toastify.success {
+    background: linear-gradient(30deg, rgb(10, 170, 30), rgba(10, 170, 100, .8), #73a5ff);
+}
+.toastify.info {
+    background: linear-gradient(30deg, rgb(37, 157, 138), rgba(37, 157, 138, .8), #73a5ff);
+}
+.toastify.warning {
+    background: linear-gradient(30deg, rgb(235, 166, 18), rgba(235, 166, 18, .8), #73a5ff);
+    color: rgb(30, 30, 30);
+}
+.toastify.danger {
+    background: linear-gradient(30deg, rgb(200, 20, 10), rgba(1200, 20, 10, .8), #73a5ff);
+}
 
 
 

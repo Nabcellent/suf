@@ -62,10 +62,10 @@
                 <div class="row contacts">
                     <div class="col invoice-to">
                         <div class="text-gray-light">INVOICE TO:</div>
-                        <h2 class="to">{{ $order['user']['first_name'] }} {{ $order['user']['last_name'] }}</h2>
-                        <div class="address">{{ $order['address']['address'] }}, {{ $order['address']['sub_county']['name'] }}, {{ $order['address']['sub_county']['county']['name'] }}</div>
-                        <div class="email"><a href="mailto:{{ $order['user']['email'] }}">{{ $order['user']['email'] }}</a></div>
-                        <div class="email"><a href="tel:0{{ $order['phone'] }}">+254-{{ $order['phone'] }}</a></div>
+                        <h2 class="to">{{ $order->user->first_name }} {{ $order->user->last_name }}</h2>
+                        <div class="address">{{ $order->address->address }}, {{ $order->address->subCounty->name }}, {{ $order->address->subCounty->county->name }}</div>
+                        <div class="email"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
+                        <div class="email"><a href="tel:0{{ $order->phone }}">+254-{{ $order->phone }}</a></div>
                     </div>
                     <div class="col invoice-details">
                         <h2 class="invoice-id">INVOICE 3-2-1</h2>
@@ -86,21 +86,20 @@
                     <tbody>
 
                     <?php $total = 0 ?>
-                    @foreach($order['order_products'] as $item)
+                    @foreach($order->orderProducts as $item)
                         <tr>
                             <td class="no">{{ sprintf("%02d", $loop->iteration) }}</td>
                             <td class="text-left">
-                                <h3><a href="{{ route('admin.product', ['id' => $item['product_id']]) }}">{{ $item['product']['title'] }}</a></h3>
-                                <?php $detailsArr = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
-                                @foreach($detailsArr as $key => $value)
+                                <h3><a href="{{ route('admin.product', ['id' => $item->product_id]) }}">{{ $item->product->title }}</a></h3>
+                                @foreach($item->details as $key => $value)
                                     <p class="detail">{{ $key }}: {{ $value }}</p>
                                 @endforeach
                             </td>
-                            <td class="unit">{{ currencyFormat($item['final_unit_price']) }}/-</td>
-                            <td class="qty">{{ $item['quantity'] }}</td>
-                            <td class="total">KES {{ currencyFormat($item['final_unit_price'] * $item['quantity']) }}/-</td>
+                            <td class="unit">{{ currencyFormat($item->price) }}/-</td>
+                            <td class="qty">{{ $item->quantity }}</td>
+                            <td class="total">KES {{ currencyFormat($item->price * $item->quantity) }}/-</td>
                         </tr>
-                        <?php $total += ($item['final_unit_price'] * $item['quantity']) ?>
+                        <?php $total += ($item->price * $item->quantity) ?>
                     @endforeach
 
                     </tbody>
@@ -113,18 +112,18 @@
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2">DISCOUNT</td>
-                        <td>KSH {{ currencyFormat($order['discount']) }}/=</td>
+                        <td>KSH {{ currencyFormat($order->discount) }}/=</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2">GRAND TOTAL</td>
-                        <td>KSH {{ currencyFormat($order['total']) }}/=</td>
+                        <td>KSH {{ currencyFormat($order->total) }}/=</td>
                     </tr>
                     </tfoot>
                 </table>
                 <div class="thanks">Thank you!</div>
                 <div class="notices">
-                    <div><h5>Payment Method: {{ ucfirst($order['payment_method']) }}</h5></div>
+                    <div><h5>Payment Method: {{ ucfirst($order->payment_method) }}</h5></div>
                     <div>
                         <div>NOTICE:</div>
                         <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>

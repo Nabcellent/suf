@@ -19,24 +19,29 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     public function showCustomers(): Factory|View|Application {
-        $customers = User::getCustomers()->latest()->get()->toArray();
+        $customers = User::getCustomers()->latest()->get();
 
-        return view('Admin.Users.customers') ->with(compact('customers'));
+        return view('Admin.Users.customers', ['customers' => $customers]);
     }
 
     public function showSellers(): Factory|View|Application {
-        $sellers = Admin::getSellers()->latest()->get()->toArray();
+        $sellers = Admin::getSellers()->latest()->get();
 
-        return view('Admin.Users.sellers') ->with(compact('sellers'));
+        return view('Admin.Users.sellers')->with(compact('sellers'));
     }
 
     public function showAdmins(): Factory|View|Application {
-        $admins = Admin::getAdmins()->latest()->get()->toArray();
+        $admins = Admin::getAdmins()->latest()->get();
 
         return view('Admin.Users.admins')->with(compact('admins'));
+    }
+
+    public function showAllUsers(): Factory|View|Application {
+        $users['users'] = User::where('is_admin', '<>', 7)->latest()->get();
+
+        return view('Admin.Users.users', $users);
     }
 
 

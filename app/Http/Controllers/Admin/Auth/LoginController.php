@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     use RedirectsUsers, ThrottlesLogins;
 
     /**
@@ -76,7 +75,7 @@ class LoginController extends Controller
     /**
      * Validate the form data.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return void
      */
     protected function validateLogin(Request $request): void {
@@ -89,7 +88,7 @@ class LoginController extends Controller
     /**
      * Attempt to log the user into the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return bool
      */
     protected function attemptLogin(Request $request): bool {
@@ -101,7 +100,7 @@ class LoginController extends Controller
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     protected function credentials(Request $request): array {
@@ -111,8 +110,8 @@ class LoginController extends Controller
     /**
      * Send the response after the user was authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return RedirectResponse|JsonResponse
      */
     protected function sendLoginResponse(Request $request): JsonResponse|RedirectResponse {
         $request->session()->regenerate();
@@ -131,10 +130,13 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
+     * @param $request
      * @return \Illuminate\Http\Client\Response|RedirectResponse
      */
     protected function authenticated($request): \Illuminate\Http\Client\Response|RedirectResponse {
         if(Auth::user()->status) {
+            setCartItems();
+
             return redirect()->intended(route('admin.dashboard'));
         }
 
@@ -151,7 +153,7 @@ class LoginController extends Controller
      *
      * @return Response
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     protected function sendFailedLoginResponse(): Response {
         throw ValidationException::withMessages([
@@ -162,8 +164,8 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return RedirectResponse|JsonResponse
      */
     public function logout(Request $request): JsonResponse|RedirectResponse {
         $this->guard()->logout();
@@ -184,7 +186,7 @@ class LoginController extends Controller
     /**
      * The user has logged out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return mixed
      */
     protected function loggedOut(Request $request): void {

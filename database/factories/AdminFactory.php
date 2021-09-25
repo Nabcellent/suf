@@ -25,7 +25,7 @@ class AdminFactory extends Factory
             'user_id' => User::factory(),
             'username' => $this->faker->unique()->userName,
             'national_id' => $this->faker->unique()->numerify('########'),
-            'type' => $this->faker->randomElement(['Seller', 'Super']),
+            'type' => $this->faker->randomElement(['Seller', 'Admin']),
             'created_at' => $this->faker->dateTimeBetween(now()->subDays(6), now())
         ];
     }

@@ -49,26 +49,25 @@
                                             <tbody>
 
                                             <?php $total = 0; ?>
-                                            @foreach($order['order_products'] as $item)
-                                                <?php $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR); ?>
+                                            @foreach($order->orderProducts as $item)
                                                 <tr>
-                                                    <td>{{ $item['product']['title'] }}</td>
+                                                    <td>{{ $item->product->title }}</td>
                                                     <td>
-                                                        @if(count($details) > 0)
-                                                            {{ mapped_implode(', ', $details, ': ') }}
+                                                        @if(count($item->details) > 0)
+                                                            {{ mapped_implode(', ', $item->details, ': ') }}
                                                         @else - @endif
                                                     </td>
-                                                    <td>{{ $item['quantity'] }}</td>
-                                                    <td>{{ currencyFormat($item['final_unit_price']) }}/-</td>
-                                                    <td>{{ currencyFormat($item['final_unit_price'] * $item['quantity']) }}/=</td>
+                                                    <td>{{ $item->quantity }}</td>
+                                                    <td>{{ currencyFormat($item->price) }}/-</td>
+                                                    <td>{{ currencyFormat($item->price * $item->quantity) }}/=</td>
                                                 </tr>
-                                                <?php $total += $item['final_unit_price'] ?>
+                                                <?php $total += $item->price ?>
                                             @endforeach
 
-                                            @if($order['discount'] > 0)
+                                            @if($order->discount > 0)
                                                 <tr class="border-0">
                                                     <th colspan="4" class="text-right">Total Discount:</th>
-                                                    <td colspan="3">{{ currencyFormat($order['discount']) }}/=</td>
+                                                    <td colspan="3">{{ currencyFormat($order->discount) }}/=</td>
                                                 </tr>
                                             @endif
                                             <tr class="border-0">

@@ -1,30 +1,34 @@
 <?php
 
-use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AppController;
+use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\Auth\RegisterController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\CmsController as AdminCmsController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\API\Mpesa\MpesaController;
 use App\Http\Controllers\API\Mpesa\StkController;
 use App\Http\Controllers\API\PayPal\PaypalController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CmsController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PolicyController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-|-----------------------------
----------------------------------------------
+|--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -32,127 +36,40 @@ use App\Http\Controllers\PolicyController;
 |
 */
 
-/*Route::any('/', function() {
-    return view('temporary');
-})->name('suspended');
-Route::get('{anyExceptRoot}', function() {
-    return redirect()->route('suspended');
-})->where('anyExceptRoot', '.*');*/
-
-
 Auth::routes(['verify' => true]);
 
-//  ADMIN ROUTES
-Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
-    //  AUTH ROUTES
-    Route::namespace('Auth')->group(function(){
-        //Login Routes
-        Route::get('/sign-in', [Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('/sign-in',[Admin\Auth\LoginController::class, 'login'])->name('post_login');
-        //Register Routes
-        Route::get('/register', [Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-        Route::post('/register',[Admin\Auth\RegisterController::class, 'register'])->name('post_register');
-    });
-    Route::post('/logout',[Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
-    Route::middleware(['auth', 'admin', 'verified'])->group(function() {
-        Route::get('/', function() {return redirect()->route('admin.dashboard');});
-        Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
-
-        ///////  E-COMMERCE
-        //  Products Routes
-        Route::get('/products', [Admin\ProductController::class,'showProducts'])->name('products');
-        Route::get('/products/create', [Admin\ProductController::class, 'showProductForm'])->name('create-product');
-        Route::get('/product/{id}', [Admin\ProductController::class, 'getProduct'])->name('product');
-
-        Route::get('/categories', [Admin\CategoryController::class, 'showCategories'])->name('categories');
-        Route::get('/category/{id?}', [Admin\CategoryController::class, 'showCategoryForms'])->name('category');
-        Route::match(['POST', 'PUT'],'/category/{id?}', [Admin\CategoryController::class, 'createUpdateCategory'])->name('post_put_category');
-        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [Admin\CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
-
-        Route::get('/coupons', [Admin\CouponController::class, 'showCoupons'])->name('coupons');
-        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
-        Route::get('/attributes', [Admin\AttributeController::class, 'showAttributes'])->name('attributes');
-
-        //  Overview Routes
-        Route::get('/orders', [Admin\OrderController::class, 'showOrders'])->name('orders');
-        Route::get('/order/{id}', [Admin\OrderController::class, 'showOrder'])->name('order');
-        Route::patch('/order-ready/{id}/{checked}', [Admin\OrderController::class, 'orderReady']);
-        Route::get('/invoice/{id}', [Admin\OrderController::class, 'showInvoice'])->name('invoice');
-        Route::get('/invoice-pdf/{id}', [Admin\OrderController::class, 'processInvoicePDF'])->name('invoice-pdf');
-        Route::get('/payments', [Admin\PaymentController::class, 'list'])->name('payments');
-
-        //  Content Routes
-        Route::match(['GET', 'POST', 'PUT'],'/banners', [Admin\PageContentController::class, 'getCreateUpdateBanners'])->name('banners');
-        Route::match(['GET', 'POST', 'PUT'],'/policies/{id?}', [Admin\PageContentController::class, 'getCreateUpdatePolicies'])->name('policies');
-
-        ///////  APPS
-        /// Contacts
-        Route::get('/contacts', [Admin\AppController::class, 'showContacts'])->name('contacts');
-        Route::get('/emails', [Admin\AppController::class, 'showEmails'])->name('emails');
-
-        ///////  USERS
-        Route::get('/customers', [Admin\UserController::class, 'showCustomers'])->name('customers');
-        Route::get('/sellers', [Admin\UserController::class, 'showSellers'])->name('sellers')->middleware('super');
-        Route::get('/admins', [Admin\UserController::class, 'showAdmins'])->name('admins')->middleware('red');
-        Route::get('/users/{user}/{id?}', [Admin\UserController::class, 'getCreateUser'])->name('user');
-
-        //  Admin Routes
-        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
-        Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
-        Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
-
-        //  CREATE ROUTES
-        Route::name('create.')->group(function() {
-            Route::post('/products/create', [Admin\ProductController::class, 'createProduct'])->name('product');
-            Route::post('/product/variation/{id}', [Admin\ProductController::class, 'createVariation'])->name('variation');
-            Route::post('/product/image/{id}', [Admin\ProductController::class, 'createImage'])->name('product-image');
-            Route::post('/product/variation-option', [Admin\ProductController::class, 'addVariationOption'])->name('variation-option');
-
-            Route::post('/attribute')->name('attribute');
-            Route::post('/brand', [Admin\AttributeController::class, 'createUpdateBrand'])->name('brand');
-
-            Route::post('/users/{user}/{id?}', [Admin\UserController::class, 'createUpdateAdmin'])->name('user');
-        });
-
-        //  UPDATE ROUTES
-        Route::name('update.')->group(function() {
-            Route::put('/product/{id}', [Admin\ProductController::class, 'updateProduct'])->name('product');
-            Route::patch('/product/stock/{id}', [Admin\ProductController::class, 'setStock'])->name('stock');
-            Route::patch('/product/extra-price/{id}', [Admin\ProductController::class, 'setPrice'])->name('extra-price');
-
-            Route::put('/variation-option', [Admin\ProductController::class, 'updateVariant']);
-
-            Route::patch('/order/{id}', [Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
-
-            Route::patch('/status/toggle-update', [Admin\AjaxController::class, 'updateStatus']);
-        });
-
-        //  DELETE ROUTES
-        Route::name('delete.')->group(function() {
-            Route::delete('/product', [Admin\ProductController::class, 'deleteProduct'])->name('product');
-            Route::delete('/delete-product-image')->name('product-image');
-
-            Route::delete('/delete/{id}/{model}', [Admin\AjaxController::class, 'deleteFromTable']);
-        });
-
-        //  AJAX ROUTES
-        Route::post('/get-categories', [Admin\AjaxController::class, 'getCategoriesBySectionId']);
-        Route::post('/get-sub-categories', [Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
-        Route::post('/get-attribute-values', [Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
-        //  Database Checks
-        Route::post('/check-variation', [AjaxController::class, 'checkVariationExists']);
-        Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
-        //  CHARTS ROUTE
-        Route::post('/chart', [ChartController::class, 'getTimelyData']);
-    });
-});
-
-
-
-
-//  Home Page Routes
+//  GUEST ROUTES
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+//  PRODUCT ROUTES
+Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
+Route::get('/product/{id}/{title}', [ProductController::class, 'showDetails'])->name('product-details');
+Route::get('/search/products', [HomeController::class, 'search'])->name('search');
+
+//  CART ROUTES
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart');    //->middleware('password.confirm');
+Route::post('/add-to-cart', [ProductController::class, 'storeCart']);
+Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
+Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
+
+//  ABOUT / CONTACT / TERMS & CONDITIONS
+Route::get('/contact', [ContactUsController::class, 'showContactUsForm'])->name('contact-us');
+Route::post('/contact', [ContactUsController::class, 'sendEmail'])->name('post_contact_us');//
+Route::get('/info', [CmsController::class, 'index'])->name('info');
+Route::get('/about-us', [CmsController::class, 'showAboutUs'])->name('about-us');
+
+//  LOGOUT
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
+
+//  AJAX ROUTES
+Route::get('/get-filtered-products', [AjaxController::class, 'getFilteredProducts']);
+Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
+//  Database Checks
+Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
+Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
+Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
+Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
 
 
 //  PROTECTED ROUTES
@@ -193,39 +110,143 @@ Route::middleware(['verified', 'auth'])->group(function() {
 });
 
 
-//  PRODUCT ROUTES
-Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
-Route::get('/product/{id}/{title}', [ProductController::class, 'showDetails'])->name('product-details');
+//  ADMIN ROUTES
+Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
+    //  AUTH ROUTES
+    Route::namespace('Auth')->group(function(){
+        //Login Routes
+        Route::get('/sign-in', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('/sign-in',[\App\Http\Controllers\Admin\Auth\LoginController::class, 'login'])->name('post_login');
+        //Register Routes
+        Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::post('/register',[RegisterController::class, 'register'])->name('post_register');
+    });
+    Route::post('/logout',[\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->middleware('admin')->name('logout');
 
-//  CART ROUTES
-Route::get('/cart', [ProductController::class, 'cart'])->name('cart');    //->middleware('password.confirm');
-Route::post('/add-to-cart', [ProductController::class, 'storeCart']);
-Route::post('/update-cart-item-qty', [ProductController::class, 'updateCartItemQty']);
-Route::post('/delete-cart-item', [ProductController::class, 'deleteCartItem']);
+    Route::middleware(['auth', 'admin', 'verified'])->group(function() {
+        Route::get('/', function() {return redirect()->route('admin.dashboard');});
+        Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
 
-//  ABOUT / CONTACT / TERMS & CONDITIONS
-Route::get('/contact', [ContactUsController::class, 'showContactUsForm'])->name('contact-us');
-Route::post('/contact', [ContactUsController::class, 'sendEmail'])->name('post_contact_us');//
-Route::get('/policies', [PolicyController::class, 'index'])->middleware(['password.confirm'])->name('policies');
-Route::get('/about-us', [PolicyController::class, 'showAboutUs'])->name('about-us');
+        ///////  E-COMMERCE
+        //  Products Routes
+        Route::get('/products', [\App\Http\Controllers\Admin\ProductController::class,'showProducts'])->name('products');
+        Route::get('/products/create', [\App\Http\Controllers\Admin\ProductController::class, 'showProductForm'])->name('create-product');
+        Route::get('/product/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'getProduct'])->name('product');
 
-//  LOGOUT
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
+        Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
+        Route::get('/category/{id?}', [CategoryController::class, 'showCategoryForms'])->name('category');
+        Route::match(['POST', 'PUT'],'/category/{id?}', [CategoryController::class, 'createUpdateCategory'])->name('post_put_category');
+        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
 
-//  AJAX ROUTES
-Route::get('/get-filtered-products', [AjaxController::class, 'getFilteredProducts']);
-Route::post('/get-product-price', [ProductController::class, 'getProductPrice']);   //  Get Variation price
-//  Database Checks
-Route::get('/check-email', [AjaxController::class, 'checkEmailExists']);
-Route::get('/check-username', [AjaxController::class, 'checkUsernameExists']);
-Route::get('/check-phone', [AjaxController::class, 'checkPhoneExists']);
-Route::get('/check-national-id', [AjaxController::class, 'checkNationalIdExists']);
+        Route::get('/coupons', [\App\Http\Controllers\Admin\CouponController::class, 'showCoupons'])->name('coupons');
+        Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [\App\Http\Controllers\Admin\CouponController::class, 'getCreateUpdate'])->name('coupon');
+        Route::get('/attributes', [AttributeController::class, 'showAttributes'])->name('attributes');
+
+        //  Overview Routes
+        Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'showOrders'])->name('orders');
+        Route::get('/order/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'showOrder'])->name('order');
+        Route::patch('/order-ready/{id}/{checked}', [\App\Http\Controllers\Admin\OrderController::class, 'orderReady']);
+        Route::get('/invoice/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'showInvoice'])->name('invoice');
+        Route::get('/invoice-pdf/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'processInvoicePDF'])->name('invoice-pdf');
+        Route::get('/payments', [PaymentController::class, 'list'])->name('payments');
+
+        //  Content Routes
+        Route::match(['GET', 'POST', 'PUT'],'/banners', [BannerController::class, 'getCreateUpdateBanners'])->name('banners');
+
+        ///////  APPS
+        /// Contacts
+        Route::get('/contacts', [AppController::class, 'showContacts'])->name('contacts');
+        Route::get('/emails', [AppController::class, 'showEmails'])->name('emails');
+
+        ///////  USERS
+        Route::get('/customers', [\App\Http\Controllers\Admin\UserController::class, 'showCustomers'])->name('customers');
+        Route::get('/sellers', [\App\Http\Controllers\Admin\UserController::class, 'showSellers'])->name('sellers')->middleware('super');
+        Route::get('/admins', [\App\Http\Controllers\Admin\UserController::class, 'showAdmins'])->name('admins')->middleware('red');
+        Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'showAllUsers'])->name('users')->middleware('red');
+        Route::get('/users/{user}/{id?}', [\App\Http\Controllers\Admin\UserController::class, 'getCreateUser'])->name('user');
+
+        /////// CMS ROUTES
+        Route::prefix('/cms')->name('cms.')->middleware('super')->group(function() {
+            Route::get('/', [AdminCmsController::class, 'index'])->name('index');
+            Route::get('/create', [AdminCmsController::class, 'create'])->name('create');
+            Route::post('/store', [AdminCmsController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [AdminCmsController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [AdminCmsController::class, 'update'])->name('update');
+        });
+
+        //  Admin Routes
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+        Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+
+        //  CREATE ROUTES
+        Route::name('create.')->group(function() {
+            Route::post('/products/create', [\App\Http\Controllers\Admin\ProductController::class, 'createProduct'])->name('product');
+            Route::post('/product/variation/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'createVariation'])->name('variation');
+            Route::post('/product/image/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'createImage'])->name('product-image');
+            Route::post('/product/variation-option', [\App\Http\Controllers\Admin\ProductController::class, 'addVariationOption'])->name('variation-option');
+
+            Route::post('/attribute')->name('attribute');
+            Route::post('/brand', [AttributeController::class, 'createUpdateBrand'])->name('brand');
+
+            Route::post('/users/{user}/{id?}', [\App\Http\Controllers\Admin\UserController::class, 'createUpdateAdmin'])->name('user');
+        });
+
+        //  UPDATE ROUTES
+        Route::name('update.')->group(function() {
+            Route::put('/product/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'updateProduct'])->name('product');
+            Route::patch('/product/stock/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'setStock'])->name('stock');
+            Route::patch('/product/extra-price/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'setPrice'])->name('extra-price');
+
+            Route::put('/variation-option', [\App\Http\Controllers\Admin\ProductController::class, 'updateVariant']);
+
+            Route::patch('/order/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'updateOrderStatus'])->name('order-status');
+
+            Route::patch('/status/toggle-update', [\App\Http\Controllers\Admin\AjaxController::class, 'updateStatus']);
+        });
+
+        //  DELETE ROUTES
+        Route::name('delete.')->group(function() {
+            Route::delete('/product', [\App\Http\Controllers\Admin\ProductController::class, 'deleteProduct'])->name('product');
+            Route::delete('/delete-product-image')->name('product-image');
+
+            Route::delete('/delete/{id}/{model}', [\App\Http\Controllers\Admin\AjaxController::class, 'deleteFromTable']);
+        });
+
+        //  AJAX ROUTES
+        Route::post('/get-categories', [\App\Http\Controllers\Admin\AjaxController::class, 'getCategoriesBySectionId']);
+        Route::post('/get-sub-categories', [\App\Http\Controllers\Admin\AjaxController::class, 'getSubCategoriesByCategoryId']);
+        Route::post('/get-attribute-values', [\App\Http\Controllers\Admin\AjaxController::class, 'getAttributeValuesByAttrId']);
+        //  Database Checks
+        Route::post('/check-variation', [AjaxController::class, 'checkVariationExists']);
+        Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
+        //  CHARTS ROUTE
+        Route::post('/chart', [ChartController::class, 'getTimelyData']);
+    });
+});
 
 
+//require __DIR__.'/auth.php';
+
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
+//
+//Route::get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+//
+//
 
 
-/*Route::get('/test', function() {
-    Storage::disk('google')->put('test.txt', 'Hello World');
-
-    echo "done";
-});*/
+/*Route::any('/', function() {
+    return view('temporary');
+})->name('suspended');
+Route::get('{anyExceptRoot}', function() {
+    return redirect()->route('suspended');
+})->where('anyExceptRoot', '.*');*/

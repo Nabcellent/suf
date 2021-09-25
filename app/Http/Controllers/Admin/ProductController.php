@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreVariationRequest;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
@@ -25,12 +26,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use JsonException;
 use Psy\Util\Json;
+use Throwable;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     public function showProducts(): Factory|View|Application {
         $products = Product::with('seller');
 
@@ -38,15 +40,15 @@ class ProductController extends Controller
             $products->where('seller_id', Auth::id());
         }
 
-        $products = $products->orderByDesc('id')->get()->toArray();
+        $products = $products->orderByDesc('id')->get();
 
         return view('Admin.products.list')
             ->with(compact('products'));
     }
 
     public function showProductForm(): Factory|View|Application {
-        $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
-        $sellers = Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
+        $brands = Brand::select(['id', 'name'])->orderBy('name')->get();
+        $sellers = Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get();
         $sections = Category::sections();
 
         return view('Admin.products.create')
@@ -54,33 +56,18 @@ class ProductController extends Controller
     }
 
     public function getProduct($id): Factory|View|Application {
-        $product = Product::productDetails($id)->first()->toArray();
-        $brands = Brand::select('id', 'name')->orderBy('name')->get()->toArray();
-        $sellers = Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get()->toArray();
-        $sections = Category::sections();
-        $attributes = Attribute::select('id', 'name')->orderBy('name')->get()->toArray();
+        $data = [
+            'product' => Product::productDetails($id)->first(),
+            'brands' => Brand::select('id', 'name')->orderBy('name')->get(),
+            'sellers' => Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get(),
+            'sections' => Category::sections(),
+            'attributes' => Attribute::select('id', 'name')->orderBy('name')->get()
+        ];
 
-        return view('Admin.products.view')
-            ->with(compact('product', 'brands', 'sellers', 'sections', 'attributes'));
+        return view('Admin.products.view', $data);
     }
 
     public function createProduct(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
-        //  METHODS THAT CAN BE USED ON FILE REQUESTS
-        //  guessExtension()            ---Gets the file extension
-        //  guessClientExtension()      ---Similar to guessExtension
-        //  getSize()                   ---Get File Size
-        //  getMimeType()
-        //  getClientMimeType()         ---Similar to getMimeType
-        //  store()
-        //  asStore()
-        //  storePublicly()
-        //  move()
-        //  getClientOriginalName()     ---Gets the name of the file
-        //  getError()                  ---Check if Error
-        //  isValid()                   ---Check if Valid
-        //------------------------------------------------
-        //  $path = $request->file('main_image')->storePublicly("public/images/products");
-
         $data = $request->all();
 
         $file = $request->file('main_image');
@@ -93,25 +80,30 @@ class ProductController extends Controller
             $isFeatured = "No";
         }
 
-        $product = DB::transaction(function() use ($isFeatured, $imageName, $data) {
-            return Product::create([
-                'category_id' => $data['sub_category'],
-                'seller_id' => $data['seller'],
-                'brand_id' => $data['brand'],
-                'title' => $data['title'],
-                'main_image' => $imageName,
-                'keywords' => $data['keywords'],
-                'description' => $data['description'],
-                'label' => $data['label'],
-                'base_price' => $data['base_price'],
-                'discount' => $data['discount'],
-                'is_featured' => $isFeatured,
-            ]);
-        });
+        try {
+            $product = DB::transaction(function() use ($isFeatured, $imageName, $data) {
+                return Product::create([
+                    'category_id' => $data['sub_category'],
+                    'seller_id' => $data['seller'],
+                    'brand_id' => $data['brand'],
+                    'title' => $data['title'],
+                    'main_image' => $imageName,
+                    'keywords' => $data['keywords'],
+                    'description' => $data['description'],
+                    'label' => $data['label'],
+                    'base_price' => $data['base_price'],
+                    'discount' => $data['discount'],
+                    'is_featured' => $isFeatured,
+                    ]
+                );
+            });
 
-        $message = "New Product Created. You must now add a variation before your product becomes available in the store.";
-        return redirect(route('admin.product', ['id' => $product->id]))
-            ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 10]);
+            $message = "New Product Created. You must now add a variation before your product becomes available in the store.";
+            return redirect(route('admin.product', ['id' => $product->id]))->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 10]);
+        } catch(Throwable $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors(['Error creating product.']);
+        }
     }
 
     public function updateProduct(StoreProductRequest $request, $id): RedirectResponse {
@@ -137,90 +129,89 @@ class ProductController extends Controller
             $product->save();
         }
 
-        DB::transaction(function() use ($product, $isFeatured, $data) {
-            $product->update([
-                'category_id' => $data['sub_category'],
-                'seller_id' => $data['seller'],
-                'brand_id' => $data['brand'],
-                'title' => $data['title'],
-                'keywords' => $data['keywords'],
-                'description' => $data['description'],
-                'label' => $data['label'],
-                'base_price' => $data['base_price'],
-                'discount' => $data['discount'],
-                'is_featured' => $isFeatured,
-            ]);
-        });
-
-        $message = "Product Updated.";
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function createVariation(Request $request, $id): RedirectResponse {
-        $data = $request->all();
-
-        $request->validate([
-            'attribute' => 'required|integer',
-            'variation_options' => 'required|array'
-        ]);
-
-        $attribute = Attribute::find($data['attribute'])->name;
-
-        //  Check if variation already exists
-        $variations = Variation::where('product_id', $id);
-        if($variations->exists()) {
-            $variations = $variations->pluck('variation')->toArray();
-            foreach($variations as $variation) {
-                if(key(json_decode($variation, true, 512, JSON_THROW_ON_ERROR)) === $attribute) {
-                    return back()->withErrors(['The attribute you chose already exists.']);
-                }
-            }
-        }
-
-        $variation = Json::encode([$attribute => $data['variation_options']]);
-
-        DB::transaction(function() use ($variation, $id, $data) {
-            $variation = Variation::create([
-                'product_id' => $id,
-                'variation' => $variation
-            ]);
-
-            foreach($data['variation_options'] as $option) {
-                VariationsOption::create([
-                    'variation_id' => $variation->id,
-                    'variant' => $option
+        try {
+            DB::transaction(function() use ($product, $isFeatured, $data) {
+                $product->update([
+                    'category_id' => $data['sub_category'],
+                    'seller_id' => $data['seller'],
+                    'brand_id' => $data['brand'],
+                    'title' => $data['title'],
+                    'keywords' => $data['keywords'],
+                    'description' => $data['description'],
+                    'label' => $data['label'],
+                    'base_price' => $data['base_price'],
+                    'discount' => $data['discount'],
+                    'is_featured' => $isFeatured,
                 ]);
-            }
-        });
+            });
 
-        $message = "Variation Created.";
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            $message = "Product Updated.";
+            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+        } catch(Throwable $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors(['Error updating product.']);
+        }
+    }
+
+    public function createVariation(StoreVariationRequest $request, $id): RedirectResponse {
+        $data = $request->all();
+        $options = [];
+
+        try {
+            foreach($data['options'] as $option) {
+                $options[$option] = [
+                    'stock' => 0,
+                    'extra_price' => 0,
+                    'image' => '',
+                    'status' => 1
+                ];
+            }
+
+            $data['options'] = $options;
+            $data['attribute_id'] = $data['attribute'];
+            $data['product_id'] = $id;
+
+            DB::transaction(function() use ($data) {
+                Variation::create($data);
+            });
+
+            $message = "Variation Created.";
+            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+        } catch(Throwable $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors(['Error creating variation.']);
+        }
     }
 
     /**
      * @throws JsonException
      */
-    public function addVariationOption(StoreVariationOptionRequest $request): RedirectResponse {
+    public function addVariationOption(Request $request): RedirectResponse {
+        $request->validate([
+            'variant' => 'required',
+            'stock' => 'required|min:1',
+        ], []);
+
         $data = $request->all();
-
-        $variation = Variation::find($data['variation_id']);
-
-        $variationJson = json_decode($variation['variation'], false, 512, JSON_THROW_ON_ERROR);
-        $variationValues = array_values(json_decode($variation['variation'], true, 512, JSON_THROW_ON_ERROR))[0];
-        $newValues = Arr::prepend($variationValues, Str::ucfirst($data['variant']));
-        $newVariation = Json::encode([key($variationJson) => $newValues]);
-
-        $variation->variation = $newVariation;
-        $variation->save();
 
         try {
             DB::transaction(function() use ($data) {
-                VariationsOption::create($data);
+                $variation = Variation::findOrFail($data['variation_id']);
+
+                $options = $variation->options;
+                $options[$data['variant']] = [
+                    'stock' => 0,
+                    'extra_price' => $data['extra_price'] ?? 0,
+                    'image' => '',
+                    'status' => 1
+                ];
+
+                $variation->options = $options;
+                $variation->save();
             });
-        } catch(Exception $e) {
+        } catch(Exception | Throwable $e) {
+            Log::error($e->getMessage());
+
             $message = "Something went wrong! Please contact Lil Nabz.";
             return back()->with('alert', ['type' => 'danger', 'intro' => 'Oof!', 'message' => $message, 'duration' => 7]);
         }
@@ -230,24 +221,25 @@ class ProductController extends Controller
     }
 
     public function updateVariant(Request $request): JsonResponse|Redirector|Application|RedirectResponse {
-        if($request->ajax()) {
-            $exists = VariationsOption::where([
-                'variation_id' => $request->variationId,
-                'variant' => $request->variant
-            ])->exists();
+        $data = $request->all();
 
-            if($exists) {
+        try {
+            $variation = Variation::findOrFail($data['variationId']);
+
+            $options = $variation->options;
+            if(Arr::exists($options, $data['variant']))
                 return response()->json(['status' => false, 'message' => 'Already exists!']);
-            }
 
-            $option = VariationsOption::find($request->optionId);
-            $option->variant = Str::ucfirst($request->variant);
-            $option->save();
+            $options[$data['variant']] = $options[$data['option']];
+            Arr::forget($options, $data['option']);
+            $variation->options = $options;
+            $variation->save();
 
-            return response()->json(['status' => true, 'newValue' => $option->variant, 200]);
+            return response()->json(['status' => true, 'newValue' => $data['variant'], 200]);
+        } catch(Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['status' => false, 'message' => 'Error updating!']);
         }
-
-        return accessDenied();
     }
 
     public function createImage(Request $request, $id): RedirectResponse {
@@ -277,35 +269,50 @@ class ProductController extends Controller
         return back()->with('alert', ['type' => 'danger', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function setPrice(Request $request, $id): RedirectResponse {
-        $request->validate(['price' => 'required|numeric']);
-        $product = Product::where('id', $id)->with('subCategory')->first()->toArray();
-        $categoryTitle = $product['sub_category']['category']['title'];
-
-        $option = VariationsOption::find($request->variation_option_id);
-        $option->extra_price = $request->price;
-        $option->save();
-
-        $message = "You have added an extra KSH $request->price to your $option->variant " . Str::singular($categoryTitle);
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
-    }
-
     public function setStock(Request $request, $id): RedirectResponse {
         $request->validate(['stock' => 'required|integer']);
-        $product = Product::where('id', $id)->with('subCategory')->first()->toArray();
+        $data = $request->all();
 
-        if(empty($product)) {
-            return redirect()->route('admin.products')
-                ->with('alert', alert('info', 'Oops!', 'This product doesn\'t exists', 7));
+        try {
+            $product = Product::where('id', $id)->with('subCategory')->firstOrFail();
+            $categoryTitle = $product->subCategory->category->title;
+
+            $variation = Variation::findOrFail($data['variation_id']);
+
+            $varOptions = $variation->options;
+            $varOptions[$data['option']]['stock'] = $data['stock'];
+            $variation->options = $varOptions;
+            $variation->save();
+
+            $message = "Your {$data["option"]} $categoryTitle stock has been Set to {$data["stock"]}";
+
+            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+        } catch(Exception $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors(['Error setting stock!']);
         }
+    }
+    public function setPrice(Request $request, $id): RedirectResponse {
+        $request->validate(['price' => 'required|numeric']);
+        $data = $request->all();
 
-        $categoryTitle = $product['sub_category']['category']['title'];
+        try {
+            $product = Product::where('id', $id)->with('subCategory')->firstOrFail();
+            $categoryTitle = $product->subCategory->category->title;
 
-        $option = VariationsOption::find($request->variation_option_id);
-        $option->stock = $request->stock;
-        $option->save();
+            $variation = Variation::findOrFail($data['variation_id']);
 
-        $message = "Your $option->variant $categoryTitle stock has been Set to $option->stock.";
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            $varOptions = $variation->options;
+            $varOptions[$data['option']]['extra_price'] = $data['price'];
+            $variation->options = $varOptions;
+            $variation->save();
+
+            $message = "You have added an extra KSH {$data["price"]} to your {$data["price"]} " . Str::singular($categoryTitle);
+
+            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+        } catch(Exception $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors(['Error setting prices!']);
+        }
     }
 }

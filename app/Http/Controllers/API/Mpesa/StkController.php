@@ -4,15 +4,11 @@ namespace App\Http\Controllers\API\Mpesa;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStkRequest;
-use App\Models\Order;
-use App\Models\StkCallback;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use SmoDav\Mpesa\Laravel\Facades\STK;
 
 class StkController extends Controller
 {
@@ -23,18 +19,15 @@ class StkController extends Controller
     public function initiatePush(StoreStkRequest $request): JsonResponse|RedirectResponse {
         $data = $request->all();
 
-        $data['phone'] = "254" . (Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone']);
-        $data['amount'] = 1;    //currencyToFloat(session('grandTotal'))
-        $data['reference'] = 'SUF-PAYMENT';
-        $data['description'] = 'Payment made to SUF Web store';
+        $phone = "254" . (Str::length($data['phone']) > 9 ? Str::substr($data['phone'], -9) : $data['phone']);
+        $amount = 1;    //currencyToFloat(session('grandTotal'))
+        $reference = 'SUF-PAYMENT';
+        $description = 'Payment made to SUF Web store';
 
         try {
-            $stkRequest = STK::request($data['amount'])
-                ->from($data['phone'])
-                ->usingReference($data['reference'], $data['description'])
-                ->push();
+            $stkRequest = mpesa_request($phone, $amount, $reference, $description);
 
-            return redirect()->route('mpesa')->with('stk', ['checkout_request_id' => $stkRequest->checkout_request_id]);
+            return redirect()->route('mpesa')->with('stk', ['checkout_request_id' => $stkRequest->CheckoutRequestID]);
         } catch (Exception $exception) {
             $stkRequest = ['ResponseCode' => 900, 'ResponseDescription' => 'Invalid request', 'extra' => $exception->getMessage()];
         }
@@ -48,7 +41,7 @@ class StkController extends Controller
      * @return JsonResponse
      */
     public function stkStatus($reference): JsonResponse {
-        $stkStatus = STK::validate($reference);
+        $stkStatus = mpesa_validate($reference);
         $url = "";
 
         if(property_exists($stkStatus, 'errorCode')) {

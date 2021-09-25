@@ -8,9 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @mixin IdeHelperOrdersProduct
+ */
 class OrdersProduct extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'details',
+        'quantity',
+        'price',
+    ];
+
+    protected $casts = [
+        'details' => 'array'
+    ];
 
     /**
      * RELATIONSHIP FUNCTIONS

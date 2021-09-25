@@ -1,5 +1,10 @@
 @extends('/layouts.master')
 @section('title', 'CheckOut')
+@once
+    @push('stylesheets')
+        <link rel="stylesheet" href="{{ asset('vendor/TomSelect/tom-select.css') }}">
+    @endpush
+@endonce
 @section('content')
     @include('/partials/top_nav')
 
@@ -50,43 +55,46 @@
                                         <div class="d-flex justify-content-between">
                                             <h5 class="m-0">Delivery Addresses</h5>
                                             @if(count($addresses) > 0)
-                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}" class="btn btn-outline-info" style="border: none; border-bottom: 1px solid;">Add Address</a>
+                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}" class="btn btn-outline-info"
+                                                   style="border: none; border-bottom: 1px solid;">Add Address</a>
                                             @endif
                                         </div>
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if(count($addresses) > 0)
-                                    @foreach($addresses as $address)
-                                        <tr>
-                                            <td class="pb-1">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text custom">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" id="address{{ $address['id'] }}" name="address" @if($loop->iteration === 1 || (int)old('address') === $address['id']) checked @endif
-                                                                class="custom-control-input @error('address') is-invalid @enderror" value="{{ $address['id'] }}" required>
-                                                                <label class="custom-control-label" for="address{{ $address['id'] }}"></label>
-                                                            </div>
+                                @forelse($addresses as $address)
+                                    <tr>
+                                        <td class="pb-1">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text custom">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="address{{ $address->id }}" name="address"
+                                                                   @if($loop->iteration === 1 || (int)old('address') === $address->id) checked @endif
+                                                                   class="custom-control-input @error('address') is-invalid @enderror"
+                                                                   value="{{ $address->id }}" required>
+                                                            <label class="custom-control-label" for="address{{ $address->id }}"></label>
                                                         </div>
                                                     </div>
-                                                    <label class="form-control text-truncate" for="address{{ $address['id'] }}">
-                                                        {{ $address['sub_county']['county']['name'] }}, {{ $address['sub_county']['name'] }}, {{ $address['address'] }}
-                                                    </label>
-                                                    <div class="input-group-append">
-                                                        <a href="{{url('/account/delivery-address/' . $address["id"])}}" class="input-group-text border-primary text-info">
-                                                            <i class='bx bx-edit-alt'></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address" data-id="{{ $address['id'] }}">
-                                                            <i class='bx bx-trash-alt'></i>
-                                                        </a>
-                                                    </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                                                <label class="form-control text-truncate" for="address{{ $address->id }}">
+                                                    {{ $address->subCounty->county->name }}, {{ $address->subCounty->name }}, {{ $address->address }}
+                                                </label>
+                                                <div class="input-group-append">
+                                                    <a href="{{url('/account/delivery-address/' . $address->id)}}"
+                                                       class="input-group-text border-primary text-info">
+                                                        <i class='bx bx-edit-alt'></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address"
+                                                       data-id="{{ $address->id }}">
+                                                        <i class='bx bx-trash-alt'></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
                                     <tr>
                                         <td>
                                             <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
@@ -94,22 +102,25 @@
                                             <hr class="m-0">
                                         </td>
                                     </tr>
-                                @endif
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>
                         @error('address')
-                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                         <div class="row justify-content-end bd-highlight">
                             <div class="col-lg-5 col-md-7 col-sm-9 form-group">
                                 <label class="mb-0 p-1">Phone Number</label>
-                                <select class="custom-select select2-edit @error('phone') is-invalid @enderror" id="inputGroupSelect01" name="phone" required>
-                                    @foreach($phones as $phone)<option value="{{ $phone['phone'] }}">{{ $phone['phone'] }}</option>@endforeach
+                                <select id="select-phone" class="is-invalid @error('phone') is-invalid @enderror" placeholder="Select a phone..."
+                                        autocomplete="off" name="phone" required>
+                                    @if(old('phone'))<option value="{{ old($phone) }}" selected>{{ old($phone) }}</option>@endif
+                                    @foreach($phones as $phone)
+                                        <option value="{{ $phone->phone }}">{{ $phone->phone }}</option>@endforeach
                                 </select>
                             </div>
                             @error('phone')
-                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
                     </div>
@@ -134,12 +145,7 @@
 
                                 <?php $totalPrice = 0; ?>
                                 @foreach($cart as $item)
-                                    <?php
-                                    $details = json_decode($item['details'], true, 512, JSON_THROW_ON_ERROR);
-                                    $unitPrice = Cart::getVariationPrice($item['product_id'], $details)['unit_price'];
-                                    $discountPrice = Cart::getVariationPrice($item['product_id'], $details)['discount_price'];
-                                    $discount = Cart::getVariationPrice($item['product_id'], $details)['discount'];
-                                    ?>
+                                    <?php $price = Cart::getVariationPrice($item->product_id, $item->details); ?>
                                     <tr data-toggle="collapse" data-target="#cart-item{{ $item['id'] }}" style="cursor: pointer">
                                         <th scope="row">{{$loop -> iteration}}</th>
                                         <td>
@@ -148,8 +154,8 @@
                                             </a>
                                         </td>
                                         <td>{{$item['quantity']}}</td>
-                                        <td>KES.{{ $unitPrice  }}/-</td>
-                                        <td class="border-left">KES {{ $discountPrice * $item['quantity'] }}/-</td>
+                                        <td>KES.{{ $price['unit_price']  }}/-</td>
+                                        <td class="border-left">KES {{ $price['discount_price'] * $item['quantity'] }}/-</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" class="p-0">
@@ -164,39 +170,41 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image"></td>
+                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image">
+                                                        </td>
                                                         <td>
-                                                            @if(count($details) > 0)
-                                                                @foreach($details as $key => $value)
+                                                            @if(count($item->details) > 0)
+                                                                @foreach($item->details as $key => $value)
                                                                     {{ $key }}: {{ $value }} <br>
                                                                 @endforeach
                                                             @else N / A @endif
                                                         </td>
-                                                        <td>- {{ $discount * $item['quantity'] }}/-</td>
+                                                        <td>- {{ $price['discount'] * $item['quantity'] }}/-</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php $totalPrice += ($discountPrice * $item['quantity'])?>
+                                    <?php $totalPrice += ($price['discount_price'] * $item['quantity'])?>
                                 @endforeach
 
                                 </tbody>
                                 <tfoot class=" text-info">
                                 <tr>
-                                    <th colspan="4" class="text-right">Sub Total : </th>
+                                    <th colspan="4" class="text-right">Sub Total :</th>
                                     <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
                                 </tr>
                                 <tr>
-                                    <th colspan="4" class="text-right">Coupon Discount : </th>
+                                    <th colspan="4" class="text-right">Coupon Discount :</th>
                                     <th colspan="3" class="border-left">
                                         KES @if(session('couponDiscount')) {{ session('couponDiscount') }} @else 0.0 @endif/-
                                     </th>
                                 </tr>
                                 <tr class="total">
                                     <th colspan="4" class="text-right">
-                                        GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponDiscount')) {{ session('couponDiscount') }}) @else 0.0) @endif =
+                                        GRAND TOTAL ({{currencyFormat($totalPrice)}} - @if(session('couponDiscount')) {{ session('couponDiscount') }}
+                                        ) @else 0.0) @endif =
                                     </th>
                                     <th colspan="3" class="border-left">
                                         KES @if(session('grandTotal')) {{ session('grandTotal') }}/= @else {{currencyFormat($totalPrice)}}/= @endif
@@ -216,33 +224,38 @@
                             <div class="col">
                                 M-pesa
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="mpesa-inst" name="payment_method" value="M-Pesa-instant" @if(old('payment_method') === 'M-pesa-instant') checked @endif
-                                    class="custom-control-input @error('payment_method') is-invalid @enderror" required>
+                                    <input type="radio" id="mpesa-inst" name="payment_method" value="M-Pesa-instant"
+                                           @if(old('payment_method') === 'M-pesa-instant') checked @endif
+                                           class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="mpesa-inst">Instant</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="mpesa-ondeliv" name="payment_method" value="M-Pesa-on-delivery" @if(old('payment_method') === 'M-pesa-on-delivery') checked @endif
-                                    class="custom-control-input @error('payment_method') is-invalid @enderror" required>
+                                    <input type="radio" id="mpesa-ondeliv" name="payment_method" value="M-Pesa-on-delivery"
+                                           @if(old('payment_method') === 'M-pesa-on-delivery') checked @endif
+                                           class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="mpesa-ondeliv">On Delivery</label>
                                 </div>
                             </div>
                             <div class="col border-left border-dark">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="paypal-inst" name="payment_method" value="paypal" @if(old('payment_method') === 'paypal') checked @endif
-                                    class="custom-control-input @error('payment_method') is-invalid @enderror" required>
+                                    <input type="radio" id="paypal-inst" name="payment_method" value="paypal"
+                                           @if(old('payment_method') === 'paypal') checked @endif
+                                           class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="paypal-inst">PayPal</label>
                                 </div>
                                 <hr>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="cash" name="payment_method" value="cash" @if(old('payment_method') === 'cash') checked @endif
-                                    class="custom-control-input @error('payment_method') is-invalid @enderror" required>
+                                    <input type="radio" id="cash" name="payment_method" value="cash" @if(old('payment_method') === 'cash') checked
+                                           @endif
+                                           class="custom-control-input @error('payment_method') is-invalid @enderror" required>
                                     <label class="custom-control-label" for="cash">Cash On Delivery</label>
-                                    @error('payment_method')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror
+                                    @error('payment_method')<span class="invalid-feedback"
+                                                                  role="alert"><strong>{{ $message }}</strong></span>@enderror
                                 </div>
                             </div>
                         </div>
                         @error('payment_method')
-                            <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -270,7 +283,25 @@
         </div>
     </div>
 
+    @once
+        @push('scripts')
+            <script src="{{ asset('vendor/TomSelect/tom-select.js') }}"></script>
+            <script>
+                new TomSelect("#select-phone", {
+                    create: true,
+                    createFilter: function(input) {
+                        return (input.length >= 9 && input.length <= 12) && input.match(/^[0-9]*$/);
+                    },
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
+            </script>
+        @endpush
+    @endonce
+
     <!--    PayPal Integration    -->
-<!--<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>-->
+    <!--<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>-->
 
 @endsection

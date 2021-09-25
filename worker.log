@@ -1,0 +1,1111 @@
+[2021-09-23 17:12:45][22] Processing: App\Jobs\ProcessOrder
+[2021-09-23 17:13:16][22] Processed:  App\Jobs\ProcessOrder
+[2021-09-23 17:17:58][23] Processing: App\Jobs\ProcessOrder
+[2021-09-23 17:18:25][23] Processed:  App\Jobs\ProcessOrder
+[2021-09-23 17:33:45][24] Processing: App\Jobs\ProcessOrder
+[2021-09-23 17:34:12][24] Processed:  App\Jobs\ProcessOrder
+[2021-09-23 19:59:21][25] Processing: App\Jobs\ProcessOrder
+[2021-09-23 19:59:28][25] Processed:  App\Jobs\ProcessOrder
+[2021-09-23 20:00:28][26] Processing: App\Jobs\ProcessOrder
+[2021-09-23 20:00:33][26] Processed:  App\Jobs\ProcessOrder
+[2021-09-24 08:29:42][27] Processing: App\Jobs\ProcessOrder
+[2021-09-24 08:29:50][27] Processed:  App\Jobs\ProcessOrder
+[2021-09-24 23:44:44][28] Processing: App\Jobs\ProcessOrder
+[2021-09-24 23:44:45][28] Processed:  App\Jobs\ProcessOrder
+[2021-09-24 23:48:54][29] Processing: App\Jobs\ProcessOrder
+[2021-09-24 23:48:55][29] Processed:  App\Jobs\ProcessOrder
+[2021-09-24 23:50:57][30] Processing: App\Jobs\ProcessOrder
+[2021-09-24 23:50:58][30] Processed:  App\Jobs\ProcessOrder
+[2021-09-24 23:54:45][31] Processing: App\Jobs\ProcessOrder
+[2021-09-24 23:54:58][31] Processed:  App\Jobs\ProcessOrder
+[2021-09-25 00:00:59][32] Processing: App\Jobs\ProcessOrder
+[2021-09-25 00:01:58][32] Processed:  App\Jobs\ProcessOrder
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+
+   ParseError 
+
+  syntax error, unexpected identifier "Route"
+
+  at /home/red_beard/Desktop/PHP/Apps/suf/routes/web.php:99
+     95▕         
+     96▕         Route::prefix('cms')
+     97▕ 
+     98▕         //  Admin Routes
+  ➜  99▕         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    100▕         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('put_profile');
+    101▕         Route::patch('/password', [AdminController::class, 'updatePassword'])->name('password');
+    102▕ 
+    103▕         //  CREATE ROUTES
+
+      [2m+3 vendor frames [22m
+  4   /home/red_beard/Desktop/PHP/Apps/suf/app/Providers/RouteServiceProvider.php:48
+      Illuminate\Routing\RouteRegistrar::group()
+
+      [2m+15 vendor frames [22m
+  20  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()
+[2021-09-25 20:04:25][33] Processing: App\Mail\ContactUs
+[2021-09-25 20:04:32][33] Processed:  App\Mail\ContactUs
+[2021-09-25 20:10:38][34] Processing: App\Mail\ContactUs
+[2021-09-25 20:10:43][34] Processed:  App\Mail\ContactUs
+[2021-09-25 20:21:14][35] Processing: App\Mail\ContactUs
+[2021-09-25 20:21:26][35] Processed:  App\Mail\ContactUs
+[2021-09-25 20:23:33][36] Processing: App\Mail\ContactUs
+[2021-09-25 20:23:37][36] Processed:  App\Mail\ContactUs
