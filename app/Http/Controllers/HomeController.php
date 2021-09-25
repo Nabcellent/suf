@@ -16,24 +16,24 @@ class HomeController extends Controller
      * @return Factory|View|Application
      */
     public function index(): Factory|View|Application {
-        //  Get Featured Products
-        $featuredProducts = Product::products()->where('products.status', 1)
-            ->where('is_featured', 'Yes')->has('variations')->get()->toArray();
-
         //  Get Latest Products
         $new = Product::join('admins', 'admins.user_id', 'seller_id')
             ->select('products.*', 'admins.username', 'section.title AS section')
             ->join('categories AS cat', 'products.category_id', '=', 'cat.id')
             ->join('categories AS section', 'cat.section_id', '=', 'section.id')
-            ->where(['products.status' => 1])->has('variations')->orderByDesc('products.id')->limit(12)->get()->toArray();
+            ->where(['products.status' => 1])->has('variations')->orderByDesc('products.id')->limit(12)->get();
 
-        //  Get Top Products
-        $topProducts = Product::where('status', 1)->has('variations')->orderByDesc('id')->limit(10)->get()->shuffle()->toArray();
+        $data = [
+            'featuredProducts' => Product::products()->where('products.status', 1)
+                ->where('is_featured', 'Yes')->has('variations')->get(),
+            'newProducts' => $new,
+            'topProducts' => Product::where('status', 1)->has('variations')->orderByDesc('id')
+                ->limit(10)->get()->shuffle(),
+            'banners' => Banner::getBanners(),
+            'metaDesc' => "Purchase fashionable, clothes for Strathmore University conveniently at a good price.",
+            'metaKeywords' => "suf, Su-F, strathmore fashion, buy clothes, fashion, clothes, strathmore ecommerce, suf store, fashion store, delivery, become a seller",
+        ];
 
-        //  Get banners & Ad boxes
-        $banners = Banner::getBanners();
-
-        return View('home')
-            ->with(compact('banners', 'featuredProducts', 'topProducts', 'new'));
+        return view('home', $data);
     }
 }

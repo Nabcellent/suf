@@ -69,6 +69,7 @@ class OrderController extends Controller
                 'cart' => $cartItems,
                 'addresses' => Auth::user()->addresses,
                 'phones' => Auth::user()->phones,
+                'metaDesc' => 'Suf store checkout',
             ];
 
             return view('checkout', $data);

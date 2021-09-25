@@ -1,5 +1,5 @@
 @extends('/layouts.master')
-@section('title', 'Details')
+@section('title', $details->title)
 @section('content')
     @include('/partials/top_nav')
     <?php use App\Models\Product; ?>

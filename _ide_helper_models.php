@@ -224,13 +224,14 @@ namespace App\Models{
 /**
  * App\Models\CmsPage
  *
+ * @mixin IdeHelperCmsPage
  * @property int $id
  * @property string $title
- * @property string $description
+ * @property mixed $description
  * @property string $url
- * @property string $meta_title
- * @property string $meta_desc
- * @property string $meta_keywords
+ * @property string|null $meta_title
+ * @property mixed|null $meta_desc
+ * @property string|null $meta_keywords
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -247,7 +248,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereUrl($value)
- * @mixin \Eloquent
  */
 	class IdeHelperCmsPage extends \Eloquent {}
 }
@@ -444,32 +444,6 @@ namespace App\Models{
  * @method static Builder|Phone whereUserId($value)
  */
 	class IdeHelperPhone extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Policy
- *
- * @mixin IdeHelperPolicy
- * @property int $id
- * @property string $title
- * @property string $url
- * @property string $description
- * @property int $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Policy newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Policy newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Policy query()
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Policy whereUrl($value)
- */
-	class IdeHelperPolicy extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -22,8 +22,7 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    public function index($categoryId = null): View|Factory|string|Application
-    {
+    public function index($categoryId = null): View|Factory|string|Application {
         $products = Product::products()->where('products.status', 1);
 
         $catDetails = "";
@@ -49,8 +48,6 @@ class ProductController extends Controller
     }
 
     public function showDetails($id): Factory|View|Application {
-        app('redirect')->setIntendedUrl(URL::previous());
-
         $data['details'] = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
             $query->where('status', 1);
         }, 'images'])->find($id);
@@ -60,6 +57,9 @@ class ProductController extends Controller
         $data['totalStock'] = Product::stock($id, "sum", $attributes);
         $data['related'] = Product::with('brand')->where('category_id', $data['details']->subCategory->id)
             ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get();
+
+        $data['metaDesc'] = $data['details']->description;
+        $data['metaKeywords'] = $data['details']->keywords;
 
         return view('details', $data);
     }
@@ -151,9 +151,13 @@ class ProductController extends Controller
     }
 
     public function cart(): View|Factory|Redirector|RedirectResponse|Application {
-        $cart = Cart::cartItems();
+        $data = [
+            'cart' => Cart::cartItems(),
+            'metaDesc' => 'SuF store Shopping cart',
+            'metaKeywords' => 'Su-F Cart, shopping cart, store cart, fashion store shopping cart, suf cart, Ecommerce website, online store'
+        ];
 
-        return view('cart', ['cart' => $cart]);
+        return view('cart', $data);
     }
 
     /**

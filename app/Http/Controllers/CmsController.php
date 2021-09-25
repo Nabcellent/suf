@@ -9,7 +9,13 @@ use Illuminate\Contracts\View\View;
 
 class CmsController extends Controller {
     public function index(): Factory|View|Application {
-        $data['cms'] = CmsPage::all();
+        $cms = CmsPage::all();
+
+        $data = [
+            'cms' => $cms,
+            'metaKeywords' => implode(', ',$cms->pluck('meta_keywords')->toArray()),
+            'metaDesc' => $cms->random()->meta_desc->toPlainText(),
+        ];
 
         return view('info', $data);
     }

@@ -36,10 +36,10 @@ class Banner extends Model
      */
     public static function getBanners(): array {
         return [
-            'sliders' => self::select('image', 'alt', 'title', 'description')
-                ->where(['status' => 1, 'type' => 'Slider'])->get()->toArray(),
-            'ads' => self::select('image', 'link', 'title', 'description', 'alt')
-                ->where(['status' => 1, 'type' => 'Box'])->get()->toArray()
+            'sliders' => self::select(['image', 'alt', 'title', 'description'])
+                ->where(['status' => 1, 'type' => 'Slider'])->get(),
+            'ads' => self::select(['image', 'link', 'title', 'description', 'alt'])
+                ->where(['status' => 1, 'type' => 'Box'])->get()
         ];
     }
 
