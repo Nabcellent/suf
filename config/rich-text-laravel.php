@@ -1,5 +1,7 @@
 <?php
 
+use Tonysm\RichTextLaravel\Models\RichText;
+
 return [
     /*
      |--------------------------------------------------------------------------
@@ -11,5 +13,5 @@ return [
      | using this Eloquent Model. You can override this if you really need to.
      |
      */
-    'model' => \Tonysm\RichTextLaravel\Models\RichText::class,
+    'model' => RichText::class,
 ];

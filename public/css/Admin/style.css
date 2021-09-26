@@ -593,8 +593,8 @@ table.crud_table tr td.title {
     max-width: 6rem;
 }
 table.crud_table tr td img {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     object-fit: cover;
     border-radius: 2.5rem;
 }

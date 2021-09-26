@@ -17,11 +17,9 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
+                                    <th>Name</th>
                                     <th>email</th>
                                     <th>phone</th>
-                                    <th>gender</th>
                                     <th>Orders</th>
                                     @if(!isSeller())
                                         <th>Status</th>
@@ -35,11 +33,9 @@
                                 @forelse($customers as $customer)
                                     <tr>
                                         <td></td>
-                                        <td>{{ $customer->first_name }}</td>
-                                        <td>{{ $customer->last_name }}</td>
+                                        <td>{{ $customer->first_name . ' ' . $customer->last_name }}</td>
                                         <td>{{ $customer->email }}</td>
                                         <td>{{ $customer->primaryPhone->phone }}</td>
-                                        <td>{{ $customer->gender }}</td>
                                         <td>{{ $customer->orders_count }}</td>
                                         @if(!isSeller())
                                             <td style="font-size: 14pt">

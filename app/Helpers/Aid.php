@@ -58,9 +58,9 @@ class Aid {
 
         return $route->with('toast_success', $msg);
     }
-    public static function goWithDanger($to = 'dashboard', $msg = NULL): RedirectResponse {
+    public static function goWithError($to = 'admin.dashboard', $msg = NULL): RedirectResponse {
         $msg = $msg ? $msg : __('msg.rnf');
-        return self::goToRoute($to)->with('flash_danger', $msg);
+        return self::goToRoute($to)->with('sweet_error', $msg);
     }
 
     public static function goToRoute($goto): RedirectResponse {

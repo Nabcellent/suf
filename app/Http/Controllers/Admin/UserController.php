@@ -39,7 +39,7 @@ class UserController extends Controller {
     }
 
     public function showAllUsers(): Factory|View|Application {
-        $users['users'] = User::where('is_admin', '<>', 7)->latest()->get();
+        $users['users'] = User::with('roles')->where('is_admin', '<>', 7)->latest()->get();
 
         return view('Admin.Users.users', $users);
     }

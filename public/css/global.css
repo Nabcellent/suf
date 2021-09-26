@@ -1,0 +1,31 @@
+
+:root {
+    --suf-red: rgb(153, 0, 0);
+    --suf-red-l1: rgb(173, 10, 10)
+}
+
+
+.text-red {
+    color: #900!important;
+}
+
+
+.btn-red {
+    color: #fff;
+    background-color: var(--suf-red);
+    border-color: var(--suf-red);
+}
+.btn-red:hover {
+    color: #fff;
+    background-color: var(--suf-red-l1);
+    border-color: var(--suf-red-l1);
+}
+.btn-outline-red {
+    color: var(--suf-red);
+    border-color: var(--suf-red);
+}
+.btn-outline-red:hover {
+    color: #fff;
+    background-color: var(--suf-red);
+    border-color: var(--suf-red);
+}

@@ -30,8 +30,9 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CouponSeeder::class,
             OrderSeeder::class,
-            PolicySeeder::class,*/
-            CmsPageSeeder::class,
+            PolicySeeder::class,
+            CmsPageSeeder::class,*/
+            PermissionSeeder::class,
         ]);
 
         /*User::factory()->count(20)

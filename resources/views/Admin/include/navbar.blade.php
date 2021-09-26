@@ -182,15 +182,15 @@
                     @if(isRed())
                         <div class="nav_dropdown">
                             <a href="#" class="nav_link">
-                                <i class='bx bxs-user-account nav_icon' ></i>
-                                <span class="nav_name">Accounts</span>
+                                <i class="fas fa-user-shield nav_icon"></i>
+                                <span class="nav_name">Permissions</span>
                                 <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
                             </a>
                             <div class="nav_dropdown_collapse">
                                 <div class="nav_dropdown_content">
-                                    <a href="#" class="nav_dropdown_item">Passwords</a>
-                                    <a href="#" class="nav_dropdown_item">Mail</a>
-                                    <a href="#" class="nav_dropdown_item">Account</a>
+                                    <a href="{{ route('admin.permission.index') }}" class="nav_dropdown_item">List</a>
+                                    <a href="{{ route('admin.role.assign') }}" class="nav_dropdown_item">Assign</a>
+                                    <a href="{{ route('admin.permission.create') }}" class="nav_dropdown_item">Create</a>
                                 </div>
                             </div>
                         </div>

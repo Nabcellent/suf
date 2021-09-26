@@ -27,6 +27,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "livewire/livewire": "^2.6",
+        "spatie/laravel-permission": "^5.1",
         "spatie/laravel-query-builder": "^3.6",
         "spatie/laravel-sitemap": "^6.0",
         "spatie/robots-txt": "^2.0",

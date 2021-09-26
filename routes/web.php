@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\CmsController as AdminCmsController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\API\Mpesa\MpesaController;
 use App\Http\Controllers\API\Mpesa\StkController;
@@ -222,6 +224,28 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
         //  CHARTS ROUTE
         Route::post('/chart', [ChartController::class, 'getTimelyData']);
+
+
+        //  SUPER ADMIN ROUTES
+        Route::middleware('red')->group(function() {
+            Route::prefix('/permissions')->name('permission.')->group(function() {
+                Route::get('/', [PermissionController::class, 'index'])->name('index');
+                Route::get('/create', [PermissionController::class, 'create'])->name('create');
+                Route::post('/store', [PermissionController::class, 'store'])->name('store');
+                Route::get('/show/{id}', [PermissionController::class, 'show'])->name('show');
+                Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('edit');
+                Route::put('/update/{id}', [PermissionController::class, 'update'])->name('update');
+            });
+            Route::prefix('/roles')->name('role.')->group(function() {
+                Route::get('/assign', [RoleController::class, 'showAssign'])->name('assign');
+                Route::post('/assign/store', [RoleController::class, 'storeAssign'])->name('assign.store');
+                Route::get('/assign/data', [RoleController::class, 'getAssignData']);
+                Route::post('/store', [RoleController::class, 'store'])->name('store');
+                Route::get('/show/{id}', [RoleController::class, 'show'])->name('show');
+                Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
+                Route::put('/update/{id}', [RoleController::class, 'update'])->name('update');
+            });
+        });
     });
 });
 

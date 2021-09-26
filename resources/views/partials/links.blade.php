@@ -24,5 +24,6 @@
 @livewireStyles
 
 {{--    MY CSS    --}}
+<link href="{{ asset('css/global.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 <link rel="stylesheet" href="{{asset('css/responsive.css')}}">

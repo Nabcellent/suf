@@ -19,12 +19,11 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Image</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
+                                    <th>Name</th>
                                     <th>email</th>
                                     <th>Phone</th>
+                                    <th>Role(s)</th>
                                     <th>Date Created</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -33,18 +32,17 @@
                                 @forelse($users as $user)
                                     <tr>
                                         <td></td>
-                                        @if(isset($user->image))
+                                        @if(isset($user->image) && file_exists(asset('/images/users/profile/' . $user->image)))
                                             <td><img src="{{ asset('/images/users/profile/' . $user->image) }}" alt="profile" class="img-fluid"></td>
                                         @else
                                             <td><img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid"></td>
                                         @endif
-                                        <td>{{ $user->first_name }}</td>
-                                        <td>{{ $user->last_name }}</td>
+                                        <td>{{ "$user->first_name $user->last_name" }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->primaryPhone->phone }}</td>
+                                        <td>{{ count($user->roles) ? $user->roles->implode('name', ', ') : 'N/A' }}</td>
                                         <td>{{ date('d.m.Y', strtotime($user->created_at)) }}</td>
-                                        <td style="font-size: 14pt">
-
+                                        <td class="action">
                                             @if($user->status)
                                                 <a class="update_status" data-id="{{ $user->id }}" data-model="User" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
@@ -52,9 +50,6 @@
                                                 <a class="update_status" data-id="{{ $user->id }}" data-model="User" title="Update Status"
                                                    style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                             @endif
-
-                                        </td>
-                                        <td class="action">
                                             <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-success"></i></a>
                                             <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $user->id }}" data-model="User">
                                                 <i class="fas fa-trash text-danger"></i>

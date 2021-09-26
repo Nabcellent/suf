@@ -62,14 +62,14 @@
                                             <label for="">Select Categories</label>
                                             <select class="form-control @error('categories') is-invalid @enderror" id="categories_s2" name="categories[]" multiple="multiple" style="width: 100%" aria-label>
                                                 @foreach($sections as $section)
-                                                    <optgroup label="{{ $section['title'] }}"></optgroup>
-                                                    @foreach($section['categories'] as $category)
-                                                        <option value="{{ $category['id'] }}" @if(isset($coupon) && in_array($category['id'], explode(',', $coupon['categories']), false)) selected @endif >
-                                                            &nbsp; {{ $category['title'] }}
+                                                    <optgroup label="{{ $section->title }}"></optgroup>
+                                                    @foreach($section->categories as $category)
+                                                        <option value="{{ $category->id }}" @if(isset($coupon) && in_array($category->id, explode(',', $coupon->categories))) selected @endif >
+                                                            &nbsp; {{ $category->title }}
                                                         </option>
-                                                        @foreach($category['sub_categories'] as $subCategory)
-                                                            <option value="{{ $subCategory['id'] }}" @if(isset($coupon) && in_array($subCategory['id'], explode(',', $coupon['categories']), false)) selected @endif >
-                                                                &nbsp; -- {{ $subCategory['title'] }}</option>
+                                                        @foreach($category->subCategories as $subCategory)
+                                                            <option value="{{ $subCategory->id }}" @if(isset($coupon) && in_array($subCategory->id, explode(',', $coupon->categories))) selected @endif >
+                                                                &nbsp; -- {{ $subCategory->title }}</option>
                                                         @endforeach
                                                     @endforeach
                                                 @endforeach
@@ -77,10 +77,11 @@
                                         </div>
                                         <div class="form-group col">
                                             <label for="">Select Users</label>
-                                            <select class="form-control @error('users') is-invalid @enderror select2" name="users[]" multiple="multiple" style="width: 100%" aria-label>
+                                            <select class="form-control @error('users') is-invalid @enderror select2" name="users[]" multiple="multiple" style="width: 100%"
+                                                    aria-label="">
                                                 @foreach($users as $user)
-                                                    <option value="{{ $user['email'] }}" @if(isset($coupon) && in_array($user['email'], explode(',', $coupon['users']), false)) selected @endif >
-                                                        &nbsp; {{ $user['email'] }}</option>
+                                                    <option value="{{ $user->email }}" @if(isset($coupon) && in_array($user->email, explode(',', $coupon->users))) selected @endif >
+                                                        &nbsp; {{ $user->email }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -94,7 +95,7 @@
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
                                                 <input type="radio" id="single" name="coupon_type" class="custom-control-input" @if(old('gender')) checked @endif value="Single"
-                                                       @if(isset($coupon)) {{ $coupon['coupon_type'] === 'Single' ? 'checked' : '' }} @endif required>
+                                                       @if(isset($coupon)) {{ $coupon->coupon_type === 'Single' ? 'checked' : '' }} @endif required>
                                                 <label class="custom-control-label" for="single">Single</label>
                                             </div>
                                         </div>
@@ -106,7 +107,7 @@
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
                                                 <input type="radio" id="fixed" name="amount_type" class="custom-control-input" @if(old('gender')) checked @endif value="Fixed"
-                                                       @if(isset($coupon)) {{ $coupon['amount_type'] === 'Fixed' ? 'checked' : '' }} @endif required>
+                                                       @if(isset($coupon)) {{ $coupon->amount_type === 'Fixed' ? 'checked' : '' }} @endif required>
                                                 <label class="custom-control-label" for="fixed">Fixed (in KSH)</label>
                                             </div>
                                         </div>
@@ -115,12 +116,12 @@
                                         <div class="form-group col">
                                             <label for="">Amount</label>
                                             <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror" placeholder="Enter coupon amount" aria-label required
-                                                   value="@if(isset($coupon)){{ $coupon['amount'] }}@endif">
+                                                   value="@if(isset($coupon)){{ $coupon->amount }}@endif">
                                         </div>
                                         <div class="form-group col">
                                             <label>Expiry Date</label>
                                             <input type="date" class="form-control @error('expiry') is-invalid @enderror" name="expiry" placeholder="Enter expiry date" min="2021-01-01" max="2024-12-31" required
-                                                   value="@if(isset($coupon)){{ $coupon['expiry'] }}@endif">
+                                                   value="@if(isset($coupon)){{ $coupon->expiry }}@endif">
                                         </div>
                                     </div>
                                 </div>
@@ -141,9 +142,9 @@
                             <a href="{{ route('admin.coupons') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Coupons List<span class="badge badge-primary badge-pill">14</span>
                             </a>
-                            @if(isset($coupon))
+                            @isset($coupon)
                                 <a href="{{ route('admin.coupon') }}" class="list-group-item list-group-item-action">Create Coupon</a>
-                            @endif
+                            @endisset
                             <a href="{{ route('admin.customers') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 All Customers<span class="badge badge-primary badge-pill">14</span>
                             </a>

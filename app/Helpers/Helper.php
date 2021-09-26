@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 function User(): ?Authenticatable {
     return Auth::user();
@@ -201,6 +203,8 @@ function getModel($model): string {
         'Order' => Order::class,
         'Coupon' => Coupon::class,
         'Cmspage' => CmsPage::class,
+        'Role' => Role::class,
+        'Permission' => Permission::class,
         'Variation', 'Variations_option' => Variation::class,
         'Product\'s Image' => productsImage::class,
     };

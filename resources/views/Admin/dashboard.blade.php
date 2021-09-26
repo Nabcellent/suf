@@ -1,63 +1,54 @@
 @extends('Admin.layouts.app')
-
 @section('content')
 
     <div class="container-fluid p-0">
         <div class="row">
-            <div class="col-md col-sm-12 mb-4">
+            <div class="col-12 col-md-3 mb-4">
                 <a href="{{ route('admin.products') }}" class="card-link">
-                    <div class="card-body shadow">
+                    <div class="card-body shadow position-relative">
                         <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Products</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-primary">{{ tableCount()['products'] }}</span>
-                                </div>
-                            </div>
+                            <div class="col text-xs font-weight-bold text-primary text-uppercase mb-1">Products</div>
                             <div class="col-auto">
                                 <i class="fab fa-opencart fa-2x text-gray-300"></i>
                             </div>
                         </div>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                {{ tableCount()['products'] }} <span class="visually-hidden">unread messages</span>
+                            </span>
                     </div>
                 </a>
-                <div class="card border-primary shadow">
-                </div>
+                <div class="card border-primary shadow"></div>
             </div>
 
-            <div class="col-md col-sm-12 mb-4">
+            <div class="col-12 col-md-3 mb-4">
                 <a href="{{ route('admin.orders') }}" class="card-link text-danger">
-                    <div class="card-body shadow">
+                    <div class="card-body shadow position-relative">
                         <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Orders</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-danger">{{ tableCount()['orders'] }}</span>
-                                </div>
-                            </div>
+                            <div class="col text-xs font-weight-bold text-danger text-uppercase mb-1">Orders</div>
                             <div class="col-auto">
                                 <i class="fas fa-tasks fa-2x text-gray-300"></i>
                             </div>
                         </div>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ tableCount()['orders'] }} <span class="visually-hidden">unread messages</span>
+                            </span>
                     </div>
                 </a>
-                <div class="card border-danger">
-                </div>
+                <div class="card border-danger"></div>
             </div>
 
-            <div class="col-md col-sm-12 mb-4">
+            <div class="col-12 col-md-3 mb-4">
                 <a href="{{ route('admin.customers') }}" class="text-success card-link">
-                    <div class="card-body shadow">
+                    <div class="card-body shadow position-relative">
                         <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Customers</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    <span class="badge badge-pill badge-success">{{ tableCount()['customers'] }}</span>
-                                </div>
-                            </div>
+                            <div class="col text-xs font-weight-bold text-success text-uppercase mb-1">Customers</div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-gray-300"></i>
                             </div>
                         </div>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                {{ tableCount()['customers'] }} <span class="visually-hidden">unread messages</span>
+                            </span>
                     </div>
                 </a>
                 <div class="card border-success shadow">
@@ -65,20 +56,18 @@
             </div>
 
             @if(isSuper() || isRed())
-                <div class="col-md col-sm-12 mb-4">
+                <div class="col-12 col-md-3 mb-4">
                     <a href="{{ route('admin.sellers') }}" class="card-link text-info">
-                        <div class="card-body shadow">
+                        <div class="card-body shadow position-relative">
                             <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <span class="badge badge-pill badge-info">{{ tableCount()['sellers'] }}</span>
-                                    </div>
-                                </div>
+                                <div class="col text-xs font-weight-bold text-info text-uppercase mb-1">Sellers</div>
                                 <div class="col-auto">
                                     <i class="fas fa-user-tag fa-2x text-gray-300"></i>
                                 </div>
                             </div>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
+                                {{ tableCount()['sellers'] }} <span class="visually-hidden">unread messages</span>
+                            </span>
                         </div>
                     </a>
                     <div class="card border-info shadow">
@@ -92,38 +81,40 @@
                 <div class="card text-light p-1 p-md-3 chart_frame">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days"  aria-controls="nav-days" aria-selected="true">Per Day</a>
-                            <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" aria-controls="nav-months" aria-selected="false">Per Month</a>
+                            <a class="nav-link active" id="nav-days-tab" data-toggle="tab" href="#nav-days" aria-controls="nav-days"
+                               aria-selected="true">Per Day</a>
+                            <a class="nav-link" id="nav-months-tab" data-toggle="tab" href="#nav-months" aria-controls="nav-months"
+                               aria-selected="false">Per Month</a>
                             <div class="data_options d-none d-md-block">
                                 <div class="row justify-content-end">
                                     <div class="col-auto pr-0 d-flex align-items-center">
-                                        <div>
-                                            <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input chart-toggle" id="products" name="Product" value="Product" checked>
-                                                <label class="custom-control-label" for="products">Products</label>
-                                            </div>
-                                            <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input chart-toggle" id="orders" name="Order" value="Order" checked>
-                                                <label class="custom-control-label" for="orders">Orders</label>
-                                            </div>
-                                            <div class="custom-control custom-switch custom-control-inline">
-                                                <input type="checkbox" class="custom-control-input chart-toggle" id="customers" name="Customer" value="Customer">
-                                                <label class="custom-control-label" for="customers">Customers</label>
-                                            </div>
-                                            @if(isSuper() || isRed())
-                                                <div class="custom-control custom-switch custom-control-inline">
-                                                    <input type="checkbox" class="custom-control-input chart-toggle" id="sellers" name="Seller" value="Seller">
-                                                    <label class="custom-control-label" for="sellers">Sellers</label>
-                                                </div>
-                                            @endif
+                                        <div class="custom-control custom-switch custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input chart-toggle" id="products" name="Product"
+                                                   value="Product" checked>
+                                            <label class="custom-control-label" for="products">Products</label>
                                         </div>
+                                        <div class="custom-control custom-switch custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input chart-toggle" id="orders" name="Order"
+                                                   value="Order" checked>
+                                            <label class="custom-control-label" for="orders">Orders</label>
+                                        </div>
+                                        <div class="custom-control custom-switch custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input chart-toggle" id="customers" name="Customer"
+                                                   value="Customer">
+                                            <label class="custom-control-label" for="customers">Customers</label>
+                                        </div>
+                                        @if(isSuper() || isRed())
+                                            <div class="custom-control custom-switch custom-control-inline">
+                                                <input type="checkbox" class="custom-control-input chart-toggle" id="sellers" name="Seller"
+                                                       value="Seller">
+                                                <label class="custom-control-label" for="sellers">Sellers</label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="col-auto pl-0">
                                         <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="inputGroupSelect01">Chart</label>
-                                            </div>
-                                            <select class="custom-select" id="chart_type">
+                                            <span class="input-group-text py-0" id="basic-addon1">Chart</span>
+                                            <select class="form-control" id="chart_type">
                                                 <option selected value="line">Line Graph</option>
                                                 <option value="bar">Bar Graph</option>
                                             </select>
@@ -190,12 +181,12 @@
 
                                     @foreach($newOrders as $order)
                                         <?php
-                                            $statusColor = match(strtolower($order->status)) {
-                                                'pending' => 'warning',
-                                                'completed' => 'success',
-                                                'cancelled' => 'danger',
-                                                default => 'secondary',
-                                            }
+                                        $statusColor = match (strtolower($order->status)) {
+                                            'pending' => 'warning',
+                                            'completed' => 'success',
+                                            'cancelled' => 'danger',
+                                            default => 'secondary',
+                                        }
                                         ?>
                                         <tr>
                                             <td>{{ $order->id }}</td>
@@ -224,7 +215,8 @@
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
                         <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
                                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
@@ -239,9 +231,11 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="text-center">
-                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="{{ asset('images/illustrations/undraw_web_developer_p3e5.svg') }}" alt="">
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                 src="{{ asset('images/illustrations/undraw_web_developer_p3e5.svg') }}" alt="">
                         </div>
-                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
+                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow"
+                                                                                              href="https://undraw.co/">unDraw</a>, a
                             constantly updated collection of beautiful svg images that you can use
                             completely free and without attribution!</p>
                         <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
