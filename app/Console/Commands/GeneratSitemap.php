@@ -38,7 +38,7 @@ class GeneratSitemap extends Command
      * @return void
      */
     public function handle() {
-        SitemapGenerator::create(config('app.url'))
+        SitemapGenerator::create(env('APP_URL'))
             ->shouldCrawl(function (UriInterface $url) {
                 return !str_contains($url->getPath(), '/contact');
             })->writeToFile(public_path('sitemap.xml'));
