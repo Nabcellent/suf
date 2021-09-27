@@ -5,9 +5,9 @@
             {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
             {{ Str::ucfirst(User()->last_name) }}
             @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
-                <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt="" data-toggle="dropdown">
+                <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid dropdown-toggle" alt="" data-bs-toggle="dropdown">
             @else
-                <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid" alt="" data-toggle="dropdown">
+                <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid dropdown-toggle" alt="" data-bs-toggle="dropdown">
             @endif
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
@@ -16,7 +16,8 @@
                 <a class="dropdown-item" href="#">Notifications</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('home') }}">Store</a>
-                <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="dropdown-item" href="{{ route('admin.logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Exit') }}
                 </a>
                 <form id="logout-topnav-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
@@ -25,10 +26,8 @@
             </div>
         </div>
         <div class="header_title d-flex">
-            <a href="/" class="header_logo">Suf-Store </a>
-
+            <a href="/" class="header_logo">SuF-Store </a>
             <span class="text-muted"> &nbsp; Dashboard</span>
-
         </div>
         <div class="header_search">
             <input type="search" class="header_input" placeholder="Search" aria-label>
@@ -70,7 +69,7 @@
                     <div class="dropdown-divider m-0"></div>
                     <div class="nav_dropdown">
                         <a href="#" class="nav_link">
-                            <i class='bx bxs-shopping-bags nav_icon' ></i>
+                            <i class='bx bxs-shopping-bags nav_icon'></i>
                             <span class="nav_name">Products</span>
                             <i class="bx bx-chevrons-down bx-fade-down-hover nav_icon nav_dropdown_icon"></i>
                         </a>
@@ -124,12 +123,12 @@
                     <h3 class="nav_subtitle">Apps</h3>
                     <div class="dropdown-divider m-0"></div>
                     <a href="{{ route('admin.contacts') }}" class="nav_link">
-                        <i class='bx bxs-contact nav_icon' ></i>
+                        <i class='bx bxs-contact nav_icon'></i>
                         <span class="nav_name">Contacts</span>
                     </a>
                     @if(isTeamSA())
                         <a href="{{ route('admin.emails') }}" class="nav_link">
-                            <i class='bx bx-mail-send nav_icon' ></i>
+                            <i class='bx bx-mail-send nav_icon'></i>
                             <span class="nav_name">Emails</span>
                         </a>
                         <a href="#" class="nav_link">
@@ -200,7 +199,7 @@
                         </a>
                     @endif
                     <a href="{{ route('admin.profile') }}" class="nav_link">
-                        <i class='bx bxs-user-account nav_icon' ></i>
+                        <i class='bx bxs-user-account nav_icon'></i>
                         <span class="nav_name">Profile</span>
                     </a>
                 </div>
@@ -210,7 +209,7 @@
                     <div class="dropdown-divider m-0"></div>
                     <div class="nav_dropdown">
                         <a href="#" class="nav_link">
-                            <i class='bx bxs-server nav_icon' ></i>
+                            <i class='bx bxs-server nav_icon'></i>
                             <span class="nav_name">Data</span>
                             <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
                         </a>
@@ -223,14 +222,15 @@
                     </div>
 
                     <a href="#" class="nav_link">
-                        <i class='bx bx-info-circle nav_icon' ></i>
+                        <i class='bx bx-info-circle nav_icon'></i>
                         <span class="nav_name">Status</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <a href="{{ route('logout') }}" class="nav_link nav_logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <a href="{{ route('logout') }}" class="nav_link nav_logout"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bx bx-log-out nav_icon"></i>
             <span class="nav_name">{{ __('Leave') }}</span>
         </a>

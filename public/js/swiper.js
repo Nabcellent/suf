@@ -82,8 +82,8 @@ $(() => {
         galleryTop.autoplay.start();
     });
 
-    let $galleryTopImage = $('.gallery-top .swiper-slide');
-    $galleryTopImage.on('mousemove', function(event) {
+    let galleryTopImage = $('.gallery-top .swiper-slide');
+    galleryTopImage.on('mousemove', function(event) {
         let width = $(this).width();
         let height = $(this).height();
         let mouseX = event.offsetX;
@@ -94,7 +94,7 @@ $(() => {
 
         $(this).css('background-position', `${bgPosX}% ${bgPosY}%`);
     });
-    $galleryTopImage.on('mouseleave', function () {
+    galleryTopImage.on('mouseleave', function () {
         $(this).css('background-position', `center`);
     })
 })

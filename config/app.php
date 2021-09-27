@@ -169,6 +169,7 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        Jorenvh\Share\Providers\ShareServiceProvider::class,
 
 
         /*
@@ -232,12 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'STK'       => SmoDav\Mpesa\Laravel\Facades\STK::class,
-        'Simulate'  => SmoDav\Mpesa\Laravel\Facades\Simulate::class,
-        'Registrar' => SmoDav\Mpesa\Laravel\Facades\Registrar::class,
-        'Identity'  => SmoDav\Mpesa\Laravel\Facades\Identity::class,
-
-        'Slack' => Gahlawat\Slack\Facade\Slack::class,
+        'Share' => Jorenvh\Share\ShareFacade::class,
 
     ],
 

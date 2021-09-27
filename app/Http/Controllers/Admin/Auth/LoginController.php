@@ -26,7 +26,7 @@ class LoginController extends Controller {
      * @return Application|Factory|View
      */
     public function showLoginForm(): View|Factory|Application {
-        return view('Admin.auth.login',[
+        return view('admin.auth.login',[
             'title' => 'Admin Login',
             'loginRoute' => 'admin.login',
             'forgotPasswordRoute' => 'admin.password.request',

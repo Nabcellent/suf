@@ -42,7 +42,7 @@ class RegisterController extends Controller
      * @return \Illuminate\View\View
      */
     public function showRegistrationForm(): \Illuminate\View\View {
-        return view('Admin.auth.register');
+        return view('admin.auth.register');
     }
 
     /**

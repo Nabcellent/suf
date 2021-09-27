@@ -41,7 +41,7 @@ class ReviewController extends Controller {
             }
 
             $values = ['review' => $request->input('review')];
-            $message = "Thank you! your review is appreciated.";
+            $message = "Thank you! for reviewing this product!";
         } else if($request->has('rating')) {
             $message = "Thank you for rating this product! 👍";
             $values = ['rating' => $request->input('rating')];

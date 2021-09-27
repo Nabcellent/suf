@@ -53,7 +53,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 //  PRODUCT ROUTES
 Route::get('/products/{categoryId?}', [ProductController::class, 'index'])->name('products');
-Route::get('/product/{id}/{title}', [ProductController::class, 'showDetails'])->name('product-details');
+Route::get('/product/{id}/{title}', [ProductController::class, 'show'])->name('product-details');
 Route::get('/search/products', [HomeController::class, 'search'])->name('search');
 
 //  CART ROUTES

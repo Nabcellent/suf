@@ -17,7 +17,7 @@ class CreateVariationsTable extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attribute_id')->constrained()->cascadeOnUpdate();
             $table->json('options');
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

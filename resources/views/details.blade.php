@@ -71,13 +71,11 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h6 class="brand-name">--> {{$product->brand->name}}</h6>
-                                    @auth()
-                                        <div class="d-flex align-items-center">
-                                            <div class="average-rating" data-id="{{ $product->id }}" title="Rate this product"
-                                                 data-rate-value="{{ $product->average_rating }}"></div>
-                                            <small>({{ $product->average_rating }})</small>
-                                        </div>
-                                    @endauth
+                                    <div class="d-flex align-items-center">
+                                        <div class="average-rating" title="Sign in and rate this product 😁"
+                                             data-rate-value="{{ $product->average_rating }}"></div>
+                                        <small>({{ $product->average_rating }})</small>
+                                    </div>
                                 </div>
                             </div>
                             <hr class="my-1 my-md-2">
@@ -163,17 +161,19 @@
             <div class="row product-info">
                 <div class="col">
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home">Product Details</a>
+                        <div class="nav nav-tabs" id="nav-tab">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home">Product Details</a>
                             @if(count($related))
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile">Related Products</a>
                             @endif
-                            <a class="nav-item nav-link active" id="nav-review-tab" data-toggle="tab" href="#nav-review">Product Reviews</a>
+                            @auth()
+                                <a class="nav-item nav-link" id="nav-review-tab" data-toggle="tab" href="#nav-review">Product Reviews</a>
+                            @endauth
                         </div>
                     </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade" id="nav-home">
-                            <table class="table table-dark table-hover">
+                    <div class="tab-content shadow" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home">
+                            <table class="table table-sm table-dark table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col" colspan="2">Details</th>
@@ -257,64 +257,83 @@
                             </div>
                         @endif
 
-                        <div class="tab-pane fade show active" id="nav-review">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <p class="m-0 pr-2">My rating ~ </p>
-                                        <div class="rating" title="Rate this product"
-                                             data-rate-value="{{ $product->average_rating }}"></div>
+                        @auth()
+                            <div class="tab-pane fade p-3 bg-light" id="nav-review">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <p class="m-0 pr-2">My rating ~ </p>
+                                            <div class="rating" title="Rate this product"
+                                                 data-rate-value="{{ $product->reviews->where('user_id', Auth::id())->first()->rating ?? 0 }}"></div>
+                                        </div>
+                                        <form id="review">
+                                            @csrf()
+                                            <div class="form-group">
+                                                <input id="review" value="{{ old('review') }}" type="hidden" name="review">
+                                                <trix-editor input="review" placeholder="write your review..."></trix-editor>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" placeholder="Write your review">
+                                                <button type="submit" class="btn btn-sm btn-outline-red">Submit Review</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <form id="review">
-                                        @csrf()
-                                        <div class="form-group">
-                                            <input id="review" value="{{ old('review') }}" type="hidden" name="review">
-                                            <trix-editor input="review" placeholder="write your review..."></trix-editor>
+                                    <div class="col-md-6">
+                                        <h5>Current reviews</h5>
+                                        <div class="list-group-flush" style="max-height:13rem; overflow-y: auto">
+                                            @forelse($product->reviews as $review)
+                                            <a href="#" class="list-group-item list-group-item-action {{ $review->user_id === Auth::id() ? 'active' : ''}}" aria-current="true">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <small>~ {{ $review->user->first_name }}</small>
+                                                    <small class="text-light"><i>{{ carbon()::createFromTimestamp(strtotime($review->created_at))->diffForHumans() }}</i></small>
+                                                </div>
+                                                <p class="mb-1">{!! $review->review !!}</p>
+                                                <div class="ratings"
+                                                     title="{{ (($review->user_id === Auth::id() ? 'Your' : "{$review->user->first_name}'s") . " rating") . ($review->rating > 4 ? '🌟' : '⭐') }}"
+                                                     data-rate-value="{{ $review->rating }}"></div>
+                                            </a>
+                                            @empty
+                                                <li class="list-group-item">No reviews</li>
+                                            @endforelse
                                         </div>
-                                        <div class="form-group text-right">
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}" placeholder="Write your review">
-                                            <button type="submit" class="btn btn-sm btn-outline-red">Submit Review</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-6">
-
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endauth
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="{{ asset('vendor/rater/rater.min.js') }}"></script>
+    <script>
+        $(".average-rating").rate({readonly: true});
+        $(".ratings").rate({readonly: true});
+
+        $(".rating").rate({
+            max_value: 5,
+            step_size: 0.5,
+            cursor: 'pointer',
+        });
+
+        $('.rating').on('change', function () {
+            const rating = $(this).rate("getValue");
+
+            if (rating) upsertReview({rating})
+        })
+    </script>
     @auth()
-        <script src="{{ asset('vendor/rater/rater.min.js') }}"></script>
         <script src="{{ asset('vendor/trix/trix.js') }}"></script>
         <script>
-            $(".average-rating").rate({readonly: true});
-
-            $(".rating").rate({
-                max_value: 5,
-                step_size: 0.5,
-                cursor: 'pointer',
-            });
-
-            $('.rating').on('change', function () {
-                const rating = $(this).rate("getValue");
-
-                if (rating)
-                    upsertReview({rating})
-            })
-
             const trixEditor = $('trix-editor').get(0).editor
             trixEditor.deactivateAttribute("bold")
 
-            addEventListener('trix-change', function(event) {
+            addEventListener('trix-change', function (event) {
                 localStorage["editorState"] = JSON.stringify(event.target.editor)
             })
 
-            $('#review').on('submit', function(e) {
+            $('#review').on('submit', function (e) {
                 e.preventDefault()
 
                 const review = $('trix-editor').val();
@@ -332,7 +351,8 @@
                     url: '{{ route('review.store') }}',
                     success: (response) => {
                         toast({...response, type: 'success'})
-                        $('trix-editor').val('')
+
+                        if(data.review) $('trix-editor').val('')
                     },
                     error: error => {
                         console.log(error.msg)
@@ -353,4 +373,5 @@
             trixEditor.loadJSON(JSON.parse(localStorage["editorState"]))
         </script>
     @endauth
+    <script src="{{ asset('js/share.js') }}"></script>
 @endsection

@@ -17,6 +17,7 @@ use App\Models\Review;
 use App\Models\User;
 use App\Models\Variation;
 use App\Models\VariationsOption;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,6 +46,10 @@ function isAdmin(): bool {
 }
 function isTeamSA(): bool {
     return isRed() || isAdmin() || isSeller();
+}
+
+function carbon(): Carbon {
+    return new Carbon();
 }
 
 

@@ -16,7 +16,6 @@ use App\Models\{Product, Cart, Brand, Admin, Category, Variation};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -46,10 +45,12 @@ class ProductController extends Controller {
         return View('products', $data);
     }
 
-    public function showDetails($id): Factory|View|Application {
+    public function show($id): Factory|View|Application {
         $product = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
-            $query->where('status', 1);
-        }, 'images'])->find($id);
+            $query->where('status', true);
+        }, 'images', 'reviews' => function($query) {
+            $query->where('status', true)->with('user');
+        }])->find($id);
 
         $data = [
             'product' => $product,
