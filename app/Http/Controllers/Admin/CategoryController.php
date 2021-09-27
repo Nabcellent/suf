@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $subCategories = Category::with('category')->whereNotNull(['section_id', 'category_id'])
         ->orderByDesc('id')->get();
 
-        return view('Admin.Categories.list')
+        return view('admin.categories.list')
             ->with(compact('sections', 'categories', 'subCategories'));
     }
 
@@ -35,7 +35,7 @@ class CategoryController extends Controller
 
             $category = Category::find($id);
 
-            $view = view('Admin.Categories.create')
+            $view = view('admin.categories.create')
                 ->with(compact('title', 'sections', 'categories'));
 
             if(isset($category['category_id'])) {
@@ -48,7 +48,7 @@ class CategoryController extends Controller
             return $view;
         }
 
-        return view('Admin.Categories.create')
+        return view('admin.categories.create')
             ->with(compact('title', 'sections', 'categories'));
     }
 

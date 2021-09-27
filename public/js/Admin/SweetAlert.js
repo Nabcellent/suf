@@ -1,59 +1,72 @@
 /*  DYNAMIC DELETE  */
-$(document).on('click','.delete-from-table', function() {
-    const id = $(this).data('id');
+$(document).on('click', '.delete-from-table', function () {
+    const id = [$(this).data('id')];
     const model = $(this).data('model');
 
     deleteFromTable(id, model);
 });
 
-const deleteFromTable = (id, model) => {
+$(document).on('click', '.delete-all', function () {
+    const table = $(this).data('table'),
+        ids = $(table).DataTable().rows({selected: true}).ids().toArray(),
+        model = $(this).data('model');
+
+    if (ids.length) {
+        deleteFromTable(ids, model)
+    } else {
+        Toastify({
+            text: 'No items selected for deletion.',
+            duration: 7000,
+            close: true,
+            className: 'info',
+        }).showToast();
+    }
+});
+
+const deleteFromTable = (ids, model) => {
     Swal.fire({
-        title: `Are you sure you want to delete this ${model}?`,
+        title: `Are you sure you want to delete ${ids.length > 1 ? 'these' : 'this'} ${ids.length > 1 ? model + 's' : model}?`,
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: `Yes, delete ${model}!`,
-    }).then(result => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '/admin/delete/' + id + '/' + model,
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return $.ajax({
+                data: {ids, model},
+                url: '/admin/delete/',
                 type: 'DELETE',
-                statusCode: {
-                    200: function(responseObject, textStatus, errorThrown) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        ).then(() => {
-                            location.reload();
-                        });
-                    },
-                    500: function(responseObject, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                        alert("Something went wrong!");
-                        return false;
-                    }
-                },
+                success: () => true,
                 error: () => {
-                    alert("Error");
-                    return false;
+                    Swal.fire(
+                        'Error!',
+                        'That thing is still around?',
+                        'error'
+                    )
                 }
             });
+        },
+    }).then(result => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                `${ids.length > 1 ? model + 's have' : model + ' has'} been deleted.`,
+                'success'
+            ).then(() => location.reload());
         }
     });
 }
 
 
-
 /**=== === === === === === === === === === === === === === === === === === === === ===  CONFIRM ORDER READY  */
 
-$(document).on('click', '#order-view .is_ready', function() {
+$(document).on('click', '#order-view .is_ready', function () {
     const id = this.value;
     let title, confirmBtnTxt, cancelBtnTxt;
 
-    if(this.checked) {
+    if (this.checked) {
         title = 'Is this product ready?';
         confirmBtnTxt = 'Yes, it is!';
         cancelBtnTxt = 'No, not yet!';
@@ -81,11 +94,7 @@ function fireSweet(id, checked, title, confirmBtnTxt, confirmColor, cancelBtnTxt
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            if(checked) {
-                sendOrderReadyAjax(id, 1);
-            } else {
-                sendOrderReadyAjax(id, 0);
-            }
+            sendOrderReadyAjax(id, checked ? 1 : 0);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             element.checked = !checked;
 
@@ -102,31 +111,21 @@ function sendOrderReadyAjax(id, ready) {
     $.ajax({
         url: '/admin/order-ready/' + id + '/' + ready,
         type: 'PATCH',
-        statusCode: {
-            200: function(responseObject, textStatus, errorThrown) {
-                if(responseObject.status) {
-                    Swal.fire(
-                        'Done!',
-                        responseObject.message,
-                        'success'
-                    );
-                } else {
-                    Swal.fire(
-                        'Sorry!',
-                        'Something went wrong.',
-                        'error'
-                    );
-                }
-            },
-            500: function(responseObject, textStatus, errorThrown) {
-                console.log(errorThrown);
-                alert("Something went wrong!");
-                return false;
+        success: response => {
+            if (response.status) {
+                Swal.fire(
+                    'Done!',
+                    response.message,
+                    'success'
+                );
+            } else {
+                Swal.fire(
+                    'Sorry!',
+                    'Something went wrong.',
+                    'error'
+                );
             }
         },
-        error: () => {
-            alert("Error");
-            return false;
-        }
+        error: () => alert("Error")
     });
 }

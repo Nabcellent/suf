@@ -13,14 +13,14 @@ use Illuminate\Http\Request;
 class AppController extends Controller
 {
     public function showContacts(): Factory|View|Application {
-        $phones = Phone::getPhones()->get()->toArray();
+        $phones = Phone::getPhones()->get();
 
-        return view('Admin.Apps.contacts')->with(compact('phones'));
+        return view('admin.apps.contacts')->with(compact('phones'));
     }
 
     public function showEmails(): Factory|View|Application {
-        $emails = User::select('id', 'email', 'last_name', 'first_name', 'is_admin')->get()->toArray();
+        $emails = User::select(['id', 'email', 'last_name', 'first_name', 'is_admin'])->get();
 
-        return view('Admin.Apps.emails')->with(compact('emails'));
+        return view('admin.apps.emails')->with(compact('emails'));
     }
 }

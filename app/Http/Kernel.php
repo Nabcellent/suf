@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\Red;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -61,7 +62,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            HandleInertiaRequests::class,
         ],
 
         'api' => [
@@ -89,7 +90,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
 
         'red' => Red::class,
-        'super' => Super::class,
         'admin' => Admin::class,
+        'super' => Super::class,
     ];
 }

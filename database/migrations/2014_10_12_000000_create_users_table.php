@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('first_name', 20);
             $table->string('last_name', 20);
-            $table->enum('gender', ['Male', 'Female']);
+            $table->string('gender', 10);
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->ipAddress('ip_address');

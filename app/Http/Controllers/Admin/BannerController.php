@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Aid;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Throwable;
 
 class BannerController extends Controller {
 
@@ -25,12 +28,13 @@ class BannerController extends Controller {
 
             $data['image'] = $imageName;
 
-            DB::transaction(function() use ($data) {
+            try {
                 Banner::create($data);
-            });
 
-            return back()
-                ->with('alert', alert('success', 'Success!', 'Banner Created', 7));
+                return Aid::createOk();
+            } catch(Exception $e) {
+                return Aid::returnToastError($e->getMessage(), 'Error...');
+            }
         }
         if ($request->isMethod('PUT')) {
             $data = $request->all();
@@ -49,9 +53,7 @@ class BannerController extends Controller {
                 }
             }
 
-            DB::transaction(function() use ($banner, $data) {
-                $banner->update($data);
-            });
+            $banner->update($data);
 
             return back()
                 ->with('alert', alert('success', 'Success!', 'Banner Updated', 7));

@@ -25,7 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule) {
         $schedule->command('telescope:prune')->daily()->at('01:00');
         $schedule->command('mpesa:query_status')->days([Schedule::MONDAY, Schedule::FRIDAY])->runInBackground();
-        $schedule->command('logcleaner:run', ['--keeplines' => 100, '--keepfiles' => 14])->daily()->at('01:00');
+        $schedule->command('logcleaner:run', ['--keeplines' => 100, '--keepfiles' => 14])
+            ->everyFiveMinutes();
         $schedule->command('sitemap:generate')->weekly();
     }
 

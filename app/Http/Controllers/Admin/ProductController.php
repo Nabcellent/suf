@@ -6,7 +6,6 @@ use App\Http\Requests\StoreVariationRequest;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\StoreVariationOptionRequest;
 use App\Models\Admin;
 use App\Models\Attribute;
 use App\Models\Brand;
@@ -14,7 +13,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\productsImage;
 use App\Models\Variation;
-use App\Models\VariationsOption;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -28,57 +26,49 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use JsonException;
-use Psy\Util\Json;
 use Throwable;
 
 class ProductController extends Controller {
-    public function showProducts(): Factory|View|Application {
+    public function index(): Factory|View|Application {
         $products = Product::with('seller');
 
-        if(isSeller()) {
-            $products->where('seller_id', Auth::id());
-        }
+        if(isSeller()) $products->where('seller_id', Auth::id());
 
         $products = $products->orderByDesc('id')->get();
 
-        return view('Admin.products.list')
+        return view('admin.products.list')
             ->with(compact('products'));
     }
 
-    public function showProductForm(): Factory|View|Application {
+    public function create(): Factory|View|Application {
         $brands = Brand::select(['id', 'name'])->orderBy('name')->get();
         $sellers = Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get();
         $sections = Category::sections();
 
-        return view('Admin.products.create')
+        return view('admin.products.create')
             ->with(compact('brands', 'sellers', 'sections'));
     }
 
-    public function getProduct($id): Factory|View|Application {
+    public function show($id): Factory|View|Application {
         $data = [
             'product' => Product::productDetails($id)->first(),
-            'brands' => Brand::select('id', 'name')->orderBy('name')->get(),
-            'sellers' => Admin::select('user_id', 'username')->orderBy('username')->where('type', 'Seller')->get(),
+            'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
+            'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
             'sections' => Category::sections(),
-            'attributes' => Attribute::select('id', 'name')->orderBy('name')->get()
+            'attributes' => Attribute::select(['id', 'name'])->orderBy('name')->get()
         ];
 
-        return view('Admin.products.view', $data);
+        return view('admin.products.view', $data);
     }
 
-    public function createProduct(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
+    public function store(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
         $data = $request->all();
 
         $file = $request->file('main_image');
         $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
         $file->move(public_path('images/products'), $imageName);
 
-        if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
-            $isFeatured = "Yes";
-        } else {
-            $isFeatured = "No";
-        }
+        $isFeatured = isset($data['is_featured']) && $data['is_featured'] === 'on';
 
         try {
             $product = DB::transaction(function() use ($isFeatured, $imageName, $data) {
@@ -184,7 +174,7 @@ class ProductController extends Controller {
     }
 
     /**
-     * @throws JsonException
+     * @throws Exception
      */
     public function addVariationOption(Request $request): RedirectResponse {
         $request->validate([
@@ -242,6 +232,9 @@ class ProductController extends Controller {
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function createImage(Request $request, $id): RedirectResponse {
         if($request->hasFile('images')) {
             $request->validate([
@@ -249,17 +242,20 @@ class ProductController extends Controller {
                 'images.*' => 'mimes:jpg,png,jpeg|max:5048',
             ]);
 
+            $images = [];
             foreach($request->file('images') as $image) {
                 $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $image->guessClientExtension();
                 $image->move(public_path('images/products'), $imageName);
 
-                DB::transaction(function() use ($imageName, $id) {
-                    productsImage::create([
-                        'product_id' => $id,
-                        'image' => $imageName
-                    ]);
-                });
+                array_push($images, [
+                    'product_id' => $id,
+                    'image' => $imageName
+                ]);
             }
+
+            DB::transaction(function() use ($images) {
+                ProductsImage::insert($images);
+            });
 
             $message = "Product Image Created.";
             return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);

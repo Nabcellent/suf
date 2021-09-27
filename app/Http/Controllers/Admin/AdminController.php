@@ -28,7 +28,7 @@ class AdminController extends Controller
 
         $phones = User()->phones()->get()->toArray();
 
-        return view('Admin.profile')->with(compact('admin', 'phones'));
+        return view('admin.profile')->with(compact('admin', 'phones'));
     }
 
     public function updateProfile(Request $request): JsonResponse|Redirector|Application|RedirectResponse {

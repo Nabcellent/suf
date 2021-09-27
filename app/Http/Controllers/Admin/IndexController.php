@@ -37,6 +37,6 @@ class IndexController extends Controller
 
         $newOrders = $newOrders->limit(5)->get();
 
-        return view('Admin.dashboard', ['newOrders' => $newOrders]);
+        return view('admin.dashboard', ['newOrders' => $newOrders]);
     }
 }

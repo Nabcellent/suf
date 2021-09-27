@@ -15,6 +15,7 @@
 
     {{--    JQUERY    --}}
     <script src="{{ asset('vendor/jquery.js') }}" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{{ asset('vendor/Toastify/toastify.min.js') }}"></script>
 </head>
 <body id="bg">
 

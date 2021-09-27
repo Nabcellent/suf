@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,7 +57,7 @@ class Admin extends Authenticatable implements MustVerifyEmail
         return self::where('type', 'Seller')->with('user');
     }
 
-    public static function getAdmins() {
-        return self::where('type', 'Super')->with('user');
+    public static function getAdmins(): Admin|Builder {
+        return self::where('type', 'Admin')->with('user');
     }
 }

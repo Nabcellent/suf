@@ -18,7 +18,7 @@ class CouponController extends Controller
     public function showCoupons(): Factory|View|Application {
         $coupons = Coupon::latest()->get()->toArray();
 
-        return view('Admin.Coupons.list')
+        return view('admin.coupons.list')
             ->with(compact('coupons'));
     }
 
@@ -30,14 +30,14 @@ class CouponController extends Controller
             if(!$id) {
                 $title = "Create";
 
-                return view('Admin.Coupons.view')
+                return view('admin.coupons.view')
                     ->with(compact('title', 'sections', 'users'));
             }
 
             $title = "Update";
             $coupon = Coupon::find($id);
 
-            return view('Admin.Coupons.view')
+            return view('admin.coupons.view')
                 ->with(compact('title', 'sections', 'users', 'coupon'));
         }
         $data = $request->all();

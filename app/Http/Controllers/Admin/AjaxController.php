@@ -6,22 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Variation;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use JsonException;
+use Throwable;
 
 class AjaxController extends Controller
 {
     public function getCategoriesBySectionId(Request $request): JsonResponse {
-        $id = $request -> id;
+        $id = $request->input('id');
         $categories = Category::where('section_id', $id)->whereNull('category_id')->get()->toArray();
 
         if($request->has('categoryId')) {
             $options = '';
-            $categoryId = $request->categoryId;
+            $categoryId = $request->input('categoryId');
 
             if(is_numeric($categoryId)) {
                 foreach($categories as $category) {
@@ -40,7 +41,7 @@ class AjaxController extends Controller
     }
 
     public function getSubCategoriesByCategoryId(Request $request): JsonResponse {
-        $id = $request -> id;
+        $id = $request->input('id');
         $subCats = Category::where('category_id', $id)->get()->toArray();
 
         $result = '<option selected hidden value="">Select a sub-category *</option>';
@@ -52,12 +53,12 @@ class AjaxController extends Controller
     }
 
     public function getAttributeValuesByAttrId(Request $request): JsonResponse {
-        $id = $request -> id;
+        $id = $request->input('id');
         $values = Attribute::find($id)->toArray();
 
         try {
             $values = json_decode($values['values'], true, 512, JSON_THROW_ON_ERROR);
-        } catch(JsonException $e) {
+        } catch(Exception $e) {
             return response()->json(['error' => $e, 404]);
         }
 
@@ -100,28 +101,30 @@ class AjaxController extends Controller
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function deleteFromTable($id, $model): JsonResponse {
+    public function deleteFromTable(Request $request): JsonResponse {
+        $model = $request->input('model');
+        $ids = $request->input('ids');
+
         if($model === "Product's Image" || $model === "Product") {
-            $imageName = getModel($model)::find($id)->image;
-            if(File::exists(public_path('images/products/' . $imageName))){
-                File::delete(public_path('images/products/' . $imageName));
-            }
+            $images = getModel($model)::findMany($ids, ['image']);
+            $basePath = 'images/products/';
         } else if($model === "User") {
-            $imageName = getModel($model)::find($id)->image;
-            if(File::exists(public_path('images/users/profile/' . $imageName))){
-                File::delete(public_path('images/users/profile/' . $imageName));
-            }
+            $images = getModel($model)::findMany($ids, ['image']);
+            $basePath = 'images/users/profile/';
         } else if($model === 'Banner') {
-            $imageName = getModel($model)::find($id)->image;
-            if(File::exists(public_path('images/banners/' . $imageName))){
-                File::delete(public_path('images/banners/' . $imageName));
-            }
+            $images = getModel($model)::findMany($ids, ['image']);
+            $basePath = 'images/banners/';
         }
 
-        DB::transaction(function() use ($id, $model) {
-            getModel($model)::destroy($id);
+        if(isset($images) && isset($basePath))
+            foreach($images as $image)
+                if(File::exists(public_path($basePath . $image->image)))
+                    File::delete(public_path($basePath . $image->image));
+
+        DB::transaction(function() use ($ids, $model) {
+            getModel($model)::destroy($ids);
         });
 
         return response()->json([200]);

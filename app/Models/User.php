@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
         'user_type',
         'email',
+        'image',
         'password',
         'ip_address',
         'is_admin',
@@ -78,6 +79,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function orders(): HasMany {
         return $this->hasMany(Order::class);
+    }
+
+    public function reviews(): HasMany {
+        return $this->hasMany(Review::class);
     }
 
 

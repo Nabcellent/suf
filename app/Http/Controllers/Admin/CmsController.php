@@ -5,19 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Aid;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCmsRequest;
-use App\Models\Banner;
 use App\Models\CmsPage;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class CmsController extends Controller {
     /**
@@ -28,7 +20,7 @@ class CmsController extends Controller {
     public function index(): Response {
         $data['cmsPages'] = CmsPage::all();
 
-        return response()->view('Admin.Pages.CMS.list', $data);
+        return response()->view('admin.pages.cms.list', $data);
     }
 
     /**
@@ -37,7 +29,7 @@ class CmsController extends Controller {
      * @return Response
      */
     public function create(): Response {
-        return response()->view('Admin.Pages.CMS.upsert');
+        return response()->view('admin.pages.cms.upsert');
     }
 
     /**
@@ -81,7 +73,7 @@ class CmsController extends Controller {
 
         //dd($data['cms']);
 
-        return response()->view('Admin.Pages.CMS.upsert', $data);
+        return response()->view('admin.pages.cms.upsert', $data);
     }
 
     /**

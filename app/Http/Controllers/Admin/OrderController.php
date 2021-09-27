@@ -25,7 +25,7 @@ class OrderController extends Controller {
 
         $orders = $orders->latest()->get();
 
-        return view('Admin.Orders.list', ['orders' => $orders]);
+        return view('admin.orders.list', ['orders' => $orders]);
     }
 
     public function showOrder($id): Factory|View|Application {
@@ -74,7 +74,7 @@ class OrderController extends Controller {
     public function showInvoice($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first();
 
-        return view('Admin.Orders.invoice')->with(compact('order'));
+        return view('admin.orders.invoice')->with(compact('order'));
     }
 
 
@@ -82,7 +82,7 @@ class OrderController extends Controller {
     public function processInvoicePDF($id): Factory|View|Application {
         $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first();
 
-        $html = view('Admin.Orders.invoice_template')->with(compact('order'))->render();
+        $html = view('admin.orders.invoice_template')->with(compact('order'))->render();
 
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();
@@ -97,7 +97,7 @@ class OrderController extends Controller {
         // Output the generated PDF to Browser
         $dompdf->stream();
 
-        return view('Admin.invoice')->with(compact('order'));
+        return view('admin.invoice')->with(compact('order'));
     }
 
 

@@ -35,7 +35,7 @@ class UserController extends Controller {
 
         if($page === 'delivery-address') {
             $btnAction = "Add";
-            $counties = County::where('status', 1)->orderBy('name')->get()->toArray();
+            $counties = County::where('status', 1)->orderBy('name')->get();
 
             if(url()->previous() === route('checkout')) {
                 session(['url.intended' => url()->previous()]);
@@ -43,7 +43,7 @@ class UserController extends Controller {
 
             if($id !== null) {
                 $btnAction = "Update";
-                $address = Address::where('id', $id)->with('subCounty')->first()->toArray();
+                $address = Address::where('id', $id)->with('subCounty')->first();
 
                 return view('profile')->with(compact('page' , 'address', 'counties', 'btnAction'));
             }
@@ -51,7 +51,7 @@ class UserController extends Controller {
             return view('profile')->with(compact('page',  'counties', 'btnAction'));
         }
 
-        $user = User::where('id', Auth::id())->with('phones', 'addresses')->first()->toArray();
+        $user = User::where('id', Auth::id())->with('phones', 'addresses')->first();
 
         return view('profile')->with(compact('page', 'user'));
     }

@@ -1,4 +1,3 @@
-<script src="{{ asset('vendor/Toastify/toastify.min.js') }}"></script>
 <script>
     {{--    TOAST ALERT    --}}
     @if (session('toast_info'))

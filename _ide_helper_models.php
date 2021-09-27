@@ -56,17 +56,17 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\AdminFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Admin newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Admin query()
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereNationalId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin wherePin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUsername($value)
+ * @method static Builder|Admin newModelQuery()
+ * @method static Builder|Admin newQuery()
+ * @method static Builder|Admin query()
+ * @method static Builder|Admin whereCreatedAt($value)
+ * @method static Builder|Admin whereId($value)
+ * @method static Builder|Admin whereNationalId($value)
+ * @method static Builder|Admin wherePin($value)
+ * @method static Builder|Admin whereType($value)
+ * @method static Builder|Admin whereUpdatedAt($value)
+ * @method static Builder|Admin whereUserId($value)
+ * @method static Builder|Admin whereUsername($value)
  */
 	class IdeHelperAdmin extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
@@ -497,6 +497,34 @@ namespace App\Models{
  * @method static Builder|Product whereUpdatedAt($value)
  */
 	class IdeHelperProduct extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Review
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $product_id
+ * @property string $review
+ * @property float|null $rating
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReview($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperReview extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -14,6 +14,6 @@ class PaymentController extends Controller
     public function list(): Factory|View|Application {
         $mpesa = StkCallback::getAll()->latest()->get()->toArray();
 
-        return view('Admin.Payments.list', compact('mpesa'));
+        return view('admin.payments.list', compact('mpesa'));
     }
 }

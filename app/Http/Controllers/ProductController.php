@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Throwable;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     public function index($categoryId = null): View|Factory|string|Application {
         $products = Product::products()->where('products.status', 1);
 
@@ -48,18 +47,17 @@ class ProductController extends Controller
     }
 
     public function showDetails($id): Factory|View|Application {
-        $data['details'] = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
+        $product = Product::with(['subCategory', 'brand', 'seller', 'variations' => function($query) {
             $query->where('status', 1);
         }, 'images'])->find($id);
 
-        $attributes = $data['details']->variations->pluck('options')->collapse()->keys()->toArray();
-
-        $data['totalStock'] = Product::stock($id, "sum", $attributes);
-        $data['related'] = Product::with('brand')->where('category_id', $data['details']->subCategory->id)
-            ->where('id', '!=', $id)->inRandomOrder()->limit(5)->get();
-
-        $data['metaDesc'] = $data['details']->description;
-        $data['metaKeywords'] = $data['details']->keywords;
+        $data = [
+            'product' => $product,
+            'related' => Product::with('brand')->where('category_id', $product->subCategory->id)
+                ->where('id', '<>', $id)->inRandomOrder()->limit(5)->get(),
+            'metaDesc' => $product->description,
+            'metaKeywords' => $product->keywords,
+        ];
 
         return view('details', $data);
     }

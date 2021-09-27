@@ -10,6 +10,9 @@
 {{--    BOXICONS CSS    --}}
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
+<!--    Toastify    -->
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/Toastify/toastify.min.css') }}">
+
 <!--    SELECT 2 CSS    -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
 

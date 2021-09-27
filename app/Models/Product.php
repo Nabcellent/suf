@@ -43,16 +43,28 @@ class Product extends Model {
     ];
 
     /**
+     * MUTATORS
+    */
+    public function getAverageRatingAttribute(): float {
+        return round($this->reviews->where('rating', '<>', null)->avg('rating'), 1);
+    }
+
+    public function getStockAttribute($value): int {
+        return $this->variations->isNotEmpty()
+            ? $this->variations->pluck('options')->collapse()->sum('stock') : $value;
+    }
+
+
+
+    /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function subCategory(): BelongsTo
-    {
+    public function subCategory(): BelongsTo {
         return $this->belongsTo(Category::class, 'category_id', 'id')
             ->with('category');
     }
 
-    public function seller(): BelongsTo
-    {
+    public function seller(): BelongsTo {
         return $this->belongsTo(User::class)->with('admin');
     }
 
@@ -62,12 +74,15 @@ class Product extends Model {
 
     public function images(): HasMany
     {
-        return $this->hasMany(productsImage::class);
+        return $this->hasMany(ProductsImage::class);
     }
 
-    public function variations(): hasMany
-    {
+    public function variations(): hasMany {
         return $this->hasMany(Variation::class)->with('attribute');
+    }
+
+    public function reviews(): HasMany {
+        return $this->hasMany(Review::class);
     }
 
 
@@ -78,8 +93,7 @@ class Product extends Model {
         return self::with('subCategory', 'brand', 'seller');
     }
 
-    public static function getDiscountPrice($productId): int
-    {
+    public static function getDiscountPrice($productId): int {
         $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
 
@@ -94,8 +108,7 @@ class Product extends Model {
         return $discountPrice;
     }
 
-    public static function getVariationDiscountPrice($productId, $newPrice): array
-    {
+    public static function getVariationDiscountPrice($productId, $newPrice): array {
         $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
 
@@ -150,8 +163,7 @@ class Product extends Model {
     /**
      * --------------------------------------------------------------------------------------------------ADMIN FUNCTIONS
     */
-    public static function productDetails($id): Builder
-    {
+    public static function productDetails($id): Builder {
         return self::where('id', $id)->with('subCategory', 'seller', 'brand', 'variations', 'images');
     }
 }

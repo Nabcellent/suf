@@ -27,7 +27,6 @@ $(() => {
         const variationId = $(this).data('id');
         const variant = $(this).val();
         const loader = $(this).closest('td.d-flex').find($('img')).hide();
-        console.log(option);
 
         $.ajax({
             data: {option, variant, variationId},
@@ -179,25 +178,15 @@ $(document).on('click', '.update_status', function() {
  * ********************************************************************************/
 
 const updateStatus = (model, id, status, element) => {
-    console.log(element)
     $.ajax({
-        data: {
-            model:model,
-            id: id,
-            status: status
-        },
+        data: {model, id, status},
         method: 'PATCH',
         url: '/admin/status/toggle-update',
-        statusCode: {
-            200: function(responseObject) {
-                if(responseObject.status === 0) {
-                    element.html('<i class="fas fa-toggle-off" status="Inactive"></i>');
-                } else{
-                    element.html('<i class="fas fa-toggle-on" status="Active"></i>');
-                }
-            },
-            404: () => {
-                console.log('Not Error Found')
+        success: response => {
+            if(response.status === 0) {
+                element.html('<i class="fas fa-toggle-off" status="Inactive"></i>');
+            } else{
+                element.html('<i class="fas fa-toggle-on" status="Active"></i>');
             }
         },
         error: error => {

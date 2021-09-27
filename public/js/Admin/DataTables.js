@@ -1,4 +1,21 @@
 
+$('table.crud_table').on('select.dt deselect.dt', function() {
+    const itemsSelected = $(this).DataTable().rows({ selected:true }).count(),
+        actions = $(this).closest('.table-responsive').prev();
+
+    itemsSelected ? actions.show(300) : actions.hide(300)
+})
+
+$('.select-all').on('change', function() {
+    const dataTableRows = $($(this).closest('.table-responsive').prev().find($('button')).data('table')).DataTable().rows()
+
+    if($(this).prop('checked')) {
+        dataTableRows.select();
+    } else {
+        dataTableRows.deselect();
+    }
+})
+
 /*_____________________  PRODUCTS  _____________________*/
 
 const productDataTable = $('#products_table').DataTable({
@@ -62,35 +79,6 @@ const sellerDataTable = $('#sellers_table').DataTable({
 });
 sellerDataTable.on( 'order.dt search.dt', function () {
     sellerDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-        cell["innerHTML"] = i+1;
-    } );
-}).draw();
-
-
-/*_____________________  ADMINISTRATORS  _____________________*/
-
-const adminsDataTable = $('#admins_table').DataTable({
-    scrollY:        '50vh',
-    scrollCollapse: true,
-    order: [[ 3, 'asc' ]],
-    language: {
-        info: 'Number of administrators: _MAX_',
-        infoFiltered:   "(filtered _TOTAL_ admins)",
-        search: "_INPUT_",
-        searchPlaceholder: "Search admin"
-    },
-    columnDefs: [{
-        searchable: false,
-        orderable: false,
-        targets: 0
-    }, {
-        searchable: false,
-        orderable: false,
-        targets: 6
-    }],
-});
-adminsDataTable.on( 'order.dt search.dt', function () {
-    adminsDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
         cell["innerHTML"] = i+1;
     } );
 }).draw();

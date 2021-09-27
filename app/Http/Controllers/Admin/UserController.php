@@ -2,105 +2,84 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Aid;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterAdminRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Admin;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Throwable;
 
 class UserController extends Controller {
     public function showCustomers(): Factory|View|Application {
         $customers = User::getCustomers()->latest()->get();
 
-        return view('Admin.Users.customers', ['customers' => $customers]);
+        return view('admin.users.customers', ['customers' => $customers]);
     }
 
     public function showSellers(): Factory|View|Application {
         $sellers = Admin::getSellers()->latest()->get();
 
-        return view('Admin.Users.sellers')->with(compact('sellers'));
+        return view('admin.users.sellers')->with(compact('sellers'));
     }
 
     public function showAdmins(): Factory|View|Application {
         $admins = Admin::getAdmins()->latest()->get();
 
-        return view('Admin.Users.admins')->with(compact('admins'));
+        return view('admin.users.admins')->with(compact('admins'));
     }
 
     public function showAllUsers(): Factory|View|Application {
         $users['users'] = User::with('roles')->where('is_admin', '<>', 7)->latest()->get();
 
-        return view('Admin.Users.users', $users);
+        return view('admin.users.users', $users);
     }
 
 
-    public function getCreateUser($user, $id = null): View|Factory|Redirector|Application|RedirectResponse {
+    public function create($user): View|Factory|Redirector|Application|RedirectResponse {
         if($user !== "Customer") {
-            if(!$id) {
-                $title = "Create";
-            } else {
-                $title = "Update";
-            }
+            $title = "Create";
 
-            return view('Admin.Users.create')
+            return view('admin.users.create')
                 ->with(compact('title', 'user'));
         }
 
         return redirect(route('customers'));
     }
 
-    public function createUpdateAdmin(Request $request, $user): RedirectResponse {
-        if(($user === "Admin") && !isRed()) {
-            return back()
-                ->with('alert', alert('danger', "Warning!", 'Unauthorized Action', 8));
-        }
-        if(!isSeller()) {
+    public function store(StoreUserRequest $request, $user): RedirectResponse {
+        $data = $request->all();
+
+        if($user === 'Seller') {
             $request->validate([
-                'first_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
-                'last_name' => ['required', 'max:20', "regex:/^[a-zA-Z]+(?:(?:\.|[' ])([a-zA-Z])*)*$/i"],
-                'national_id' => 'bail|required|digits:8|unique:admins',
-                'email' => 'required|email:rfc,dns|unique:users',
-                'gender' => 'required|alpha',
-                'phone' => ['required',
-                    'numeric',
-                    'digits_between:9,12',
-                    'unique:phones',
-                    'regex:/^((?:254|\+254|0)?((?:7(?:3[0-9]|5[0-6]|(8[5-9]))|1[0][0-2])[0-9]{6})|(?:254|\+254|0)?((?:7(?:[01249][0-9]|5[789]|6[89])|1[1][0-5])[0-9]{6})|^(?:254|\+254|0)?(77[0-6][0-9]{6})$)$/i'
-                ],
+                'username' => 'bail|required|max:30|unique:admins',
             ]);
+        }
 
-            $data = $request->all();
+        $data['type'] = ($user === 'Admin') ? 'Admin' : 'Seller';
+        $data['ip_address'] = $request->ip();
+        $data['is_admin'] = 1;
+        $data['password'] = Hash::make($data['type']);
 
-            if($user === 'Seller') {
-                $request->validate([
-                    'username' => 'bail|required|max:30|unique:admins',
-                ]);
-            }
+        if($request->has('image')) {
+            $image = time() . "." . $data['image']->guessClientExtension();
+            $data['image']->move(public_path('images/users/profile'), $image);
+            $data['image'] = $image;
+        }
 
-            $data['type'] = ($user === 'Admin') ? 'Super' : 'Seller';
-            $data['ip_address'] = $request->ip();
-            $data['is_admin'] = 1;
-            $data['password'] = Hash::make($data['type']);
+        $phone = $request->input('phone');
+        $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
-            if($request->has('image')) {
-                $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $data['image']->guessClientExtension();
-                $data['image']->move(public_path('images/users/profile'), $imageName);
-                $data['image'] = $imageName;
-            }
-            $phone = $request -> phone;
-            $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
-
+        try {
             DB::transaction(function() use ($phone, $data) {
                 $user = User::create($data);
                 $user->admin()->create($data);
@@ -108,20 +87,70 @@ class UserController extends Controller {
                     'phone' => $phone,
                     'primary' => 1
                 ]);
+
+                $user->assignRole($data['type']);
             });
 
-            if($user === 'Seller') {
-                $route = redirect()->route('admin.sellers');
-            } else {
-                $route = redirect()->route('admin.admins');
-            }
+            return Aid::createOk("$user Created successfully!", ($user === 'Seller') ? 'admin.sellers' : 'admin.admins');
+        } catch(Throwable $e) {
+            return Aid::returnToastError($e->getMessage(), 'Error creating user');
+        }
+    }
 
-            $message = $user . " Created.";
-            return $route
-                ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+    public function edit(string $title, int $id): View|Factory|Redirector|Application|RedirectResponse {
+        $data = [
+            'title' => $title,
+            'user' => User::with('primaryPhone')->find($id)
+        ];
+
+
+        return view('admin.users.create', $data);
+    }
+
+    public function update(Request $request, $title, $id): RedirectResponse {
+        $request->validate([
+            'first_name'  => [
+                'required',
+                'max:20',
+            ],
+            'last_name'   => [
+                'required',
+                'max:20',
+            ],
+            'national_id' => ['bail', 'required', 'digits:8', Rule::unique('admins')->ignore($id, 'user_id')],
+            'email'       => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($id)],
+            'gender'      => 'required|alpha',
+        ]);
+
+        $data = $request->except(['_method', '_token']);
+
+        if($title === 'Seller') {
+            $request->validate([
+                'username' => ['bail', 'required', 'max:30', Rule::unique('admins')->ignore($id, 'user_id')],
+            ]);
         }
 
-        return back()
-            ->with('alert', alert('danger', "Warning!", 'Unauthorized Action', 8));
+        $user = User::find($id);
+
+        if($request->has('image')) {
+            $image = time() . "." . $data['image']->guessClientExtension();
+            $data['image']->move(public_path('images/users/profile'), $image);
+            $data['image'] = $image;
+
+            if($user->image && file_exists(public_path('images/users/profile' . $user->image))){
+                unlink(public_path('images/users/profile/' . $user->image));
+            }
+        }
+
+        try {
+            DB::transaction(function() use ($user, $data) {
+                $user->update($data);
+                $user->admin->update($data);
+            });
+
+            return Aid::updateOk("$title Update successful!", ($title === 'Seller') ? 'admin.sellers' : 'admin.admins');
+        } catch(Throwable $e) {
+            return Aid::returnToastError($e->getMessage(), 'Error updating user');
+        }
     }
 }

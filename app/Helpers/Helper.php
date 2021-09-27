@@ -13,6 +13,7 @@ use App\Models\OrdersProduct;
 use App\Models\Phone;
 use App\Models\Product;
 use App\Models\productsImage;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Variation;
 use App\Models\VariationsOption;
@@ -34,30 +35,16 @@ function User(): ?Authenticatable {
     return Auth::user();
 }
 function isRed(): bool {
-    return User()->is_admin === 7;
+    return Auth::user()->is_admin === 7;
 }
 function isSeller(): bool {
-    if(isAdmin()) {
-        return Admin::where('user_id', Auth::id())->first()->type === 'Seller';
-    }
-
-    return false;
-}
-function isSuper(): bool {
-    if(isAdmin()) {
-        return Admin::where('user_id', Auth::id())->first()->type === "Super";
-    }
-    return false;
+    return Auth::user()->admin && Auth::user()->admin->type === 'Seller';
 }
 function isAdmin(): bool {
-    if(Auth::check()) {
-        return User()->is_admin === 1;
-    }
-
-    return false;
+    return Auth::user()->admin && Auth::user()->admin->type === 'Admin';
 }
-function isTeamRSu(): bool {
-    return isRed() || isSuper();
+function isTeamSA(): bool {
+    return isRed() || isAdmin() || isSeller();
 }
 
 
@@ -98,7 +85,7 @@ function trendingCategories(): \Illuminate\Support\Collection {
 
 //  COUNT FUNCTIONS
 function tableCount(): array {
-    if(isSeller()) {
+    if(Auth::check() && isSeller()) {
         $products = Product::where('seller_id', Auth::id())->count();
         $orders = Order::getSellerOrders()->count();
     } else {
@@ -205,6 +192,7 @@ function getModel($model): string {
         'Cmspage' => CmsPage::class,
         'Role' => Role::class,
         'Permission' => Permission::class,
+        'Review' => Review::class,
         'Variation', 'Variations_option' => Variation::class,
         'Product\'s Image' => productsImage::class,
     };

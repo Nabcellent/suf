@@ -16,12 +16,8 @@ class Admin
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed {
-        if(Auth::user()->is_admin === 7 && Auth::user()->email === env('APP_SUPER_USER_EMAIL')) {
+        if($request->user()->is_admin)
             return $next($request);
-        }
-        if(Auth ::check() && Auth ::user() -> is_admin) {
-            return $next($request);
-        }
 
         return back();
     }

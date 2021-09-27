@@ -31,8 +31,9 @@ class DatabaseSeeder extends Seeder
             CouponSeeder::class,
             OrderSeeder::class,
             PolicySeeder::class,
-            CmsPageSeeder::class,*/
-            PermissionSeeder::class,
+            CmsPageSeeder::class,
+            PermissionSeeder::class,*/
+            ReviewSeeder::class,
         ]);
 
         /*User::factory()->count(20)
