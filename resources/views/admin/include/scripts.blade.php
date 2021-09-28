@@ -23,5 +23,4 @@
 <script src="{{ asset('js/Admin/JqueryValidation.js') }}"></script>
 <script src="{{ asset('js/Admin/Dynamic.js') }}" defer></script>
 <script src="{{ asset('js/Admin/SweetAlert.js') }}" defer></script>
-<script src="{{ asset('js/Select2.js') }}" defer></script>
 <script src="{{ asset('js/Admin/DataTables.js') }}" defer></script>

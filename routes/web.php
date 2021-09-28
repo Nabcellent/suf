@@ -17,7 +17,8 @@ use App\Http\Controllers\API\Mpesa\MpesaController;
 use App\Http\Controllers\API\Mpesa\StkController;
 use App\Http\Controllers\API\PayPal\PaypalController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\{ReviewController,
+use App\Http\Controllers\{Admin\StatisticController,
+    ReviewController,
     CmsController,
     ContactUsController,
     CouponController,
@@ -238,6 +239,10 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::prefix('/reviews')->name('review.')->middleware('super')->group(function() {
             Route::get('/', [ReviewController::class, 'index'])->name('index');
             Route::get('/rate', [ReviewController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('/charts')->name('chart.')->group(function() {
+            Route::get('/', [StatisticController::class, 'index'])->name('index');
         });
 
         //  SUPER ADMIN ROUTES

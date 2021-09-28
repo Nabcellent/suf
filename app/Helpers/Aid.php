@@ -85,4 +85,26 @@ class Aid {
         return back()->withInput()
             ->with('toast_error', __($clientMessage));
     }
+
+    public static function chartDataSet(\Illuminate\Support\Collection $models, string $string = 'daily' | 'weekly' | 'monthly'): array {
+        $date = new Carbon;
+
+        for($i = 0; $i < 7; $i++) {
+            $dateString = $date->toDateString();
+            isset($models[$dateString]) ? $models[$dateString] = $models[$dateString]->count() : $models[$dateString] = 0;
+            $date->subDay();
+        }
+
+        $models = $models->sortKeys();
+
+        foreach($models as $key => $order) {
+            $models[Carbon::parse($key)->shortDayName] = $order;
+            $models->forget($key);
+        }
+
+        return [
+            'labels' => $models->keys()->toArray(),
+            'datasets' => $models->values()->toArray()
+        ];
+    }
 }

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Throwable;
 
 class RegisterController extends Controller
 {
@@ -64,7 +65,8 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
+     * @param       $request
      * @return User
      */
     protected function createAdmin(array $data, $request): User {
@@ -78,11 +80,14 @@ class RegisterController extends Controller
         return $user;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function register(RegisterAdminRequest $request): View|Factory|JsonResponse|Redirector|RedirectResponse|Application {
         $user = DB::transaction(function() use($request) {
             event(new Registered($user = $this->createAdmin($request->all(), $request)));
 
-            $phone = $request -> phone;
+            $phone = $request->input('phone');
             $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;
 
             $user->phones()->create([

@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Charts\OrderChart;
+use App\Charts\OrdersProductChart;
+use App\Charts\ProductChart;
+use App\Charts\UserChart;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use SmoDav\Mpesa\C2B\STK;
+use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,14 +29,20 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @param Charts $charts
      * @return void
      */
-    public function boot(): void {
+    public function boot(Charts $charts): void {
         //  Use Bootstrap for paginator
         Paginator::useBootstrap();
 
-        if(config('app.env') === 'production') {
-            URL::forceScheme('https');
-        }
+        if(config('app.env') === 'production') URL::forceScheme('https');
+
+        $charts->register([
+            UserChart::class,
+            ProductChart::class,
+            OrderChart::class,
+            OrdersProductChart::class,
+        ]);
     }
 }

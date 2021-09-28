@@ -14,6 +14,7 @@
         "ext-pdo": "*",
         "accentinteractive/laravel-logcleaner": "^1.0",
         "amrshawky/laravel-currency": "^4.0",
+        "consoletvs/charts": "7.*",
         "doctrine/dbal": "^3.0",
         "dompdf/dompdf": "^1.0",
         "drh/mpesa": "^1.0",

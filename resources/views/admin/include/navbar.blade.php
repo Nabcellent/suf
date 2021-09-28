@@ -215,7 +215,7 @@
                         </a>
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
-                                <a href="#" class="nav_dropdown_item">Charts</a>
+                                <a href="{{ route('admin.chart.index') }}" class="nav_dropdown_item">Charts</a>
                                 <a href="#" class="nav_dropdown_item">Analysis</a>
                             </div>
                         </div>
