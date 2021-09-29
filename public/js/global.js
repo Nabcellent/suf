@@ -1,3 +1,15 @@
+window.toast = (msg = 'Hello 😁', type = 'success', duration = 7, close = true) => {
+    duration *= 1000
+
+    Toastify({
+        text: msg,
+        duration: duration,
+        close: close,
+        className: type,
+    }).showToast();
+}
+
+
 /**********************  -----------------  BOOTSTRAP FILE INPUT   -----------------  **********************/
 $(document).on('change', 'input[type="file"]', function(){
     //get the file name

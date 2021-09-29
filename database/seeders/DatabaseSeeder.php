@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run(): void {
-        $this->call([
-            /*UserSeeder::class,
+        /*$this->call([
+            UserSeeder::class,
             AdminSeeder::class,
             PhoneSeeder::class,
             AddressSeeder::class,
@@ -30,11 +30,10 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CouponSeeder::class,
             OrderSeeder::class,
-            PolicySeeder::class,
             CmsPageSeeder::class,
-            PermissionSeeder::class,*/
+            PermissionSeeder::class,
             ReviewSeeder::class,
-        ]);
+        ]);*/
 
         /*User::factory()->count(20)
             ->hasAddresses(1)
@@ -46,7 +45,7 @@ class DatabaseSeeder extends Seeder
                     ]);
                 }
             });*/
-        //Product::factory()->count(10)->create();
+        Product::factory()->count(50)->create();
 //        Order::factory()->count(13)->create();
     }
 }

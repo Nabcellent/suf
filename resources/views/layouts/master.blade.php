@@ -9,7 +9,7 @@
           content="{{ $metaKeywords ?? "suf, su-F, strathmore fashion, buy clothes, fashion, clothes, strathmore ecommerce, suf store, fashion store, delivery, become a seller" }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Suf - @yield('title')</title>
+    <title>SU-F ~ @yield('title')</title>
 
     @include('partials.links')
 

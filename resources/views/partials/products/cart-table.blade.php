@@ -1,8 +1,3 @@
-<?php
-use App\Models\Cart;
-
-?>
-
 <table class="table table-sm table-striped table-hover table_fixed">
     <thead class="thead-dark">
     <tr class="header">
@@ -17,9 +12,11 @@ use App\Models\Cart;
 
     <?php $totalPrice = 0; ?>
     @foreach($cart as $item)
-        <?php $price = Cart::getVariationPrice($item->product_id, $item->details); ?>
-        <tr data-toggle="collapse" data-target="#cart-item{{ $item->id }}" style="cursor: pointer">
-            <th scope="row">{{$loop -> iteration}}</th>
+        <?php $price = getVariationPrice($item->product_id, $item->details); ?>
+        <tr>
+            <th data-toggle="collapse" data-target="#cart-item{{ $item->id }}" style="cursor: pointer" scope="row">
+                {{$loop -> iteration}} <small title="View details"><i class="fas fa-chevron-down text-red"></i></small>
+            </th>
             <td>
                 <a href="{{url('/product/' . $item->product->id . '/' . preg_replace("/\s+/", "", $item->product->title))}}">
                     {{$item->product->title}}
@@ -49,17 +46,17 @@ use App\Models\Cart;
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><img src="{{'/images/products/' . $item->product->main_image}}" alt="Product Image"></td>
-                                <td>
-                                    @if(count($item->details) > 0)
-                                        @foreach($item->details as $key => $value)
-                                            {{ $key }}: {{ $value }} <br>
-                                        @endforeach
-                                    @else N / A @endif
-                                </td>
-                                <td>- {{ $price['discount'] * $item->quantity }}/-</td>
-                            </tr>
+                        <tr>
+                            <td><img src="{{'/images/products/' . $item->product->main_image}}" alt="Product Image"></td>
+                            <td>
+                                @if(count($item->details) > 0)
+                                    @foreach($item->details as $key => $value)
+                                        {{ $key }}: {{ $value }} <br>
+                                    @endforeach
+                                @else N / A @endif
+                            </td>
+                            <td>- {{ $price['discount'] * $item->quantity }}/-</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -71,11 +68,11 @@ use App\Models\Cart;
     </tbody>
     <tfoot class="bg-dark text-white">
     <tr>
-        <th colspan="4" class="text-right">Sub Total : </th>
+        <th colspan="4" class="text-right">Sub Total :</th>
         <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
     </tr>
     <tr>
-        <th colspan="4" class="text-right">Coupon Discount : </th>
+        <th colspan="4" class="text-right">Coupon Discount :</th>
         <th colspan="3" class="border-left">
             KES.@if(session('couponDiscount')) {{ session('couponDiscount') }} @else 0.0 @endif/-
         </th>

@@ -16,9 +16,9 @@
 @include('partials.javascript')
 
 <!-- Scripts -->
+<script src="{{ asset('js/global.js') }}"></script>
 <script src="{{ asset('js/Admin/Main.js') }}"></script>
 <script src="{{ asset('js/Admin/chart.js') }}" defer></script>
-<script src="{{ asset('js/Global.js') }}"></script>
 <script src="{{ asset('js/Admin/Fetch.js') }}"></script>
 <script src="{{ asset('js/Admin/JqueryValidation.js') }}"></script>
 <script src="{{ asset('js/Admin/Dynamic.js') }}" defer></script>

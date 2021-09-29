@@ -124,15 +124,13 @@ $(document).on('click', '#details input[name^="variant"]', function() {
 /**=====================================================================================================  CART PAGE   */
 
 $(document).on('click', '#cart .cart_table td.quantity button', function() {
-    const $qtyInput = $(this).parents('td.quantity').find($('input[type="number"]'));
-    const newQty = parseInt($qtyInput.val());
-    const cartId = $qtyInput.data('id');
+    const element = $(this).parents('td.quantity').find($('input[type="number"]'));
+    const newQty = parseInt(element.val());
+    const cartId = element.data('id');
 
-    if(newQty > 0) {
-        updateCartQty(cartId, newQty);
-    } else {
-        alert("Error: Quantity must be at least 1!");
-    }
+    (newQty > 0)
+        ? updateCartQty(cartId, newQty, element)
+        : toast('Quantity must be at least 1!')
 });
 $(document).on('change', '#cart .cart_table td.quantity input[type="number"]', function() {
     if($(this).val() < 1) {
@@ -143,10 +141,10 @@ $(document).on('change', '#cart .cart_table td.quantity input[type="number"]', f
     const newQty = parseInt($(this).val(), 10);
     const cartId = $(this).data('id');
 
-    updateCartQty(cartId, newQty);
+    updateCartQty(cartId, newQty, $(this));
 });
 
-const updateCartQty = (cartId, newQty) => {
+const updateCartQty = (cartId, newQty, inputElement) => {
     $.ajax({
         data: {cartId, newQty},
         type: 'POST',
@@ -156,7 +154,10 @@ const updateCartQty = (cartId, newQty) => {
             $('.cart_count').html(response.cartCount);
             $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
 
-            if(!response.status) {
+            if(response.status) {
+                inputElement.val(newQty)
+                toast(response.message)
+            } else {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'info',
@@ -166,16 +167,10 @@ const updateCartQty = (cartId, newQty) => {
                 })
             }
 
-            $.cachedScript( "js/jquery.nice-number.js" ).done(function( script, textStatus ) {
-                console.log( textStatus );
-            });
-            $.cachedScript( "js/main.js" ).done(function( script, textStatus ) {
-                console.log( textStatus );
-            });
+            $.cachedScript( "js/jquery.nice-number.js" );
+            $.cachedScript( "js/main.js" );
         },
-        error:() => {
-            alert("Error");
-        }
+        error:() => toast("Oops! something isn't right", 'danger')
     });
 }
 

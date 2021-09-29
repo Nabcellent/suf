@@ -17,8 +17,8 @@
 @livewireScripts
 
 {{--    MY JS    --}}
+<script src="{{ asset('js/global.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
-<script src="{{ asset('js/Global.js') }}"></script>
 <script src="{{ asset('js/JqueryValidation.js') }}"></script>
 <script src="{{ asset('js/swiper.js') }}"></script>
 <script src="{{ asset('js/search.js') }}"></script>

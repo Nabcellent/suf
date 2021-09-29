@@ -21,7 +21,7 @@ use Throwable;
 
 class ProductController extends Controller {
     public function index($categoryId = null): View|Factory|string|Application {
-        $products = Product::products()->where('products.status', 1);
+        $products = Product::products()->where('products.status', true)->where('stock', '>', 0);
 
         $catDetails = "";
         if($categoryId !== null) {
@@ -165,48 +165,40 @@ class ProductController extends Controller {
     public function updateCartItemQty(Request $request): JsonResponse|Redirector|RedirectResponse|Application {
         if($request->ajax()) {
             $data = $request->all();
-            $cartId = $data['cartId'];
+            $data['cart'] = Cart::cartItems();
             $demandedQty = $data['newQty'];
 
-            $cartItem = Cart::find($cartId);
-            $details = json_decode($cartItem['details'], true, 512, JSON_THROW_ON_ERROR);
+            $cartItem = Cart::find($data['cartId']);
 
             //check if stock is available
-            $availableStock = Variation::checkVariations($cartItem['product_id'], $details)
-                ->select('stock')->min('stock');
-            $inactiveStatus = Variation::checkVariations($cartItem['product_id'], $details)
-                ->select('variations_options.status')->where('variations_options.status', 0)->exists();
+            $availableStock = Product::stock($cartItem->product_id, 'min', $cartItem->details);
+            $statusIsActive = Product::status($cartItem->product_id);
 
-
-            if($inactiveStatus) {
-                $variant = Variation::checkVariations($cartItem['product_id'], $details)
-                    ->where('variations_options.status', 0)->value('variant');
-                $cart = Cart::cartItems();
+            if(!$statusIsActive) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Variation, "' . ($variant) . '" is currently unavailable for this product. ☹',
-                    'view' => (string)view('partials.products.cart-table', compact('cart'))
+                    'message' => "Sorry this product '{$cartItem->product->title} is currently unavailable for purchase'. ☹",
+                    'view' => (string)view('partials.products.cart-table', $data)
                 ]);
             }
 
             if($availableStock < $demandedQty) {
-                $cart = Cart::cartItems();
                 return response()->json([
                     'status' => false,
                     'message' => 'The current stock for this product is insufficient. 😢',
-                    'view' => (string)view('partials.products.cart-table', compact('cart'))
+                    'view' => (string)view('partials.products.cart-table', $data)
                 ]);
             }
 
             $cartItem->quantity = $demandedQty;
             $cartItem->save();
 
-            $cart = Cart::cartItems();
             return response()->json([
                 'status' => true,
+                'message' =>'Quantity updated successfully!',
                 'cartCount'=> getCart('count'),
                 'cartTotal'=> getCart('total'),
-                'view' => (string)view('partials.products.cart-table', compact('cart'))
+                'view' => (string)view('partials.products.cart-table', $data)
             ]);
         }
 

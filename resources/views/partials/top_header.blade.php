@@ -31,7 +31,9 @@
                                     <a class="dropdown-item" href="{{ route('orders') }}">My Orders</a>
                                     <a class="dropdown-item" href="{{ route('profile') }}">My Account</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                    @if(isTeamSA())
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}">Sign Out</a>
                                 </div>
                             </li>

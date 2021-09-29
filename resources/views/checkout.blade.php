@@ -114,7 +114,7 @@
                                 <label class="mb-0 p-1">Phone Number</label>
                                 <select id="select-phone" class="is-invalid @error('phone') is-invalid @enderror" placeholder="Select a phone..."
                                         autocomplete="off" name="phone" required>
-                                    @if(old('phone'))<option value="{{ old($phone) }}" selected>{{ old($phone) }}</option>@endif
+                                    @if(old('phone'))<option value="{{ old('phone') }}" selected>{{ old('phone') }}</option>@endif
                                     @foreach($phones as $phone)
                                         <option value="{{ $phone->phone }}">{{ $phone->phone }}</option>@endforeach
                                 </select>

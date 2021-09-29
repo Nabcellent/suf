@@ -333,8 +333,6 @@ namespace App\Models{
  * @property-read \App\Models\Coupon|null $coupon
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersLog[] $orderLogs
  * @property-read int|null $order_logs_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersProduct[] $orderProducts
- * @property-read int|null $order_products_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersProduct[] $sellersOrders
  * @property-read int|null $sellers_orders_count
  * @property-read \App\Models\User $user
@@ -463,14 +461,17 @@ namespace App\Models{
  * @property string|null $label
  * @property float $base_price
  * @property float|null $discount
- * @property int|null $stock
+ * @property int $stock
  * @property string $is_featured
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Brand $brand
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\productsImage[] $images
+ * @property-read float $average_rating
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductsImage[] $images
  * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \App\Models\User $seller
  * @property-read \App\Models\Category $subCategory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Variation[] $variations
@@ -501,16 +502,44 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Review
+ * App\Models\ProductsImage
  *
+ * @mixin IdeHelperproductsImage
  * @property int $id
- * @property int $user_id
  * @property int $product_id
- * @property string $review
- * @property float|null $rating
+ * @property string $image
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsImage whereUpdatedAt($value)
+ */
+	class IdeHelperProductsImage extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Review
+ *
+ * @mixin IdeHelperReview
+ * @property int $id
+ * @property int $user_id
+ * @property int $product_id
+ * @property mixed|null $review
+ * @property int|null $rating
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review query()
@@ -522,7 +551,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
- * @mixin \Eloquent
  */
 	class IdeHelperReview extends \Eloquent {}
 }
@@ -657,6 +685,8 @@ namespace App\Models{
  * @property-read \App\Models\Phone|null $primaryPhone
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
@@ -709,30 +739,5 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Variation whereUpdatedAt($value)
  */
 	class IdeHelperVariation extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\productsImage
- *
- * @mixin IdeHelperproductsImage
- * @property int $id
- * @property int $product_id
- * @property string $image
- * @property int $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage query()
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|productsImage whereUpdatedAt($value)
- */
-	class IdeHelperproductsImage extends \Eloquent {}
 }
 

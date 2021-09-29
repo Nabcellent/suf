@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class VerificationController extends Controller
@@ -98,7 +94,7 @@ class VerificationController extends Controller
         if($request->user()->is_admin) {
             return $request->user()->hasVerifiedEmail()
                 ? redirect($this->redirectPath())
-                : view('Admin.auth.verify');
+                : view('admin.auth.verify');
         }
 
         return $request->user()->hasVerifiedEmail()

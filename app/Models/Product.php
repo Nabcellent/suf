@@ -50,8 +50,15 @@ class Product extends Model {
     }
 
     public function getStockAttribute($value): int {
-        return $this->variations->isNotEmpty()
-            ? $this->variations->pluck('options')->collapse()->sum('stock') : $value;
+        if($this->variations->isNotEmpty()) {
+            $hasStock = $this->variations->every(function($item) {
+                return collect($item->options)->contains(fn($value) => $value['stock'] > 0);
+            });
+
+            if($hasStock) $value = $this->variations->pluck('options')->collapse()->sum('stock');
+        }
+
+        return $value;
     }
 
 
@@ -126,7 +133,7 @@ class Product extends Model {
         return array('unit_price' => ceil($newPrice), 'discount_price' => ceil($discountPrice), 'discount' => ceil($discount));
     }
 
-    public static function productStatus($id) {
+    public static function status($id) {
         return self::findOrFail($id, ['status'])->status;
     }
 

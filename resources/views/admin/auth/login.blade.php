@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Sign In')
 @section('content')
 
     <div id="login" class="container mt-4">

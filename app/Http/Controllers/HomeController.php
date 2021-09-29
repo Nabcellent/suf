@@ -7,7 +7,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Share;
 
 class HomeController extends Controller {
     /**
@@ -20,8 +19,6 @@ class HomeController extends Controller {
         $new = Product::join('admins', 'admins.user_id', 'seller_id')->select('products.*', 'admins.username', 'section.title AS section')->join('categories AS cat', 'products.category_id', '=', 'cat.id')->join('categories AS section', 'cat.section_id', '=', 'section.id')->where(['products.status' => 1])->has('variations')->orderByDesc('products.id')->limit(12)->get();
 
         $data = [
-            'share'            => Share::page(url()->current(), 'Your share text comes here',)
-                ->facebook()->twitter()->linkedin()->telegram()->whatsapp()->getRawLinks(),
             'featuredProducts' => Product::products()->where('products.status', 1)
                 ->where('is_featured', 'Yes')->has('variations')->get(),
             'newProducts'      => $new,

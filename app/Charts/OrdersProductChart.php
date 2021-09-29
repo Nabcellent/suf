@@ -32,7 +32,7 @@ class OrdersProductChart extends BaseChart {
      */
     public function handler(Request $request): Chartisan {
         $topProducts = OrdersProduct::join('products', 'orders_products.product_id', '=', 'products.id')
-            ->select(['product_id', 'title', DB::raw("COUNT(*) as total")])
+            ->select(['product_id', 'title', DB::raw("SUM(quantity) as total")])
             ->groupBy('product_id')->latest('total')->take(5)->get();
 
         return Chartisan::build()

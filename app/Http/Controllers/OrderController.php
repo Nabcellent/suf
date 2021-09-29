@@ -31,7 +31,7 @@ class OrderController extends Controller
             $message = null;
             foreach($cartItems as $item) {
                 // Prevent ordering of disabled products
-                $productStatus = Product::productStatus($item->product_id);
+                $productStatus = Product::status($item->product_id);
 
                 if(!$productStatus) {
                     $message = "Sorry, {$item->product->title} is currently unavailable.";

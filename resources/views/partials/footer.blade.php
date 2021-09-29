@@ -80,12 +80,36 @@
             <div class="col-lg-5 col-md-6">
                 <h6>Connect with us</h6>
                 <ul>
-                    <li><a href="#"><i class="fab fa-facebook" onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
-                    <li><a href="#"><i class="fab fa-twitter" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
-                    <li><a href="#"><i class="fab fa-instagram" onmouseover="this.style.color='#3f729b'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
-                    <li><a href="#"><i class="fab fa-youtube" onmouseover="this.style.color='#c4302b'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
-                    <li><a href="#"><i class="fab fa-whatsapp" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
-                    <li><a href="#"><i class="fab fa-google-plus-g" onmouseover="this.style.color='#db4a39'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i></a></li>
+                    <li>
+                        <a href="{{ shareLink()['facebook'] }}" target="_blank">
+                            <i class="fab fa-facebook" onmouseover="this.style.color='#3b5998'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ shareLink()['twitter'] }}" target="_blank">
+                            <i class="fab fa-twitter" onmouseover="this.style.color='#00aced'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-instagram" onmouseover="this.style.color='#3f729b'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-youtube" onmouseover="this.style.color='#c4302b'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ shareLink()['whatsapp'] }}" target="_blank">
+                            <i class="fab fa-whatsapp" onmouseover="this.style.color='#25D366'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <i class="fab fa-google-plus-g" onmouseover="this.style.color='#db4a39'" onmouseout="this.style.color='rgb(1, 7, 29)'"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -3,9 +3,9 @@
 @section('content')
 
     <div id="chart-index" class="container-fluid">
-        <div class="row mb-3">
+        <div class="row align-items-center mb-3">
             <div class="col-7">
-                <div class="card p-3">
+                <div class="card border-0 shadow p-3">
                     <div id="users" style="height: 300px;"></div>
                 </div>
             </div>
@@ -13,17 +13,17 @@
                 <div id="top_customers" style="height: 300px;"></div>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row align-items-center mb-3">
             <div class="col-5">
                 <div id="top_products" style="height: 300px;"></div>
             </div>
             <div class="col-7">
-                <div class="card p-3">
+                <div class="card border-0 shadow p-3">
                     <div id="orders" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
-        <div class="row mb-3 justify-content-center">
+        <div class="row align-items-center mb-3 justify-content-center">
             <div class="col-9">
                 <div id="products" style="height: 300px;"></div>
             </div>
@@ -31,39 +31,62 @@
     </div>
 
     <!-- Charting library -->
-    <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
+    <script src="{{ asset('vendor/chartisan/chart.min.js') }}"></script>
     <!-- Chartisan -->
-    <script src="https://unpkg.com/@chartisan/chartjs@^2.1.0/dist/chartisan_chartjs.umd.js"></script>
+    <script src="{{ asset('vendor/chartisan/chartisan.umd.js') }}"></script>
     <script>
+        const randomScalingFactor = () => Math.round(Math.random() * 100)
+        const randomColorFactor = () => Math.round(Math.random() * 255);
+        const randomColor = opacity => {
+            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+        };
+
         const chart = {
             users: new Chartisan({
                 el: '#users',
                 url: "@chart('users')",
-                hooks: new ChartisanHooks()
-                    .colors(['#ECC94B', '#4299E1'])
-                    .responsive()
-                    .beginAtZero()
-                    .legend({position: 'bottom'})
-                    .title('Recent users')
-                    .datasets([{type: 'line', fill: false}, 'bar']),
-            }),
-
-            topCustomers: new Chartisan({
-                el: '#top_customers',
-                url: "@chart('orders.product')",
                 loader: {
                     color: '#000',
                     size: [30, 30],
                     type: 'bar',
                     textColor: '#900',
-                    text: 'Loading some chart data...',
+                    text: 'Loading chart data...',
+                },
+                hooks: new ChartisanHooks()
+                    .colors([`rgb(173, 10, 0)`, `rgb(0, 10, 173)`])
+                    .responsive()
+                    .beginAtZero()
+                    .legend({position: 'bottom'})
+                    .title('New users')
+                    .datasets([{type: 'line', fill: false}])
+            }),
+
+            topCustomers: new Chartisan({
+                el: '#top_customers',
+                url: "@chart('esteemed.customers')",
+                loader: {
+                    color: '#000',
+                    size: [30, 30],
+                    type: 'bar',
+                    textColor: '#900',
+                    text: 'Loading chart data...',
                 },
                 hooks: new ChartisanHooks()
                     .responsive()
-                    .title('Top 3 ordered products')
+                    .title('Top 5 (esteemed) customers')
                     .datasets('pie')
-                    .pieColors([`rgba(153, 0, 0, 1)`, `rgba(153, 0, 0, .8)`, 'rgba(153, 0, 0, .6)'])
+                    .pieColors([`rgb(173, 10, 0)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
                     .legend({position: 'bottom'})
+                    .tooltip({
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                let dataset = data.datasets[tooltipItem.datasetIndex];
+                                let currentValue = dataset.data[tooltipItem.index];
+
+                                return new Intl.NumberFormat('en-GB', {style: 'currency', currency: 'KES'}).format(currentValue)
+                            }
+                        }
+                    })
             }),
 
             topProducts: new Chartisan({
@@ -74,13 +97,13 @@
                     size: [30, 30],
                     type: 'bar',
                     textColor: '#900',
-                    text: 'Loading some chart data...',
+                    text: 'Loading chart data...',
                 },
                 hooks: new ChartisanHooks()
                     .responsive()
                     .title('Top 5 ordered products')
                     .datasets('pie')
-                    .pieColors([`rgba(153, 0, 0, 1)`, `rgba(153, 0, 0, .8)`, 'rgba(153, 0, 0, .6)'])
+                    .pieColors([`rgba(173, 10, 0, 1)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
                     .legend({position: 'bottom'})
             }),
 
@@ -92,7 +115,7 @@
                     size: [30, 30],
                     type: 'bar',
                     textColor: '#900',
-                    text: 'Loading some chart data...',
+                    text: 'Loading chart data...',
                 },
                 hooks: new ChartisanHooks()
                     .beginAtZero()
@@ -112,51 +135,25 @@
                     size: [30, 30],
                     type: 'bar',
                     textColor: '#900',
-                    text: 'Loading some chart data...',
+                    text: 'Loading chart data...',
                 },
                 hooks: new ChartisanHooks()
                     .beginAtZero()
                     .responsive()
                     .legend({position: 'bottom'})
                     .title('Products created in the last week.')
-                    .colors(['rgb(30, 100, 225)'])
-                    .datasets([{type: 'line', fill: false}, 'bar'])
+                    .colors([`rgba(255, 255, 0, .6)`])
+                    .datasets([{type: 'line', fill: true}])
                     .padding(20)
             }),
         }
 
-        const colorCodeSet = 'ABCDEF0123456789';
-
-        function randomColor(noOfDatasets) {
-            let colors = [];
-
-            for (let i = 0; i < noOfDatasets; i++) colors.push(`#${str_shuffle(colorCodeSet).substr(0, 6)}`);
-
-            return colors;
-        }
-        function str_shuffle(str) {
-            if (arguments.length === 0) throw new Error('Wrong parameter count for str_shuffle()');
-            if (str === null) return '';
-
-            str += '';
-
-            let newStr = '', rand = void 0, i = str.length;
-
-            while (i) {
-                rand = Math.floor(Math.random() * i);
-                newStr += str.charAt(rand);
-                str = str.substring(0, rand) + str.substr(rand + 1);
-                i--;
-            }
-
-            return newStr;
-        }
-
         setInterval(() => {
             chart.users.update({background: true})
+            chart.topCustomers.update({background: true})
             chart.orders.update({background: true})
-            chart.products.update({background: true})
             chart.topProducts.update({background: true})
-        }, 600000)
+            chart.products.update({background: true})
+        }, 7000)
     </script>
 @endsection

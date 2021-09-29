@@ -31,20 +31,14 @@ $(document).on('click', '#cart .delete_cart_item', function() {
                             $('.cart_count').html(response.cartCount);
                             $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
 
-                            $.cachedScript( "js/jquery.nice-number.js" ).done(function( script, textStatus ) {
-                                console.log( textStatus );
-                            });
-                            $.cachedScript( "js/main.js" ).done(function( script, textStatus ) {
-                                console.log( textStatus );
-                            });
+                            $.cachedScript( "js/jquery.nice-number.js" )
+                            $.cachedScript( "js/main.js" )
                         } else {
                             Swal.fire(
                                 'Deleted!',
                                 'Your file has been deleted.',
                                 'success'
-                            ).then(() => {
-                                location.reload();
-                            });
+                            ).then(() => location.reload());
                         }
                     } else {
                         Swal.fire({
@@ -56,9 +50,7 @@ $(document).on('click', '#cart .delete_cart_item', function() {
                         });
                     }
                 },
-                error:() => {
-                    alert("Error");
-                }
+                error:() => alert("Error")
             });
         }
     });
@@ -80,9 +72,7 @@ $(document).on('click', 'form a.delete-address', function() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-            if (result.isConfirmed) {
-                location.href = '/delete-delivery-address/' + id;
-            }
+            if (result.isConfirmed) location.href = '/delete-delivery-address/' + id
         });
     } else {
         Swal.fire({
@@ -111,9 +101,7 @@ $(document).on('click', '#edit-profile .delete-phone', function() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-            if (result.isConfirmed) {
-                location.href = '/delete-phone/' + id;
-            }
+            if (result.isConfirmed) location.href = '/delete-phone/' + id;
         });
     } else {
         Swal.fire({

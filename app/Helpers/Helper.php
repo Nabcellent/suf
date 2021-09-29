@@ -1,36 +1,17 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\Attribute;
-use App\Models\Banner;
-use App\Models\Brand;
-use App\Models\Cart;
-use App\Models\Category;
-use App\Models\CmsPage;
-use App\Models\Coupon;
-use App\Models\Order;
-use App\Models\OrdersProduct;
-use App\Models\Phone;
-use App\Models\Product;
-use App\Models\productsImage;
-use App\Models\Review;
-use App\Models\User;
-use App\Models\Variation;
-use App\Models\VariationsOption;
+use App\Models\{Admin, Attribute, Banner, Brand, Cart, Category, CmsPage, Coupon, Order, OrdersProduct, Phone};
+use App\Models\{Product, productsImage, Review, User, Variation};
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\{Auth, DB, Session};
 use Illuminate\Support\Str;
-use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\{Permission, Role};
 
 function User(): ?Authenticatable {
     return Auth::user();
@@ -42,7 +23,7 @@ function isSeller(): bool {
     return Auth::user()->admin && Auth::user()->admin->type === 'Seller';
 }
 function isAdmin(): bool {
-    return Auth::user()->admin && Auth::user()->admin->type === 'Admin';
+    return isRed() || Auth::user()->admin && Auth::user()->admin->type === 'Admin';
 }
 function isTeamSA(): bool {
     return isRed() || isAdmin() || isSeller();
@@ -151,6 +132,9 @@ function getCart($item = 'total' | 'count') {
 function getDiscountPrice($productId): int {
     return Product::getDiscountPrice($productId);
 }
+function getVariationPrice($productId, $productDetails): array {
+    return Cart::getVariationPrice($productId, $productDetails);
+}
 
 
 
@@ -205,6 +189,31 @@ function getModel($model): string {
 
 function orderProductsReady($orderId): bool {
     return Order::orderProductsReady($orderId);
+}
+
+
+
+/** chart   */
+function chartDateFormat($date, $frequency = 'daily'): string {
+    return match ($frequency) {
+        'monthly' => Carbon::parse($date)->format('Y-m'),
+        'weekly' => Carbon::parse($date)->format('W'),
+        default => Carbon::parse($date)->toDateString()
+    };
+}
+function chartStartDate($frequency): \Illuminate\Support\Carbon {
+    return match($frequency) {
+        'monthly' => now()->subMonths(3),
+        'weekly' => now()->subWeeks(4),
+        default => now()->subWeek()
+    };
+}
+
+
+
+function shareLink() {
+    return \Share::page(url()->current(), 'Your share text comes here',)
+        ->facebook()->twitter()->linkedin()->telegram()->whatsapp()->getRawLinks();
 }
 
 function accessDenied(): Redirector|Application|RedirectResponse {

@@ -101,21 +101,23 @@
                                             <hr class="bg-warning m-0">
                                             <ul class="list-group list-group-flush">
                                                 @foreach($product->variations as $variation)
-                                                    @if(count($variation->options) > 0)
+                                                    @if(count($variation->options) && collect($variation->options)->sum('stock'))
                                                         <li class="list-group-item py-2 py-md-3">{{$variation->attribute->name}}
                                                             <div class="form-group m-0">
                                                                 @foreach($variation->options as $key => $option)
-                                                                    <div class="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" id="option{{ $key }}" required
-                                                                               name="variant{{ $variation->attribute->name }}"
-                                                                               data-id="{{$product->id}}"
-                                                                               @if(old("variant{$variation->attribute->name}") === $key || count($variation->options) === 1) checked
-                                                                               @endif
-                                                                               class="custom-control-input" value="{{$key}}">
-                                                                        <label class="custom-control-label" for="option{{ $key }}"
-                                                                               data-id="{{$product->id}}">{{ $key }}
-                                                                        </label>
-                                                                    </div>
+                                                                    @if($option['stock'])
+                                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                                            <input type="radio" id="option{{ $key }}" required
+                                                                                   name="variant{{ $variation->attribute->name }}"
+                                                                                   data-id="{{$product->id}}"
+                                                                                   @if(old("variant{$variation->attribute->name}") === $key || count($variation->options) === 1) checked
+                                                                                   @endif
+                                                                                   class="custom-control-input" value="{{$key}}">
+                                                                            <label class="custom-control-label" for="option{{ $key }}"
+                                                                                   data-id="{{$product->id}}">{{ $key }}
+                                                                            </label>
+                                                                        </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </div>
                                                         </li>

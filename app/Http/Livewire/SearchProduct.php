@@ -15,7 +15,7 @@ class SearchProduct extends Component {
 
     public function render(Request $request): Factory|View|Application {
         if(empty($this->term)) {
-            $products = Product::products()->where('products.status', 1);
+            $products = Product::products()->where('products.status', 1)->where('stock', '>', 0);
 
             if($request->has('id')) {
                 $id = $request->input('id');

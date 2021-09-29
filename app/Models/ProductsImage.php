@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @mixin IdeHelperproductsImage
+ * @mixin IdeHelperProductsImage
  */
 class ProductsImage extends Model
 {

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Charts\EsteemedCustomersChart;
 use App\Charts\OrderChart;
 use App\Charts\OrdersProductChart;
 use App\Charts\ProductChart;
@@ -43,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
             ProductChart::class,
             OrderChart::class,
             OrdersProductChart::class,
+            EsteemedCustomersChart::class,
         ]);
     }
 }

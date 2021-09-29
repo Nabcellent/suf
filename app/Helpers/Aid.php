@@ -86,25 +86,52 @@ class Aid {
             ->with('toast_error', __($clientMessage));
     }
 
-    public static function chartDataSet(\Illuminate\Support\Collection $models, string $string = 'daily' | 'weekly' | 'monthly'): array {
+    public static function chartDataSet(\Illuminate\Support\Collection $models, string $frequency = 'daily' | 'weekly' | 'monthly'): array {
+        $frequency = $frequency ?? 'daily';
+
+        $freqCount = match ($frequency) {
+            'weekly' => 4,
+            'monthly' => 3,
+            default => 7
+        };
+
         $date = new Carbon;
 
-        for($i = 0; $i < 7; $i++) {
-            $dateString = $date->toDateString();
-            isset($models[$dateString]) ? $models[$dateString] = $models[$dateString]->count() : $models[$dateString] = 0;
-            $date->subDay();
+        $data = collect();
+        for($i = 0; $i < $freqCount; $i++) {
+            $dateString = chartDateFormat($date, $frequency);
+
+            $data[$dateString] = isset($models[$dateString]) ? $models[$dateString]->count() : 0;
+
+            switch($freqCount) {
+                case 4: $date->subWeek();
+                    break;
+                case 3: $date->subMonth();
+                    break;
+                default: $date->subDay();
+            }
         }
 
-        $models = $models->sortKeys();
+        $data = $data->sortKeys();
 
-        foreach($models as $key => $order) {
-            $models[Carbon::parse($key)->shortDayName] = $order;
-            $models->forget($key);
+        foreach($data as $key => $value) {
+            $date = $frequency === 'weekly' ? Carbon::now()->setISODate(now()->year, $key) : Carbon::parse($key);
+
+            $name = match ($frequency) {
+                'monthly' => $date->isCurrentMonth() ? 'This month' : $date->shortMonthName,
+                'weekly' => $date->isCurrentWeek()
+                    ? 'This week'
+                    : "{$date->diffInWeeks()} week" . ($date->diffInWeeks() > 1 ? 's' : '') . " ago",
+                default => $date->isCurrentDay() ? 'Today' : $date->shortDayName
+            };
+
+            $data[$name] = $value;
+            $data->forget($key);
         }
 
         return [
-            'labels' => $models->keys()->toArray(),
-            'datasets' => $models->values()->toArray()
+            'labels' => $data->keys()->toArray(),
+            'datasets' => $data->values()->toArray()
         ];
     }
 }

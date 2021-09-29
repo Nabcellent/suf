@@ -6,6 +6,7 @@ use App\Mail\OrderPlaced;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrdersProduct;
+use App\Models\Product;
 use App\Models\Variation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,6 +15,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,8 +37,7 @@ class ProcessOrder implements ShouldQueue {
      *
      * @return void
      */
-    public function __construct(Order $order, $cart, array $user)
-    {
+    public function __construct(Order $order, $cart, array $user) {
         $this->order = $order->withoutRelations();
         $this->user = $user;
         $this->cart = $cart;
@@ -47,6 +49,10 @@ class ProcessOrder implements ShouldQueue {
      * @return void
      */
     public function handle() {
+        $orderProducts = [];
+
+        Log::info("Processing Order ...: {$this->order->order_no}");
+
         foreach($this->cart as $item) {
             $variation = Variation::where('product_id', $item->product_id);
 
@@ -67,15 +73,20 @@ class ProcessOrder implements ShouldQueue {
                             'status' => $currentOptions['status'],
                         ];
 
-                        Log::alert('Processing job');
+                        if($options[$optionsKey]['stock'] === 0)
+                            Artisan::queue('products:query_stock');
 
                         $variation->options = $options;
                         $variation->save();
                     }
                 });
+            } else {
+                $product = Product::find($item->product_id);
+                $product->stock -= $item->quantity;
+                $product->save();
             }
 
-            $finalPrice = Cart::getVariationPrice($item['product_id'], $item->details)['discount_price'];
+            $finalPrice = Cart::getVariationPrice($item->product_id, $item->details)['discount_price'];
 
             OrdersProduct::create([
                 'order_id' => $this->order->id,
@@ -88,7 +99,8 @@ class ProcessOrder implements ShouldQueue {
 
         //  Empty User Cart
         Cart::where('user_id', $this->order->user_id)->delete();
-
         Mail::to($this->user['email'])->send(new OrderPlaced($this->order, $this->user));
+
+        Log::info("Order processing ... Completed.");
     }
 }

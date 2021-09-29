@@ -12,6 +12,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
+        "ext-intl": "*",
         "accentinteractive/laravel-logcleaner": "^1.0",
         "amrshawky/laravel-currency": "^4.0",
         "consoletvs/charts": "7.*",
