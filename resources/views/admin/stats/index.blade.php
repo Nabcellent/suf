@@ -28,6 +28,13 @@
                 <div id="products" style="height: 300px;"></div>
             </div>
         </div>
+        <div class="row align-items-center mb-3 justify-content-center">
+            <div class="col-5">
+                <div class="card border-0 shadow p-3">
+                    <div id="best_sellers" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Charting library -->
@@ -40,6 +47,17 @@
         const randomColor = opacity => {
             return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
         };
+
+        const gradientColor = rgbColor => {
+            let rgb = rgbColor.join()
+            let gradient = document.createElement('canvas').getContext('2d').createLinearGradient(0, 0, 0, 400);
+
+            gradient.addColorStop(0, `rgba(${rgb}, 1)`);
+            gradient.addColorStop(0.5, `rgba(${rgb}, .5)`);
+            gradient.addColorStop(1, `rgba(${rgb}, 0)`);
+
+            return gradient;
+        }
 
         const chart = {
             users: new Chartisan({
@@ -58,7 +76,15 @@
                     .beginAtZero()
                     .legend({position: 'bottom'})
                     .title('New users')
-                    .datasets([{type: 'line', fill: false}])
+                    .datasets([
+                        {
+                            type: 'line', fill: true,
+                            backgroundColor: gradientColor([0,123,255]),
+                        }, {
+                            type: 'line', fill: true,
+                            backgroundColor: gradientColor([200, 15, 25]),
+                        }
+                    ])
             }),
 
             topCustomers: new Chartisan({
@@ -146,6 +172,34 @@
                     .datasets([{type: 'line', fill: true}])
                     .padding(20)
             }),
+
+            bestSellers: new Chartisan({
+                el: '#best_sellers',
+                url: "@chart('best.sellers')",
+                loader: {
+                    color: '#000',
+                    size: [30, 30],
+                    type: 'bar',
+                    textColor: '#900',
+                    text: 'Loading chart data...',
+                },
+                hooks: new ChartisanHooks()
+                    .responsive()
+                    .title('Best Sellers')
+                    .datasets('pie')
+                    .pieColors([`rgb(173, 10, 0)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
+                    .legend({position: 'bottom'})
+                    .tooltip({
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                let dataset = data.datasets[tooltipItem.datasetIndex];
+                                let currentValue = dataset.data[tooltipItem.index];
+
+                                return `${currentValue} products sold`
+                            }
+                        }
+                    })
+            }),
         }
 
         setInterval(() => {
@@ -154,6 +208,7 @@
             chart.orders.update({background: true})
             chart.topProducts.update({background: true})
             chart.products.update({background: true})
-        }, 7000)
+            chart.bestSellers.update({background: true})
+        }, 10000)
     </script>
 @endsection

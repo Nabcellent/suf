@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;

@@ -3,10 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Attribute;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Variation;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +39,13 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
         ]);*/
 
+        /*\Schema::disableForeignKeyConstraints();
+        Order::truncate();
+        Product::truncate();
+        Variation::truncate();
+        \Schema::enableForeignKeyConstraints();*/
+
+        $this->command->getOutput()->progressStart(1520);
         /*User::factory()->count(20)
             ->hasAddresses(1)
             ->hasPhones(1)
@@ -44,8 +55,36 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $user->id
                     ]);
                 }
+                $this->command->getOutput()->progressAdvance();
             });*/
-        Product::factory()->count(50)->create();
-//        Order::factory()->count(13)->create();
+        Product::factory()->count(50)->create()->each(function($product) {
+            if(mt_rand(0, 10) > 5) {
+                $options = Attribute::all()->map(function($item) {
+                    return collect($item->values)->map(function($value) {
+                        return [$value => [
+                            'stock' => Factory::create()->numberBetween(0, 100),
+                            'extra_price' => mt_rand(0, 5),
+                            'image' => '',
+                            'status' => true
+                        ]];
+                    })->collapse();
+                })->toArray();
+
+                foreach(Factory::create()->randomElements($options, mt_rand(1, 3)) as $key => $option) {
+                    $this->command->getOutput()->progressAdvance();
+
+                    Variation::factory()->create([
+                        'product_id' => $product->id,
+                        'attribute_id' => Attribute::inRandomOrder()->first()->id,
+                        'options' => $option
+                    ]);
+                }
+            }
+
+            $this->command->getOutput()->progressAdvance();
+        });
+        Order::factory()->count(100)->hasOrderProducts(mt_rand(1, 3))->create();
+
+        $this->command->getOutput()->progressFinish();
     }
 }

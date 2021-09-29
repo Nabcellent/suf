@@ -32,12 +32,14 @@ class OrderChart extends BaseChart {
      * and never a string or an array.
      */
     public function handler(Request $request): Chartisan {
-        $orders = Order::whereBetween('created_at', [now()->subWeek(), now()])
-            ->get(['created_at'])->groupBy(function($item) {
-                return $item->created_at->toDateString();
+        $frequency = 'monthly';
+
+        $orders = Order::whereBetween('created_at', [chartStartDate($frequency), now()])
+            ->get(['created_at'])->groupBy(function($item) use ($frequency) {
+                return chartDateFormat($item->created_at, $frequency);
             });
 
-        $orders = Aid::chartDataSet($orders);
+        $orders = Aid::chartDataSet($orders, $frequency);
 
         return Chartisan::build()
             ->labels($orders['labels'])

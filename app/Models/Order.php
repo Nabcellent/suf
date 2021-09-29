@@ -51,21 +51,8 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
-    public function orderProducts(): HasMany
-    {
-        $orderProducts = $this->hasMany(OrdersProduct::class);
-
-        if(isSeller()) {
-            $orderProducts = $orderProducts->whereHas('product', function($query) {
-                $query->where('seller_id', Auth::id());
-            })->with(['product' => function($query) {
-                $query->where('seller_id', Auth::id());
-            }]);
-        } else {
-            $orderProducts = $orderProducts->with('product');
-        }
-
-        return $orderProducts;
+    public function orderProducts(): HasMany {
+        return $this->hasMany(OrdersProduct::class)->with('product');
     }
 
     public function orderLogs(): HasMany {

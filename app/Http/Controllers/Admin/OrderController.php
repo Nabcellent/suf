@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller {
     public function showOrders(): Factory|View|Application {
@@ -31,6 +32,17 @@ class OrderController extends Controller {
     public function showOrder($id): Factory|View|Application {
         $order = Order::where('id', $id)
             ->with('user', 'address', 'coupon', 'orderProducts', 'orderLogs')->first();
+
+        //  FROM ORDER MODEL
+        if(isSeller()) {
+            $orderProducts = $orderProducts->whereHas('product', function($query) {
+                $query->where('seller_id', Auth::id());
+            })->with(['product' => function($query) {
+                $query->where('seller_id', Auth::id());
+            }]);
+        } else {
+            $orderProducts = $orderProducts->with('product');
+        }
 
         $orderStatuses = [
             'New',

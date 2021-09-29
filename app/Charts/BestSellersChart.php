@@ -4,21 +4,20 @@ declare(strict_types = 1);
 
 namespace App\Charts;
 
-use App\Models\Order;
+use App\Models\OrdersProduct;
 use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use NumberFormatter;
 
-class EsteemedCustomersChart extends BaseChart {
+class BestSellersChart extends BaseChart {
     /**
      * Determines the name suffix of the chart route.
      * This will also be used to get the chart URL
      * from the blade directrive. If null, the chart
      * name will be used.
      */
-    public ?string $routeName = 'esteemed.customers';
+    public ?string $routeName = 'best.sellers';
 
     /**
      * Determines the middlewares that will be applied
@@ -32,14 +31,13 @@ class EsteemedCustomersChart extends BaseChart {
      * and never a string or an array.
      */
     public function handler(Request $request): Chartisan {
-        $topCustomers = Order::join('users', 'orders.user_id', '=', 'users.id')
-            ->select(['user_id', 'first_name', DB::raw("SUM(total) as total")])
-            ->groupBy('user_id')->latest('total')->take(5)->get();
-
-        $totals = $topCustomers->pluck('total')->toArray();
+        $bestSellers = OrdersProduct::select(['seller_id', 'username', DB::raw("COUNT(*) as count")])
+            ->join('products', 'orders_products.product_id', '=', 'products.id')
+            ->join('admins', 'products.seller_id', '=', 'admins.user_id')
+            ->groupBy(['seller_id', 'username'])->latest('count')->take(5)->get();
 
         return Chartisan::build()
-            ->labels($topCustomers->pluck('first_name')->toArray())
-            ->dataset('Customers', $totals);
+            ->labels($bestSellers->pluck('username')->toArray())
+            ->dataset('Sample', $bestSellers->pluck('count')->toArray());
     }
 }

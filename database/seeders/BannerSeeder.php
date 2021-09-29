@@ -13,8 +13,7 @@ class BannerSeeder extends Seeder
      *
      * @return void
      */
-    public function run(): void
-    {
+    public function run(): void {
         Banner::truncate();
 
         Banner::insert([

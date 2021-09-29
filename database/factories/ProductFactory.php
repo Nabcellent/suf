@@ -39,8 +39,8 @@ class ProductFactory extends Factory
             'base_price' => $this->faker->randomFloat(2, 0, 5000),
             'is_featured' => $this->faker->randomElement(['Yes', 'No']),
             'discount' => $this->faker->numberBetween(0, 5),
-            'stock' => $this->faker->numberBetween(0, 70),
-            'created_at' => $this->faker->dateTimeBetween(now()->subDays(6), now())
+            'stock' => $this->faker->numberBetween(0, 100),
+            'created_at' => $this->faker->dateTimeThisYear()
         ];
     }
 }

@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Attribute;
 use App\Models\Order;
 use App\Models\OrdersProduct;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrdersProductFactory extends Factory
@@ -21,15 +23,13 @@ class OrdersProductFactory extends Factory
      * @return array
      */
     public function definition(): array {
-        $orderIds = Order::pluck('id')->toArray();
-
         return [
-            'order_id' => $this->faker->randomElement($orderIds),
-            'product_id' => $this->faker,
-            'details' => $this->faker,
-            'quantity' => $this->faker,
-            'final_unit_price' => $this->faker,
-            'created_at' => $this->faker,
+            'order_id' => Order::factory(),
+            'product_id' => $this->faker->randomElement(Product::take(20)->pluck('id')),
+            'details' => $this->faker->randomElement(Attribute::pluck('values')),
+            'quantity' => $this->faker->numberBetween(1, 5),
+            'price' => $this->faker->randomFloat(2, 0, 10000),
+            'is_ready' => $this->faker->boolean(30),
         ];
     }
 }
