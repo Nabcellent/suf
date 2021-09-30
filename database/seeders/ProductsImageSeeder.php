@@ -15,12 +15,10 @@ class ProductsImageSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        productsImage::truncate();
+    public function run() {
+        ProductImage::truncate();
 
-        productsImage::insert([
+        ProductImage::insert([
             [
                 "product_id" => 1,
                 "image" => "boys-Puffer-Coat-With-Detachable-Hood-1.jpg",
