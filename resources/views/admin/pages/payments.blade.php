@@ -54,7 +54,7 @@
         <div class="modal fade" id="del_product_modal<?= $productId ?>">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="/products" method="POST">
+                    <form action="{{ route('admin.products') }}" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel<?= $productId ?>">Delete Product</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -76,4 +76,28 @@
     </div>
 
     @include('admin.products.modals')
+
+    <script>
+        const paymentDataTable = $('#payments_table').DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            paging:         false,
+            order: [[5, 'DESC']],
+            language: {
+                info: 'Number of payments: _MAX_',
+                infoFiltered:   "(filtered _TOTAL_ payments)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search payment"
+            },
+            columnDefs: [
+                { searchable: false, orderable: false, targets: 0 },
+                { searchable: false, orderable: false, targets: 6 }
+            ]
+        });
+        paymentDataTable.on( 'order.dt search.dt', function () {
+            paymentDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell["innerHTML"] = i+1;
+            });
+        }).draw();
+    </script>
 @endsection

@@ -15,14 +15,16 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     public function showCategories(): Factory|View|Application {
-        $sections = Category::sections();
-        $categories = Category::whereNotNull('section_id')->whereNull('category_id')->with('section')
-            ->orderByDesc('id')->get();
-        $subCategories = Category::with('category')->whereNotNull(['section_id', 'category_id'])
-        ->orderByDesc('id')->get();
+        $data = [
+            'sections' => Category::where(['section_id' => null, 'category_id' => null, 'status' => true])
+                ->with('categories')->withCount('categories')->get(),
+            'categories' =>Category::whereNotNull('section_id')->whereNull('category_id')->with('section')
+                ->orderByDesc('id')->get(),
+            'subCategories' => Category::with('category')->whereNotNull(['section_id', 'category_id'])
+                ->orderByDesc('id')->get()
+        ];
 
-        return view('admin.categories.list')
-            ->with(compact('sections', 'categories', 'subCategories'));
+        return view('admin.categories.list', $data);
     }
 
     public function showCategoryForms(Request $request, $id = null): Factory|View|Application {

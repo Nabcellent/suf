@@ -12,12 +12,12 @@
                 <ul class="navbar-nav ml-auto">
 
                     @auth()
-                        @if(User()->hasVerifiedEmail())
+                        @if(Auth::user()->hasVerifiedEmail())
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="#" data-toggle="dropdown">
                                     {{Str::substr(ucfirst(Auth::user() -> first_name), 0, 1) . '. ' . ucfirst(Auth::user() -> last_name)}}
-                                    @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
-                                        <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid" alt=""
+                                    @if(!empty(Auth::user()->image) && file_exists(public_path('/images/users/profile/' . Auth::user()->image)))
+                                        <img src="{{ asset('/images/users/profile/' . Auth::user()->image) }}" class="img-fluid" alt=""
                                              data-toggle="dropdown"
                                              style="width:1.7rem; height:1.7rem; border-radius:50%; object-fit:cover;">
                                     @else

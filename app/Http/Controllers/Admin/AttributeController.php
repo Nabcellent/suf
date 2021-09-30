@@ -14,9 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class AttributeController extends Controller
-{
-    public function showAttributes(): Factory|View|Application {
+class AttributeController extends Controller {
+    public function index(): Factory|View|Application {
         $attributes = Attribute::latest()->get();
         $brands = Brand::latest()->withCount('products')->get();
 
@@ -24,7 +23,13 @@ class AttributeController extends Controller
             ->with(compact('attributes', 'brands'));
     }
 
-    public function createUpdateBrand(Request $request): RedirectResponse {
+    public function upsertAttribute(Request $request) {
+        Attribute::updateOrCreate(['name' => $request->input('name')], $request->all());
+
+        return Aid::createOk('Success...!');
+    }
+
+    public function upsertBrand(Request $request): RedirectResponse {
         try {
             $title = DB::transaction(function() use ($request) {
                 if($request->input('brand_id')) {

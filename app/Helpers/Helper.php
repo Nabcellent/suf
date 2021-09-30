@@ -1,9 +1,8 @@
 <?php
 
 use App\Models\{Admin, Attribute, Banner, Brand, Cart, Category, CmsPage, Coupon, Order, OrdersProduct, Phone};
-use App\Models\{Product, productsImage, Review, User, Variation};
+use App\Models\{Product, ProductImage, Review, User, Variation};
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +12,6 @@ use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;
 use Spatie\Permission\Models\{Permission, Role};
 
-function User(): ?Authenticatable {
-    return Auth::user();
-}
 function isRed(): bool {
     return Auth::user()->is_admin === 7;
 }
@@ -88,7 +84,7 @@ function tableCount(): array {
         'admins' => Admin::where('type', 'Super')->count(),
         'brands' => Brand::all()->count(),
         'phones' => Phone::all()->count(),
-        'qtySold' => Order::where('status', 'Conpleted')->count()
+        'qtySold' => Order::where('status', 'Completed')->count()
     ];
 }
 
@@ -183,7 +179,7 @@ function getModel($model): string {
         'Permission' => Permission::class,
         'Review' => Review::class,
         'Variation', 'Variations_option' => Variation::class,
-        'Product\'s Image' => productsImage::class,
+        'Product\'s image' => productImage::class,
     };
 }
 
@@ -211,7 +207,7 @@ function chartStartDate($frequency): \Illuminate\Support\Carbon {
 
 
 
-function shareLink() {
+function shareLink(): array|string {
     return \Share::page(url()->current(), 'Your share text comes here',)
         ->facebook()->twitter()->linkedin()->telegram()->whatsapp()->getRawLinks();
 }

@@ -53,28 +53,10 @@ class AjaxController extends Controller
     }
 
     public function getAttributeValuesByAttrId(Request $request): JsonResponse {
-        $id = $request->input('id');
-        $values = Attribute::find($id)->toArray();
+        $values = Attribute::find($request->input('id'))->values;
 
-        try {
-            $values = json_decode($values['values'], true, 512, JSON_THROW_ON_ERROR);
-        } catch(Exception $e) {
-            return response()->json(['error' => $e, 404]);
-        }
-
-        $result = '';
-        if(is_array($values)) {
-            foreach($values as $value) {
-                $result .= '<option value="' . $value . '">' . $value . '</option>';
-            }
-        } else {
-            $result .= '<option value="' . $values . '">' . $values . '</option>';
-        }
-
-
-        return response()->json(['values' => $result, 200]);
+        return response()->json(['values' => $values, 200]);
     }
-
 
 
 

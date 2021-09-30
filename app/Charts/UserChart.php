@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Charts;
 
 use App\Helpers\Aid;
+use App\Helpers\ChartAid;
 use App\Models\User;
 use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
@@ -44,8 +45,8 @@ class UserChart extends BaseChart {
             return chartDateFormat($item->created_at, $frequency);
         });
 
-        $customers = Aid::chartDataSet($customers, $frequency);
-        $sellers = Aid::chartDataSet($sellers, $frequency);
+        $customers = ChartAid::chartDataSet($customers, $frequency);
+        $sellers = ChartAid::chartDataSet($sellers, $frequency);
 
         return Chartisan::build()
             ->labels($customers['labels'])

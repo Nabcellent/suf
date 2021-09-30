@@ -61,13 +61,13 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="{{ route('admin.create-product') }}" class="list-group-item list-group-item-action">
+                            <a href="{{ route('admin.product.create') }}" class="list-group-item list-group-item-action">
                                 Create Product
                             </a>
                             <a href="{{ route('admin.coupon') }}" class="list-group-item list-group-item-action">
                                 Create Coupon
                             </a>
-                            <a href="{{ route('admin.products') }}"
+                            <a href="{{ route('admin.product.index') }}"
                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>

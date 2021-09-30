@@ -32,8 +32,7 @@ class Category extends Model
     /**
      * RELATIONSHIP FUNCTIONS
     */
-    public function section(): BelongsTo
-    {
+    public function section(): BelongsTo {
         return $this->belongsTo(__CLASS__, 'section_id');
     }
 
@@ -41,20 +40,17 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
-    public function category(): BelongsTo
-    {
+    public function category(): BelongsTo {
         return $this->belongsTo(__CLASS__, 'category_id')->with('section');
     }
 
-    public function categories(): HasMany
-    {
+    public function categories(): HasMany {
         return $this->hasMany(__CLASS__, 'section_id')
             ->where(['category_id' => null, 'status' => 1])->orderBy('title')
             ->with('subCategories');
     }
 
-    public function subCategories(): HasMany
-    {
+    public function subCategories(): HasMany {
         return $this->hasMany(__CLASS__, 'category_id')->has('products')
             ->where('status', 1)->orderBy('title');
     }
@@ -76,9 +72,8 @@ class Category extends Model
         }
     }
 
-    #[ArrayShape(['catIds' => "array", 'catDetails' => "mixed", 'breadcrumbs' => "string"])] public static function categoryDetails($url): array
-    {
-        $catDetails = self::select('id', 'title', 'category_id', 'description')->with(['subCategories' => function($query) {
+    public static function categoryDetails($url): array {
+        $catDetails = self::select(['id', 'title', 'category_id', 'description'])->with(['subCategories' => function($query) {
             $query->select('categories.category_id', 'categories.id', 'title', 'description')
                 ->where('status', 1);
         }])->where('id', $url)->first()->toArray();
@@ -89,7 +84,7 @@ class Category extends Model
             <a href="' . url('/products/' . $catDetails['id']) . '">' . $catDetails['title'] . '</a></li>';
         } else {
             //  Show main Category and Sub-category in Breadcrumb
-            $mainCategory = self::select('id', 'title')->where('id', $catDetails['category_id'])->first()->toArray();
+            $mainCategory = self::select(['id', 'title'])->where('id', $catDetails['category_id'])->first()->toArray();
             $breadcrumbs = '<li class="breadcrumb-item" aria-current="page">
             <a href="' . url('/products/' . $mainCategory['id']) . '">' . $mainCategory['title'] . '</a></li>
             <li class="breadcrumb-item active" aria-current="page">

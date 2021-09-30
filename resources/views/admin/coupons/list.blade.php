@@ -82,4 +82,28 @@
         </div>
     </div>
 
+    <script>
+
+        const couponDataTable = $('#coupons_table').DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            paging:         false,
+            language: {
+                info: 'Number of coupons: _MAX_',
+                infoFiltered:   "(filtered _TOTAL_ coupons)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search coupon"
+            },
+            columnDefs: [
+                { searchable: false, orderable: false, targets: 0 },
+                { searchable: false, orderable: false, targets: 7 }
+            ],
+        });
+        couponDataTable.on( 'order.dt search.dt', function () {
+            couponDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell["innerHTML"] = i+1;
+            } );
+        }).draw();
+    </script>
+
 @endsection

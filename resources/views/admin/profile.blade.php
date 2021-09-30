@@ -5,7 +5,7 @@
         <div class="row h-100 justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9 my-auto p-0 bg-light rounded shadow">
                 <div class="row">
-                    @if(User()->is_admin === 7)
+                    @if(Auth::user()->is_admin === 7)
                         <div class="col">
                             <div class="row p-2 position-absolute" style="right:2rem; top:1rem; width: 30%">
                                 <div class="col text-right">

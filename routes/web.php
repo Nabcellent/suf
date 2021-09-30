@@ -146,6 +146,15 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::get('/create', [AdminProductController::class, 'create'])->name('create');
             Route::post('/store', [AdminProductController::class, 'store'])->name('store');
             Route::get('/show/{id}', [AdminProductController::class, 'show'])->name('show');
+            Route::get('/edit/{id}', [AdminProductController::class, 'edit'])->name('edit');
+            Route::put('/update/{id}', [AdminProductController::class, 'update'])->name('update');
+        });
+
+        //  ATTRIBUTE / BRAND ROUTES
+        Route::prefix('/attributes')->name('attr.')->group(function() {
+            Route::get('/', [AttributeController::class, 'index'])->name('index');
+            Route::post('/upsert/attr/', [AttributeController::class, 'upsertAttribute'])->name('attribute.upsert');
+            Route::post('/upsert/brand/', [AttributeController::class, 'upsertBrand'])->name('brand.upsert');
         });
 
         Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
@@ -155,7 +164,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
         Route::get('/coupons', [AdminCouponController::class, 'showCoupons'])->name('coupons');
         Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [AdminCouponController::class, 'getCreateUpdate'])->name('coupon');
-        Route::get('/attributes', [AttributeController::class, 'showAttributes'])->name('attributes');
 
         //  Overview Routes
         Route::get('/orders', [AdminOrderController::class, 'showOrders'])->name('orders');
@@ -191,14 +199,10 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::post('/product/variation/{id}', [AdminProductController::class, 'createVariation'])->name('variation');
             Route::post('/product/image/{id}', [AdminProductController::class, 'createImage'])->name('product-image');
             Route::post('/product/variation-option', [AdminProductController::class, 'addVariationOption'])->name('variation-option');
-
-            Route::post('/attribute')->name('attribute');
-            Route::post('/brand', [AttributeController::class, 'createUpdateBrand'])->name('brand');
         });
 
         //  UPDATE ROUTES
         Route::name('update.')->group(function() {
-            Route::put('/product/{id}', [AdminProductController::class, 'updateProduct'])->name('product');
             Route::patch('/product/stock/{id}', [AdminProductController::class, 'setStock'])->name('stock');
             Route::patch('/product/extra-price/{id}', [AdminProductController::class, 'setPrice'])->name('extra-price');
 

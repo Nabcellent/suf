@@ -8,30 +8,6 @@ $.ajaxSetup({
 
 
 $(() => {
-    $('select#attribute').on('change', function() {
-        $.ajax({
-            data: {id: $(this).val()},
-            type:'POST',
-            url:'/admin/get-attribute-values',
-            statusCode: {
-                200: function(responseObject) {
-                    $('select[name="variation_options[]"]').html(responseObject.values);
-                },
-                500: function(responseObject, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                    alert("Something went wrong!");
-                },
-                404: function() {
-                    alert("Error! Not found");
-                }
-            },
-            error: (error) => {
-                alert("Error");
-                console.log(error);
-            }
-        });
-    });
-
     /**
      *  ==============================================================================   FETCH CALL FOR ADD PRODUCT PAGE
      * */

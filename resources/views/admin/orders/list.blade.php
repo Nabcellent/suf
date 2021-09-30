@@ -79,7 +79,7 @@
                             <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
-                            @if(isTeamRSu())
+                            @if(isTeamSA())
                                 <a href="{{ route('admin.payments') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                     Payments<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                                 </a>
@@ -96,5 +96,42 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        const orderDataTable = $('#orders_table').DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            order: [0, 'DESC'],
+            language: {
+                info: 'Number of orders: _MAX_',
+                infoFiltered:   "(filtered _TOTAL_ orders)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search order"
+            },
+            columnDefs: [{
+                searchable: false,
+                orderable: false,
+                targets: 1
+            }, {
+                searchable: false,
+                orderable: false,
+                targets: 8
+            }],
+            createdRow: function(row, data) {
+                if(data[6].replace(/[$,]/g, '') * 1 > 1000) {
+                    $('td', row).eq(5).addClass('text-success');
+                } else if(data[6].replace(/[$,]/g, '') * 1 < 1000) {
+                    $('td', row).eq(5).addClass('text-danger');
+                }
+                if(data[7].toLowerCase() === 'cancelled') {
+                    $('td', row).eq(6).addClass('text-danger');
+                } else if(data[7].toLowerCase() === 'completed') {
+                    $('td', row).eq(6).addClass('text-success');
+                }
+            },
+        });
+
+    </script>
 
 @endsection

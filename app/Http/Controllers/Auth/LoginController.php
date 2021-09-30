@@ -56,11 +56,11 @@ class LoginController extends Controller
             return back()->withErrors(['message' => 'Your account is inactive.']);
         }
 
-        setCartItems();
-
         //  Update user cart with user id
         if(!empty(Session::get('session_id'))) {
             Cart::where('session_id', Session::get('session_id'))->update(['user_id' => Auth::id()]);
+
+            setCartItems();
         }
 
         if(Auth::user()->user_type === 'Admin') {

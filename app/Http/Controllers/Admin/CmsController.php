@@ -71,8 +71,6 @@ class CmsController extends Controller {
     public function edit(int $id): Response {
         $data['cms'] = CmsPage::find($id);
 
-        //dd($data['cms']);
-
         return response()->view('admin.pages.cms.upsert', $data);
     }
 
@@ -95,15 +93,5 @@ class CmsController extends Controller {
 
             return Aid::returnToastError($e->getMessage(), 'Unable to create CMS');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param CmsPage $cmsPage
-     * @return Response
-     */
-    public function destroy(CmsPage $cmsPage) {
-        //
     }
 }

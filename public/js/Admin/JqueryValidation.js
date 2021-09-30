@@ -106,7 +106,6 @@ $(() => {
                 required: true,
                 digits: true
             },
-            main_image: 'required',
             discount: {
                 digits: true
             },
@@ -115,7 +114,7 @@ $(() => {
             },
         },
         messages: {
-            main_image: {
+            image: {
                 accept: 'Only .jpg, .png and .jpeg are allowed',
             }
         }
@@ -347,17 +346,16 @@ $(() => {
             },
         },
         submitHandler: function() {
-            let data = $($(this)[0].currentForm).serialize();
+            let data = $($(this)[0].currentForm).serialize(),
+                loader = $('#loader');
 
             $.ajax({
                 data,
                 type: 'PUT',
                 url: 'profile',
-                beforeSend: () => {
-                    $('#loader').show();
-                },
+                beforeSend: () => loader.show(),
                 statusCode: {
-                    200: (responseObject, textStatus) => {
+                    200: (responseObject) => {
                         if(responseObject.status) {
                             $('#profile .alert').hide(30);
 
@@ -380,12 +378,8 @@ $(() => {
                         }
                     }
                 },
-                error: () => {
-                    alert('something went wrong');
-                },
-                complete: () => {
-                    $('#loader').hide();
-                }
+                error: () => toast('something went wrong', 'danger'),
+                complete: () => loader.hide(),
             })
         }
     });

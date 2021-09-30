@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run(): void {
-        /*$this->call([
+        $this->call([
             UserSeeder::class,
             AdminSeeder::class,
             PhoneSeeder::class,
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             CmsPageSeeder::class,
             PermissionSeeder::class,
             ReviewSeeder::class,
-        ]);*/
+        ]);
 
         /*\Schema::disableForeignKeyConstraints();
         Order::truncate();
@@ -45,8 +45,8 @@ class DatabaseSeeder extends Seeder
         Variation::truncate();
         \Schema::enableForeignKeyConstraints();*/
 
-        $this->command->getOutput()->progressStart(1520);
-        /*User::factory()->count(20)
+        /*$this->command->getOutput()->progressStart(150);
+        User::factory()->count(20)
             ->hasAddresses(1)
             ->hasPhones(1)
             ->create()->each(function($user) {
@@ -56,11 +56,13 @@ class DatabaseSeeder extends Seeder
                     ]);
                 }
                 $this->command->getOutput()->progressAdvance();
-            });*/
+            });
         Product::factory()->count(50)->create()->each(function($product) {
             if(mt_rand(0, 10) > 5) {
                 $options = Attribute::all()->map(function($item) {
+                    $this->command->getOutput()->progressAdvance();
                     return collect($item->values)->map(function($value) {
+                        $this->command->getOutput()->progressAdvance();
                         return [$value => [
                             'stock' => Factory::create()->numberBetween(0, 100),
                             'extra_price' => mt_rand(0, 5),
@@ -85,6 +87,6 @@ class DatabaseSeeder extends Seeder
         });
         Order::factory()->count(100)->hasOrderProducts(mt_rand(1, 3))->create();
 
-        $this->command->getOutput()->progressFinish();
+        $this->command->getOutput()->progressFinish();*/
     }
 }

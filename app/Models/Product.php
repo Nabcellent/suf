@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Tonysm\RichTextLaravel\Casts\AsRichTextContent;
 
 /**
  * @method static create(array $array)
@@ -33,13 +34,18 @@ class Product extends Model {
         'seller_id',
         'brand_id',
         'title',
-        'main_image',
+        'image',
         'keywords',
         'description',
         'label',
         'base_price',
         'discount',
+        'stock',
         'is_featured'
+    ];
+
+    protected $casts = [
+        'description' => AsRichTextContent::class,
     ];
 
     /**
@@ -81,7 +87,7 @@ class Product extends Model {
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProductsImage::class);
+        return $this->hasMany(ProductImage::class);
     }
 
     public function variations(): hasMany {
@@ -101,13 +107,13 @@ class Product extends Model {
     }
 
     public static function getDiscountPrice($productId): int {
-        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
-        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
+        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first();
+        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first();
 
-        if($proDetails['discount'] > 0) {
-            $discountPrice = $proDetails['base_price'] - ($proDetails['base_price'] * $proDetails['discount'] / 100);
-        } else if($catDetails['discount'] > 0) {
-            $discountPrice = $proDetails['base_price'] - ($proDetails['base_price'] * $catDetails['discount'] / 100);
+        if($proDetails->discount > 0) {
+            $discountPrice = $proDetails->base_price - ($proDetails->base_price * $proDetails->discount / 100);
+        } else if($catDetails->discount > 0) {
+            $discountPrice = $proDetails->base_price - ($proDetails->base_price * $catDetails->discount / 100);
         } else {
             $discountPrice = 0;
         }
@@ -116,14 +122,14 @@ class Product extends Model {
     }
 
     public static function getVariationDiscountPrice($productId, $newPrice): array {
-        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first()->toArray();
-        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first()->toArray();
+        $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first();
+        $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first();
 
-        if($proDetails['discount'] > 0) {
-            $discountPrice = $newPrice - ($newPrice * $proDetails['discount'] / 100);
+        if($proDetails->discount > 0) {
+            $discountPrice = $newPrice - ($newPrice * $proDetails->discount / 100);
             $discount = $newPrice - $discountPrice;
-        } else if($catDetails['discount'] > 0) {
-            $discountPrice = $newPrice - ($newPrice * $catDetails['discount'] / 100);
+        } else if($catDetails->discount > 0) {
+            $discountPrice = $newPrice - ($newPrice * $catDetails->discount / 100);
             $discount = $newPrice - $discountPrice;
         } else {
             $discountPrice = $newPrice;
@@ -164,13 +170,5 @@ class Product extends Model {
         }
 
         return false;
-    }
-
-
-    /**
-     * --------------------------------------------------------------------------------------------------ADMIN FUNCTIONS
-    */
-    public static function productDetails($id): Builder {
-        return self::where('id', $id)->with('subCategory', 'seller', 'brand', 'variations', 'images');
     }
 }

@@ -138,6 +138,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="text-end">
+                        <a href="{{ route('admin.chart.index') }}" class="link-light">charts</a>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3 d-flex align-items-center">

@@ -2,10 +2,10 @@
 <header class="header">
     <div class="header_container">
         <div class="dropdown header_image">
-            {{ Str::substr(Str::upper(User()->first_name), 0, 1) }}.
-            {{ Str::ucfirst(User()->last_name) }}
-            @if(!empty(User()->image) && file_exists(public_path('/images/users/profile/' . User()->image)))
-                <img src="{{ asset('/images/users/profile/' . User()->image) }}" class="img-fluid dropdown-toggle" alt="" data-bs-toggle="dropdown">
+            {{ Str::substr(Str::upper(Auth::user()->first_name), 0, 1) }}.
+            {{ Str::ucfirst(Auth::user()->last_name) }}
+            @if(!empty(Auth::user()->image) && file_exists(public_path('/images/users/profile/' . Auth::user()->image)))
+                <img src="{{ asset('/images/users/profile/' . Auth::user()->image) }}" class="img-fluid dropdown-toggle" alt="" data-bs-toggle="dropdown">
             @else
                 <img src="{{ asset('/images/general/store_logo.jpg') }}" class="img-fluid dropdown-toggle" alt="" data-bs-toggle="dropdown">
             @endif
@@ -81,7 +81,7 @@
                                 @endisset
                                 @if(isTeamSA())
                                     <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
-                                    <a href="{{ route('admin.attributes') }}" class="nav_dropdown_item">Attributes</a>
+                                    <a href="{{ route('admin.attr.index') }}" class="nav_dropdown_item">Attributes</a>
                                 @endif
                                 <a href="{{ route('admin.coupons') }}" class="nav_dropdown_item">Coupons</a>
                             </div>

@@ -8,8 +8,6 @@
 @section('content')
     @include('/partials/top_nav')
 
-    <?php use App\Models\Cart; ?>
-
     <div id="checkout" class="container">
 
         <!--    Start Breadcrumb    -->
@@ -145,21 +143,21 @@
 
                                 <?php $totalPrice = 0; ?>
                                 @foreach($cart as $item)
-                                    <?php $price = Cart::getVariationPrice($item->product_id, $item->details); ?>
-                                    <tr data-toggle="collapse" data-target="#cart-item{{ $item['id'] }}" style="cursor: pointer">
+                                    <?php $price = getVariationPrice($item->product_id, $item->details); ?>
+                                    <tr data-toggle="collapse" data-target="#cart-item{{ $item->id }}" style="cursor: pointer">
                                         <th scope="row">{{$loop -> iteration}}</th>
                                         <td>
-                                            <a href="{{url('/product/' . $item['product']['id'] . '/' . preg_replace("/\s+/", "", $item['product']['title']))}}">
-                                                {{$item['product']['title']}}
+                                            <a href="{{url('/product/' . $item->product->id . '/' . preg_replace("/\s+/", "", $item->product->title))}}">
+                                                {{$item->product->title}}
                                             </a>
                                         </td>
-                                        <td>{{$item['quantity']}}</td>
+                                        <td>{{$item->quantity}}</td>
                                         <td>KES.{{ $price['unit_price']  }}/-</td>
-                                        <td class="border-left">KES {{ $price['discount_price'] * $item['quantity'] }}/-</td>
+                                        <td class="border-left">KES {{ $price['discount_price'] * $item->quantity }}/-</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" class="p-0">
-                                            <div class="ml-3 collapse" data-parent="#accordion" id="cart-item{{ $item['id'] }}">
+                                            <div class="ml-3 collapse" data-parent="#accordion" id="cart-item{{ $item->id }}">
                                                 <table class="table table-sm table-bordered small">
                                                     <thead>
                                                     <tr>
@@ -170,8 +168,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td><img src="{{'/images/products/' . $item['product']['main_image']}}" alt="Product Image">
-                                                        </td>
+                                                        <td><img src="{{ asset("/images/products/{$item->product->image}")  }}" alt="Product Image"></td>
                                                         <td>
                                                             @if(count($item->details) > 0)
                                                                 @foreach($item->details as $key => $value)
@@ -179,14 +176,14 @@
                                                                 @endforeach
                                                             @else N / A @endif
                                                         </td>
-                                                        <td>- {{ $price['discount'] * $item['quantity'] }}/-</td>
+                                                        <td>- {{ $price['discount'] * $item->quantity }}/-</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php $totalPrice += ($price['discount_price'] * $item['quantity'])?>
+                                    <?php $totalPrice += ($price['discount_price'] * $item->quantity)?>
                                 @endforeach
 
                                 </tbody>
@@ -287,21 +284,15 @@
         @push('scripts')
             <script src="{{ asset('vendor/TomSelect/tom-select.js') }}"></script>
             <script>
-                new TomSelect("#select-phone", {
+                const phoneSelect = new TomSelect("#select-phone", {
                     create: true,
                     createFilter: function(input) {
                         return (input.length >= 9 && input.length <= 12) && input.match(/^[0-9]*$/);
                     },
-                    sortField: {
-                        field: "text",
-                        direction: "asc"
-                    }
+                    selectOnTab: true,
+                    plugins: ['caret_position','input_autogrow'],
                 });
             </script>
         @endpush
     @endonce
-
-    <!--    PayPal Integration    -->
-    <!--<script src="https://www.paypal.com/sdk/js?client-id=AXDf54IUhnF5DvZ7WmFndgKTxkeBi6LNJbZyZFBQgcD1V4oQQmJ7gVbjt5XZx_8CCirhoCqylaeJHtPq&disable-funding=credit,card"></script>-->
-
 @endsection

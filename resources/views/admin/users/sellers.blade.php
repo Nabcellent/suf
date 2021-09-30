@@ -82,4 +82,31 @@
     </div>
 </div>
 
+    <script>
+        const sellerDataTable = $('#sellers_table').DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            order: [[ 3, 'asc' ]],
+            language: {
+                info: 'Number of sellers: _MAX_',
+                infoFiltered:   "(filtered _TOTAL_ sellers)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search seller"
+            },
+            columnDefs: [{
+                searchable: false,
+                orderable: false,
+                targets: 0
+            }, {
+                searchable: false,
+                orderable: false,
+                targets: 6
+            }],
+        });
+        sellerDataTable.on( 'order.dt search.dt', function () {
+            sellerDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell["innerHTML"] = i+1;
+            });
+        }).draw();
+    </script>
 @endsection

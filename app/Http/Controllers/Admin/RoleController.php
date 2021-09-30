@@ -151,7 +151,7 @@ class RoleController extends Controller {
                     }
                 });
             } else {
-                return Aid::goWithError('admin.role.assign.index', 'Invalid action!');
+                return Aid::goWithError('Invalid action!', 'admin.role.assign.index');
             }
 
             return Aid::updateOk();

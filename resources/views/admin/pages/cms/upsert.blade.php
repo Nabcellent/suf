@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', (empty($cms) ? 'Create' : 'Update') . ' CMS')
 @once
     @push('stylesheets')
         <link rel="stylesheet" href="{{ asset('vendor/trix/trix.css') }}">
@@ -95,67 +96,4 @@
     </div>
 
     <script src="{{ asset('vendor/trix/trix.js') }}"></script>
-    <script>
-        (function() {
-            let HOST = "https://d13txem1unpe48.cloudfront.net/"
-
-            addEventListener("trix-attachment-add", function(event) {
-                if (event.attachment.file) {
-                    uploadFileAttachment(event.attachment)
-                }
-            })
-
-            function uploadFileAttachment(attachment) {
-                uploadFile(attachment.file, setProgress, setAttributes)
-
-                function setProgress(progress) {
-                    attachment.setUploadProgress(progress)
-                }
-
-                function setAttributes(attributes) {
-                    attachment.setAttributes(attributes)
-                }
-            }
-
-            function uploadFile(file, progressCallback, successCallback) {
-                let key = createStorageKey(file)
-                let formData = createFormData(key, file)
-                let xhr = new XMLHttpRequest()
-
-                xhr.open("POST", HOST, true)
-
-                xhr.upload.addEventListener("progress", function(event) {
-                    let progress = event.loaded / event.total * 100
-                    progressCallback(progress)
-                })
-
-                xhr.addEventListener("load", function() {
-                    if (xhr.status === 204) {
-                        let attributes = {
-                            url: HOST + key,
-                            href: HOST + key + "?content-disposition=attachment"
-                        }
-                        successCallback(attributes)
-                    }
-                })
-
-                xhr.send(formData)
-            }
-
-            function createStorageKey(file) {
-                let date = new Date()
-                let day = date.toISOString().slice(0,10)
-                let name = date.getTime() + "-" + file.name
-                return [ "tmp", day, name ].join("/")
-            }
-
-            function createFormData(key, file) {
-                let data = new FormData()
-                data.append("key", key)
-                data.append("Content-Type", file.type)
-                data.append("file", file)
-                return data
-            }
-        })();
-    </script>
 @endsection

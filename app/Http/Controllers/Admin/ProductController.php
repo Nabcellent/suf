@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Aid;
 use App\Http\Requests\StoreVariationRequest;
+use App\Models\ProductImage;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
-use App\Models\Admin;
-use App\Models\Attribute;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\productsImage;
-use App\Models\Variation;
+use App\Models\{Admin, Attribute, Brand, Category, Product, Variation};
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -41,17 +37,56 @@ class ProductController extends Controller {
     }
 
     public function create(): Factory|View|Application {
-        $brands = Brand::select(['id', 'name'])->orderBy('name')->get();
-        $sellers = Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get();
-        $sections = Category::sections();
+        $data = [
+            'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
+            'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
+            'sections' => Category::sections()
+        ];
 
-        return view('admin.products.create')
-            ->with(compact('brands', 'sellers', 'sections'));
+        return view('admin.products.upsert', $data);
     }
 
-    public function show($id): Factory|View|Application {
+    public function store(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
+        $data = $request->except(['_token', '_method', 'category']);
+
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+            $data['image'] = time() . "." . $file->guessClientExtension();
+            $file->move(public_path('images/products'), $data['image']);
+        }
+
+        $data['category_id'] = $data['sub_category'];
+        $data['seller_id'] = $data['seller'];
+        $data['brand_id'] = $data['brand'];
+        $data['is_featured'] = isset($data['is_featured']);
+
+        try {
+            $data['brand_id'] = Brand::where('id', $data['brand'])->doesntExist()
+                ? Brand::insertGetId(['name' => $data['brand']])
+                : $data['brand'];
+
+            $product = DB::transaction(function() use ($data) {
+                return Product::create($data);
+            });
+
+            return Aid::createOk('Product Created successfully!', ['admin.product.show', 'id' => $product->id]);
+        } catch(Throwable $e) {
+            Log::error($e->getMessage());
+            return Aid::toastError($e->getMessage(), 'Error creating product.');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function show($id): View|Factory|RedirectResponse|Application {
+        $product = Product::with('subCategory', 'seller', 'brand', 'variations', 'images')->find($id);
+
+        if(empty($product)) return Aid::notFound('admin.product.index');
+
         $data = [
-            'product' => Product::productDetails($id)->first(),
+            'product' => $product,
             'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
             'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
             'sections' => Category::sections(),
@@ -61,66 +96,39 @@ class ProductController extends Controller {
         return view('admin.products.view', $data);
     }
 
-    public function store(StoreProductRequest $request): View|Factory|Application|RedirectResponse {
-        $data = $request->all();
+    public function edit(int $id): Factory|View|Application {
+        $product = Product::with(['subCategory'])->find($id);
 
-        $file = $request->file('main_image');
-        $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
-        $file->move(public_path('images/products'), $imageName);
+        $data = [
+            'product' => $product,
+            'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
+            'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
+            'sections' => Category::sections(),
+            'subCategories' => Category::where('category_id', $product->subCategory->category_id)->get()
+        ];
 
-        $isFeatured = isset($data['is_featured']) && $data['is_featured'] === 'on';
-
-        try {
-            $product = DB::transaction(function() use ($isFeatured, $imageName, $data) {
-                return Product::create([
-                    'category_id' => $data['sub_category'],
-                    'seller_id' => $data['seller'],
-                    'brand_id' => $data['brand'],
-                    'title' => $data['title'],
-                    'main_image' => $imageName,
-                    'keywords' => $data['keywords'],
-                    'description' => $data['description'],
-                    'label' => $data['label'],
-                    'base_price' => $data['base_price'],
-                    'discount' => $data['discount'],
-                    'is_featured' => $isFeatured,
-                    ]
-                );
-            });
-
-            $message = "New Product Created. You must now add a variation before your product becomes available in the store.";
-            return redirect(route('admin.product', ['id' => $product->id]))->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 10]);
-        } catch(Throwable $e) {
-            Log::error($e->getMessage());
-            return back()->withErrors(['Error creating product.']);
-        }
+        return view('admin.products.upsert', $data);
     }
 
-    public function updateProduct(StoreProductRequest $request, $id): RedirectResponse {
-        $data = $request->all();
-        if(isset($data['is_featured']) && $data['is_featured'] === 'on') {
-            $isFeatured = "Yes";
-        } else {
-            $isFeatured = "No";
-        }
+    public function update(StoreProductRequest $request, $id): RedirectResponse {
+        $data = $request->except(['_token', '_method', 'category']);
 
         $product = Product::find($id);
 
         if($request->hasFile('image')) {
             $file = $request->file('image');
-            $imageName = date('dmYHis') . "_" . Str::random(7) . "." . $file->guessClientExtension();
-            $file->move(public_path('images/products'), $imageName);
+            $image = time() . "." . $file->guessClientExtension();
+            $file->move(public_path('images/products'), $image);
 
-            if(File::exists(public_path('images/products/' . $product->main_image))){
-                File::delete(public_path('images/products/' . $product->main_image));
-            }
+            if(File::exists(public_path('images/products/' . $product->image)))
+                File::delete(public_path('images/products/' . $product->image));
 
-            $product->main_image = $imageName;
+            $product->image = $image;
             $product->save();
         }
 
         try {
-            DB::transaction(function() use ($product, $isFeatured, $data) {
+            DB::transaction(function() use ($product, $data) {
                 $product->update([
                     'category_id' => $data['sub_category'],
                     'seller_id' => $data['seller'],
@@ -128,18 +136,18 @@ class ProductController extends Controller {
                     'title' => $data['title'],
                     'keywords' => $data['keywords'],
                     'description' => $data['description'],
-                    'label' => $data['label'],
+                    'label' => $data['label'] ?? null,
                     'base_price' => $data['base_price'],
                     'discount' => $data['discount'],
-                    'is_featured' => $isFeatured,
+                    'stock' => $data['stock'],
+                    'is_featured' => isset($data['is_featured']),
                 ]);
             });
 
-            $message = "Product Updated.";
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            return Aid::updateOk('Update successful!', ['admin.product.show', 'id' => $product->id]);
         } catch(Throwable $e) {
             Log::error($e->getMessage());
-            return back()->withErrors(['Error updating product.']);
+            return Aid::updateFail('Update failed!', ['admin.product.show', 'id' => $product->id]);
         }
     }
 
@@ -165,11 +173,10 @@ class ProductController extends Controller {
                 Variation::create($data);
             });
 
-            $message = "Variation Created.";
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            return Aid::createOk('Variation Created!');
         } catch(Throwable $e) {
             Log::error($e->getMessage());
-            return back()->withErrors(['Error creating variation.']);
+            return Aid::createFail();
         }
     }
 
@@ -254,7 +261,7 @@ class ProductController extends Controller {
             }
 
             DB::transaction(function() use ($images) {
-                ProductsImage::insert($images);
+                ProductImage::insert($images);
             });
 
             $message = "Product Image Created.";

@@ -8,6 +8,9 @@
 .text-red {
     color: #900!important;
 }
+.text-blue {
+    color: rgb(173, 216, 230)!important;
+}
 
 
 .btn-red {

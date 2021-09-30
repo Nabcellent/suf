@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Customers')
 @section('content')
 
     <div class="container-fluid p-0">
@@ -87,7 +88,7 @@
                             <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                             </a>
-                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
                         </div>
@@ -95,7 +96,35 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    <script>
+        const customerDataTable = $('#customers_table').DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            paging:         false,
+            order: [[ 2, 'asc' ]],
+            language: {
+                info: 'Number of customers: _MAX_',
+                infoFiltered:   "(filtered _TOTAL_ customers)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search customer"
+            },
+            columnDefs: [{
+                searchable: false,
+                orderable: false,
+                targets: 0
+            }, {
+                searchable: false,
+                orderable: false,
+                targets: 6
+            }],
+        });
+        customerDataTable.on( 'order.dt search.dt', function () {
+            customerDataTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell["innerHTML"] = i+1;
+            } );
+        }).draw();
+    </script>
 
 @endsection

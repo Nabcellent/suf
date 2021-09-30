@@ -124,9 +124,9 @@ $(document).on('click', '#details input[name^="variant"]', function() {
 /**=====================================================================================================  CART PAGE   */
 
 $(document).on('click', '#cart .cart_table td.quantity button', function() {
-    const element = $(this).parents('td.quantity').find($('input[type="number"]'));
-    const newQty = parseInt(element.val());
-    const cartId = element.data('id');
+    const element = $(this).parents('td.quantity').find($('input[type="number"]')),
+        newQty = parseInt(element.val()),
+        cartId = element.data('id');
 
     (newQty > 0)
         ? updateCartQty(cartId, newQty, element)
@@ -138,24 +138,37 @@ $(document).on('change', '#cart .cart_table td.quantity input[type="number"]', f
         return;
     }
 
-    const newQty = parseInt($(this).val(), 10);
-    const cartId = $(this).data('id');
+    const newQty = parseInt($(this).val(), 10),
+        cartId = $(this).data('id');
 
     updateCartQty(cartId, newQty, $(this));
 });
 
 const updateCartQty = (cartId, newQty, inputElement) => {
+    const unitPriceTD = inputElement.closest('.quantity').next(),
+        subTotalTD = inputElement.closest('tr').find($('.sub-total')),
+        subTotalDiscountTD = inputElement.closest('tr').next().find($('.sub-total-discount')),
+        productDiscountTD = inputElement.closest('table').find($('.product-discount'))
+
     $.ajax({
         data: {cartId, newQty},
         type: 'POST',
         url: '/update-cart-item-qty',
         success: (response) => {
-            $('#cart #cart_table').html(response.view);
             $('.cart_count').html(response.cartCount);
             $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
 
             if(response.status) {
+                const {unit_price, discount_price, discount} = response.price,
+                    currentProductDiscount = parseInt(productDiscountTD.text().match(/(\d+)/)[0], 10),
+                    currentSubTotalDiscount = parseInt(subTotalDiscountTD.text().match(/(\d+)/)[0], 10),
+                    newProductDiscount = (currentProductDiscount - currentSubTotalDiscount) + (discount * newQty)
+
                 inputElement.val(newQty)
+                unitPriceTD.html(`${unit_price}/-`);
+                subTotalTD.html(`${discount_price * newQty}/-`)
+                subTotalDiscountTD.html(`${discount * newQty}/-`)
+                productDiscountTD.html(`KES.${newProductDiscount}/-`)
                 toast(response.message)
             } else {
                 Swal.fire({
@@ -166,9 +179,6 @@ const updateCartQty = (cartId, newQty, inputElement) => {
                     timer: 5000
                 })
             }
-
-            $.cachedScript( "js/jquery.nice-number.js" );
-            $.cachedScript( "js/main.js" );
         },
         error:() => toast("Oops! something isn't right", 'danger')
     });
@@ -201,27 +211,7 @@ function fetchSubCounties(data) {
         data: data,
         type: 'POST',
         url: '/get-sub-counties',
-        statusCode: {
-            404: function(responseObject, textStatus, jqXHR) {
-                // No content found (404)
-                // This code will be executed if the server returns a 404 response
-                alert('Not Found');
-            },
-            200: (responseObject, textStatus) => {
-                $('#delivery-address form select[name="sub_county"]').html(responseObject.subCounties);
-            },
-            503: function(responseObject, textStatus, errorThrown) {
-                // Service Unavailable (503)
-                // This code will be executed if the server returns a 503 response
-                alert('Unavailable');
-            }
-        },
-        error: () => {
-            alert('Error: Something went wrong');
-        }
-    }).done((data) => {
-        //alert("Done " + data);
-    }).fail((error, textStatus) => {
-        alert('Something went wrong: ' + textStatus);
+        success: response => $('#delivery-address form select[name="sub_county"]').html(response.subCounties),
+        error: () => toast('Error: Something went wrong', 'error'),
     });
 }

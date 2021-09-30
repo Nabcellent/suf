@@ -34,9 +34,7 @@ class StoreProductRequest extends FormRequest
             'seller' => 'required|integer',
             'category' => 'sometimes|required',
             'sub_category' => 'required',
-            'label' => 'required',
             'base_price' => 'required',
-            'main_image' => 'sometimes|required|mimes:jpg,png,jpeg|max:5048',
         ];
     }
 
@@ -49,7 +47,7 @@ class StoreProductRequest extends FormRequest
         return [
             'title.required' => 'A title is required',
             'brand.required' => 'A brand is required',
-            'main_image.mimes' => 'Only .jpg, .png, .jpeg are allowed for images'
+            'image.mimes' => 'Only .jpg, .png, .jpeg are allowed for images'
         ];
     }
 }

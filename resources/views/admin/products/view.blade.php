@@ -1,7 +1,13 @@
 @extends('admin.layouts.app')
+@section('title', $product->title)
+@once
+    @push('stylesheets')
+        <link rel="stylesheet" href="{{ asset('vendor/TomSelect/tom-select.css') }}">
+    @endpush
+@endonce
 @section('content')
 
-    <div id="details" class="container-fluid px-0">
+    <div id="v-product" class="container-fluid px-0">
         <div class="row">
             <div class="col">
                 <div class="row">
@@ -23,30 +29,37 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="card bg-primary text-white crud_table shadow mb-4">
+                                <div class="card bg-dark text-white crud_table shadow mb-4">
                                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Product Details</h6>
                                         <div>
-                                            <button class="btn btn-outline-light" data-toggle="modal" data-target="#edit_product_modal">Edit</button>
-                                            <a href="#" class="ml-2 delete_product" data-toggle="modal" data-id="{{ $product->id }}"
-                                               data-image="{{ $product->main_image }}" data-target="#delete_product_modal"
-                                               title="Delete This Product">
-                                                <i class="fas fa-trash text-warning"></i>
+                                            <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}" class="btn btn-outline-light"
+                                               title="Edit">
+                                                <i class="fas fa-pen text-success"></i>
+                                            </a>
+                                            <a href="#" class="ms-2 btn btn-outline-red delete-from-table" data-id="{{ $product->id }}"
+                                               data-model="Product" title="Remove">
+                                                <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <img src="{{ asset('/images/products/' . $product->main_image) }}" alt="main_image"
-                                                     style="width: 15rem;">
+                                                @if(isset($product->image) && file_exists(public_path("/images/products/{$product->image}")))
+                                                    <img src="{{ asset('/images/products/' . $product->image) }}" alt="Main Image" class="img-fluid"
+                                                         style="width: 15rem;">
+                                                @else
+                                                    <img src="{{ asset('/images/general/cart.jpg') }}" alt="Main image" class="img-fluid"
+                                                         style="width: 15rem;">
+                                                @endif
                                                 <h5 class="card-title pt-2">{{ $product->title }}</h5>
                                             </div>
                                             <div class="col">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <table class="table table-sm table-borderless">
+                                                            <table class="table table-sm table-borderless text-info">
                                                                 <tbody>
                                                                 <tr>
                                                                     <th class="py-0" scope="row">Category</th>
@@ -101,7 +114,7 @@
                                                                 <div class="col">
                                                                     <h6 class="m-0">Description</h6>
                                                                     <div class="dropdown-divider"></div>
-                                                                    <p class="m-0">{{ $product->description }}</p>
+                                                                    <p class="m-0">{!! $product->description !!}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -118,7 +131,8 @@
                                 <div class="card crud_table shadow mb-4">
                                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold text-primary"><i class="fab fa-opencart"></i> Product Variations</h6>
-                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create_variation">Add Variation
+                                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#create_variation">Add
+                                            Variation
                                         </button>
                                     </div>
                                     <div class="card-body pb-0">
@@ -152,7 +166,7 @@
                                                                         <td class="d-flex">
                                                                             <div>
                                                                                 <input type="text" name="variation_option"
-                                                                                       value="{{ $optionKey }}" class="form-control"
+                                                                                       value="{{ $optionKey }}" class="form-control form-control-sm"
                                                                                        data-option="{{ $optionKey }}"
                                                                                        data-id="{{ $variation->id }}" style="max-width: 7rem">
                                                                                 <input type="hidden" id="current_variant_name"
@@ -169,7 +183,8 @@
                                                                                 <div class="col">
                                                                                     <a href="#" data-id="{{ $variation->id }}" class="stock"
                                                                                        data-option="{{ $optionKey }}"
-                                                                                       data-toggle="modal" data-target="#set_stock">set stock</a>
+                                                                                       data-bs-toggle="modal" data-bs-target="#set_stock">set
+                                                                                        stock</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
@@ -180,20 +195,23 @@
                                                                                 <div class="col">
                                                                                     <a href="#" data-id="{{ $variation->id }}"
                                                                                        data-option="{{ $optionKey }}" class="extra_price"
-                                                                                       data-toggle="modal" data-target="#set_price">set price</a>
+                                                                                       data-bs-toggle="modal" data-bs-target="#set_price">set
+                                                                                        price</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
                                                                         <td><a href="#"><i class="fas fa-pen-fancy"></i> Image</a></td>
                                                                         <td>
                                                                             @if($optionVal['status'])
-                                                                                <a class="update_status" data-id="{{ json_encode(['key' => $optionKey, 'id' => $variation->id]) }}"
+                                                                                <a class="update_status"
+                                                                                   data-id="{{ json_encode(['key' => $optionKey, 'id' => $variation->id]) }}"
                                                                                    data-model="Variations_Option" title="Update Status"
                                                                                    style="cursor: pointer">
                                                                                     <i class="fas fa-toggle-on" status="Active"></i>
                                                                                 </a>
                                                                             @else
-                                                                                <a class="update_status" data-id="{{ json_encode(['key' => $optionKey, 'id' => $variation->id]) }}"
+                                                                                <a class="update_status"
+                                                                                   data-id="{{ json_encode(['key' => $optionKey, 'id' => $variation->id]) }}"
                                                                                    data-model="Variations_Option" title="Update Status"
                                                                                    style="cursor: pointer">
                                                                                     <i class="fas fa-toggle-off" status="Inactive"></i>
@@ -210,7 +228,7 @@
                                                                 </tbody>
                                                             </table>
                                                         </td>
-                                                        <td class="d-flex">
+                                                        <td class="d-flex justify-content-between">
                                                             @if($variation['status'])
                                                                 <h5>
                                                                     <a class="update_status" data-id="{{ $variation['id'] }}" data-model="Variation"
@@ -227,8 +245,8 @@
                                                                 </h5>
                                                             @endif
 
-                                                            <a href="#" class="attribute" data-id="{{ $variation['id'] }}" data-toggle="modal"
-                                                               data-target="#create_variation_option"
+                                                            <a href="#" class="attribute" data-id="{{ $variation['id'] }}" data-bs-toggle="modal"
+                                                               data-bs-target="#create_variation_option"
                                                                title="Add A {{ Str::singular(key($variation->options)) }}">
                                                                 <h5><i class="fas fa-plus-circle pl-3"></i></h5>
                                                             </a>
@@ -241,9 +259,9 @@
                                                 </tbody>
                                             </table>
                                         @else
-                                            <div class="row my-5 ">
-                                                <div class="col">
-                                                    <h5>This product has no variations.</h5>
+                                            <div class="row my-5 justify-content-center">
+                                                <div class="col-9 text-center">
+                                                    <h6>This product has no variations.</h6>
                                                     <hr class="bg-primary">
                                                 </div>
                                             </div>
@@ -258,13 +276,13 @@
                         <div class="card crud_table shadow mb-4">
                             <div class="card-body">
                                 <div class="list-group list-group-flush">
-                                    <a href="{{ route('admin.create-product') }}" class="list-group-item list-group-item-action">
+                                    <a href="{{ route('admin.product.create') }}" class="list-group-item list-group-item-action">
                                         Create Product
                                     </a>
                                     <a href="{{ route('admin.coupon') }}" class="list-group-item list-group-item-action">
                                         Create Coupon
                                     </a>
-                                    <a href="{{ route('admin.products') }}"
+                                    <a href="{{ route('admin.product.index') }}"
                                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                                     </a>
@@ -288,12 +306,12 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="images row">
                     <div class="col-5 pr-md-1">
                         <div class="card crud_table shadow mb-4">
                             <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> Image List</h6>
-                                <button class="btn btn-outline-info" data-toggle="modal" data-target="#add_image_modal">Upload</button>
+                                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#add_image_modal">Upload</button>
                             </div>
                             <div class="card-body">
                                 @if(count($product['images']) > 0)
@@ -337,9 +355,9 @@
                                         </table>
                                     </div>
                                 @else
-                                    <div class="row my-5 ">
-                                        <div class="col">
-                                            <h5>This product has no extra images yet.</h5>
+                                    <div class="row my-5 justify-content-center">
+                                        <div class="col-9 text-center">
+                                            <h6>This product has no extra images yet.</h6>
                                             <hr class="bg-primary">
                                         </div>
                                     </div>
@@ -353,25 +371,23 @@
                                 <h6 class="m-0 font-weight-bold text-info"><i class="fab fa-opencart"></i> Product Images</h6>
                             </div>
                             <div class="card-body">
-                                @if(count($product['images']) > 0)
-                                    <div id="details-swiper" class="swiper-container">
+                                @if(count($product->images) > 0)
+                                    <div id="image-swiper" class="swiper">
                                         <div class="swiper-wrapper">
-
-                                            @foreach($product['images'] as $image)
+                                            @foreach($product->images as $image)
                                                 <div class="swiper-slide">
-                                                    <img src="{{ asset('/images/products/' . $image['image']) }}" alt="Product Image">
+                                                    <img src="{{ asset('/images/products/' . $image->image) }}" alt="Product Image">
                                                 </div>
                                             @endforeach
-
                                         </div>
-                                        <!-- Add Arrows -->
                                         <div class="swiper-button-next"></div>
                                         <div class="swiper-button-prev"></div>
+                                        <div class="swiper-pagination"></div>
                                     </div>
                                 @else
-                                    <div class="row my-5 ">
-                                        <div class="col">
-                                            <h5>This product has no extra images yet.</h5>
+                                    <div class="row my-5 justify-content-center">
+                                        <div class="col-9 text-center">
+                                            <h6>This product has no extra images yet.</h6>
                                             <hr class="bg-primary">
                                         </div>
                                     </div>
@@ -386,16 +402,54 @@
 
     @include('admin.products.modals')
 
+    <script src="{{ asset('vendor/TomSelect/tom-select.js') }}"></script>
+    <script>
+        const attributeValues = new TomSelect("#select-values", {
+            create: true,
+            persist: true,
+            delimiter: ',',
+            hideSelected: true,
+            selectOnTab: true,
+            plugins: [
+                'caret_position',
+                'input_autogrow',
+                'remove_button'
+            ],
+        });
+
+        $('select#attribute').on('change', function () {
+            $.ajax({
+                data: {id: $(this).val()},
+                type: 'POST',
+                url: '/admin/get-attribute-values',
+                success: response => {
+                    const values = response.values.map(val => {
+                        return {value: val, text: val}
+                    })
+                    attributeValues.clearOptions()
+                    attributeValues.addOptions(values)
+                },
+                error: (error) => {
+                    toast('Something went wrong', 'danger');
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+
     @once
         @push('scripts')
 
-            <!--    Swiper JS    -->
             <script src="{{ asset('vendor/swiper/swiper-bundle.min.js') }}"></script>
             <script>
-                new Swiper('#details-swiper', {
+                new Swiper('#image-swiper', {
                     slidesPerView: 3,
                     loop: true,
                     spaceBetween: 30,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',

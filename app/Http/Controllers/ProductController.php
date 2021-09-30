@@ -120,8 +120,9 @@ class ProductController extends Controller {
 
         if($countProducts->exists()) {
             $message = "Product already exists in Cart😁";
+            $link = ['title' => 'Show me.', 'url' => route('cart')];
             return back()->withInput()
-                ->with('alert', ['type' => 'info', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+                ->with('alert', alert('info', 'Oops!', $message, 7, $link));
         }
 
         //  Convert Details to JSON for storage
@@ -193,11 +194,14 @@ class ProductController extends Controller {
             $cartItem->quantity = $demandedQty;
             $cartItem->save();
 
+            $price = getVariationPrice($cartItem->product_id, $cartItem->details);
+
             return response()->json([
                 'status' => true,
                 'message' =>'Quantity updated successfully!',
                 'cartCount'=> getCart('count'),
                 'cartTotal'=> getCart('total'),
+                'price' => $price,
                 'view' => (string)view('partials.products.cart-table', $data)
             ]);
         }

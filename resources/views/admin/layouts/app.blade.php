@@ -19,6 +19,7 @@
     <script src="{{ asset('vendor/Toastify/toastify.min.js') }}"></script>
     <!--    DataTables CDN    -->
     <script src="{{ asset('vendor/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/Admin/DataTables.js') }}"></script>
 </head>
 <body id="app">
 
@@ -28,11 +29,11 @@
     </div>
 @endif
 
-<section @auth() @if(User()->hasverifiedEmail()) class="nav_body" @endif @endauth>
+<section @auth() @if(Auth::user()->hasverifiedEmail()) class="nav_body" @endif @endauth>
     @include('admin.include.alert')
 
     @auth()
-        @if(User()->hasverifiedEmail())
+        @if(Auth::user()->hasverifiedEmail())
             @include('admin.include.navbar')
         @endif
     @endauth

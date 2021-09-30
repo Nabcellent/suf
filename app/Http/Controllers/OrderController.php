@@ -33,16 +33,12 @@ class OrderController extends Controller
                 // Prevent ordering of disabled products
                 $productStatus = Product::status($item->product_id);
 
-                if(!$productStatus) {
-                    $message = "Sorry, {$item->product->title} is currently unavailable.";
-                }
+                if(!$productStatus) $message = "Sorry, {$item->product->title} is currently unavailable.";
 
                 // Prevent ordering of products out of stock
                 $stock = Product::stock($item->product_id, "min", $item->details);
 
-                if(!$stock) {
-                    $message = "Sorry, {$item->product->title} JUST ran out of stock🤧";
-                }
+                if(!$stock) $message = "Sorry, {$item->product->title} JUST ran out of stock🤧";
 
                 // Prevent order of disabled variations
                 if($item->details) {
@@ -56,13 +52,10 @@ class OrderController extends Controller
                 // Prevent order of disabled categories
                 $categoryStatus = $item->product->subCategory->category->status;
                 $subCategoryStatus = $item->product->subCategory->status;
-                if(!$categoryStatus || !$subCategoryStatus) {
-                    $message = "Sorry, {$item->product->title} is currently unavailable.🤧";
-                }
+                if(!$categoryStatus || !$subCategoryStatus) $message = "Sorry, {$item->product->title} is currently unavailable.🤧";
 
-                if($message) {
+                if($message)
                     return back()->with('alert', ['type' => 'info', 'intro' => 'Sorry😭!', 'message' => $message, 'duration' => 7]);
-                }
             }
 
             $data = [

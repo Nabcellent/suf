@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Charts;
 
 use App\Helpers\Aid;
+use App\Helpers\ChartAid;
 use App\Models\Order;
 use Carbon\Carbon;
 use Chartisan\PHP\Chartisan;
@@ -39,7 +40,7 @@ class OrderChart extends BaseChart {
                 return chartDateFormat($item->created_at, $frequency);
             });
 
-        $orders = Aid::chartDataSet($orders, $frequency);
+        $orders = ChartAid::chartDataSet($orders, $frequency);
 
         return Chartisan::build()
             ->labels($orders['labels'])

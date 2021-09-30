@@ -10,7 +10,7 @@
     </thead>
     <tbody id="accordion">
 
-    <?php $totalPrice = 0; ?>
+    <?php $totalPrice = $totalDiscount = 0; ?>
     @foreach($cart as $item)
         <?php $price = getVariationPrice($item->product_id, $item->details); ?>
         <tr>
@@ -29,7 +29,7 @@
                 </div>
             </td>
             <td>{{ $price['unit_price'] }}/-</td>
-            <td class="border-left">KES {{$price['discount_price'] * $item->quantity}}/-</td>
+            <td class="sub-total border-left">KES {{$price['discount_price'] * $item->quantity}}/-</td>
             <td>
                 <a href="#" class="btn btn-outline-danger p-1 border-0 delete_cart_item" data-id="{{$item->id}}"><i class="fas fa-backspace"></i></a>
             </td>
@@ -47,7 +47,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td><img src="{{'/images/products/' . $item->product->main_image}}" alt="Product Image"></td>
+                            <td><img src="{{ asset("/images/products/{$item->product->image}")  }}" alt="Product Image"></td>
                             <td>
                                 @if(count($item->details) > 0)
                                     @foreach($item->details as $key => $value)
@@ -55,27 +55,36 @@
                                     @endforeach
                                 @else N / A @endif
                             </td>
-                            <td>- {{ $price['discount'] * $item->quantity }}/-</td>
+                            <td class="sub-total-discount">- {{ $price['discount'] * $item->quantity }}/-</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </td>
         </tr>
-        <?php $totalPrice += ($price['discount_price'] * $item->quantity)?>
+        <?php
+        $totalPrice += ($price['discount_price'] * $item->quantity);
+        $totalDiscount += ($price['discount'] * $item->quantity);
+        ?>
     @endforeach
 
     </tbody>
     <tfoot class="bg-dark text-white">
     <tr>
-        <th colspan="4" class="text-right">Sub Total :</th>
-        <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
+        <th colspan="4" class="text-right">Product discount :</th>
+        <th colspan="3" class="border-left product-discount">
+            KES.{{ $totalDiscount }}/-
+        </th>
     </tr>
     <tr>
         <th colspan="4" class="text-right">Coupon Discount :</th>
         <th colspan="3" class="border-left">
             KES.@if(session('couponDiscount')) {{ session('couponDiscount') }} @else 0.0 @endif/-
         </th>
+    </tr>
+    <tr>
+        <th colspan="4" class="text-right">Sub Total :</th>
+        <th colspan="3" class="border-left">KES {{currencyFormat($totalPrice)}}/-</th>
     </tr>
     <tr class="total">
         <th colspan="4" class="text-right">
@@ -89,3 +98,5 @@
     </tr>
     </tfoot>
 </table>
+
+<script src="{{ asset('js/jquery.nice-number.js') }}"></script>

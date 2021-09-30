@@ -78,11 +78,12 @@ namespace App\Models{
  * @mixin IdeHelperAttribute
  * @property int $id
  * @property string $name
- * @property mixed $values
+ * @property array $values
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Variation[] $Variations
  * @property-read int|null $variations_count
+ * @method static \Database\Factories\AttributeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute query()
@@ -333,6 +334,8 @@ namespace App\Models{
  * @property-read \App\Models\Coupon|null $coupon
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersLog[] $orderLogs
  * @property-read int|null $order_logs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersProduct[] $orderProducts
+ * @property-read int|null $order_products_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrdersProduct[] $sellersOrders
  * @property-read int|null $sellers_orders_count
  * @property-read \App\Models\User $user
@@ -455,14 +458,14 @@ namespace App\Models{
  * @property int $seller_id
  * @property int $brand_id
  * @property string $title
- * @property string $main_image
+ * @property string|null $image
  * @property string|null $keywords
- * @property string|null $description
+ * @property mixed|null $description
  * @property string|null $label
  * @property float $base_price
  * @property float|null $discount
  * @property int $stock
- * @property string $is_featured
+ * @property int $is_featured
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -487,10 +490,10 @@ namespace App\Models{
  * @method static Builder|Product whereDescription($value)
  * @method static Builder|Product whereDiscount($value)
  * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereImage($value)
  * @method static Builder|Product whereIsFeatured($value)
  * @method static Builder|Product whereKeywords($value)
  * @method static Builder|Product whereLabel($value)
- * @method static Builder|Product whereMainImage($value)
  * @method static Builder|Product whereSellerId($value)
  * @method static Builder|Product whereStatus($value)
  * @method static Builder|Product whereStock($value)
@@ -504,7 +507,7 @@ namespace App\Models{
 /**
  * App\Models\ProductsImage
  *
- * @mixin IdeHelperproductsImage
+ * @mixin IdeHelperProductsImage
  * @property int $id
  * @property int $product_id
  * @property string $image
@@ -727,6 +730,7 @@ namespace App\Models{
  * @property string|null $updated_at
  * @property-read \App\Models\Attribute $attribute
  * @property-read \App\Models\Product $product
+ * @method static \Database\Factories\VariationFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Variation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Variation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Variation query()

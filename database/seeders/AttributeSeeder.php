@@ -32,7 +32,7 @@ class AttributeSeeder extends Seeder
                 "updated_at" => Carbon::now(),
             ],[
                 'name' => 'Materials',
-                'values' => json_encode("Cotton", JSON_THROW_ON_ERROR),
+                'values' => json_encode(["Cotton"], JSON_THROW_ON_ERROR),
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now(),
             ]

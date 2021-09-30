@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Charts;
 
 use App\Helpers\Aid;
+use App\Helpers\ChartAid;
 use App\Models\Product;
 use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
@@ -38,7 +39,7 @@ class ProductChart extends BaseChart {
                 return chartDateFormat($item->created_at, $frequency);
             });
 
-        $products = Aid::chartDataSet($products, $frequency);
+        $products = ChartAid::chartDataSet($products, $frequency);
 
         return Chartisan::build()
             ->labels($products['labels'])

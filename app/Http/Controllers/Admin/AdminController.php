@@ -26,7 +26,7 @@ class AdminController extends Controller
             $admin = Admin::with('user')->where('user_id', Auth::id())->first()->toArray();
         }
 
-        $phones = User()->phones()->get()->toArray();
+        $phones = Auth::user()->phones()->get()->toArray();
 
         return view('admin.profile')->with(compact('admin', 'phones'));
     }

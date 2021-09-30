@@ -22,13 +22,11 @@ class Cart extends Model {
     /**
      * RELATIONSHIP FUNCTIONS
      */
-    public function product(): BelongsTo
-    {
+    public function product(): BelongsTo {
         return $this->belongsTo(Product::class)->with('subCategory');
     }
 
-    public function user(): BelongsTo
-    {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
 
@@ -40,19 +38,18 @@ class Cart extends Model {
     public static function cartItems(): Collection|array {
         if(Auth::check()) {
             $cartItems = self::with(['product' => static function($query) {
-                $query->select('id', 'category_id', 'title', 'main_image', 'base_price', 'discount');
+                $query->select('id', 'category_id', 'title', 'image', 'base_price', 'discount');
             }])->where('user_id', Auth::id())->orderByDesc('id')->get();
         } else {
             $cartItems = self::with(['product' => static function($query) {
-                $query->select('id', 'category_id', 'title', 'main_image', 'base_price', 'discount');
+                $query->select('id', 'category_id', 'title', 'image', 'base_price', 'discount');
             }])->where('session_id', Session::get('session_id'))->orderByDesc('id')->get();
         }
 
         return $cartItems;
     }
 
-    public static function getVariationPrice($productId, $variations): array
-    {
+    public static function getVariationPrice($productId, $variations): array {
         $basePrice = Product::where('id', (int)$productId)->value('base_price');
         $extraPrice = Variation::where('product_id', $productId)->pluck('options')
             ->collapse()->filter(function($value, $key) use($variations) {

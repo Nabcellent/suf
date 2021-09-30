@@ -47,6 +47,15 @@
         const randomColor = opacity => {
             return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
         };
+        const randomColors = (count, opacityDiff = 1) => {
+            let colors = [],
+                randomColor = `${randomColorFactor()}, ${randomColorFactor()}, ${randomColorFactor()}`;
+            for (let i = 0; i < count; i++) {
+                colors.push(`rgba(${randomColor}, ${1 - (i + opacityDiff) / 10})`)
+            }
+
+            return colors
+        }
 
         const gradientColor = rgbColor => {
             let rgb = rgbColor.join()
@@ -80,9 +89,11 @@
                         {
                             type: 'line', fill: true,
                             backgroundColor: gradientColor([0,123,255]),
+                            label: '# of ' + 'Sellers',
                         }, {
                             type: 'line', fill: true,
                             backgroundColor: gradientColor([200, 15, 25]),
+                            label: '# of ' + 'Customers',
                         }
                     ])
             }),
@@ -101,7 +112,7 @@
                     .responsive()
                     .title('Top 5 (esteemed) customers')
                     .datasets('pie')
-                    .pieColors([`rgb(173, 10, 0)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
+                    .pieColors(randomColors(5, 2))
                     .legend({position: 'bottom'})
                     .tooltip({
                         callbacks: {
@@ -129,7 +140,7 @@
                     .responsive()
                     .title('Top 5 ordered products')
                     .datasets('pie')
-                    .pieColors([`rgba(173, 10, 0, 1)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
+                    .pieColors(randomColors(5, 2))
                     .legend({position: 'bottom'})
             }),
 
@@ -149,8 +160,12 @@
                     .legend({position: 'bottom'})
                     .title('Orders per day in the past one week.')
                     .colors(['rgb(30, 100, 225)'])
-                    .datasets([{type: 'line', fill: false}, 'bar'])
-                    .padding(20)
+                    .datasets([
+                        {
+                            type: 'line', fill: true,
+                            backgroundColor: gradientColor([1, 147, 215]),
+                        }
+                    ])
             }),
 
             products: new Chartisan({
@@ -168,9 +183,13 @@
                     .responsive()
                     .legend({position: 'bottom'})
                     .title('Products created in the last week.')
-                    .colors([`rgba(255, 255, 0, .6)`])
-                    .datasets([{type: 'line', fill: true}])
-                    .padding(20)
+                    .colors([`rgb(255, 255, 0)`])
+                    .datasets([
+                        {
+                            type: 'bar', fill: true,
+                            backgroundColor: gradientColor([100, 255, 50]),
+                        }
+                    ])
             }),
 
             bestSellers: new Chartisan({
@@ -187,7 +206,7 @@
                     .responsive()
                     .title('Best Sellers')
                     .datasets('pie')
-                    .pieColors([`rgb(173, 10, 0)`, randomColor(.7), randomColor(.7), randomColor(.7), randomColor(.7)])
+                    .pieColors(randomColors(5, 2))
                     .legend({position: 'bottom'})
                     .tooltip({
                         callbacks: {
@@ -209,6 +228,6 @@
             chart.topProducts.update({background: true})
             chart.products.update({background: true})
             chart.bestSellers.update({background: true})
-        }, 10000)
+        }, 60000)
     </script>
 @endsection

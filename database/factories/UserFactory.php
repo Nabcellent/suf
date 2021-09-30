@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => Hash::make("mike"),
             'remember_token' => Str::random(10),
-            'created_at' => $this->faker->dateTimeThisYear()
+            'created_at' => $this->faker->dateTimeThisMonth()
         ];
     }
 

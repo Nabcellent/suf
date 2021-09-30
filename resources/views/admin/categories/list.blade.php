@@ -1,7 +1,5 @@
-<?php
-use App\Models\Category;
-?>
 @extends('admin.layouts.app')
+@section('title', 'Sections & Categories')
 @section('content')
 
     <div id="categories" class="container-fluid">
@@ -21,7 +19,7 @@ use App\Models\Category;
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Title</th>
-                                            <th scope="col">No of Sub-Categories</th>
+                                            <th scope="col"># Categories</th>
                                             <th scope="col">Date Created</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -32,18 +30,21 @@ use App\Models\Category;
                                             <tr>
                                                 <td></td>
                                                 <td>{{ $section->title }}</td>
-                                                <td><?= Category::where('section_id', $section->id)->count() ?></td>
+                                                <td>{{ $section->categories_count }}</td>
                                                 <td class="text-nowrap">{{ date('M d, Y', strtotime($section->created_at)) }}</td>
                                                 <td class="action">
                                                     @if($section->status)
-                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category" title="Update Status"
+                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category"
+                                                           title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category" title="Update Status"
+                                                        <a class="update_status" data-id="{{ $section->id }}" data-model="Category"
+                                                           title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
                                                     <a href="#" class="ml-4" title="Modify"><i class="fas fa-pen text-success"></i></a>
-                                                    <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $section->id }}" data-model="Category">
+                                                    <a href="#" class="ml-3 delete-from-table" title="Remove" data-id="{{ $section->id }}"
+                                                       data-model="Category">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
@@ -60,13 +61,15 @@ use App\Models\Category;
                         <div class="card crud_table shadow mb-4">
                             <div class="card-body">
                                 <div class="list-group list-group-flush">
-                                    <a href="{{ route('admin.create.product') }}" class="list-group-item list-group-item-action">
+                                    <a href="{{ route('admin.product.create') }}" class="list-group-item list-group-item-action">
                                         Create Product
                                     </a>
-                                    <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <a href="{{ route('admin.product.index') }}"
+                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         Products<span class="badge badge-primary badge-pill">14</span>
                                     </a>
-                                    <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <a href="{{ route('admin.orders') }}"
+                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         Orders<span class="badge badge-primary badge-pill">7</span>
                                     </a>
                                     <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -84,7 +87,8 @@ use App\Models\Category;
                 <div class="row my-2">
                     <div class="col">
                         <div class="card bg-dark">
-                            <div class="card-header text-center"><a href="{{ route('admin.category') }}" class="btn btn-info">Create Category</a></div>
+                            <div class="card-header text-center"><a href="{{ route('admin.category') }}" class="btn btn-info">Create Category</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,16 +121,19 @@ use App\Models\Category;
                                                 <td>{{ $category->discount }}%</td>
                                                 <td class="action">
                                                     @if($category->status)
-                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category"
+                                                           title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                        <a class="update_status" data-id="{{ $category->id }}" data-model="Category"
+                                                           title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
                                                     <a href="{{ route('admin.category', ['id' => $category->id]) }}" class="ml-3" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>
-                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $category->id }}" data-model="Category" title="Remove">
+                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $category->id }}" data-model="Category"
+                                                       title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
@@ -160,7 +167,7 @@ use App\Models\Category;
                                         </thead>
                                         <tbody>
 
-                                         @foreach($subCategories as $subCategory)
+                                        @foreach($subCategories as $subCategory)
                                             <tr>
                                                 <td></td>
                                                 <td>{{ $subCategory->title }}</td>
@@ -169,16 +176,20 @@ use App\Models\Category;
                                                 <td>{{ $subCategory->discount }}%</td>
                                                 <td class="action">
                                                     @if($subCategory->status)
-                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category"
+                                                           title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-on" status="Active"></i></a>
                                                     @else
-                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category" title="Update Status"
-                                                       style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                                                     @endif
-                                                    <a href="{{ route('admin.category', ['id' => $subCategory->id]) }}" class="ml-3 update_sub_category" title="Modify">
+                                                        <a class="update_status" data-id="{{ $subCategory->id }}" data-model="Category"
+                                                           title="Update Status"
+                                                           style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                                    @endif
+                                                    <a href="{{ route('admin.category', ['id' => $subCategory->id]) }}"
+                                                       class="ml-3 update_sub_category" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>
-                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $subCategory->id }}" data-model="Category" title="Remove">
+                                                    <a href="#" class="ml-3 delete-from-table" data-id="{{ $subCategory->id }}" data-model="Category"
+                                                       title="Remove">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
@@ -197,4 +208,61 @@ use App\Models\Category;
     </div>
 
     @include('admin.categories.modals')
+
+    <script>
+
+        /*_____________________  CATEGORIES  _____________________*/
+
+        const categoriesTable = $('#categories_table').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            language: {
+                info: 'Total Categories: _MAX_',
+                infoFiltered: "(filtered _TOTAL_)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search category"
+            },
+            columnDefs: [{
+                searchable: false,
+                orderable: false,
+                targets: 0
+            }, {
+                searchable: false,
+                orderable: false,
+                targets: 3
+            }],
+        });
+        categoriesTable.on('order.dt search.dt', function () {
+            categoriesTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                cell["innerHTML"] = i + 1;
+            });
+        }).draw();
+
+        /*_____________________  SUB_CATEGORIES  _____________________*/
+
+        const subCategoriesTable = $('#sub_categories_table').DataTable({
+            scrollY: '30vh',
+            scrollCollapse: true,
+            language: {
+                info: 'Total Sub-Categories: _MAX_',
+                infoFiltered: "(filtered _TOTAL_)",
+                search: "_INPUT_",
+                searchPlaceholder: "Search sub-category"
+            },
+            columnDefs: [{
+                searchable: false,
+                orderable: false,
+                targets: 0
+            }, {
+                searchable: false,
+                orderable: false,
+                targets: 3
+            }],
+        });
+        subCategoriesTable.on('order.dt search.dt', function () {
+            subCategoriesTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                cell["innerHTML"] = i + 1;
+            });
+        }).draw();
+    </script>
 @endsection

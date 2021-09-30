@@ -6,11 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @mixin IdeHelperProductsImage
- */
-class ProductsImage extends Model
-{
+class ProductImage extends Model {
     use HasFactory;
 
     /**
@@ -23,8 +19,7 @@ class ProductsImage extends Model
         'image'
     ];
 
-    public function product(): BelongsTo
-    {
+    public function product(): BelongsTo {
         return $this->belongsTo(Product::class);
     }
 }

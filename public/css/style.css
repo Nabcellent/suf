@@ -984,8 +984,10 @@ nav ul.pagination {
 }
 #checkout .card.cart .table tr td img,
 #cart .cart_table .table tr td img {
-    width: 3.7rem;
-    max-height: 4rem
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
 }
 #cart .cart_table .table tbody tr td.quantity input {
     border: none;
