@@ -41,7 +41,6 @@ class DatabaseSeeder extends Seeder
 
         $this->command->getOutput()->progressStart(150);
         User::factory()->count(20)
-            ->hasAddresses(1)
             ->hasPhones(1)
             ->create()->each(function($user) {
                 if($user->is_admin === 1) {
