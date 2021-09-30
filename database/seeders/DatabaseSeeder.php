@@ -39,13 +39,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
         ]);
 
-        /*\Schema::disableForeignKeyConstraints();
-        Order::truncate();
-        Product::truncate();
-        Variation::truncate();
-        \Schema::enableForeignKeyConstraints();*/
-
-        /*$this->command->getOutput()->progressStart(150);
+        $this->command->getOutput()->progressStart(150);
         User::factory()->count(20)
             ->hasAddresses(1)
             ->hasPhones(1)
@@ -87,6 +81,6 @@ class DatabaseSeeder extends Seeder
         });
         Order::factory()->count(100)->hasOrderProducts(mt_rand(1, 3))->create();
 
-        $this->command->getOutput()->progressFinish();*/
+        $this->command->getOutput()->progressFinish();
     }
 }
