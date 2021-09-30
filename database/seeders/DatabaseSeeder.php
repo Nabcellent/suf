@@ -39,8 +39,8 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
         ]);
 
-        $this->command->getOutput()->progressStart(150);
-        User::factory()->count(20)
+        $this->command->getOutput()->progressStart(8000);
+        User::factory()->count(1000)
             ->hasPhones(1)
             ->create()->each(function($user) {
                 if($user->is_admin === 1) {
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
                 }
                 $this->command->getOutput()->progressAdvance();
             });
-        Product::factory()->count(50)->create()->each(function($product) {
+        Product::factory()->count(2000)->create()->each(function($product) {
             if(mt_rand(0, 10) > 5) {
                 $options = Attribute::all()->map(function($item) {
                     $this->command->getOutput()->progressAdvance();
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
 
             $this->command->getOutput()->progressAdvance();
         });
-        Order::factory()->count(100)->hasOrderProducts(mt_rand(1, 3))->create();
+        Order::factory()->count(5000)->hasOrderProducts(mt_rand(1, 3))->create();
 
         $this->command->getOutput()->progressFinish();
     }
