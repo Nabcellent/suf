@@ -5,13 +5,59 @@
 }
 
 
-.text-red {
-    color: #900!important;
-}
-.text-blue {
-    color: rgb(173, 216, 230)!important;
+img {
+    object-fit: cover !important;
 }
 
+.fs-10 {
+    font-size: 10px !important
+}
+.fs-11 {
+    font-size: 11px !important
+}
+.fs-12 {
+    font-size: 12px !important
+}
+.fs-13 {
+    font-size: 13px !important
+}
+.fs-14 {
+    font-size: 14px !important
+}
+.fs-15 {
+    font-size: 15px !important
+}
+.fs-16 {
+    font-size: 16px !important
+}
+.fs-17 {
+    font-size: 17px !important
+}
+.fs-18 {
+    font-size: 18px !important
+}
+.fs-20 {
+    font-size: 20px !important
+}
+.fs-22 {
+    font-size: 22px !important
+}
+.fs-24 {
+    font-size: 24px !important
+}
+.fw-medium {
+    font-weight: 500
+}
+.fw-semibold {
+    font-weight: 600
+}
+
+.text-red {
+    color: #900 !important;
+}
+.text-blue {
+    color: rgb(173, 216, 230) !important;
+}
 
 .btn-red {
     color: #fff;
@@ -32,8 +78,6 @@
     background-color: var(--suf-red);
     border-color: var(--suf-red);
 }
-
-
 
 .toastify {
     font-weight: bolder;

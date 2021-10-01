@@ -31,13 +31,6 @@ $(() => {
                 maxlength: 12,
                 remote: '/check-phone',
             },
-            national_id: {
-                required: true,
-                digits: true,
-                minlength: 7,
-                maxlength: 8,
-                remote: '/check-national-id',
-            },
             gender: 'required',
             password: {
                 required: true,
@@ -63,10 +56,6 @@ $(() => {
                 required: 'Please enter a username of your choice.',
                 minlength: 'minimum required length is 3',
                 remote: 'This username has been taken',
-            },
-            national_id: {
-                required: 'Please enter your ID number.',
-                remote: 'This ID number is already in use.',
             },
             email: {
                 required: 'Please enter your email address',

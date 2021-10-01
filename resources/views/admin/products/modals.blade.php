@@ -83,9 +83,7 @@
                     @method('PATCH')
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Extra Price</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="number" name="price" class="form-control" placeholder="Enter price" aria-label autofocus required>
@@ -111,9 +109,7 @@
                     @method('PATCH')
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Stock</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="number" name="stock" class="form-control" placeholder="Enter stock amount" aria-label>

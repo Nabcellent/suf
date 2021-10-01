@@ -159,5 +159,69 @@
     </div>
     <!--    End Sticky Header Jumbotron    -->
 
+    <script>
 
+        /**=====================================================================================================  CART PAGE   */
+
+        $(document).on('click', '#cart .cart_table td.quantity button', function() {
+            const element = $(this).parents('td.quantity').find($('input[type="number"]')),
+                newQty = parseInt(element.val()),
+                cartId = element.data('id');
+
+            (newQty > 0)
+                ? updateCartQty(cartId, newQty, element)
+                : toast('Quantity must be at least 1!')
+        });
+        $(document).on('change', '#cart .cart_table td.quantity input[type="number"]', function() {
+            if($(this).val() < 1) {
+                $(this).val(1);
+                return;
+            }
+
+            const newQty = parseInt($(this).val(), 10),
+                cartId = $(this).data('id');
+
+            updateCartQty(cartId, newQty, $(this));
+        });
+
+        const updateCartQty = (cartId, newQty, inputElement) => {
+            const unitPriceTD = inputElement.closest('.quantity').next(),
+                subTotalTD = inputElement.closest('tr').find($('.sub-total')),
+                subTotalDiscountTD = inputElement.closest('tr').next().find($('.sub-total-discount')),
+                productDiscountTD = inputElement.closest('table').find($('.product-discount'))
+
+            $.ajax({
+                data: {cartId, newQty},
+                type: 'POST',
+                url: '/update-cart-item-qty',
+                success: (response) => {
+                    $('.cart_count').html(response.cartCount);
+                    $('#mega_nav .item_right .cart_total p').html(response.cartTotal + '/=');
+
+                    if(response.status) {
+                        const {unit_price, discount_price, discount} = response.price,
+                            currentProductDiscount = parseInt(productDiscountTD.text().match(/(\d+)/)[0], 10),
+                            currentSubTotalDiscount = parseInt(subTotalDiscountTD.text().match(/(\d+)/)[0], 10),
+                            newProductDiscount = (currentProductDiscount - currentSubTotalDiscount) + (discount * newQty)
+
+                        inputElement.val(newQty)
+                        unitPriceTD.html(`${unit_price}/-`);
+                        subTotalTD.html(`KES ${discount_price * newQty}/-`)
+                        subTotalDiscountTD.html(`${discount * newQty}/-`)
+                        productDiscountTD.html(`KES.${newProductDiscount}/-`)
+                        toast(response.message)
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: 'Sorryy☹',
+                            text: response.message,
+                            timer: 5000
+                        })
+                    }
+                },
+                error:() => toast("Oops! something isn't right", 'danger')
+            });
+        }
+    </script>
 @endsection

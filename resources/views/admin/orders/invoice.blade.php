@@ -31,7 +31,7 @@
             <a href="{{ route('admin.orders') }}" class="btn btn-outline-info"><i class="bx bx-left-arrow bx-fade-left-hover"></i>Back to Orders</a>
             <div>
                 <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-                <a href="{{ route('admin.invoice-pdf', ['id' => $order['id']]) }}" class="btn btn-info">
+                <a href="{{ route('admin.invoice-pdf', ['id' => $order->id]) }}" class="btn btn-info">
                     <i class="fa fa-file-pdf-o"></i> Generate PDF <i class="bx bx-download bx-fade-down-hover"></i>
                 </a>
             </div>
@@ -43,8 +43,8 @@
             <header class=" p-0 m-0">
                 <div class="row p-0 m-0">
                     <div class="col p-0 m-0">
-                        <h4 style="margin: 0">ORDER #{{ $order['id'] }}</h4>
-                        <div class="date">Order Date: {{ date('M d, Y', strtotime($order['created_at'])) }} </div>
+                        <h4 style="margin: 0">ORDER #{{ $order->id }}</h4>
+                        <div class="date">Order Date: {{ date('M d, Y', strtotime($order->created_at)) }} </div>
                     </div>
                     <div class="col company-details">
                         <h2 class="name">
@@ -63,7 +63,9 @@
                     <div class="col invoice-to">
                         <div class="text-gray-light">INVOICE TO:</div>
                         <h2 class="to">{{ $order->user->first_name }} {{ $order->user->last_name }}</h2>
+                        @isset($order->address_id)
                         <div class="address">{{ $order->address->address }}, {{ $order->address->subCounty->name }}, {{ $order->address->subCounty->county->name }}</div>
+                        @endisset
                         <div class="email"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
                         <div class="email"><a href="tel:0{{ $order->phone }}">+254-{{ $order->phone }}</a></div>
                     </div>
@@ -90,7 +92,7 @@
                         <tr>
                             <td class="no">{{ sprintf("%02d", $loop->iteration) }}</td>
                             <td class="text-left">
-                                <h3><a href="{{ route('admin.product', ['id' => $item->product_id]) }}">{{ $item->product->title }}</a></h3>
+                                <h3><a href="{{ route('admin.product.show', ['id' => $item->product_id]) }}">{{ $item->product->title }}</a></h3>
                                 @foreach($item->details as $key => $value)
                                     <p class="detail">{{ $key }}: {{ $value }}</p>
                                 @endforeach

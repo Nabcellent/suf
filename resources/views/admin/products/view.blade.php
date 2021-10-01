@@ -435,6 +435,43 @@
                 }
             });
         });
+
+        /*_______   CHANGE VARIANT NAME    _______*/
+        $(document).on('change', '#v-product td input[name="variation_option"]', function() {
+            const option = $(this).next().val();
+            const variationId = $(this).data('id');
+            const variant = $(this).val();
+            const loader = $(this).closest('td.d-flex').find($('img')).hide();
+
+            $.ajax({
+                data: {option, variant, variationId},
+                url: '/admin/variation-option',
+                type: 'PUT',
+                beforeSend:() => {
+                    loader.show();
+                },
+                statusCode: {
+                    200: (response) => {
+                        if(response.status) {
+                            $(this).removeClass('is-invalid').addClass('is-valid');
+                            $(this).val(response.newValue);
+                            $(this).next().val(response.newValue)
+                        } else {
+                            if($(this).val() === $('#current_variant_name').val()) {
+                                $(this).removeClass('is-invalid').addClass('is-valid');
+                            } else {
+                                $(this).removeClass('is-valid').addClass('is-invalid');
+                                $('#details td span.invalid-feedback').html(response.message);
+                            }
+                        }
+                    },
+                },
+                complete: () => loader.hide(),
+                error: () => {
+                    alert('Error: Something went wrong!');
+                },
+            });
+        });
     </script>
 
     @once

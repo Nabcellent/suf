@@ -98,11 +98,14 @@ function fireSweet(id, checked, title, confirmBtnTxt, confirmColor, cancelBtnTxt
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             element.checked = !checked;
 
-            Swal.fire(
-                'Cancelled',
-                'Action aborted :)',
-                'error'
-            )
+            Swal.fire({
+                icon: 'info',
+                title: 'Cancelled!',
+                text: 'Action aborted :)',
+                timer: 1500,
+                showConfirmButton: false,
+                position: 'top-end',
+            })
         }
     })
 }

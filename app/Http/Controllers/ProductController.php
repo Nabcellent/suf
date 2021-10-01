@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Aid;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -98,11 +99,8 @@ class ProductController extends Controller {
             //check if stock is available
             $availableStock = Product::stock($data['product_id'], "min", $details);
 
-            if($availableStock < $data['quantity']) {
-                $message = "That quantity is not available for this combination🤧";
-                return back()->withInput()
-                    ->with('alert', ['type' => 'danger', 'intro' => 'Sorryy!', 'message' => $message, 'duration' => 7]);
-            }
+            if($availableStock < $data['quantity'])
+                return Aid::createFail("That quantity is not available for this combination🤧");
         }
 
         //  Generate Session ID if not exists
@@ -146,7 +144,8 @@ class ProductController extends Controller {
                 ->with('alert', alert('success', 'Nice!', $message, 10, $link));
         } catch (Exception | Throwable $e) {
             Log::error($e->getMessage());
-            return back()->with('alert', alert('danger', '💔!', "Something went wrong🤧", 7));
+
+            return Aid::createFail("💔! Something went wrong🤧");
         }
     }
 

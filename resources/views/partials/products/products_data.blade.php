@@ -3,15 +3,14 @@
         @if(count($products) > 0)
             <div id="results" class="col column">
 
-                <!--    Start Single ProductSeeder    -->
                 @foreach($products as $item)
                     @php $url = url('/product/' . $item->id . '/' . preg_replace("/\s+/", "", $item->title)) @endphp
                     <div class="card">
                         <a href="{{ $url }}">
-                            @if(isset($item->image) && file_exists(public_path("images/products/{$item->image}")))
-                                <img src="{{asset("images/products/{$item->image}")}}" alt="Product image">
+                            @if(isset($item->image) && file_exists(public_path("/images/products/{$item->image}")))
+                                <img src="{{asset("/images/products/{$item->image}")}}" alt="Product image">
                             @else
-                                <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                             @endif
                         </a>
                         <div class="supplier"><a href="#">{{$item->seller->username}}</a></div>
@@ -43,7 +42,6 @@
                         </a>
                     </div>
             @endforeach
-            <!--    End Single ProductSeeder    -->
 
             </div>
             <div class="row justify-content-center">

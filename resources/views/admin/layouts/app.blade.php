@@ -14,8 +14,7 @@
 @include('admin.include.links')
 
 <!--    Jquery CDN    -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
+    <script src="{{ asset('vendor/jquery.js') }}" crossorigin="anonymous"></script>
     <script src="{{ asset('vendor/Toastify/toastify.min.js') }}"></script>
     <!--    DataTables CDN    -->
     <script src="{{ asset('vendor/DataTables/datatables.min.js') }}"></script>

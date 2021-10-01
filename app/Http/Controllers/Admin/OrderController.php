@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Aid;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrdersLog;
@@ -35,13 +36,13 @@ class OrderController extends Controller {
 
         //  FROM ORDER MODEL
         if(isSeller()) {
-            $orderProducts = $orderProducts->whereHas('product', function($query) {
+            $orderProducts = $order->whereHas('product', function($query) {
                 $query->where('seller_id', Auth::id());
             })->with(['product' => function($query) {
                 $query->where('seller_id', Auth::id());
             }]);
         } else {
-            $orderProducts = $orderProducts->with('product');
+            $orderProducts = $order->with('product');
         }
 
         $orderStatuses = [
@@ -55,7 +56,7 @@ class OrderController extends Controller {
             'Delivered',
         ];
 
-        return view('Admin.Orders.view')->with(compact('order', 'orderStatuses'));
+        return view('admin.orders.view')->with(compact('order', 'orderStatuses'));
     }
 
     public function updateOrderStatus(Request $request, $id): RedirectResponse {
@@ -79,8 +80,7 @@ class OrderController extends Controller {
             'status' => $request->input('status'),
         ]);
 
-        $message = "Order Status Updated.";
-        return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+        return Aid::updateOk("Order Status Updated.");
     }
 
     public function showInvoice($id): Factory|View|Application {
@@ -92,7 +92,7 @@ class OrderController extends Controller {
 
 
     public function processInvoicePDF($id): Factory|View|Application {
-        $order = Order::where('id', $id)->with('orderProducts', 'user', 'address')->first();
+        $order = Order::with('orderProducts', 'user', 'address')->find($id);
 
         $html = view('admin.orders.invoice_template')->with(compact('order'))->render();
 
@@ -100,14 +100,9 @@ class OrderController extends Controller {
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
 
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        $dompdf->stream();
+        $dompdf->setPaper('A4');    // (Optional) Setup the paper size and orientation
+        $dompdf->render();              // Render the HTML as PDF
+        $dompdf->stream();              // Output the generated PDF to Browser
 
         return view('admin.invoice')->with(compact('order'));
     }

@@ -120,16 +120,6 @@ class AjaxController extends Controller {
         return $exists ? "false" : "true";
     }
 
-    public function checkNationalIdExists(Request $request): string {
-        $exists = Admin::where('national_id', $request->input('national_id'));
-        if(Auth::check()) {
-            $exists = $exists->where('user_id', '<>', Auth::id());
-        }
-        $exists = $exists->exists();
-
-        return $exists ? "false" : "true";
-    }
-
     public function checkPhoneExists(Request $request): string {
         $phone = $request->input('phone');
         $phone = Str::length($phone) > 9 ? Str::substr($phone, -9) : $phone;

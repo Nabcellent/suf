@@ -23,7 +23,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'address' => 'bail|present|required|integer|exists:addresses,id',
+            'address' => 'exists:addresses,id',
             'phone' => 'required|phone:KE',
             'payment_method' => 'present|required|alpha_dash',
         ];

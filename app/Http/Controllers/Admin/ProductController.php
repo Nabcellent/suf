@@ -264,12 +264,10 @@ class ProductController extends Controller {
                 ProductImage::insert($images);
             });
 
-            $message = "Product Image Created.";
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            return Aid::createOk("Product Image Created.");
         }
 
-        $message = "You didn't upload any image.";
-        return back()->with('alert', ['type' => 'danger', 'intro' => 'Oops!', 'message' => $message, 'duration' => 7]);
+        return Aid::createFail("You didn't upload any image.");
     }
 
     public function setStock(Request $request, $id): RedirectResponse {
@@ -289,10 +287,10 @@ class ProductController extends Controller {
 
             $message = "Your {$data["option"]} $categoryTitle stock has been Set to {$data["stock"]}";
 
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            return Aid::updateOk($message);
         } catch(Exception $e) {
             Log::error($e->getMessage());
-            return back()->withErrors(['Error setting stock!']);
+            return Aid::toastError($e->getMessage(), "Error setting stock!");
         }
     }
     public function setPrice(Request $request, $id): RedirectResponse {
@@ -310,12 +308,12 @@ class ProductController extends Controller {
             $variation->options = $varOptions;
             $variation->save();
 
-            $message = "You have added an extra KSH {$data["price"]} to your {$data["price"]} " . Str::singular($categoryTitle);
+            $message = "You have added an extra KSH {$data["price"]} to your {$data["option"]} " . Str::singular($categoryTitle);
 
-            return back()->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
+            return Aid::updateOk($message);
         } catch(Exception $e) {
             Log::error($e->getMessage());
-            return back()->withErrors(['Error setting prices!']);
+            return Aid::toastError($e->getMessage(), "Error setting stock!");
         }
     }
 }

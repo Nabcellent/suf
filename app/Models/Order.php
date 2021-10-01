@@ -80,14 +80,14 @@ class Order extends Model
     }
 
     public static function orderProductsReady($orderId): bool {
-        $orderCollection = collect(Order::find($orderId)->orderProducts()->get()->toArray());
+        $orderCollection = collect(Order::find($orderId)->orderProducts()->get());
 
         if($orderCollection->isEmpty()) {
             return false;
         }
 
         return $orderCollection->every(function($value) {
-            return $value['is_ready'] === 1;
+            return $value->is_ready;
         });
     }
 }

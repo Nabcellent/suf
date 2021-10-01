@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
         ]);
 
-        $this->command->getOutput()->progressStart(8000);
+        /*$this->command->getOutput()->progressStart(8000);
         User::factory()->count(1000)
             ->hasPhones(1)
             ->create()->each(function($user) {
@@ -80,6 +80,6 @@ class DatabaseSeeder extends Seeder
         });
         Order::factory()->count(5000)->hasOrderProducts(mt_rand(1, 3))->create();
 
-        $this->command->getOutput()->progressFinish();
+        $this->command->getOutput()->progressFinish();*/
     }
 }

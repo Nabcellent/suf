@@ -44,15 +44,10 @@
                         @forelse($products as $item)
                             <div class="card">
                                 <a href="{{url('/product/' . $item->id . '/' . preg_replace("/\s+/", "", $item->title))}}">
-                                    @if(isset($item->main_image))
-                                        <?php $image_path = 'images/products/' . $item->main_image; ?>
+                                    @if(isset($item->image) && file_exists(public_path("/images/products/{$item->image}")))
+                                        <img src="{{asset("/images/products/{$item->image}")}}" alt="Product image">
                                     @else
-                                        <?php $image_path = ''; ?>
-                                    @endif
-                                    @if(!empty($item->main_image) && file_exists($image_path))
-                                        <img src="{{asset($image_path)}}" alt="Product image">
-                                    @else
-                                        <img src="{{asset('images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                        <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
                                     @endif
                                 </a>
                                 <div class="supplier"><a href="#">{{$item->seller->username}}</a></div>

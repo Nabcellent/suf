@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
+@section('title', 'Orders')
 @section('content')
-    <?php use App\Models\Order ?>
 
     <div class="container-fluid p-0">
         <div class="row">
@@ -17,7 +17,6 @@
                                     <th scope="col">Order No</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Pay Method</th>
-                                    <th scope="col">Pay Type</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
                                     @if(!isSeller())
@@ -33,8 +32,7 @@
                                 <tr>
                                     <th>{{ $order->order_no }}</th>
                                     <td>{{ $order->phone }}</td>
-                                    <td>{{ $order->payment_method }}</td>
-                                    <td>{{ $order->payment_type }}</td>
+                                    <td>{{ $order->payment_method }} _ {{ $order->payment_type }}</td>
                                     <td>{{ $order->total }}</td>
                                     <td>{{ $order->status }}</td>
                                     @if(!isSeller())
@@ -73,10 +71,7 @@
                 <div class="card crud_table shadow mb-4">
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="{{ route('admin.create.product') }}" class="list-group-item list-group-item-action">
-                                Create Product
-                            </a>
-                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
                             @if(isTeamSA())
@@ -98,7 +93,6 @@
     </div>
 
     <script>
-
         const orderDataTable = $('#orders_table').DataTable({
             scrollY:        '50vh',
             scrollCollapse: true,
@@ -116,7 +110,7 @@
             }, {
                 searchable: false,
                 orderable: false,
-                targets: 8
+                targets: 7
             }],
             createdRow: function(row, data) {
                 if(data[6].replace(/[$,]/g, '') * 1 > 1000) {

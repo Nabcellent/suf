@@ -45,65 +45,65 @@
                         <hr class="my-1">
                     </div>
                     <div class="card-body py-2">
-                        <div class="table-responsive">
-                            <table class="table table-borderless table-sm">
-                                <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="m-0">Delivery Addresses</h5>
-                                            @if(count($addresses) > 0)
-                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}" class="btn btn-outline-info"
-                                                   style="border: none; border-bottom: 1px solid;">Add Address</a>
-                                            @endif
-                                        </div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse($addresses as $address)
-                                    <tr>
-                                        <td class="pb-1">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text custom">
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="address{{ $address->id }}" name="address"
-                                                                   @if($loop->iteration === 1 || (int)old('address') === $address->id) checked @endif
-                                                                   class="custom-control-input @error('address') is-invalid @enderror"
-                                                                   value="{{ $address->id }}" required>
-                                                            <label class="custom-control-label" for="address{{ $address->id }}"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <label class="form-control text-truncate" for="address{{ $address->id }}">
-                                                    {{ $address->subCounty->county->name }}, {{ $address->subCounty->name }}, {{ $address->address }}
-                                                </label>
-                                                <div class="input-group-append">
-                                                    <a href="{{url('/account/delivery-address/' . $address->id)}}"
-                                                       class="input-group-text border-primary text-info">
-                                                        <i class='bx bx-edit-alt'></i>
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address"
-                                                       data-id="{{ $address->id }}">
-                                                        <i class='bx bx-trash-alt'></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td>
-                                            <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |
-                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>
-                                            <hr class="m-0">
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+{{--                        <div class="table-responsive">--}}
+{{--                            <table class="table table-borderless table-sm">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th scope="col">--}}
+{{--                                        <div class="d-flex justify-content-between">--}}
+{{--                                            <h5 class="m-0">Delivery Addresses</h5>--}}
+{{--                                            @if(count($addresses) > 0)--}}
+{{--                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}" class="btn btn-outline-info"--}}
+{{--                                                   style="border: none; border-bottom: 1px solid;">Add Address</a>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
+{{--                                <tbody>--}}
+{{--                                @forelse($addresses as $address)--}}
+{{--                                    <tr>--}}
+{{--                                        <td class="pb-1">--}}
+{{--                                            <div class="input-group">--}}
+{{--                                                <div class="input-group-prepend">--}}
+{{--                                                    <div class="input-group-text custom">--}}
+{{--                                                        <div class="custom-control custom-radio">--}}
+{{--                                                            <input type="radio" id="address{{ $address->id }}" name="address"--}}
+{{--                                                                   @if($loop->iteration === 1 || (int)old('address') === $address->id) checked @endif--}}
+{{--                                                                   class="custom-control-input @error('address') is-invalid @enderror"--}}
+{{--                                                                   value="{{ $address->id }}" required>--}}
+{{--                                                            <label class="custom-control-label" for="address{{ $address->id }}"></label>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <label class="form-control text-truncate" for="address{{ $address->id }}">--}}
+{{--                                                    {{ $address->subCounty->county->name }}, {{ $address->subCounty->name }}, {{ $address->address }}--}}
+{{--                                                </label>--}}
+{{--                                                <div class="input-group-append">--}}
+{{--                                                    <a href="{{url('/account/delivery-address/' . $address->id)}}"--}}
+{{--                                                       class="input-group-text border-primary text-info">--}}
+{{--                                                        <i class='bx bx-edit-alt'></i>--}}
+{{--                                                    </a>--}}
+{{--                                                    <a href="javascript:void(0)" class="input-group-text border-danger text-danger delete-address"--}}
+{{--                                                       data-id="{{ $address->id }}">--}}
+{{--                                                        <i class='bx bx-trash-alt'></i>--}}
+{{--                                                    </a>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @empty--}}
+{{--                                    <tr>--}}
+{{--                                        <td>--}}
+{{--                                            <div>You don't have any delivery addresses at the moment. Care to add one? 🙂... |--}}
+{{--                                                <a href="{{ route('profile', ['page' => 'delivery-address']) }}">add</a></div>--}}
+{{--                                            <hr class="m-0">--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforelse--}}
+{{--                                </tbody>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
                         @error('address')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror

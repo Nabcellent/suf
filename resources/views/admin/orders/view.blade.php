@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', $order->order_no)
 @section('content')
 
     <div id="order-view" class="container-fluid px-0">
@@ -8,7 +9,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col">
-                                <div class="card bg-info text-white crud_table shadow mb-4">
+                                <div class="card bg-primary text-white crud_table shadow mb-4">
                                     <div class="card-header d-flex align-items-center justify-content-between">
                                         <h6 class="m-0 font-weight-bold"><i class="fab fa-opencart"></i> Order Details</h6>
                                         <div>
@@ -56,7 +57,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class="py-1" scope="row">Amount Due</th>
-                                                                    <td class="py-1 font-weight-bolder text-warning" colspan="2">KSH.{{ currencyFormat($order->total) }}/=</td>
+                                                                    <td class="py-1 fw-bolder text-warning" colspan="2">KSH.{{ currencyFormat($order->total) }}/=</td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -91,14 +92,15 @@
                                                                 <div class="col">
                                                                     <h6 class="m-0 font-weight-bold">Delivery Address</h6>
                                                                     <div class="dropdown-divider"></div>
-                                                                    <table class="table-sm table-borderless">
-                                                                        <tbody>
-                                                                        <tr><th>County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->county->name }}</td></tr>
-                                                                        <tr><th>Sub-County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->name }}</td></tr>
-                                                                        <tr><th>Address</th><td class="text-dark">:&nbsp;&nbsp;&nbsp;{{ $order->address->address }}</td></tr>
-                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order->phone }}</td></tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <p class="text-secondary"><i>Not provided</i></p>
+{{--                                                                    <table class="table-sm table-borderless">--}}
+{{--                                                                        <tbody>--}}
+{{--                                                                        <tr><th>County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->county->name }}</td></tr>--}}
+{{--                                                                        <tr><th>Sub-County</th><td>:&nbsp;&nbsp;&nbsp;{{ $order->address->subCounty->name }}</td></tr>--}}
+{{--                                                                        <tr><th>Address</th><td class="text-dark">:&nbsp;&nbsp;&nbsp;{{ $order->address->address }}</td></tr>--}}
+{{--                                                                        <tr><th>Phone</th><td>:&nbsp;&nbsp;&nbsp;0{{ $order->phone }}</td></tr>--}}
+{{--                                                                        </tbody>--}}
+{{--                                                                    </table>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -143,8 +145,14 @@
                                         @foreach($order->orderProducts as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img src="{{ asset('images/products/' . $item->product->main_image) }}" alt="product" class="img-fluid"></td>
-                                            <td><a href="{{ route('admin.product', ['id' => $item->id]) }}">{{ $item->product->title }}</a></td>
+                                            <td>
+                                                @if(isset($item->image) && file_exists(public_path("/images/products/{$item->image}")))
+                                                    <img src="{{asset("/images/products/{$item->image}")}}" alt="Product image">
+                                                @else
+                                                    <img src="{{asset('/images/general/on-on-C100919_Image_01.jpeg')}}" alt="Product image">
+                                                @endif
+                                            </td>
+                                            <td><a href="{{ route('admin.product.show', ['id' => $item->id]) }}">{{ $item->product->title }}</a></td>
                                             <td>{{ $item->product->brand->name }}</td>
                                             @if(!isSeller())
                                                 <td>{{ $item->product->seller->admin->username }}</td>
@@ -162,9 +170,9 @@
                                             <td>{{ $item->price }}</td>
                                             <td>{{ $item->price * $item->quantity }}</td>
                                             <td class="action">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input is_ready" id="ready{{ $item->id }}" value="{{ $item->id }}" @if($item->is_ready) checked @endif>
-                                                    <label class="custom-control-label" for="ready{{ $item->id }}"></label>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input is_ready" id="ready{{ $item->id }}" value="{{ $item->id }}" @if($item->is_ready) checked @endif>
+                                                    <label class="form-check-label" for="ready{{ $item->id }}"></label>
                                                 </div>
                                             </td>
                                         </tr>
@@ -188,7 +196,7 @@
                                     <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         All Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                                     </a>
-                                    <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                                     </a>
                                     @if(!isSeller())
@@ -205,14 +213,14 @@
                     <div class="col">
                         <div class="card shadow mb-4">
                             <div class="card-body">
-                                <h5>Update Order Status</h5>
+                                <h6>Update Order Status</h6>
                                 <hr>
                                 <form id="update-order-status" action="{{ url()->current() }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <div class="form-group">
+                                    <div class="form-group mb-3">
                                         <label for="status">Status</label>
-                                        <select name="status" id="status" class="form-control" required>
+                                        <select name="status" id="status" class="form-control form-control-sm" required>
                                             @foreach($orderStatuses as $status)
                                                 <option @if($order->status === $status) selected @endif value="{{ $status }}">
 	                                                {{ $status }}</option>
@@ -220,35 +228,35 @@
                                         </select>
                                     </div>
                                     <div id="courier" class="collapse @error('courier') show @enderror @error('tracking_number') show @enderror">
-                                        <div class="form-row">
+                                        <div class="row mb-3">
                                             <div class="form-group col">
-                                                <input type="text" class="form-control @error('courier') is-invalid @enderror" name="courier" placeholder="Enter Courier Name">
+                                                <input type="text" class="form-control form-control-sm @error('courier') is-invalid @enderror" name="courier" placeholder="Enter Courier Name">
                                                 @error('courier')
                                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col">
-                                                <input type="number" class="form-control @error('tracking_number') is-invalid @enderror" name="tracking_number" placeholder="Tracking number">
+                                                <input type="number" class="form-control form-control-sm @error('tracking_number') is-invalid @enderror" name="tracking_number" placeholder="Tracking number">
                                                 @error('tracking_number')
                                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-outline-info">Update</button>
+                                    <div class="form-group mb-3">
+                                        <button type="submit" class="btn btn-sm btn-outline-info">Update</button>
                                     </div>
                                 </form>
 
                                 @if(count($order['orderLogs']) > 0)
-                                    <h5 class="mb-1">Logs</h5>
+                                    <h6 class="mb-1 text-red">Logs</h6>
                                     <hr class="mt-0">
                                     <div>
                                         @foreach($order['orderLogs'] as $log)
                                             <div class="row">
                                                 <div class="col">
-                                                    <p class="font-weight-bold m-0">{{ $log->status }}</p>
-                                                    <p class="mb-1">{{ date('d.m.Y - h:i A', strtotime($log->created_at)) }}</p>
+                                                    <p class="fw-bold m-0 fs-13">{{ $log->status }}</p>
+                                                    <p class="mb-1 fs-12">{{ date('d.m.Y - h:i A', strtotime($log->created_at)) }}</p>
                                                     <hr class="col-6 mx-0 mt-0">
                                                 </div>
                                             </div>

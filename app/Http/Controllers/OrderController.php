@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Aid;
 use App\Models\{Cart, Order, Product};
 use App\Http\Requests\StoreOrderRequest;
 use App\Jobs\ProcessOrder;
@@ -88,8 +89,9 @@ class OrderController extends Controller
         $data = $req->all();
 
         if(!$req->has('address')) {
-            $message = "Please provide a delivery address. Add at least one if there is none.";
-            return back()->with('alert', ['type' => 'info', 'intro' => 'heyy!', 'message' => $message, 'duration' => 7]);
+            $data['address'] = null;
+            /*$message = "Please provide a delivery address. Add at least one if there is none.";
+            return back()->with('alert', ['type' => 'info', 'intro' => 'heyy!', 'message' => $message, 'duration' => 7]);*/
         }
 
         //  Extract Payment Method and Type
@@ -150,8 +152,7 @@ class OrderController extends Controller
         } catch (Exception | Throwable $e) {
             Log::error($e);
 
-            $message = "Unable to place order! Please contact @Lè_•Çapuchôn✓🩸";
-            return back()->with('alert', ['type' => 'danger', 'intro' => 'Warning!', 'message' => $message, 'duration' => 7]);
+            return Aid::createFail("Unable to place order! Please contact @Lè_•Çapuchôn✓🩸");
         }
 
         Session::put('cartTotal', 0.00);
@@ -163,8 +164,7 @@ class OrderController extends Controller
         } else if($paymentMethod === 'm-pesa' & $paymentType === 'instant') {
             return redirect()->route('mpesa');
         } else {
-            $message = "Your Order has been Placed! 🥳 You shall receive an email shortly.";
-            return redirect('/thank-you')->with('alert', ['type' => 'success', 'intro' => 'Great!', 'message' => $message, 'duration' => 7]);
+            return Aid::createOk("Your Order has been Placed! 🥳 You shall receive an email shortly.", 'thank-you');
         }
     }
 
