@@ -17,9 +17,7 @@
                                     @if ($errors->any())
                                         <div class="alert alert-danger py-2 m-0">
                                             <ul class="m-0 py-0">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
+                                                @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
                                             </ul>
                                         </div>
                                     @endif

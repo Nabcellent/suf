@@ -204,28 +204,30 @@
                     </a>
                 </div>
 
-                <div class="nav_items">
-                    <h3 class="nav_subtitle">ETC</h3>
-                    <div class="dropdown-divider m-0"></div>
-                    <div class="nav_dropdown">
-                        <a href="#" class="nav_link">
-                            <i class='bx bxs-server nav_icon'></i>
-                            <span class="nav_name">Data</span>
-                            <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
-                        </a>
-                        <div class="nav_dropdown_collapse">
-                            <div class="nav_dropdown_content">
-                                <a href="{{ route('admin.chart.index') }}" class="nav_dropdown_item">Charts</a>
-                                <a href="#" class="nav_dropdown_item">Analysis</a>
+                @if(isAdmin())
+                    <div class="nav_items">
+                        <h3 class="nav_subtitle">ETC</h3>
+                        <div class="dropdown-divider m-0"></div>
+                        <div class="nav_dropdown">
+                            <a href="#" class="nav_link">
+                                <i class='bx bxs-server nav_icon'></i>
+                                <span class="nav_name">Data</span>
+                                <i class="bx bx-chevrons-down nav_icon nav_dropdown_icon"></i>
+                            </a>
+                            <div class="nav_dropdown_collapse">
+                                <div class="nav_dropdown_content">
+                                    <a href="{{ route('admin.chart.index') }}" class="nav_dropdown_item">Charts</a>
+                                    <a href="#" class="nav_dropdown_item">Analysis</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-info-circle nav_icon'></i>
-                        <span class="nav_name">Status</span>
-                    </a>
-                </div>
+                        <a href="#" class="nav_link">
+                            <i class='bx bx-info-circle nav_icon'></i>
+                            <span class="nav_name">Status</span>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
 

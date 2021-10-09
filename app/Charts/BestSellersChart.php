@@ -38,6 +38,6 @@ class BestSellersChart extends BaseChart {
 
         return Chartisan::build()
             ->labels($bestSellers->pluck('username')->toArray())
-            ->dataset('Sample', $bestSellers->pluck('count')->toArray());
+            ->dataset('Best sellers', $bestSellers->pluck('count')->toArray());
     }
 }

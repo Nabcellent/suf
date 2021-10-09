@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Emails')
 @section('content')
 
     <div class="container-fluid p-0">
@@ -69,7 +70,7 @@
                             <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                             </a>
-                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
                         </div>

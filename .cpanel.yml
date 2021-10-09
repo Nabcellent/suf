@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/nosterla/public_html/suf/
+    - /bin/cp -r * $DEPLOYPATH

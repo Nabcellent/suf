@@ -225,8 +225,6 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
         //  Database Checks
         Route::post('/check-variation', [AjaxController::class, 'checkVariationExists']);
         Route::post('/check-variation-option', [AjaxController::class, 'checkVariationOptionExists']);
-        //  CHARTS ROUTE
-        Route::post('/chart', [ChartController::class, 'getTimelyData']);
 
         ///////  USERS
         Route::get('/customers', [AdminUserController::class, 'showCustomers'])->name('customers');
@@ -245,7 +243,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::get('/rate', [ReviewController::class, 'index'])->name('index');
         });
 
-        Route::prefix('/charts')->name('chart.')->group(function() {
+        //  CHARTS ROUTE
+        Route::post('/chart', [ChartController::class, 'getTimelyData']);
+        Route::prefix('/charts')->middleware('super')->name('chart.')->group(function() {
             Route::get('/', [StatisticController::class, 'index'])->name('index');
         });
 

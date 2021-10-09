@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Coupons')
 @section('content')
 
     <div class="container-fluid p-0">
@@ -59,11 +60,7 @@
             <div class="col-3">
                 <div class="card crud_table shadow mb-4">
                     <div class="card-body">
-                        <div class="list-group list-group-flush">
-                            <a href="{{ route('admin.create.product') }}" class="list-group-item list-group-item-action">
-                                Create Product
-                            </a>
-                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">14</span>
                             </a>
                             <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">

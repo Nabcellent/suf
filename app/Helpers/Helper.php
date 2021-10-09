@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\{Admin, Attribute, Banner, Brand, Cart, Category, CmsPage, Coupon, Order, OrdersProduct, Phone};
+use App\Helpers\Aid;
 use App\Models\{Product, ProductImage, Review, User, Variation};
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -213,16 +214,7 @@ function shareLink(): array|string {
 }
 
 function accessDenied(): Redirector|Application|RedirectResponse {
-    if(Auth::check()) {
-        $intro = Auth::user()->gender === "Male" ? 'Iza Bro!' : 'Sorryyy!';
-    } else {
-        $intro = "!";
-    }
+    $message = (Auth::user()->gender === "Male" ? 'Iza Bro!' : 'Sorryyy!') . " Access Denied.";
 
-    return back()->with('alert', [
-        'type' => 'danger',
-        'intro' => $intro,
-        'message' => "Access Denied.",
-        'duration' => 7
-    ]);
+    return Aid::goWithError($message, 'admin.dashboard');
 }

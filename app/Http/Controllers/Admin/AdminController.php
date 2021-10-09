@@ -20,15 +20,16 @@ use Illuminate\Validation\Rule;
 class AdminController extends Controller
 {
     public function profile(): Factory|View|Application {
-        $admin = "";
+        $data = [];
 
         if(!isRed()) {
-            $admin = Admin::with('user')->where('user_id', Auth::id())->first()->toArray();
+            $data = [
+                'user' => User::with('admin')->findOrFail( Auth::id()),
+                'phones' => Auth::user()->phones()->get()
+            ];
         }
 
-        $phones = Auth::user()->phones()->get()->toArray();
-
-        return view('admin.profile')->with(compact('admin', 'phones'));
+        return view('admin.profile', $data);
     }
 
     public function updateProfile(Request $request): JsonResponse|Redirector|Application|RedirectResponse {

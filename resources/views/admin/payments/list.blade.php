@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Payments')
 @section('content')
     <?php use App\Models\Order ?>
 
@@ -54,7 +55,7 @@
                             <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
                             </a>
-                            <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                             </a>
                             @if(isAdmin())

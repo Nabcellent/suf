@@ -39,13 +39,13 @@
                                         <td></td>
                                         <td></td>
                                         <td class="title">
-                                        @if(isset($item->image) && file_exists(public_path("/images/products/{$item->image}")))
-                                            <img src="{{ asset('/images/products/' . $item->image) }}" alt="product" class="img-fluid">
-                                        @else
-                                            <img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid">
+                                            @if(isset($item->image) && file_exists(public_path("/images/products/{$item->image}")))
+                                                <img src="{{ asset('/images/products/' . $item->image) }}" alt="product" class="img-fluid">
+                                            @else
+                                                <img src="{{ asset('/images/general/NO-IMAGE.png') }}" alt="profile" class="img-fluid">
                                             @endif
                                             {{ $item->title }}
-                                            </td>
+                                        </td>
                                         @if(!isSeller())
                                             <td>{{ $item->seller->admin->username }}</td>
                                         @endif
@@ -115,6 +115,14 @@
     @include('admin.products.modals')
 
     <script>
+        let targets;
+
+        @if(!isSeller())
+            targets = [0, 5, 6, 7]
+        @else
+            targets = [0, 4, 5, 6]
+        @endif
+
         const productDataTable = $('#products_table').DataTable({
             language: {
                 info: 'Number of products: _MAX_',
@@ -129,7 +137,7 @@
             }, {
                 searchable: false,
                 orderable: false,
-                targets: [0, 5, 6, 7]
+                targets: targets
             }],
             createdRow: function (row, data) {
                 if ($($(data[5]).get(0)).text().replace(/[$,]/g, '') * 1 > 1000) {

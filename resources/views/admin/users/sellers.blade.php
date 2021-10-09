@@ -72,7 +72,7 @@
                         <a href="{{ route('admin.customers') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             Customers<span class="badge badge-primary badge-pill">{{ tableCount()['customers'] }}</span>
                         </a>
-                        <a href="{{ route('admin.products') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
                         </a>
                     </div>

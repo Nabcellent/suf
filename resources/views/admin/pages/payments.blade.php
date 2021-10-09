@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Payments')
 @section('content')
 
     <div id="payments" class="container-fluid p-0">
@@ -48,31 +49,6 @@
                 </div>
             </div>
         </div>
-
-        <!--    Start delete modal    -->
-
-        <div class="modal fade" id="del_product_modal<?= $productId ?>">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="{{ route('admin.products') }}" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel<?= $productId ?>">Delete Product</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Are you sure you want to delete this product?</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="yes" value="Delete Product" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!--    End delete modal    -->
     </div>
 
     @include('admin.products.modals')
