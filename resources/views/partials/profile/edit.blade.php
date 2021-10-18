@@ -40,7 +40,7 @@
                 <div class="form-group col-12 col-md mb-0 mb-md-2">
                     <label>Gender</label>
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend"><span class="input-group-text"><?= getGenderIcon($user['gender']) ?></span></div>
+                        <div class="input-group-prepend"><span class="input-group-text"><?= getGenderIcon($user->gender) ?></span></div>
                         <input type="text" class="form-control" value="{{ $user['gender'] }}" disabled>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <i class='bx bx-plus' ></i>
                 </a>
             </label>
-            @foreach($user['phones'] as $phone)
+            @foreach($user->phones as $phone)
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-mobile"></i></span>
@@ -84,7 +84,7 @@
                 </div>
             @endforeach
         </div>
-        @if(count($user['addresses']) > 0)
+        @if(count($user->addresses) > 0)
             <div class="form-group addresses">
                 <label class="d-flex justify-content-between">
                     <span>Address(es)</span>
@@ -92,7 +92,7 @@
                         <i class='bx bx-plus' ></i>
                     </a>
                 </label>
-                @foreach($user['addresses'] as $address)
+                @foreach($user->addresses as $address)
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="far fa-address-card"></i></span>

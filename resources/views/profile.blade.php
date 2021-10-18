@@ -30,12 +30,15 @@
                         <div class="card-header d-flex justify-content-center">
                             <figure class="figure m-0 profile-image">
                                 @if(!empty(Auth::user()->image) && file_exists(public_path('/images/users/profile/' . Auth::user()->image)))
-                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="figure-img img-fluid rounded" alt="Profile Picture" data-toggle="modal" data-target="#image_modal">
+                                    <img src="{{asset('/images/users/profile/' . Auth::user()->image)}}" class="figure-img img-fluid rounded"
+                                         alt="Profile Picture" data-toggle="modal" data-target="#image_modal">
                                 @else
-                                    <img src="{{asset('/images/users/630728-200.png')}}" class="figure-img img-fluid rounded" alt="Profile Picture" data-toggle="modal" data-target="#image_modal">
+                                    <img src="{{asset('/images/users/630728-200.png')}}" class="figure-img img-fluid rounded" alt="Profile Picture"
+                                         data-toggle="modal" data-target="#image_modal">
                                 @endif
                                 <figcaption class="figure-caption">
-                                    <h5 class="card-title" style="text-decoration: underline">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                                    <h5 class="card-title"
+                                        style="text-decoration: underline">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
                                 </figcaption>
                                 <span class="d-none d-md-block" data-toggle="modal" data-target="#image_modal">Change picture</span>
                             </figure>
@@ -67,7 +70,13 @@
 
                 <div class="col-md-9 px-md-1 profile_pages">
                     @if($page === 'edit')
-                        @include('partials.profile.edit')
+                        @if(isRed())
+                            <a href="https://app.daily.dev/lil_nabz">
+                                <img src="https://api.daily.dev/devcards/1722ea200d35485c8ad25b5c73ca23d7.png?r=jg5" width="400"
+                                    alt="Lil Nabz's Dev Card"/></a>
+                        @else
+                            @include('partials.profile.edit')
+                        @endif
                     @elseif($page === 'orders')
                         @include('partials.profile.orders')
                     @elseif($page === 'delivery-address')
@@ -85,7 +94,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="image_modal"aria-hidden="true">
+    <div class="modal fade" id="image_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="{{ route('profile-pic') }}" method="POST" enctype="multipart/form-data">
@@ -102,7 +111,8 @@
                         <div class="input-group mb-3">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="image" id="inputGroupFile02" accept="image/*" required>
-                                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose an image</label>
+                                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose an
+                                    image</label>
                             </div>
                             <div class="input-group-append">
                                 <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>

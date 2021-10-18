@@ -19,7 +19,7 @@
                             <th scope="col" class="pr-0">Order No.</th>
                             <th scope="col">Amount Due</th>
                             <th scope="col" class="d-none d-md-block">Payment Method</th>
-                            <th scope="col">Order Date</th>
+                            <th scope="col">Date Ordered</th>
                             <th scope="col">Status</th>
                         </tr>
                         </thead>

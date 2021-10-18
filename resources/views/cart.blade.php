@@ -105,7 +105,14 @@
                     <div id="products_like">
                         <div class="row like_title">
                             <div class="col">
-                                <h3>Luku Kali ni Setoka !</h3>
+                                @php $quote = randomQuote(); @endphp
+                                <figure class="quote small text-secondary mb-1">
+                                    <blockquote class="mb-1 fw-bold"><q>{{ $quote['quote'] }}</q></blockquote>
+                                    <figcaption>
+                                        &mdash; {{ $quote['caption'] }}
+                                        <cite>{{ $quote['cite'] ?? '' }}</cite>
+                                    </figcaption>
+                                </figure>
                                 <hr class="bg-light my-0">
                             </div>
                         </div>

@@ -208,6 +208,47 @@ function chartStartDate($frequency): \Illuminate\Support\Carbon {
 
 
 
+if(!function_exists('randomQuote')) {
+    function randomQuote() {
+        $quotes = [
+            [
+                "quote" => "Elegance is elimination.",
+                "caption" => "Cristóbal Balenciaga",
+            ], [
+                "quote" => "People will stare. Make it worth their while.",
+                "caption" => "Harry Winston",
+            ], [
+                "quote" => "When in doubt, wear red.",
+                "caption" => "Bill Blass",
+            ],
+        ];
+
+        if(Auth::check()) {
+            if(!(bool)strcasecmp(Auth::user()->gender, "Male")) {
+                //  Is Male is true
+                $quotes = [
+                    ...$quotes,
+                    [
+                        "quote" => "The joy of dressing is an art.",
+                        "caption" => "Azzedine Alaïa",
+                    ],
+                ];
+            } else {
+                //  Is FeMale
+                $quotes = [
+                    ...$quotes,
+                    [
+                        "quote" => "I make clothes, women make fashion.",
+                        "caption" => "Azzedine Alaïa",
+                    ],
+                ];
+            }
+        }
+
+        return Arr::random($quotes);
+    }
+}
+
 function shareLink(): array|string {
     return \Share::page(url()->current(), 'Your share text comes here',)
         ->facebook()->twitter()->linkedin()->telegram()->whatsapp()->getRawLinks();

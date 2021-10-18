@@ -7,8 +7,8 @@
     <div id="back_to_top"></div>
 
     <div id="info">
-        <div id="content">
-            <div class="container">
+        <div id="content" class="mb-5">
+            <div class="container mb-5 pb-5">
                 <div class="row pb-3">
 
                     <!--    Start Tab Content    -->

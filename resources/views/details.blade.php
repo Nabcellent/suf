@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col price">
-                                        <?php $discountPrice = getDiscountPrice($product->id); ?>
+                                        @php $discountPrice = getDiscountPrice($product->id); @endphp
                                         @if($discountPrice > 0)
                                             <p class="font-weight-bold m-0">
                                                 KSH <span class="variation_price">{{$discountPrice}}</span>/=
@@ -150,7 +150,7 @@
                             </form>
                             <div class="card-footer">
                                 <h4>Description</h4>
-                                <p>{{$product->description}}</p>
+                                <p>{!! $product->description !!}</p>
                             </div>
                         </div>
                     </div>

@@ -51,9 +51,12 @@ class UserController extends Controller {
             return view('profile')->with(compact('page',  'counties', 'btnAction'));
         }
 
-        $user = User::where('id', Auth::id())->with('phones', 'addresses')->first();
+        $data = [
+            'page' => $page,
+            'user' => User::with('phones', 'addresses')->findOrFail(Auth::id())
+        ];
 
-        return view('profile')->with(compact('page', 'user'));
+        return view('profile', $data);
     }
 
     public function deliveryAddress(Request $request, $id = null): Redirector|Application|RedirectResponse
