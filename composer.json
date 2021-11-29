@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "8.0.*",
+        "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-pdo": "*",
@@ -39,6 +39,7 @@
         "tonysm/rich-text-laravel": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "facade/ignition": "^2.5",
         "laravel/breeze": "^1.4",
@@ -68,7 +69,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Helper.php"
+            "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -90,7 +91,9 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ]
     }
 }

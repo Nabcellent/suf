@@ -10,12 +10,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
-class SearchProduct extends Component {
+class SearchProduct extends Component
+{
     public string $term = "";
 
     public function render(Request $request): Factory|View|Application {
         if(empty($this->term)) {
-            $products = Product::products()->where('products.status', 1)->where('stock', '>', 0);
+            $products = Product::with('subCategory', 'brand', 'seller')->where('products.status', 1)
+                ->where('stock', '>', 0);
 
             if($request->has('id')) {
                 $id = $request->input('id');

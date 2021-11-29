@@ -76,11 +76,9 @@
                         <div class="nav_dropdown_collapse">
                             <div class="nav_dropdown_content">
                                 <a href="{{ route('admin.product.index') }}" class="nav_dropdown_item">list</a>
-                                @if(latestProductId() !== null)
-                                    <a href="{{ route('admin.product.show', ['id' => latestProductId()]) }}" class="nav_dropdown_item">View</a>
-                                @endisset
+                                <a href="{{ route('admin.product.create') }}" class="nav_dropdown_item">Create</a>
                                 @if(isTeamSA())
-                                    <a href="{{ route('admin.categories') }}" class="nav_dropdown_item">Categories</a>
+                                    <a href="{{ route('admin.categories.index') }}" class="nav_dropdown_item">Categories</a>
                                     <a href="{{ route('admin.attr.index') }}" class="nav_dropdown_item">Attributes</a>
                                 @endif
                                 <a href="{{ route('admin.coupons') }}" class="nav_dropdown_item">Coupons</a>

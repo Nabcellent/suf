@@ -74,9 +74,8 @@
                                                         <h6 class="card-title"><a href=''>{{$item->title}}</a></h6>
                                                         <div class="row">
                                                             <div class="col-auto prices">
-                                                                <?php $discountPrice = getDiscountPrice($item['id']); ?>
-                                                                @if($discountPrice > 0)
-                                                                    <p>{{$discountPrice}}/=</p><br>
+                                                                @if($item->discount_price > 0)
+                                                                    <p>{{$item->discount_price}}/=</p><br>
                                                                     <del class="text-secondary">{{$item->base_price}}/=</del>
                                                                 @else
                                                                     <p>{{$item->base_price}}/=</p>
@@ -137,9 +136,8 @@
                                                         </h6>
                                                         <div class="row">
                                                             <div class="col-auto prices">
-                                                                <?php $discountPrice = getDiscountPrice($item['id']); ?>
-                                                                @if($discountPrice > 0)
-                                                                    <p>{{$discountPrice}}/=</p><br>
+                                                                @if($item->discount_price > 0)
+                                                                    <p>{{$item->discount_price}}/=</p><br>
                                                                     <del class="text-secondary">{{$item->base_price}}/=</del>
                                                                 @else
                                                                     <p>{{$item->base_price}}/=</p>
@@ -190,9 +188,8 @@
                                                         <h6 class="card-title"><a href=''>{{$item->title}}</a></h6>
                                                         <div class="row">
                                                             <div class="col-auto prices">
-                                                                <?php $discountPrice = getDiscountPrice($item['id']); ?>
-                                                                @if($discountPrice > 0)
-                                                                    <p>{{$discountPrice}}/=</p><br>
+                                                                @if($item->discount_price > 0)
+                                                                    <p>{{$item->discount_price}}/=</p><br>
                                                                     <del class="text-secondary">{{$item->base_price}}/=</del>
                                                                 @else
                                                                     <p>{{$item->base_price}}/=</p>
@@ -250,9 +247,8 @@
                                                         <h6 class="card-title"><a href=''>{{$item->title}}</a></h6>
                                                         <div class="row">
                                                             <div class="col-auto prices">
-                                                                <?php $discountPrice = getDiscountPrice($item['id']); ?>
-                                                                @if($discountPrice > 0)
-                                                                    <p>{{$discountPrice}}/=</p><br>
+                                                                @if($item->discount_price > 0)
+                                                                    <p>{{$item->discount_price}}/=</p><br>
                                                                     <del class="text-secondary">{{$item->base_price}}/=</del>
                                                                 @else
                                                                     <p>{{$item->base_price}}/=</p>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Aid;
+use App\Models\{Admin, Brand, Cart, Category, Product, Variation};
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,8 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\{Product, Cart, Brand, Admin, Category, Variation};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -22,7 +21,7 @@ use Throwable;
 
 class ProductController extends Controller {
     public function index($categoryId = null): View|Factory|string|Application {
-        $products = Product::products()->where('products.status', true)->where('stock', '>', 0);
+        $products = Product::with('subCategory', 'brand', 'seller')->whereStatus(true)->where('stock', '>', 0);
 
         $catDetails = "";
         if($categoryId !== null) {
@@ -34,8 +33,10 @@ class ProductController extends Controller {
             }
         }
 
+        $products = $products->paginate(10);
+
         $data = [
-            'products' => $products->paginate(10),
+            'products' => $products,
             'sellers' => Admin::getSellers()->get(),
             'brands' => Brand::brands()->get(),
             'catDetails' => $catDetails,

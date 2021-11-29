@@ -14,7 +14,7 @@
                             </div>
                         </div>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-                                {{ tableCount()['products'] }} <span class="visually-hidden">unread messages</span>
+                                {{ tableCount('products') }} <span class="visually-hidden">unread messages</span>
                             </span>
                     </div>
                 </a>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ tableCount()['orders'] }} <span class="visually-hidden">unread messages</span>
+                                {{ tableCount('orders') }} <span class="visually-hidden">unread messages</span>
                             </span>
                     </div>
                 </a>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                {{ tableCount()['customers'] }} <span class="visually-hidden">unread messages</span>
+                                {{ tableCount('customers') }} <span class="visually-hidden">unread messages</span>
                             </span>
                     </div>
                 </a>
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
-                                {{ tableCount()['sellers'] }} <span class="visually-hidden">unread messages</span>
+                                {{ tableCount('sellers') }} <span class="visually-hidden">unread messages</span>
                             </span>
                         </div>
                     </a>

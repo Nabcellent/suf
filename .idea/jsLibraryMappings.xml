@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{bootstrap, boxicons, chart.js, dataTables.bootstrap4, jquery-3.6.0, jquery-validation, jquery.dataTables, polyfill, select2, sweetalert2, swiper, twitter-bootstrap}" />
-    <includedPredefinedLibrary name="HTTP Response Handler" />
-  </component>
-</project>

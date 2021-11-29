@@ -22,7 +22,7 @@
                             <div class="col p-0">
                                 <nav class="d-flex justify-content-between align-items-start" aria-label="breadcrumb">
                                     <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Shop</li>
                                         <?php if(!empty($catDetails['breadcrumbs'])) echo $catDetails['breadcrumbs'] ?>
                                     </ul>
@@ -38,7 +38,7 @@
                     <!--    Start ProductSeeder Section    -->
 
                     <div class="col-md-9 pr-md-0">
-                        @if(tableCount()['products'] > 0)
+                        @if(tableCount('products') > 0)
                             <div class="row top-info">
                                 <div class="col bg-light p-3 mb-2 rounded">
                                     <div class="d-flex justify-content-between">

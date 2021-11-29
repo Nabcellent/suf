@@ -18,7 +18,7 @@
                     </div>
                     <ul class="menu_main">
                         <li><a href="/" class="nav_link">Home</a></li>
-                        @if(tableCount()['products'] > 7)
+                        @if(tableCount('products') > 7)
                             <li class="menu_item_has_children">
                                 <a class="nav_link" style="cursor: pointer">Latest <Span><i class='bx bx-down-arrow-alt' ></i></Span></a>
                                 <div class="sub_menu mega_menu mega_menu_column_4 text-dark">
@@ -37,7 +37,7 @@
                                 </div>
                             </li>
                         @endif
-                        @if(tableCount()['products'] > 0)
+                        @if(tableCount('products') > 0)
                             <li class="menu_item_has_children">
                                 <a href="{{route('products')}}" class="nav_link products">Products <span><i class='bx bx-down-arrow-alt' ></i></span></a>
                                 <ul class="sub_menu mega_menu mega_menu_column_4">

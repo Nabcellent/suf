@@ -29,7 +29,8 @@
                                         <li><small>{{ $error }}</small></li>
                                     @endforeach
                                 </ul>
-                                <button type="button" class="btn-close pt-2" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close pt-2" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                         @endif
                         <div class="card-body shadow">
@@ -41,8 +42,10 @@
                             <div class="row mb-3">
                                 <div class="form-group col">
                                     <small>Title</small>
-                                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror "
-                                           placeholder="Enter product title *" aria-label value="{{ old('title', $product->title ?? '') }}">
+                                    <input type="text" name="title"
+                                           class="form-control @error('title') is-invalid @enderror "
+                                           placeholder="Enter product title *" aria-label
+                                           value="{{ old('title', $product->title ?? '') }}">
                                     @error('title')
                                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
@@ -54,7 +57,7 @@
                                             autocomplete="on" name="brand" required>
                                         <option value=""></option>
                                         @foreach($brands as $brand)
-                                            <option @if($brand->id === $product->brand_id ?? old('brand')) selected
+                                            <option @if($brand->id === ($product->brand_id ?? old('brand'))) selected
                                                     @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
                                         @endforeach
                                     </select>
@@ -69,31 +72,37 @@
                                 @else
                                     <div class="form-group col">
                                         <small>Seller</small>
-                                        <select id="sellers" name="seller" class="form-control @error('seller') is-invalid @enderror"
+                                        <select id="sellers" name="seller"
+                                                class="form-control @error('seller') is-invalid @enderror"
                                                 aria-label="" required>
                                             <option hidden value="">Select a seller*</option>
                                             @foreach($sellers as $seller)
-                                                <option @if($seller->user_id === ($product->seller_id ?? old('seller'))) selected
-                                                        @endif value="{{ $seller->user_id }}">{{ $seller->username }}</option>
+                                                <option
+                                                    @if($seller->user_id === ($product->seller_id ?? old('seller'))) selected
+                                                    @endif value="{{ $seller->user_id }}">{{ $seller->username }}</option>
                                             @endforeach
                                         </select>
                                         @error('seller')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                              role="alert"><strong>{{ $message }}</strong></span>
                                         @enderror
                                     </div>
                                 @endif
 
                                 <div class="form-group col">
                                     <small>Category</small>
-                                    <select id="categories" class="form-control @error('category') is-invalid @enderror" name="category"
+                                    <select id="categories" class="form-control @error('category') is-invalid @enderror"
+                                            name="category"
                                             aria-label="" required>
                                         <option selected hidden value="">Select a category *</option>
                                         @foreach($sections as $section)
                                             @if(count($section->categories))
                                                 <optgroup label="{{ $section->title }}"></optgroup>
                                                 @foreach($section->categories as $category)
-                                                    <option @if($category->id === $product->subCategory->category->id ?? old('category')) selected
-                                                            @endif value="{{ $category->id }}"> &nbsp; --- {{ $category->title }}</option>
+                                                    <option
+                                                        @if($category->id === ($product->subCategory->category->id ?? old('category'))) selected
+                                                        @endif value="{{ $category->id }}"> &nbsp;
+                                                        --- {{ $category->title }}</option>
                                                 @endforeach
                                             @endif
                                         @endforeach
@@ -104,14 +113,18 @@
                                 </div>
                                 <div class="form-group col">
                                     <small>Sub category</small>
-                                    <select id="sub_categories" class="form-control @error('sub_category') is-invalid @enderror"
+                                    <select id="sub_categories"
+                                            class="form-control @error('sub_category') is-invalid @enderror"
                                             name="sub_category" aria-label="" required>
-                                        @forelse($subCategories as $sub)
-                                            <option @if($sub->id === $product->category_id ?? old('sub_category')) selected
+                                        @isset($subCategories)
+                                            @foreach($subCategories as $sub)
+                                                <option
+                                                    @if($sub->id === ($product->category_id ?? old('sub_category'))) selected
                                                     @endif value="{{ $sub->id }}">{{ $sub->title }}</option>
-                                        @empty
+                                            @endforeach
+                                        @else
                                             <option selected hidden value="">Select a sub-category *</option>
-                                        @endforelse
+                                        @endisset
                                     </select>
                                     @error('sub_category')
                                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
@@ -121,8 +134,10 @@
                             <div class="row mb-3">
                                 <div class="form-group col">
                                     <small>Initial price</small>
-                                    <input type="number" name="base_price" value="{{ old('base_price', $product->base_price ?? '') }}"
-                                           class="form-control @error('base_price') is-invalid @enderror" placeholder="Base price *"
+                                    <input type="number" name="base_price"
+                                           value="{{ old('base_price', $product->base_price ?? '') }}"
+                                           class="form-control @error('base_price') is-invalid @enderror"
+                                           placeholder="Base price *"
                                            aria-label required>
 
                                     @error('base_price')
@@ -130,9 +145,10 @@
                                     @enderror
                                 </div>
                                 <div class="form-group col">
-                                    <label></label>
+                                    <small>Discount (%)</small>
                                     <input type="number" name="discount" max="99" min="0" class="form-control"
-                                           value="{{ old('discount', $product->discount ?? '') }}" placeholder="Discount %" aria-label>
+                                           value="{{ old('discount', $product->discount ?? '') }}"
+                                           placeholder="Discount %" aria-label>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -156,7 +172,8 @@
                                 <div class="col">
                                     <small>Is this a featured product?</small>
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" value="true">
+                                        <input type="checkbox" class="form-check-input" id="is_featured"
+                                               name="is_featured" value="true">
                                         <label class="form-check-label" for="is_featured">Is featured</label>
                                     </div>
                                 </div>
@@ -164,33 +181,39 @@
                             <div class="row mb-3">
                                 <div class="form-group col">
                                     <small>Stock</small>
-                                    <input type="number" name="stock" max="99" min="1" value="{{ old('stock', $product->stock ?? '') }}"
+                                    <input type="number" name="stock" max="99" min="1"
+                                           value="{{ old('stock', $product->stock ?? '') }}"
                                            class="form-control"
                                            placeholder="Total stock" aria-label>
                                 </div>
                                 <div class="form-group col">
                                     <small>Keywords</small>
                                     <input type="text" name="keywords" class="form-control"
-                                           value="{{ old('keywords', $product->keywords ?? '') }}" placeholder="Product keywords" aria-label>
+                                           value="{{ old('keywords', $product->keywords ?? '') }}"
+                                           placeholder="Product keywords" aria-label>
                                 </div>
                             </div>
                             <div class="form-group mb-3">
                                 <small>Description</small>
-                                <input id="description" value="{{ old('description', $product->description ?? '') }}" type="hidden"
+                                <input id="description" value="{{ old('description', $product->description ?? '') }}"
+                                       type="hidden"
                                        name="description" required>
                                 <trix-editor input="description" placeholder="Product description..."></trix-editor>
                             </div>
                             <div class="card-footer text-end">
                                 <button type="submit" class="btn btn-outline-primary"><i
-                                        class="fas fa-plus-circle"></i> {{ empty($product) ? 'Create' : 'Update' }}</button>
-                                <img class="d-none loader_gif" src="{{ asset('/images/loaders/Gear-0.2s-200px.gif') }}" alt="loader.gif">
+                                        class="fas fa-plus-circle"></i> {{ empty($product) ? 'Create' : 'Update' }}
+                                </button>
+                                <img class="d-none loader_gif" src="{{ asset('/images/loaders/Gear-0.2s-200px.gif') }}"
+                                     alt="loader.gif">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-12">
                         <div class="card-body shadow row">
                             <div class="form-group col">
-                                <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror"
+                                <input type="file" id="image" name="image"
+                                       class="form-control @error('image') is-invalid @enderror"
                                        accept="image/png,image/jpg,image/jpeg">
                                 @error('image')
                                 <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
@@ -206,16 +229,18 @@
                         <div class="list-group list-group-flush">
                             <a href="{{ route('admin.product.index') }}"
                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                All Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
+                                All Products<span
+                                    class="badge badge-primary badge-pill">{{ tableCount('products') }}</span>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
+                            <a href="#"
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Orders<span class="badge badge-primary badge-pill">{{ tableCount('orders') }}</span>
                             </a>
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Quantity Sold<span class="badge badge-primary badge-pill">17</span>
                             </a>
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Remaining stock<span class="badge badge-primary badge-pill">37</span>
+                            <a href="{{ route('admin.categories.upsert') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Create Category
                             </a>
                         </div>
                     </div>

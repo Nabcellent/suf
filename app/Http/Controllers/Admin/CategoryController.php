@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CategoryController extends Controller
 {
@@ -54,26 +55,30 @@ class CategoryController extends Controller
             ->with(compact('title', 'sections', 'categories'));
     }
 
-    public function createUpdateCategory(StoreCategoryRequest $request, $id = null): RedirectResponse {
-        $data = $request->all();
+    public function upsertCategory(StoreCategoryRequest $request, $id = null): RedirectResponse {
+        $data = $request->except('_token');
         $message = "";
 
         if($request->isMethod('POST')) {
+            $data = collect($data['sections'])->map(function($section) use ($data) {
+                return [
+                    'title' => $data['category_title'],
+                    'section_id' => $section,
+                    'discount' => $data['discount'] ?? 0,
+                    'description' => $data['description'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            })->toArray();
+
             DB::transaction(function() use ($data) {
-                foreach($data['sections'] as $section) {
-                    Category::create([
-                        'title' => $data['category_title'],
-                        'section_id' => $section,
-                        'discount' => $data['discount'],
-                        'description' => $data['description'],
-                    ]);
-                }
+                Category::insert($data);
             });
 
             $message = "Category Created.";
         } else if($request->isMethod('PUT')) {
             DB::transaction(function() use ($id, $data) {
-                Category::where('id', $id)->update([
+                Category::whereId($id)->update([
                     'title' => $data['category_title'],
                     'section_id' => $data['section'],
                     'discount' => $data['discount'],
@@ -84,40 +89,44 @@ class CategoryController extends Controller
             $message = "Category Updated.";
         }
 
-        return redirect()->route('admin.categories')
+        return redirect()->route('admin.categories.index')
             ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 
-    public function createUpdateSubCategory(StoreCategoryRequest $request, $id = null): RedirectResponse {
+    public function upsertSubCategory(StoreCategoryRequest $request, $id = null): RedirectResponse {
         $data = $request->all();
 
-        if($request->isMethod('POST')) {
-            DB::transaction(function() use ($data) {
-                Category::create([
-                    'title' => $data['sub_category_title'],
-                    'section_id' => $data['section'],
-                    'category_id' => $data['category'],
-                    'discount' => $data['discount'],
-                    'description' => $data['description'],
-                ]);
-            });
+        try {
+            if($request->isMethod('POST')) {
+                DB::transaction(function() use ($data) {
+                    Category::create([
+                        'title'       => $data['sub_category_title'],
+                        'section_id'  => $data['section'],
+                        'category_id' => $data['category'],
+                        'discount'    => $data['discount'] ?? 0,
+                        'description' => $data['description'],
+                    ]);
+                });
 
-            $message = "Sub Category Created.";
-        } elseif($request->isMethod('PUT')) {
-            DB::transaction(function() use ($id, $data) {
-                Category::where('id', $id)->update([
-                    'title' => $data['sub_category_title'],
-                    'section_id' => $data['section'],
-                    'category_id' => $data['category'],
-                    'discount' => $data['discount'],
-                    'description' => $data['description'],
-                ]);
-            });
+                $message = "Sub Category Created.";
+            } else if($request->isMethod('PUT')) {
+                DB::transaction(function() use ($id, $data) {
+                    Category::where('id', $id)->update([
+                        'title'       => $data['sub_category_title'],
+                        'section_id'  => $data['section'],
+                        'category_id' => $data['category'],
+                        'discount'    => $data['discount'] ?? 0,
+                        'description' => $data['description'],
+                    ]);
+                });
 
-            $message = "Sub Category Updated.";
+                $message = "Sub Category Updated.";
+            }
+        } catch (Throwable $e) {
+            return toastError($e->getMessage(),'Something went wrong!');
         }
 
-        return redirect()->route('admin.categories')
+        return redirect()->route('admin.categories.index')
             ->with('alert', ['type' => 'success', 'intro' => 'Success!', 'message' => $message, 'duration' => 7]);
     }
 }

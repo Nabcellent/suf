@@ -1,37 +1,37 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AppController;
-use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\Auth\RegisterController;
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ChartController;
-use App\Http\Controllers\Admin\IndexController;
-use App\Http\Controllers\Admin\PaymentController;
-use App\Http\Controllers\Admin\CmsController as AdminCmsController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\AjaxController;
-use App\Http\Controllers\API\Mpesa\MpesaController;
-use App\Http\Controllers\API\Mpesa\StkController;
-use App\Http\Controllers\API\PayPal\PaypalController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\{Admin\StatisticController,
-    ReviewController,
     CmsController,
     ContactUsController,
     CouponController,
     HomeController,
     OrderController,
     ProductController,
+    ReviewController,
     UserController};
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\CouponController as AdminCouponController;
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AjaxController as AdminAjaxController;
+use App\Http\Controllers\Admin\AppController;
+use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\Auth\RegisterController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\CmsController as AdminCmsController;
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\API\Mpesa\MpesaController;
+use App\Http\Controllers\API\Mpesa\StkController;
+use App\Http\Controllers\API\PayPal\PaypalController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -157,10 +157,13 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
             Route::post('/upsert/brand/', [AttributeController::class, 'upsertBrand'])->name('brand.upsert');
         });
 
-        Route::get('/categories', [CategoryController::class, 'showCategories'])->name('categories');
-        Route::get('/category/{id?}', [CategoryController::class, 'showCategoryForms'])->name('category');
-        Route::match(['POST', 'PUT'],'/category/{id?}', [CategoryController::class, 'createUpdateCategory'])->name('post_put_category');
-        Route::match(['POST', 'PUT'],'/sub-category/{id?}', [CategoryController::class, 'createUpdateSubCategory'])->name('sub-category');
+        //  CATEGORY ROUTES
+        Route::prefix('/categories')->name('categories.')->group(function() {
+            Route::get('/', [CategoryController::class, 'showCategories'])->name('index');
+            Route::get('/create/{id?}', [CategoryController::class, 'showCategoryForms'])->name('upsert');
+            Route::match(['POST', 'PUT'],'/upsert-category/{id?}', [CategoryController::class, 'upsertCategory'])->name('upsert_category');
+            Route::match(['POST', 'PUT'],'/upsert-sub-category/{id?}', [CategoryController::class, 'upsertSubCategory'])->name('upsert_sub_category');
+        });
 
         Route::get('/coupons', [AdminCouponController::class, 'showCoupons'])->name('coupons');
         Route::match(['GET', 'POST', 'PUT'], '/coupon/{id?}', [AdminCouponController::class, 'getCreateUpdate'])->name('coupon');

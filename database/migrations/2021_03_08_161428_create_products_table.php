@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration {
             $table->string('description')->nullable();
             $table->string('label', 10)->nullable();
             $table->float('base_price');
-            $table->float('discount')->nullable()->default(0);
+            $table->float('discount')->default(0);
             $table->integer('stock')->default(0);
             $table->boolean('is_featured')->default(true);
             $table->tinyInteger('status')->default(1);

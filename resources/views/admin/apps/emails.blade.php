@@ -60,18 +60,18 @@
                             @if(!isSeller())
                                 @if(isRed())
                                     <a href="{{ route('admin.admins') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Admins<span class="badge badge-primary badge-pill">{{ tableCount()['admins'] }}</span>
+                                        Admins<span class="badge badge-primary badge-pill">{{ tableCount('admins') }}</span>
                                     </a>
                                 @endif
                                 <a href="{{ route('admin.sellers') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    Sellers<span class="badge badge-primary badge-pill">{{ tableCount()['sellers'] }}</span>
+                                    Sellers<span class="badge badge-primary badge-pill">{{ tableCount('sellers') }}</span>
                                 </a>
                             @endif
                             <a href="{{ route('admin.orders') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Orders<span class="badge badge-primary badge-pill">{{ tableCount()['orders'] }}</span>
+                                Orders<span class="badge badge-primary badge-pill">{{ tableCount('orders') }}</span>
                             </a>
                             <a href="{{ route('admin.product.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Products<span class="badge badge-primary badge-pill">{{ tableCount()['products'] }}</span>
+                                Products<span class="badge badge-primary badge-pill">{{ tableCount('products') }}</span>
                             </a>
                         </div>
                     </div>

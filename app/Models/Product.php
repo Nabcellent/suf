@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\Searchable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JetBrains\PhpStorm\ArrayShape;
 use Tonysm\RichTextLaravel\Casts\AsRichTextContent;
 
 /**
@@ -67,18 +67,29 @@ class Product extends Model {
         return $value;
     }
 
+    public function getDiscountPriceAttribute(): int {
+        if($this->discount > 0) {
+            $discountPrice = $this->base_price - ($this->base_price * $this->discount / 100);
+        } else if($this->subCategory->discount > 0) {
+            $discountPrice = $this->base_price - ($this->base_price * $this->subCategory->discount / 100);
+        } else {
+            $discountPrice = 0;
+        }
+
+        return $discountPrice;
+    }
+
 
 
     /**
      * RELATIONSHIP FUNCTIONS
      */
     public function subCategory(): BelongsTo {
-        return $this->belongsTo(Category::class, 'category_id', 'id')
-            ->with('category');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function seller(): BelongsTo {
-        return $this->belongsTo(User::class)->with('admin');
+        return $this->belongsTo(User::class);
     }
 
     public function brand(): BelongsTo {
@@ -102,10 +113,6 @@ class Product extends Model {
     /**
      * STATIC FUNCTIONS
      */
-    public static function products(): Builder {
-        return self::with('subCategory', 'brand', 'seller');
-    }
-
     public static function getDiscountPrice($productId): int {
         $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first();
@@ -121,6 +128,7 @@ class Product extends Model {
         return $discountPrice;
     }
 
+    #[ArrayShape(['unit_price' => "float", 'discount_price' => "float", 'discount' => "float"])]
     public static function getVariationDiscountPrice($productId, $newPrice): array {
         $proDetails = self::select(['base_price', 'discount', 'category_id'])->where('id', $productId)->first();
         $catDetails = Category::select('discount')->where('id', $proDetails['category_id'])->first();

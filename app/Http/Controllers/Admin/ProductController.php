@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Aid;
-use App\Http\Requests\StoreVariationRequest;
-use App\Models\ProductImage;
-use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreVariationRequest;
 use App\Models\{Admin, Attribute, Brand, Category, Product, Variation};
+use App\Models\ProductImage;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -81,15 +81,27 @@ class ProductController extends Controller {
      * @return Application|Factory|View|RedirectResponse
      */
     public function show($id): View|Factory|RedirectResponse|Application {
-        $product = Product::with('subCategory', 'seller', 'brand', 'variations', 'images')->find($id);
+        $product = Product::with(['subCategory' => function($query) {
+            $query->with(['category' => function($query) {
+                $query->with(['section' => function($query) {
+                    $query->select(['id', 'title', 'section_id', 'category_id']);
+                }])->select(['id', 'title', 'section_id', 'category_id']);
+            }])->select(['id', 'title', 'section_id', 'category_id']);
+        }, 'seller' => function($query) {
+            $query->with(['admin' => function($query) {
+                $query->select(['id', 'user_id', 'username']);
+            }])->select('id');
+        }, 'brand' => function($query) {
+            $query->select(['id', 'name']);
+        }, 'variations', 'images'])->find($id);
 
         if(empty($product)) return Aid::notFound('admin.product.index');
 
         $data = [
             'product' => $product,
-            'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
-            'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
-            'sections' => Category::sections(),
+//            'brands' => Brand::select(['id', 'name'])->orderBy('name')->get(),
+//            'sellers' => Admin::select(['user_id', 'username'])->orderBy('username')->where('type', 'Seller')->get(),
+//            'sections' => Category::sections(),
             'attributes' => Attribute::select(['id', 'name'])->orderBy('name')->get()
         ];
 

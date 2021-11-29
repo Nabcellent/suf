@@ -25,7 +25,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'category_title' => 'bail|sometimes|present|required|string',
             'sub_category_title' => 'bail|sometimes|present|required|string',
-            'discount' => 'integer|max:99',
+            'discount' => 'nullable|integer|max:99',
             'section' => 'bail|sometimes|required|integer|exists:App\Models\Category,id',
             'sections' => 'bail|sometimes|required|array|exists:App\Models\Category,id',
             'category' => 'bail|sometimes|required|integer|exists:App\Models\Category,id',

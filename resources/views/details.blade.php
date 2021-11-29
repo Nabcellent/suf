@@ -130,10 +130,9 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col price">
-                                        @php $discountPrice = getDiscountPrice($product->id); @endphp
-                                        @if($discountPrice > 0)
+                                        @if($product->discount_price > 0)
                                             <p class="font-weight-bold m-0">
-                                                KSH <span class="variation_price">{{$discountPrice}}</span>/=
+                                                KSH <span class="variation_price">{{ $product->discount_price }}</span>/=
                                             </p>
                                             <del class="text-secondary">{{$product->base_price}}/=</del>
                                         @else
@@ -232,9 +231,8 @@
                                                             <p class="m-0 text-center text-secondary brand-name">{{$item->brand->name}}</p>
                                                             <div class="row">
                                                                 <div class="col prices">
-                                                                    <?php $discountPrice = getDiscountPrice($item->id); ?>
-                                                                    @if($discountPrice > 0)
-                                                                        <p>{{$discountPrice}}/=</p><br>
+                                                                    @if($item->discount_price > 0)
+                                                                        <p>{{$item->discount_price}}/=</p><br>
                                                                         <del class="text-secondary">{{$item->base_price}}/=</del>
                                                                     @else
                                                                         <p>{{$item->base_price}}/=</p>

@@ -46,13 +46,12 @@ class Category extends Model
 
     public function categories(): HasMany {
         return $this->hasMany(__CLASS__, 'section_id')
-            ->where(['category_id' => null, 'status' => 1])->orderBy('title')
-            ->with('subCategories');
+            ->where(['category_id' => null, 'status' => 1])->orderBy('title');
     }
 
     public function subCategories(): HasMany {
         return $this->hasMany(__CLASS__, 'category_id')->has('products')
-            ->where('status', 1)->orderBy('title');
+            ->whereStatus(true)->orderBy('title');
     }
 
 
@@ -61,8 +60,10 @@ class Category extends Model
      * STATIC FUNCTIONS
     */
     public static function sections(): array|Collection {
-        $getCategories = self::where(['section_id' => null, 'category_id' => null])
-            ->with('categories')->where('status', 1)->get();
+        $getCategories = self::whereNull(['section_id', 'category_id'])
+            ->with(['categories' => function($query) {
+                $query->with('subCategories')->where(['category_id' => null, 'status' => 1])->orderBy('title');
+            }])->where('status', 1)->get();
 
         try {
             return $getCategories;
@@ -72,6 +73,7 @@ class Category extends Model
         }
     }
 
+    #[ArrayShape(['catIds' => "array", 'catDetails' => "mixed", 'breadcrumbs' => "string"])]
     public static function categoryDetails($url): array {
         $catDetails = self::select(['id', 'title', 'category_id', 'description'])->with(['subCategories' => function($query) {
             $query->select('categories.category_id', 'categories.id', 'title', 'description')

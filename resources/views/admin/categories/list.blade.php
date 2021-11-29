@@ -73,7 +73,7 @@
                                         Orders<span class="badge badge-primary badge-pill">7</span>
                                     </a>
                                     <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        Quantity Sold<span class="badge badge-primary badge-pill">{{ tableCount()['qtySold'] }}</span>
+                                        Quantity Sold<span class="badge badge-primary badge-pill">{{ tableCount('qtySold') }}</span>
                                     </a>
                                     <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                         Remaining stock<span class="badge badge-primary badge-pill">37</span>
@@ -87,7 +87,7 @@
                 <div class="row my-2">
                     <div class="col">
                         <div class="card bg-dark">
-                            <div class="card-header text-center"><a href="{{ route('admin.category') }}" class="btn btn-info">Create Category</a>
+                            <div class="card-header text-center"><a href="{{ route('admin.categories.upsert') }}" class="btn btn-info">Create Category</a>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                                                            title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
-                                                    <a href="{{ route('admin.category', ['id' => $category->id]) }}" class="ml-3" title="Modify">
+                                                    <a href="{{ route('admin.categories.upsert', ['id' => $category->id]) }}" class="ml-3" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>
                                                     <a href="#" class="ml-3 delete-from-table" data-id="{{ $category->id }}" data-model="Category"
@@ -184,7 +184,7 @@
                                                            title="Update Status"
                                                            style="cursor: pointer"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                                     @endif
-                                                    <a href="{{ route('admin.category', ['id' => $subCategory->id]) }}"
+                                                    <a href="{{ route('admin.categories.upsert', ['id' => $subCategory->id]) }}"
                                                        class="ml-3 update_sub_category" title="Modify">
                                                         <i class="fas fa-pen text-success"></i>
                                                     </a>

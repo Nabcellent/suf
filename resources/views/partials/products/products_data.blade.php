@@ -1,5 +1,5 @@
 <div class="container-fluid p-0">
-    @if(tableCount()['products'] > 0)
+    @if(tableCount('products') > 0)
         @if(count($products) > 0)
             <div id="results" class="col column">
 
@@ -22,12 +22,11 @@
                             <p class="m-0 text-center text-secondary brand-name">{{$item->brand->name}}</p>
                             <div class="row">
                                 <div class="col prices">
-                                    <?php $discountPrice = getDiscountPrice($item['id']); ?>
-                                    @if($discountPrice > 0)
-                                        <p>{{$discountPrice}}/=</p><br>
-                                        <del class="text-secondary">{{$item->base_price }}/=</del>
+                                    @if($item->discount_price > 0)
+                                        <p>{{$item->discount_price}}/=</p><br>
+                                        <del class="text-secondary">{{$item->base_price}}/=</del>
                                     @else
-                                        <p>{{$item->base_price }}/=</p>
+                                        <p>{{$item->base_price}}/=</p>
                                     @endif
                                 </div>
                                 <div class="col button">
